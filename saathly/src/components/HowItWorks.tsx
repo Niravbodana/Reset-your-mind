@@ -37,7 +37,7 @@ export function HowItWorks() {
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <ScrollReveal className="text-center mb-16">
           <p className="text-gold text-xs uppercase tracking-[0.25em] mb-3">Simple process</p>
-          <h2 className="font-display text-3xl md:text-5xl font-semibold mb-4">
+          <h2 className="font-display text-3xl md:text-5xl font-semibold mb-4 text-white">
             4 steps me <span className="gradient-gold italic">zindagi badalna</span> shuru
           </h2>
         </ScrollReveal>

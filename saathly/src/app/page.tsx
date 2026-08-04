@@ -1,5 +1,7 @@
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
+import { TransformationSection } from "@/components/TransformationSection";
+import { PeopleGallery } from "@/components/PeopleGallery";
 import { HowItWorks } from "@/components/HowItWorks";
 import { LifeAreas } from "@/components/LifeAreas";
 import { Testimonials } from "@/components/Testimonials";
@@ -14,6 +16,8 @@ export default function HomePage() {
     <>
       <Hero />
       <Marquee />
+      <TransformationSection />
+      <PeopleGallery />
       <DailySchedule />
       <PremiumShowcase />
       <HowItWorks />

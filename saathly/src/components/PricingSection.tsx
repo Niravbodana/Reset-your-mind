@@ -58,7 +58,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
         {showTitle && (
           <ScrollReveal className="text-center mb-16">
             <p className="text-gold text-xs uppercase tracking-[0.25em] mb-3">Simple pricing</p>
-            <h2 className="font-display text-3xl md:text-5xl font-semibold mb-4">
+            <h2 className="font-display text-3xl md:text-5xl font-semibold mb-4 text-white">
               Ek chai ke price me — <span className="gradient-gold italic">poori zindagi badlo</span>
             </h2>
             <p className="text-muted max-w-xl mx-auto font-light">

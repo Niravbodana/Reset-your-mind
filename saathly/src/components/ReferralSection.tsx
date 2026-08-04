@@ -35,7 +35,7 @@ export function ReferralSection() {
         <div className="grid lg:grid-cols-2 gap-14 items-center">
           <ScrollReveal direction="left">
             <p className="text-gold text-xs uppercase tracking-[0.25em] mb-3">Community growth</p>
-            <h2 className="font-display text-3xl md:text-5xl font-semibold mb-5">
+            <h2 className="font-display text-3xl md:text-5xl font-semibold mb-5 text-white">
               Ek ne bataya, <span className="gradient-gold italic">dusra join kiya</span>
             </h2>
             <p className="text-muted leading-relaxed mb-8 font-light">

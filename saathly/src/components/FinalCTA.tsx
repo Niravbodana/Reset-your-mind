@@ -27,7 +27,7 @@ export function FinalCTA() {
               transition={{ duration: 5, repeat: Infinity }}
             />
 
-            <h2 className="font-display text-3xl md:text-5xl font-semibold mb-5 relative text-balance">
+            <h2 className="font-display text-3xl md:text-5xl font-semibold mb-5 relative text-white text-balance">
               Aaj se tumhara naya din{" "}
               <span className="gradient-gold italic">shuru</span>
             </h2>

@@ -10,6 +10,14 @@ type ScrollRevealProps = {
   direction?: "up" | "down" | "left" | "right" | "scale";
 };
 
+const directionMap = {
+  up: { hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0 } },
+  down: { hidden: { opacity: 0, y: -32 }, visible: { opacity: 1, y: 0 } },
+  left: { hidden: { opacity: 0, x: -32 }, visible: { opacity: 1, x: 0 } },
+  right: { hidden: { opacity: 0, x: 32 }, visible: { opacity: 1, x: 0 } },
+  scale: { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, scale: 1 } },
+};
+
 export function ScrollReveal({
   children,
   className = "",
@@ -17,23 +25,17 @@ export function ScrollReveal({
   direction = "up",
 }: ScrollRevealProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  const variants = {
-    up: { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } },
-    down: { hidden: { opacity: 0, y: -40 }, visible: { opacity: 1, y: 0 } },
-    left: { hidden: { opacity: 0, x: -40 }, visible: { opacity: 1, x: 0 } },
-    right: { hidden: { opacity: 0, x: 40 }, visible: { opacity: 1, x: 0 } },
-    scale: { hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } },
-  };
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={variants[direction]}
-      transition={{ duration: 0.7, delay, ease: [0.25, 0.4, 0.25, 1] }}
+      initial="visible"
+      animate={isInView ? "visible" : "visible"}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={directionMap[direction]}
+      transition={{ duration: 0.6, delay, ease: [0.25, 0.4, 0.25, 1] }}
       className={className}
     >
       {children}
@@ -51,16 +53,19 @@ export function StaggerContainer({
   stagger?: number;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      initial="visible"
+      animate="visible"
       variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: stagger } },
+        hidden: { opacity: 1 },
+        visible: {
+          opacity: 1,
+          transition: { staggerChildren: isInView ? stagger : 0 },
+        },
       }}
       className={className}
     >
@@ -78,10 +83,9 @@ export function StaggerItem({
 }) {
   return (
     <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.4, 0.25, 1] } },
-      }}
+      initial={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
       className={className}
     >
       {children}

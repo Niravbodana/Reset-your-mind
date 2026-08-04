@@ -18,7 +18,7 @@ export function DailySchedule() {
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <ScrollReveal className="text-center mb-14">
           <p className="text-gold text-xs uppercase tracking-[0.25em] mb-3">Daily schedule</p>
-          <h2 className="font-display text-2xl md:text-4xl font-semibold">
+          <h2 className="font-display text-2xl md:text-4xl font-semibold text-white">
             Tumhara din — <span className="gradient-gold italic">har 2 ghante ek saathi</span>
           </h2>
         </ScrollReveal>

@@ -9,7 +9,7 @@ function AnimatedNumber({ value }: { value: number }) {
   useEffect(() => {
     const diff = value - display;
     if (diff === 0) return;
-    const step = Math.ceil(Math.abs(diff) / 10);
+    const step = Math.max(1, Math.ceil(Math.abs(diff) / 8));
     const timer = setInterval(() => {
       setDisplay((d) => {
         if (Math.abs(value - d) <= step) {
@@ -18,7 +18,7 @@ function AnimatedNumber({ value }: { value: number }) {
         }
         return d + (diff > 0 ? step : -step);
       });
-    }, 50);
+    }, 40);
     return () => clearInterval(timer);
   }, [value, display]);
 
@@ -38,21 +38,21 @@ export function LiveStats() {
   }, []);
 
   const stats = [
-    { value: messages, suffix: "+", label: "Aaj bheje gaye messages" },
-    { value: users, suffix: "", label: "Log abhi active hain" },
-    { value: 4.9, suffix: "★", label: "User rating", isStar: true },
+    { value: messages, suffix: "+", label: "Aaj ke messages", color: "text-gold-light" },
+    { value: users, suffix: "", label: "Abhi active", color: "text-white" },
+    { value: 4.9, suffix: " ★", label: "Rating", color: "text-gold-light", isStar: true },
   ];
 
   return (
-    <div className="flex flex-wrap gap-8 md:gap-10">
+    <div className="flex flex-wrap gap-6 md:gap-10 p-5 rounded-2xl bg-black/30 border border-white/10 backdrop-blur-md">
       {stats.map((stat, i) => (
         <motion.div
           key={stat.label}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 + i * 0.1 }}
+          transition={{ delay: 0.4 + i * 0.1 }}
         >
-          <p className="text-3xl font-display font-semibold text-gold-light tabular-nums">
+          <p className={`text-2xl md:text-3xl font-display font-bold tabular-nums ${stat.color}`}>
             {stat.isStar ? (
               <>
                 {stat.value}
@@ -65,7 +65,7 @@ export function LiveStats() {
               </>
             )}
           </p>
-          <p className="text-muted text-xs mt-1">{stat.label}</p>
+          <p className="text-white/60 text-xs mt-0.5">{stat.label}</p>
         </motion.div>
       ))}
     </div>

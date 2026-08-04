@@ -35,7 +35,7 @@ export function PremiumShowcase() {
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <ScrollReveal className="text-center mb-16">
           <p className="text-gold text-xs uppercase tracking-[0.25em] mb-3">Why NaamSaath</p>
-          <h2 className="font-display text-3xl md:text-5xl font-semibold mb-4 text-balance">
+          <h2 className="font-display text-3xl md:text-5xl font-semibold mb-4 text-white text-balance">
             Sirf app nahi — tumhara daily{" "}
             <span className="gradient-gold italic">life companion</span>
           </h2>

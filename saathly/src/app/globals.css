@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030308;
-  --foreground: #faf7f2;
-  --gold: #c9a962;
-  --gold-light: #e8d5a3;
-  --gold-dark: #8b7340;
-  --champagne: #f5ebe0;
-  --surface: #0c0c14;
-  --surface-elevated: #14141f;
-  --surface-card: #1a1a28;
-  --muted: #9a96a8;
+  --background: #08060f;
+  --foreground: #ffffff;
+  --gold: #e4bc6a;
+  --gold-light: #f5dfa0;
+  --gold-dark: #b8943f;
+  --champagne: #faf3e8;
+  --surface: #12101a;
+  --surface-elevated: #1c1828;
+  --surface-card: #221e30;
+  --muted: #b8b4c4;
   --accent-rose: #c4a484;
   --accent-violet: #7c6cbf;
   --accent-teal: #4a9e8e;
@@ -54,10 +54,11 @@ body {
 }
 
 .gradient-gold {
-  background: linear-gradient(135deg, #c9a962 0%, #f5ebe0 40%, #e8d5a3 70%, #c9a962 100%);
+  background: linear-gradient(135deg, #e4bc6a 0%, #f5dfa0 40%, #fff8e7 70%, #e4bc6a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: #e4bc6a;
 }
 
 .gradient-bg {
@@ -174,8 +175,8 @@ body {
   pointer-events: none;
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  opacity: 0.025;
+  z-index: 50;
+  opacity: 0.012;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
