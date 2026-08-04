@@ -1,28 +1,21 @@
-# NaamSaath
+# Humsafar
 
-**Tumhare naam ke saath, har pal tumhare saath.**
-
-Premium personalized life motivation platform — finance, health, love, career. Messages har 2 ghante, tumhare naam ke saath, Hinglish me.
+Roz tumhare naam ke saath — busy life me mind stable rakhne wala daily companion.
 
 ## Brand
 
-- **Name:** NaamSaath (नाम + साथ = with your name, with you)
-- **Tagline:** Tumhare naam ke saath, har pal tumhare saath
-- **Plans:** Prerna Plan ₹99/mo | Parivaar Plan ₹249/mo
+- **Name:** Humsafar (life companion — instantly understood in India)
+- **Promise:** Personalized motivation every ~2 hours for finance, health, love, career, mind
+- **Plans:** Personal ₹99/mo · Parivaar ₹249/mo
 
-## Run locally
+## Why this product sticks
+
+People renew when they feel change: micro-actions done, mood up, less panic. Website leads with an interactive “type your name → feel the message” demo, then problem-first sections for real Indian life stress.
+
+## Run
 
 ```bash
 cd saathly
 npm install
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000)
-
-## Tech stack
-
-- Next.js 16 (App Router)
-- Tailwind CSS 4
-- Framer Motion
-- Cormorant Garamond + DM Sans fonts

@@ -1,68 +1,57 @@
 import Link from "next/link";
-import Image from "next/image";
+import { Logo, Wordmark } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="border-t border-gold/10 bg-surface/60 mt-8">
-      <div className="mx-auto max-w-6xl px-4 py-14 md:px-6">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-5">
-              <Image src="/logo.png" alt="NaamSaath" width={40} height={40} className="rounded-xl" />
-              <div>
-                <span className="font-display text-xl gradient-gold font-semibold">NaamSaath</span>
-                <span className="block text-[9px] text-muted tracking-[0.2em] uppercase">
-                  Premium Life Companion
-                </span>
-              </div>
+    <footer className="border-t border-line bg-bg-soft/40">
+      <div className="mx-auto max-w-6xl px-4 py-12 md:px-6">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <Logo className="w-8 h-8" />
+              <Wordmark className="text-[1.4rem]" />
             </div>
-            <p className="text-muted text-sm max-w-sm leading-relaxed font-light">
-              Har ghante tumhare naam ke saath — finance, health, love, career. Zindagi badalne wali
-              motivation, sirf tumhare liye.
+            <p className="text-sm text-ink-soft leading-relaxed max-w-xs">
+              Roz tumhare naam ke saath — taaki busy life me mind stable rahe, aur aage badhte raho.
             </p>
           </div>
-
           <div>
-            <h4 className="text-xs uppercase tracking-[0.15em] text-gold-light mb-4">Product</h4>
-            <ul className="space-y-3 text-sm text-muted font-light">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Product</p>
+            <ul className="space-y-2 text-sm text-ink-soft">
               <li>
-                <Link href="/#how-it-works" className="hover:text-champagne transition-colors">
-                  Kaise kaam karta hai
+                <Link href="/#problems" className="hover:text-ink">
+                  Kiske liye
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:text-champagne transition-colors">
-                  Plans & Pricing
+                <Link href="/pricing" className="hover:text-ink">
+                  Plans
                 </Link>
               </li>
               <li>
-                <Link href="/signup" className="hover:text-champagne transition-colors">
-                  Free Trial
+                <Link href="/signup" className="hover:text-ink">
+                  Free trial
                 </Link>
               </li>
             </ul>
           </div>
-
           <div>
-            <h4 className="text-xs uppercase tracking-[0.15em] text-gold-light mb-4">Support</h4>
-            <ul className="space-y-3 text-sm text-muted font-light">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Care</p>
+            <ul className="space-y-2 text-sm text-ink-soft">
               <li>
-                <a href="mailto:hello@naamsaath.in" className="hover:text-champagne transition-colors">
-                  hello@naamsaath.in
+                <a href="mailto:hello@humsafar.app" className="hover:text-ink">
+                  hello@humsafar.app
                 </a>
               </li>
               <li className="text-xs leading-relaxed">
-                Ye app therapist nahi hai. Emergency: iCall 9152987821
+                Crisis support: iCall 9152987821 · Vandrevala 9999666555
               </li>
             </ul>
           </div>
         </div>
-
-        <div className="section-divider my-8" />
-
-        <div className="flex flex-col md:flex-row justify-between gap-4 text-xs text-muted font-light">
-          <p>© {new Date().getFullYear()} NaamSaath. All rights reserved.</p>
-          <p>Made with care for hardworking India</p>
+        <div className="mt-10 pt-6 border-t border-line flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted">
+          <p>© {new Date().getFullYear()} Humsafar</p>
+          <p>Made for hardworking people who deserve a calm mind</p>
         </div>
       </div>
     </footer>

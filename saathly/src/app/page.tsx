@@ -1,30 +1,20 @@
 import { Hero } from "@/components/Hero";
-import { Marquee } from "@/components/Marquee";
-import { TransformationSection } from "@/components/TransformationSection";
-import { PeopleGallery } from "@/components/PeopleGallery";
-import { HowItWorks } from "@/components/HowItWorks";
-import { LifeAreas } from "@/components/LifeAreas";
-import { Testimonials } from "@/components/Testimonials";
+import { Problems } from "@/components/Problems";
+import { DayTimeline } from "@/components/DayTimeline";
+import { TrustStories } from "@/components/TrustStories";
 import { PricingSection } from "@/components/PricingSection";
-import { ReferralSection } from "@/components/ReferralSection";
 import { FinalCTA } from "@/components/FinalCTA";
-import { DailySchedule } from "@/components/DailySchedule";
-import { PremiumShowcase } from "@/components/PremiumShowcase";
+import { HowItWorksSimple } from "@/components/HowItWorksSimple";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Marquee />
-      <TransformationSection />
-      <PeopleGallery />
-      <DailySchedule />
-      <PremiumShowcase />
-      <HowItWorks />
-      <LifeAreas />
-      <Testimonials />
+      <Problems />
+      <DayTimeline />
+      <HowItWorksSimple />
+      <TrustStories />
       <PricingSection />
-      <ReferralSection />
       <FinalCTA />
     </>
   );

@@ -1,249 +1,98 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  Flame,
-  TrendingUp,
-  Bell,
-  Share2,
-  Copy,
-  Check,
-  Wallet,
-  Heart,
-  Activity,
-  ChevronRight,
-} from "lucide-react";
+import { Copy, Check } from "lucide-react";
 
-const todayMessages = [
-  {
-    time: "9:00 AM",
-    text: "Nirav, naya din hai. Aaj ek important kaam choose karo — baaki follow karega. Tu capable hai. 💪",
-    area: "Daily",
-    read: true,
-  },
-  {
-    time: "11:00 AM",
-    text: "Nirav, financial stress normal hai. Aaj ₹50 side me rakh — chhota step, bada future.",
-    area: "Finance",
-    read: true,
-  },
-  {
-    time: "1:00 PM",
-    text: "Nirav, 1 baj gaya — khana khaya? Body weak hogi to mind bhi weak hoga. 15 min break le.",
-    area: "Health",
-    read: true,
-  },
-  {
-    time: "3:00 PM",
-    text: "Nirav, thak gaya? Normal hai. Paani pi, 2 minute walk kar. Energy wapas aayegi.",
-    area: "Energy",
-    read: false,
-  },
-  {
-    time: "5:00 PM",
-    text: "Nirav, workload zyada hai par tu akela nahi hai. Haar mat maanna — kuch accha hone wala hai.",
-    area: "Career",
-    read: false,
-  },
-  {
-    time: "9:00 PM",
-    text: "Nirav, aaj ke liye proud ho. Phone band karo, mind ko rest do. Kal naya din. ✨",
-    area: "Evening",
-    read: false,
-  },
-];
-
-const weekStats = [
-  { label: "Messages read", value: "34/42", pct: 81 },
-  { label: "Mood improved", value: "+23%", pct: 23 },
-  { label: "Actions done", value: "18", pct: 60 },
+const messages = [
+  { time: "9:00 AM", text: "Nirav, naya din. Aaj ek clear intention choose karo — baaki follow karega.", done: true },
+  { time: "11:00 AM", text: "Nirav, financial stress normal hai. Aaj ₹50 side me rakh.", done: true },
+  { time: "1:00 PM", text: "Nirav, lunch time. Body ignore mat kar — 15 min break le.", done: false },
+  { time: "3:00 PM", text: "Nirav, thakaan aayi to theek. Paani pi, 2 min stretch.", done: false },
+  { time: "5:00 PM", text: "Nirav, aaj ka chhota win likh. Tu progress pe hai.", done: false },
+  { time: "9:00 PM", text: "Nirav, din wrap. Proud feel kar. Phone side, rest.", done: false },
 ];
 
 export default function DashboardPage() {
   const [copied, setCopied] = useState(false);
-  const referralLink = "https://naamsaath.in/ref/NIRAV2026";
-
-  const copyLink = () => {
-    navigator.clipboard.writeText(referralLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const link = "https://humsafar.app/r/nirav";
 
   return (
-    <div className="pt-24 pb-20 px-4">
-      <div className="mx-auto max-w-4xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div>
-            <p className="text-sm text-muted">Good afternoon 👋</p>
-            <h1 className="font-display text-3xl font-bold">
-              <span className="gradient-gold">Nirav</span>, tu strong hai
-            </h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="glass-gold rounded-xl px-4 py-2.5 flex items-center gap-2">
-              <Flame size={18} className="text-orange-400" />
-              <div>
-                <p className="text-lg font-bold text-gold-light leading-none">12</p>
-                <p className="text-[10px] text-muted">day streak</p>
-              </div>
-            </div>
-            <div className="glass rounded-xl px-4 py-2.5 flex items-center gap-2">
-              <TrendingUp size={18} className="text-emerald-400" />
-              <div>
-                <p className="text-lg font-bold leading-none">+23%</p>
-                <p className="text-[10px] text-muted">mood up</p>
-              </div>
-            </div>
-          </div>
+    <div className="pt-24 pb-16 px-4">
+      <div className="mx-auto max-w-3xl">
+        <div className="mb-8">
+          <p className="text-sm text-muted mb-1">Aaj ka din</p>
+          <h1 className="font-display text-3xl font-semibold">
+            Nirav, tu saath hai
+          </h1>
+          <p className="text-sm text-ink-soft mt-1">12 din streak · Mood improving</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
-          {weekStats.map((stat) => (
-            <div key={stat.label} className="glass rounded-xl p-4">
-              <p className="text-xs text-muted mb-1">{stat.label}</p>
-              <p className="text-xl font-display font-bold text-gold-light">{stat.value}</p>
-              <div className="mt-2 h-1.5 bg-surface-elevated rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-gold to-gold-light rounded-full transition-all"
-                  style={{ width: `${stat.pct}%` }}
-                />
-              </div>
+        <div className="grid sm:grid-cols-3 gap-3 mb-8">
+          {[
+            { l: "Messages read", v: "2/6" },
+            { l: "Streak", v: "12 days" },
+            { l: "This week actions", v: "9" },
+          ].map((s) => (
+            <div key={s.l} className="soft-card rounded-2xl p-4">
+              <p className="text-xs text-muted">{s.l}</p>
+              <p className="font-display text-2xl font-semibold mt-1">{s.v}</p>
             </div>
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold flex items-center gap-2">
-                <Bell size={18} className="text-gold-light" />
-                Aaj ke messages
-              </h2>
-              <span className="text-xs text-muted">3/6 read</span>
-            </div>
-
-            <div className="space-y-3">
-              {todayMessages.map((msg, i) => (
-                <motion.div
-                  key={msg.time}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  className={`rounded-xl p-4 border transition-all ${
-                    msg.read
-                      ? "glass border-gold/10 opacity-80"
-                      : "glass-gold border-gold/20 glow-gold"
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-gold-light">{msg.time}</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-elevated text-muted">
-                      {msg.area}
-                    </span>
-                  </div>
-                  <p className="text-sm leading-relaxed">{msg.text}</p>
-                  {!msg.read && (
-                    <button
-                      type="button"
-                      className="mt-3 text-xs text-gold-light hover:text-gold transition-colors flex items-center gap-1"
-                    >
-                      Mark as read <ChevronRight size={12} />
-                    </button>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="glass-gold rounded-xl p-5">
-              <h3 className="font-semibold text-sm mb-3">Mood check-in</h3>
-              <div className="flex justify-between">
-                {["😔", "😐", "🙂", "😊", "🤩"].map((emoji, i) => (
-                  <button
-                    key={emoji}
-                    type="button"
-                    className={`text-2xl p-2 rounded-xl transition-all hover:scale-110 ${
-                      i === 2 ? "bg-gold/15 ring-1 ring-gold/30" : "hover:bg-surface-elevated"
-                    }`}
-                  >
-                    {emoji}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="glass rounded-xl p-5">
-              <h3 className="font-semibold text-sm mb-3">Aaj ka micro-action</h3>
-              <label className="flex items-start gap-3 cursor-pointer group">
-                <input type="checkbox" className="mt-1 accent-gold" />
-                <span className="text-sm text-muted group-hover:text-foreground transition-colors">
-                  ₹50 save karo aaj
-                </span>
-              </label>
-            </div>
-
-            <div className="glass rounded-xl p-5">
-              <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
-                <Share2 size={14} className="text-gold-light" />
-                Dost ko bhejo
-              </h3>
-              <p className="text-xs text-muted mb-3">
-                Refer karo — dono ko 1 mahina free!
-              </p>
-              <div className="flex gap-2">
-                <input
-                  readOnly
-                  value={referralLink}
-                  className="flex-1 bg-surface text-[10px] px-3 py-2 rounded-lg border border-gold/10 text-muted"
-                />
-                <button
-                  type="button"
-                  onClick={copyLink}
-                  className="p-2 rounded-lg bg-gold/10 hover:bg-gold/20 transition-colors"
-                >
-                  {copied ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} className="text-gold-light" />}
-                </button>
-              </div>
-            </div>
-
-            <div className="glass rounded-xl p-5">
-              <h3 className="font-semibold text-sm mb-3">Focus areas</h3>
-              <div className="space-y-2">
-                {[
-                  { icon: Wallet, label: "Finance", pct: 75 },
-                  { icon: Activity, label: "Health", pct: 50 },
-                  { icon: Heart, label: "Love", pct: 30 },
-                ].map((area) => (
-                  <div key={area.label} className="flex items-center gap-3">
-                    <area.icon size={14} className="text-gold-light shrink-0" />
-                    <div className="flex-1">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-muted">{area.label}</span>
-                        <span className="text-gold-light">{area.pct}%</span>
-                      </div>
-                      <div className="h-1 bg-surface-elevated rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gold/60 rounded-full"
-                          style={{ width: `${area.pct}%` }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Link
-              href="/"
-              className="block text-center text-xs text-muted hover:text-gold-light transition-colors py-2"
+        <h2 className="font-semibold mb-3">Aaj ke messages</h2>
+        <div className="space-y-3 mb-8">
+          {messages.map((m) => (
+            <div
+              key={m.time}
+              className={`rounded-2xl p-4 border ${
+                m.done ? "bg-bg-soft border-line opacity-70" : "soft-card border-accent/25"
+              }`}
             >
-              ← Back to home
-            </Link>
+              <p className="text-xs font-semibold text-accent mb-1">{m.time}</p>
+              <p className="text-sm leading-relaxed text-ink">{m.text}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="soft-card rounded-2xl p-5 mb-6">
+          <p className="font-semibold text-sm mb-2">Mood abhi?</p>
+          <div className="flex gap-2">
+            {["😔", "😐", "🙂", "😊", "💪"].map((e) => (
+              <button
+                key={e}
+                type="button"
+                className="flex-1 text-2xl py-3 rounded-xl bg-bg-soft hover:bg-accent-soft transition-colors"
+              >
+                {e}
+              </button>
+            ))}
           </div>
         </div>
+
+        <div className="soft-card rounded-2xl p-5">
+          <p className="font-semibold text-sm mb-1">Dost ko bhejo — dono ko 1 mahina free</p>
+          <p className="text-xs text-muted mb-3">Real help share karna = growth</p>
+          <div className="flex gap-2">
+            <code className="flex-1 text-xs bg-bg-soft rounded-lg px-3 py-2.5 truncate">{link}</code>
+            <button
+              type="button"
+              onClick={() => {
+                navigator.clipboard.writeText(link);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 1500);
+              }}
+              className="btn-primary px-3 rounded-lg"
+            >
+              {copied ? <Check size={16} /> : <Copy size={16} />}
+            </button>
+          </div>
+        </div>
+
+        <Link href="/" className="block text-center text-sm text-muted mt-8 hover:text-ink">
+          ← Home
+        </Link>
       </div>
     </div>
   );
