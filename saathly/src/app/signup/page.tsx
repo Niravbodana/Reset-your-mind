@@ -169,7 +169,7 @@ function SignupForm() {
                       }`}
                     >
                       <User size={18} className="text-gold-light mb-2" />
-                      <p className="text-sm font-semibold">Saath Plan</p>
+                      <p className="text-sm font-semibold">Prerna Plan</p>
                       <p className="text-xs text-muted">₹99/month</p>
                     </button>
                     <button
@@ -283,7 +283,7 @@ function SignupForm() {
                 <div className="flex justify-between text-sm py-2 border-b border-gold/10">
                   <span className="text-muted">Plan</span>
                   <span className="font-medium">
-                    {plan === "individual" ? "Saath Plan — ₹99/mo" : "Parivaar Plan — ₹249/mo"}
+                    {plan === "individual" ? "Prerna Plan — ₹99/mo" : "Parivaar Plan — ₹249/mo"}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm py-2 border-b border-gold/10">

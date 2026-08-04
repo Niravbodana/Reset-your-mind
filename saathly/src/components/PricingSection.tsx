@@ -1,13 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Check, Users, User, Gift } from "lucide-react";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "./ScrollReveal";
 
 const plans = [
   {
     id: "individual",
-    name: "Saath Plan",
+    name: "Prerna Plan",
     price: 99,
     period: "month",
     icon: User,
@@ -35,7 +36,7 @@ const plans = [
     popular: false,
     desc: "Pure parivaar ke liye — 4 members tak",
     features: [
-      "Sab kuch Saath Plan me hai",
+      "Sab kuch Prerna Plan me hai",
       "4 family members add karo",
       "Har member ka alag profile & goals",
       "Family streak dashboard",
@@ -52,89 +53,95 @@ const plans = [
 
 export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   return (
-    <section id="pricing" className="py-20 md:py-28 bg-surface/30">
+    <section id="pricing" className="py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {showTitle && (
-          <div className="text-center mb-16">
-            <p className="text-gold text-sm font-medium mb-2">Simple pricing</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Ek chai ke price me — <span className="gradient-gold">poori zindagi badlo</span>
+          <ScrollReveal className="text-center mb-16">
+            <p className="text-gold text-xs uppercase tracking-[0.25em] mb-3">Simple pricing</p>
+            <h2 className="font-display text-3xl md:text-5xl font-semibold mb-4">
+              Ek chai ke price me — <span className="gradient-gold italic">poori zindagi badlo</span>
             </h2>
-            <p className="text-muted max-w-xl mx-auto">
-              Sirf 2 plans. Koi hidden charges nahi. 7 din free try karo, pasand na aaye to cancel.
+            <p className="text-muted max-w-xl mx-auto font-light">
+              Sirf 2 plans. Koi hidden charges nahi. 7 din free try karo.
             </p>
-          </div>
+          </ScrollReveal>
         )}
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {plans.map((plan, i) => (
-            <motion.div
-              key={plan.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              className={`relative rounded-2xl p-8 ${
-                plan.popular
-                  ? "glass-gold glow-gold border-gold/30"
-                  : "glass border-gold/10"
-              }`}
-            >
-              {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-gold to-gold-dark text-background text-xs font-bold px-4 py-1 rounded-full">
-                  SABSE POPULAR
-                </span>
-              )}
-
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2.5 rounded-xl bg-gold/10">
-                  <plan.icon size={22} className="text-gold-light" />
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-semibold">{plan.name}</h3>
-                  <p className="text-xs text-muted">{plan.desc}</p>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <span className="text-4xl font-display font-bold text-gold-light">₹{plan.price}</span>
-                <span className="text-muted text-sm">/{plan.period}</span>
-                {plan.savings && (
-                  <p className="text-xs text-emerald-400 mt-1">{plan.savings}</p>
-                )}
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2.5 text-sm">
-                    <Check size={16} className="text-gold shrink-0 mt-0.5" />
-                    <span className="text-muted">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href={plan.href}
-                className={`block text-center py-3.5 rounded-full font-semibold text-sm transition-all ${
-                  plan.popular ? "btn-primary" : "btn-secondary"
+        <StaggerContainer className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {plans.map((plan) => (
+            <StaggerItem key={plan.id}>
+              <motion.div
+                whileHover={{ y: -6 }}
+                className={`relative rounded-3xl p-8 md:p-10 h-full ${
+                  plan.popular
+                    ? "glass-gold glow-gold-strong shimmer-border"
+                    : "glass border border-gold/10"
                 }`}
               >
-                {plan.cta}
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+                {plan.popular && (
+                  <motion.span
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-gold via-gold-light to-gold text-background text-[10px] font-bold px-5 py-1.5 rounded-full uppercase tracking-wider"
+                  >
+                    Sabse Popular
+                  </motion.span>
+                )}
 
-        <div className="mt-10 glass-gold rounded-2xl p-6 max-w-2xl mx-auto flex items-start gap-4">
-          <Gift size={24} className="text-gold-light shrink-0 mt-0.5" />
-          <div>
-            <p className="font-semibold text-sm mb-1">Dost ko bhejo, 1 mahina free pao</p>
-            <p className="text-xs text-muted leading-relaxed">
-              Jab tumhara dost signup kare tumhare link se, tumhe aur unhe dono ko 1 mahina free
-              milega. Zyada logon ki life badlegi, zyada tum bachoge.
-            </p>
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="p-3 rounded-2xl bg-gold/10">
+                    <plan.icon size={22} className="text-gold-light" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl font-semibold">{plan.name}</h3>
+                    <p className="text-xs text-muted font-light">{plan.desc}</p>
+                  </div>
+                </div>
+
+                <div className="mb-8">
+                  <span className="text-5xl font-display font-bold gradient-gold">₹{plan.price}</span>
+                  <span className="text-muted text-sm">/{plan.period}</span>
+                  {plan.savings && (
+                    <p className="text-xs text-emerald-400/90 mt-2 font-medium">{plan.savings}</p>
+                  )}
+                </div>
+
+                <ul className="space-y-3.5 mb-10">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3 text-sm">
+                      <Check size={16} className="text-gold shrink-0 mt-0.5" />
+                      <span className="text-muted font-light">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link
+                    href={plan.href}
+                    className={`block text-center py-4 rounded-full font-semibold text-sm transition-all ${
+                      plan.popular ? "btn-primary" : "btn-secondary"
+                    }`}
+                  >
+                    {plan.cta}
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+
+        <ScrollReveal delay={0.2} className="mt-12">
+          <div className="glass-gold rounded-2xl p-6 max-w-2xl mx-auto flex items-start gap-4 shimmer-border">
+            <Gift size={24} className="text-gold-light shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-sm mb-1">Dost ko bhejo, 1 mahina free pao</p>
+              <p className="text-xs text-muted leading-relaxed font-light">
+                Jab tumhara dost signup kare tumhare link se, tumhe aur unhe dono ko 1 mahina free
+                milega.
+              </p>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

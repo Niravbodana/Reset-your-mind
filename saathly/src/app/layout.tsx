@@ -1,32 +1,36 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { DM_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AuroraBackground } from "@/components/AuroraBackground";
 
-const inter = Inter({
-  variable: "--font-inter",
+const dmSans = DM_Sans({
+  variable: "--font-dm",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Saathly — Har ghante tumhare saath, tumhare naam ke saath",
+  title: "NaamSaath — Tumhare naam ke saath, har pal tumhare saath",
   description:
-    "Personalized motivation har 2 ghante — finance, health, love, career. Apne naam ke saath messages jo zindagi badal dein. Sirf ₹99/month.",
+    "Premium personalized motivation har 2 ghante — finance, health, love, career. Apne naam ke saath messages jo zindagi badal dein. Sirf ₹99/month.",
   keywords: [
     "motivation app india",
     "daily motivation hindi",
     "personalized notifications",
     "mental wellness",
     "life coach app",
+    "naamsaath",
   ],
   openGraph: {
-    title: "Saathly — Zindagi badalne wali daily motivation",
+    title: "NaamSaath — Zindagi badalne wali daily motivation",
     description: "Har ghante tumhare naam ke saath — finance, health, love, sab kuch.",
     type: "website",
   },
@@ -34,8 +38,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="hi" className={`${inter.variable} ${playfair.variable} h-full antialiased`}>
+    <html lang="hi" className={`${dmSans.variable} ${cormorant.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col gradient-bg">
+        <AuroraBackground />
+        <div className="grain-overlay" aria-hidden />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

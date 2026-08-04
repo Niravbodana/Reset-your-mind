@@ -63,7 +63,7 @@ const weekStats = [
 
 export default function DashboardPage() {
   const [copied, setCopied] = useState(false);
-  const referralLink = "https://saathly.in/ref/NIRAV2026";
+  const referralLink = "https://naamsaath.in/ref/NIRAV2026";
 
   const copyLink = () => {
     navigator.clipboard.writeText(referralLink);

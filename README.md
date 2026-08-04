@@ -1,23 +1,14 @@
-# Saathly
+# NaamSaath
 
-**Har ghante tumhare saath, tumhare naam ke saath.**
+**Tumhare naam ke saath, har pal tumhare saath.**
 
-Personalized life motivation platform — finance, health, love, career. Messages har 2 ghante, tumhare naam ke saath, Hinglish me.
+Premium personalized life motivation platform — finance, health, love, career. Messages har 2 ghante, tumhare naam ke saath, Hinglish me.
 
 ## Brand
 
-- **Name:** Saathly (साथ + ly = your daily companion)
-- **Tagline:** Har ghante tumhare naam ke saath — zindagi badalne wali motivation
-- **Plans:** Saath Plan ₹99/mo | Parivaar Plan ₹249/mo
-
-## Pages
-
-| Route | Description |
-|-------|-------------|
-| `/` | Premium landing page |
-| `/pricing` | Plans & pricing |
-| `/signup` | 4-step onboarding flow |
-| `/dashboard` | User dashboard demo |
+- **Name:** NaamSaath (नाम + साथ = with your name, with you)
+- **Tagline:** Tumhare naam ke saath, har pal tumhare saath
+- **Plans:** Prerna Plan ₹99/mo | Parivaar Plan ₹249/mo
 
 ## Run locally
 
@@ -34,11 +25,4 @@ Open [http://localhost:3000](http://localhost:3000)
 - Next.js 16 (App Router)
 - Tailwind CSS 4
 - Framer Motion
-- Lucide Icons
-
-## Roadmap
-
-- [ ] Backend auth (Supabase)
-- [ ] Web push notifications
-- [ ] Payment (Razorpay)
-- [ ] Android & iOS apps
+- Cormorant Garamond + DM Sans fonts
