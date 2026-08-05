@@ -316,16 +316,32 @@ export function isRtl(lang: UiLang): boolean {
   return lang === "ar" || lang === "ur";
 }
 
-/** Message bank language from UI lang + region. Worldwide never defaults to Hinglish. */
+/**
+ * Message bank language from UI lang + region.
+ * Defaults: India → Hinglish · Worldwide → English
+ */
 export function messageLanguageFor(
   region: "IN" | "GLOBAL",
   uiLang: UiLang
 ): "english" | "hindi" | "hinglish" {
-  if (uiLang === "hi") return region === "IN" ? "hinglish" : "hindi";
-  if (region === "IN" && (uiLang === "en" || !uiLang)) {
-    // India + English UI still can prefer english messages if they picked en
-    return uiLang === "en" ? "english" : "hinglish";
+  if (region === "GLOBAL") {
+    if (uiLang === "hi") return "hindi";
+    return "english";
   }
-  if (region === "GLOBAL") return "english";
-  return "english";
+  // India
+  if (uiLang === "en") return "english";
+  if (uiLang === "hi") return "hinglish";
+  // Any other UI lang on India still defaults message bank to Hinglish
+  return "hinglish";
+}
+
+/** Region defaults when user taps India / Worldwide */
+export function defaultsForRegion(region: "IN" | "GLOBAL"): {
+  uiLang: UiLang;
+  language: "english" | "hindi" | "hinglish";
+} {
+  if (region === "IN") {
+    return { uiLang: "hi", language: "hinglish" };
+  }
+  return { uiLang: "en", language: "english" };
 }

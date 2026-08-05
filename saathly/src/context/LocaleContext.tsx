@@ -16,6 +16,7 @@ import {
 } from "@/lib/locale";
 import type { Language } from "@/lib/types";
 import {
+  defaultsForRegion,
   messageLanguageFor,
   t as translate,
   type UiLang,
@@ -29,7 +30,7 @@ type LocaleCtx = LocaleProfile & {
   setUiLang: (l: UiLang) => void;
   setLanguage: (l: Language) => void;
   t: (key: string) => string;
-  /** True when UI should prefer English marketing (Worldwide or uiLang=en) */
+  /** False → India-style Hinglish marketing; True → English */
   preferEnglish: boolean;
   ready: boolean;
 };
@@ -57,19 +58,31 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
         const parsed = JSON.parse(raw) as Stored;
         const base = buildLocaleProfile();
         const region = parsed.region || base.region;
-        let uiLang: UiLang =
-          parsed.uiLang ||
-          (region === "IN" ? ("hi" as UiLang) : ("en" as UiLang));
-        let language =
-          (parsed.language as Language) || messageLanguageFor(region, uiLang);
+        const defaults = defaultsForRegion(region);
 
-        // Worldwide: never keep accidental Hinglish; default UI English.
-        // Explicit LanguageSelect (parsed.uiLang) still wins for world languages.
+        // Region defaults win when stored language conflicts with region
+        // (e.g. leftover Hinglish on Worldwide, or English stuck on India).
+        let uiLang: UiLang = parsed.uiLang || defaults.uiLang;
+        let language = (parsed.language as Language) || defaults.language;
+
         if (region === "GLOBAL") {
-          if (language === "hinglish" || !parsed.uiLang) {
-            uiLang = parsed.uiLang && language !== "hinglish" ? parsed.uiLang : "en";
+          if (!parsed.uiLang || language === "hinglish") {
+            uiLang = "en";
+            language = "english";
+          } else {
+            language = messageLanguageFor("GLOBAL", uiLang);
           }
-          language = messageLanguageFor("GLOBAL", uiLang);
+        } else {
+          // India — default Hinglish unless user explicitly chose English UI
+          if (!parsed.uiLang || (!parsed.language && uiLang === "hi")) {
+            uiLang = "hi";
+            language = "hinglish";
+          } else if (uiLang === "hi" && language === "english") {
+            // Hindi UI on India → messages Hinglish
+            language = "hinglish";
+          } else if (!parsed.language) {
+            language = messageLanguageFor("IN", uiLang);
+          }
         }
 
         setProfile({
@@ -81,11 +94,11 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
         });
       } else {
         const base = buildLocaleProfile();
-        const uiLang: UiLang = base.region === "IN" ? "hi" : "en";
+        const defaults = defaultsForRegion(base.region);
         setProfile({
           ...base,
-          language: messageLanguageFor(base.region, uiLang),
-          uiLang,
+          language: defaults.language,
+          uiLang: defaults.uiLang,
         });
       }
     } catch {
@@ -113,19 +126,17 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   const setRegion = (region: Region) => {
     setProfile((p) => {
-      // Selecting Worldwide always resets UI + messages to English.
-      // User can then pick any world language from the Language selector.
-      const uiLang: UiLang =
-        region === "GLOBAL" ? "en" : p.uiLang === "en" || p.region === "GLOBAL" ? "hi" : p.uiLang;
-      const next = persist({
+      // Always reset to region defaults on toggle:
+      // India → Hinglish · Worldwide → English
+      const defaults = defaultsForRegion(region);
+      return persist({
         ...p,
         region,
         currency: region === "IN" ? "INR" : "USD",
         marketLabel: region === "IN" ? "India" : "Worldwide",
-        uiLang,
-        language: messageLanguageFor(region, uiLang),
+        uiLang: defaults.uiLang,
+        language: defaults.language,
       });
-      return next;
     });
   };
 
@@ -149,9 +160,11 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   const t = (key: string) => translate(profile.uiLang, key);
 
-  // Hinglish marketing only when Hindi UI is active (India default, or user picked Hindi).
-  // Worldwide + English (default) → English. Future features must use preferEnglish / t().
-  const preferEnglish = profile.uiLang !== "hi";
+  // India + Hinglish/Hindi → Hinglish marketing. Worldwide English (unless Hindi UI).
+  const preferEnglish =
+    profile.region === "GLOBAL"
+      ? profile.uiLang !== "hi"
+      : profile.language === "english";
 
   const value = useMemo(
     () => ({

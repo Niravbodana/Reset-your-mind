@@ -46,11 +46,11 @@ function SignupForm() {
   const [authProvider, setAuthProvider] = useState<"google" | "email">("email");
 
   useEffect(() => {
-    // Worldwide / English UI → message language English; never Hinglish by default
-    const next: Language = preferEnglish ? "english" : isIN ? "hinglish" : "english";
+    // India → Hinglish · Worldwide → English
+    const next: Language = region === "IN" ? (preferEnglish ? "english" : "hinglish") : "english";
     setLanguage(next);
     setLocaleMsgLang(next);
-  }, [preferEnglish, isIN, setLocaleMsgLang]);
+  }, [preferEnglish, region, setLocaleMsgLang]);
 
   useEffect(() => {
     try {
