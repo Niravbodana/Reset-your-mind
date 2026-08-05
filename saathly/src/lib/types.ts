@@ -48,6 +48,16 @@ export type UserProfile = {
   streak: number;
   bestStreak: number;
   lastActiveDate?: string;
+  /** YYYY-MM when streak freeze was used (1 free miss / month) */
+  streakFreezeUsedMonth?: string;
+  /** Accountability buddy for gentle check-ins */
+  buddy?: {
+    name: string;
+    phone?: string;
+    lastNudgeAt?: string;
+  };
+  /** Trial value report dismissed */
+  trialReportDismissed?: boolean;
 };
 
 export type Pulse = {

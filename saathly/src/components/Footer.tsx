@@ -33,8 +33,8 @@ export function Footer() {
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Product</p>
             <ul className="space-y-1 text-sm text-ink-soft">
               <li>
-                <Link href="/emi-reminder" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  {region === "IN" ? "EMI / Bill Reminder" : "Bill Reminders"}
+                <Link href="/#features" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
+                  Features
                 </Link>
               </li>
               <li>

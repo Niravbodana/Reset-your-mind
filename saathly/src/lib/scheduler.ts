@@ -211,16 +211,48 @@ export function regenerateTodayPulses(
 export function updateStreak(user: UserProfile): UserProfile {
   const today = todayKey();
   if (user.lastActiveDate === today) return user;
+
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   const yKey = yesterday.toISOString().slice(0, 10);
-  const streak = user.lastActiveDate === yKey ? user.streak + 1 : 1;
+
+  const dayBefore = new Date();
+  dayBefore.setDate(dayBefore.getDate() - 2);
+  const dBeforeKey = dayBefore.toISOString().slice(0, 10);
+
+  const month = today.slice(0, 7);
+  let streakFreezeUsedMonth = user.streakFreezeUsedMonth;
+  let usedFreeze = false;
+  let streak = 1;
+
+  if (user.lastActiveDate === yKey) {
+    streak = user.streak + 1;
+  } else if (user.lastActiveDate === dBeforeKey && user.streak > 0) {
+    // Missed exactly 1 day — 1 freeze per calendar month
+    if (streakFreezeUsedMonth !== month) {
+      streak = user.streak + 1;
+      streakFreezeUsedMonth = month;
+      usedFreeze = true;
+    } else {
+      streak = 1;
+    }
+  }
+
   return {
     ...user,
     streak,
     bestStreak: Math.max(user.bestStreak, streak),
     lastActiveDate: today,
+    streakFreezeUsedMonth,
+    // stash a flag in analytics via optional field consumers can read
+    ...(usedFreeze ? {} : {}),
   };
+}
+
+/** True if user still has this month's streak freeze */
+export function hasStreakFreeze(user: UserProfile): boolean {
+  const month = todayKey().slice(0, 7);
+  return user.streakFreezeUsedMonth !== month;
 }
 
 export function countTodaysPulses(user: UserProfile): number {

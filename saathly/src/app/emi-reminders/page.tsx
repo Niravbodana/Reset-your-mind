@@ -12,6 +12,7 @@ import { formatEmiNotification } from "@/lib/emi-reminder";
 import { formatDueLabel, getUpcomingBills, isPaidThisCycle, markPaidMonth } from "@/lib/bills";
 import { uid } from "@/lib/storage";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
+import { BillCalendar } from "@/components/BillCalendar";
 import { haptic } from "@/lib/haptic";
 
 const inputClass =
@@ -129,6 +130,8 @@ function EmiRemindersContent() {
             </>
           )}
         </p>
+
+        <BillCalendar className="mb-6" />
 
         {upcoming.length > 0 && (
           <div className="premium-card rounded-2xl p-4 mb-6 border border-gold/25">

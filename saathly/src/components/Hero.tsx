@@ -46,14 +46,14 @@ export function Hero() {
 
   const trust = isIN
     ? [
-        { icon: Heart, text: "Naam ke saath daily care" },
-        { icon: Shield, text: "EMI / bills 1 din pehle" },
-        { icon: Zap, text: `${MESSAGE_COUNT}+ unique messages` },
+        { icon: Heart, text: "Morning one-card + Soft Day" },
+        { icon: Shield, text: "Bills calendar · Mark paid · Freeze" },
+        { icon: Zap, text: `${MESSAGE_COUNT}+ messages · Buddy · Wins` },
       ]
     : [
-        { icon: Heart, text: "Personalized daily messages" },
-        { icon: Shield, text: "Bill reminders — 1 day early" },
-        { icon: Zap, text: `${MESSAGE_COUNT}+ unique messages` },
+        { icon: Heart, text: "Morning one-card + Soft Day" },
+        { icon: Shield, text: "Bill calendar · Mark paid · Freeze" },
+        { icon: Zap, text: `${MESSAGE_COUNT}+ messages · Buddy · Wins` },
       ];
 
   const tagline = isIN

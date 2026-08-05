@@ -17,6 +17,10 @@ import { TodayBriefing } from "@/components/TodayBriefing";
 import { SoftDayButton } from "@/components/SoftDayButton";
 import { WeeklyWinsCard } from "@/components/WeeklyWinsCard";
 import { PausePlanCard } from "@/components/PausePlanCard";
+import { MorningOneCard } from "@/components/MorningOneCard";
+import { TrialValueReport } from "@/components/TrialValueReport";
+import { BuddyCheckin } from "@/components/BuddyCheckin";
+import { StreakFreezeBadge } from "@/components/StreakFreezeBadge";
 import { useLocale } from "@/context/LocaleContext";
 
 const EMOJIS = [
@@ -125,8 +129,11 @@ export default function DashboardPage() {
       </div>
 
       <div className="mx-auto max-w-3xl px-4 -mt-2">
+        <TrialValueReport />
+        <MorningOneCard />
         <TodayBriefing />
         <SoftDayButton />
+        <StreakFreezeBadge />
 
         <div className="grid grid-cols-3 gap-2 mb-8">
           {[
@@ -229,6 +236,7 @@ export default function DashboardPage() {
         </div>
 
         <WeeklyWinsCard />
+        <BuddyCheckin />
         <ReferralCard code={user.referralCode} />
         <PausePlanCard />
         <NoSpamPromise className="mb-6" />

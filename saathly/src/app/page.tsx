@@ -3,6 +3,7 @@ import { SocialProof } from "@/components/SocialProof";
 import { HopeTransformation } from "@/components/HopeTransformation";
 import { EmiReminderDemo } from "@/components/EmiReminderDemo";
 import { ValueComparison } from "@/components/ValueComparison";
+import { FeaturesShowcase } from "@/components/FeaturesShowcase";
 import { NotificationFlow } from "@/components/NotificationFlow";
 import { HowItWorksSimple } from "@/components/HowItWorksSimple";
 import { Problems } from "@/components/Problems";
@@ -24,6 +25,7 @@ export default function HomePage() {
         </div>
       </section>
       <SocialProof />
+      <FeaturesShowcase />
       <HopeTransformation />
       <EmiReminderDemo />
       <ValueComparison />

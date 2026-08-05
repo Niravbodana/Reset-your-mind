@@ -18,6 +18,7 @@ export function Navbar() {
   const priceLabel = formatPersonalPrice(config, currency);
   const links = [
     { href: "/#hero", label: "Home" },
+    { href: "/#features", label: region === "IN" ? "Features" : "Features" },
     { href: "/#emi-reminder", label: region === "IN" ? "EMI / Bills" : "Bills" },
     { href: "/samples", label: "Messages" },
     { href: "/pricing", label: `${priceLabel} Plan` },

@@ -31,24 +31,24 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
 
   const features = isIN
     ? [
-        `${MESSAGE_COUNT}+ unique messages — naam ke saath, kabhi repeat nahi`,
-        "EMI / bill reminder 1 din pehle — amount, date, bank",
-        "Schedule control: 30 min to 4 hour interval",
-        "Wake, sleep, lunch, gym, medicine, dinner anchors",
-        "Money, health, love, career, mind — tum choose karo",
-        "Mood & streak tracking",
-        "Hinglish, Hindi, or English",
-        "Soft mode on difficult days",
+        `${MESSAGE_COUNT}+ unique messages — naam ke saath`,
+        "EMI / bill reminders + month calendar",
+        "Morning one-card · Today briefing",
+        "Mark as paid · Soft Day · Pause 7 days",
+        "Streak freeze (1 miss / month maaf)",
+        "Weekly wins + Buddy check-in",
+        "Trial day-5 value report",
+        "Hinglish / Hindi / English · Worldwide",
       ]
     : [
-        `${MESSAGE_COUNT}+ unique messages — with your name, never generic`,
-        "Bill reminders 1 day early — amount, date, provider",
-        "Schedule control: 30 min to 4 hour interval",
-        "Wake, sleep, lunch, gym, medicine, dinner anchors",
-        "Money, health, love, career, mind — you choose",
-        "Mood & streak tracking",
-        "English, Hinglish, or Hindi",
-        "Soft mode on difficult days",
+        `${MESSAGE_COUNT}+ unique messages — with your name`,
+        "Bill reminders + month calendar",
+        "Morning one-card · Today briefing",
+        "Mark as paid · Soft Day · Pause 7 days",
+        "Streak freeze (1 miss forgiven / month)",
+        "Weekly wins + Buddy check-in",
+        "Trial day-5 value report",
+        "English / Hinglish / Hindi · Worldwide",
       ];
 
   return (

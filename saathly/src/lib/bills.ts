@@ -68,3 +68,38 @@ export function formatDueLabel(daysUntil: number, language: "hinglish" | "hindi"
   if (daysUntil === 1) return "Kal due";
   return `${daysUntil} din me due`;
 }
+
+export type CalendarDayBill = {
+  day: number;
+  bills: EmiReminder[];
+};
+
+/** Bills mapped onto days of a given month (dueDay 1–28). */
+export function billsForMonth(
+  reminders: EmiReminder[] | undefined,
+  year: number,
+  monthIndex: number
+): CalendarDayBill[] {
+  const map = new Map<number, EmiReminder[]>();
+  for (const r of reminders ?? []) {
+    if (!r.enabled) continue;
+    const day = Math.min(Math.max(r.dueDay, 1), 28);
+    const list = map.get(day) ?? [];
+    list.push(r);
+    map.set(day, list);
+  }
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const out: CalendarDayBill[] = [];
+  for (let d = 1; d <= daysInMonth; d++) {
+    out.push({ day: d, bills: map.get(d) ?? [] });
+  }
+  return out;
+}
+
+export function trialDayNumber(createdAt: string, trialEndsAt: string): number {
+  const start = new Date(createdAt).getTime();
+  const end = new Date(trialEndsAt).getTime();
+  const total = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)));
+  const elapsed = Math.floor((Date.now() - start) / (1000 * 60 * 60 * 24)) + 1;
+  return Math.min(Math.max(elapsed, 1), total + 1);
+}
