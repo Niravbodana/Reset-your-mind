@@ -5,6 +5,7 @@ import { useApp } from "@/context/AppContext";
 import { PLANS } from "@/lib/plans";
 import { RazorpayCheckout } from "@/components/RazorpayCheckout";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { parivaarMonthlyPrice, personalMonthlyPrice } from "@/lib/pricing";
 
 export default function BillingPage() {
   const { state, activatePaid } = useApp();
@@ -15,36 +16,39 @@ export default function BillingPage() {
     : PLANS.personal;
 
   const displayPrice =
-    user?.plan === "parivaar"
-      ? config.features.earlyBirdActive
-        ? config.marketing.earlyBirdPriceParivaar
-        : config.marketing.launchPriceParivaar
-      : config.features.earlyBirdActive
-        ? config.marketing.earlyBirdPricePersonal
-        : config.marketing.launchPricePersonal;
+    user?.plan === "parivaar" ? parivaarMonthlyPrice(config) : personalMonthlyPrice(config);
+
+  const paymentsLive = config.features.paymentsEnabled && Boolean(config.integrations.razorpayKeyId);
 
   return (
     <div className="pt-28 pb-20 px-4">
       <div className="max-w-lg mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">Billing</h1>
         <p className="text-ink-soft text-sm mb-8">
-          Razorpay keys Admin → Integrations se add karo. Enable payments in Features tab.
+          {paymentsLive
+            ? `Pay securely with Razorpay. ${config.marketing.trialDays}-day trial applies on first charge when billing is fully live.`
+            : "Paid subscriptions are not open yet. You are on the free web preview and waitlist — we will email you before any charge."}
         </p>
 
         <div className="soft-card rounded-2xl p-7 mb-6">
-          <p className="text-xs text-muted mb-2 uppercase tracking-wide">Plan</p>
+          <p className="text-xs text-muted mb-2 uppercase tracking-wide">Planned plan</p>
           <p className="font-display text-2xl font-bold">{plan.name}</p>
           <p className="text-3xl font-bold mt-2">
             ₹{displayPrice}
-            <span className="text-sm text-muted font-normal">/mo</span>
+            <span className="text-sm text-muted font-normal">/mo target</span>
           </p>
           {user && (
             <p className="text-sm text-ink-soft mt-4">
-              {user.email} · {user.subStatus === "trial" ? "Preview / trial" : user.subStatus}
+              {user.email} ·{" "}
+              {user.subStatus === "active"
+                ? "Paid (this device)"
+                : user.subStatus === "trial"
+                  ? "Free preview / waitlist"
+                  : user.subStatus}
             </p>
           )}
 
-          {user && config.features.paymentsEnabled ? (
+          {user && paymentsLive ? (
             <RazorpayCheckout
               planId={user.plan === "parivaar" ? "parivaar" : "personal"}
               email={user.email}
@@ -52,26 +56,35 @@ export default function BillingPage() {
               onSuccess={activatePaid}
               className="btn-primary mt-6 w-full py-3 rounded-xl text-sm"
             >
-              Pay ₹{displayPrice} — {config.marketing.trialDays} day trial
+              Pay ₹{displayPrice} — start {config.marketing.trialDays} day trial
             </RazorpayCheckout>
           ) : (
-            <button type="button" disabled className="btn-secondary mt-6 w-full py-3 rounded-xl text-sm opacity-60">
-              Enable payments in Admin panel
-            </button>
+            <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4 text-sm text-ink-soft">
+              <p className="font-semibold text-white mb-1">Billing coming soon</p>
+              <p className="text-xs leading-relaxed">
+                No card required during preview. When we open payments, you will get an email at{" "}
+                {user?.email || "your signup address"} with clear trial terms.
+              </p>
+            </div>
           )}
         </div>
 
         <div className="soft-card rounded-2xl p-5 text-sm text-ink-soft">
-          <p className="font-semibold text-white mb-2">Admin setup</p>
-          <ol className="list-decimal pl-5 space-y-1 text-xs">
-            <li>/admin → Integrations → Razorpay Key ID + Secret</li>
-            <li>Features → Enable Razorpay payments</li>
-            <li>Webhook: {config.marketing.siteUrl}/api/billing/webhook</li>
-          </ol>
-          <Link href="/admin" className="text-gold-light inline-block mt-4 text-xs">
-            Open admin →
-          </Link>
+          <p className="font-semibold text-white mb-2">Cancel anytime (when live)</p>
+          <p className="text-xs leading-relaxed">
+            Subscriptions will renew monthly until cancelled. See{" "}
+            <Link href="/refund" className="text-gold-light underline">
+              refund policy
+            </Link>{" "}
+            for trial and first-charge rules.
+          </p>
         </div>
+
+        {!user && (
+          <Link href="/signup" className="btn-primary block text-center mt-6 py-3 rounded-xl text-sm">
+            Join waitlist first
+          </Link>
+        )}
       </div>
     </div>
   );

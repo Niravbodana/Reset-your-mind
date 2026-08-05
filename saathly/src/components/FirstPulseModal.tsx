@@ -8,9 +8,10 @@ type Props = {
   name: string;
   message: string;
   microAction: string;
+  pulseCount?: number;
 };
 
-export function FirstPulseModal({ name, message, microAction }: Props) {
+export function FirstPulseModal({ name, message, microAction, pulseCount = 6 }: Props) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -46,7 +47,8 @@ export function FirstPulseModal({ name, message, microAction }: Props) {
           {microAction}
         </p>
         <p className="text-xs text-muted mb-4">
-          Aise 6 messages roz aayenge — app launch pe phone pe notification.
+          Aaj ke liye up to {pulseCount} messages dashboard pe padh sakte ho. Phone pe automatic
+          notifications app launch ke baad aayenge.
         </p>
         <button type="button" onClick={() => setOpen(false)} className="btn-primary w-full py-3 rounded-xl text-sm">
           Samajh gaya — dashboard dekho

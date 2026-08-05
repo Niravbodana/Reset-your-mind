@@ -12,13 +12,19 @@ async function ensureDataDir() {
   await fs.mkdir(DATA_DIR, { recursive: true });
 }
 
+function resolveAdminPassword(settings: SiteSettings): SiteSettings {
+  const envPass = process.env.RIZN_ADMIN_PASSWORD?.trim();
+  if (envPass) return { ...settings, adminPassword: envPass };
+  return settings;
+}
+
 export async function readSettings(): Promise<SiteSettings> {
   try {
     await ensureDataDir();
     const raw = await fs.readFile(SETTINGS_FILE, "utf-8");
-    return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
+    return resolveAdminPassword({ ...DEFAULT_SETTINGS, ...JSON.parse(raw) });
   } catch {
-    return { ...DEFAULT_SETTINGS };
+    return resolveAdminPassword({ ...DEFAULT_SETTINGS });
   }
 }
 
@@ -83,5 +89,8 @@ export function getEffectiveWhatsApp(settings: SiteSettings) {
 }
 
 export function verifyAdminPassword(settings: SiteSettings, password: string): boolean {
-  return password === settings.adminPassword;
+  const envPass = process.env.RIZN_ADMIN_PASSWORD?.trim();
+  if (envPass && password === envPass) return true;
+  if (settings.adminPassword && password === settings.adminPassword) return true;
+  return false;
 }

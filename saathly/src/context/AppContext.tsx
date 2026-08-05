@@ -76,7 +76,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const patchUser = useCallback((partial: Partial<UserProfile>) => {
     setState((prev) => {
       if (!prev.user) return prev;
-      return upsertUser(prev, { ...prev.user, ...partial });
+      const user = { ...prev.user, ...partial };
+      let next = upsertUser(prev, user);
+      if (
+        partial.softMode !== undefined ||
+        partial.areas !== undefined ||
+        partial.language !== undefined ||
+        partial.wakeHour !== undefined ||
+        partial.sleepHour !== undefined
+      ) {
+        const today = new Date().toISOString().slice(0, 10);
+        const pulses = ensureTodayPulses(
+          user,
+          prev.pulses.filter((p) => p.date !== today)
+        );
+        next = setPulses(next, pulses);
+      }
+      return next;
     });
   }, []);
 

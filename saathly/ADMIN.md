@@ -1,8 +1,8 @@
 # Admin panel — keys & settings
 
-Open: **http://localhost:3000/admin**
+Open: **http://localhost:3000/admin** (not linked in public footer)
 
-Default password: `rizn-admin-2026` (change in Features tab after login)
+**Password:** Set `RIZN_ADMIN_PASSWORD` in your environment, or set a password in Admin → Features after first login. Do not commit passwords to git.
 
 ## Tabs
 
@@ -26,7 +26,7 @@ Default password: `rizn-admin-2026` (change in Features tab after login)
 ### Features (toggles)
 - Enable Razorpay payments
 - Enable WhatsApp API
-- Web push prompts
+- Web push prompts (requires VAPID public key)
 - Resend email on waitlist signup
 - Early bird pricing display
 

@@ -32,6 +32,14 @@ export default function DashboardPage() {
   const pulses = useMemo(() => state.pulses.filter((p) => p.date === today), [state.pulses, today]);
   const readCount = pulses.filter((p) => p.read).length;
   const trialOk = user ? isTrialActive(user.trialEndsAt) || user.subStatus === "active" : false;
+  const expectedCount = user?.softMode ? 4 : 6;
+
+  const handleLogout = () => {
+    const ok = window.confirm(
+      "Sign out on this device? Your preview data (messages, streak, mood) stored in this browser will be cleared. Waitlist email on our server stays."
+    );
+    if (ok) logout();
+  };
 
   if (!ready || !user) {
     return <div className="pt-28 text-center text-muted">Loading…</div>;
@@ -49,6 +57,7 @@ export default function DashboardPage() {
           name={user.name}
           message={pulses[0].text}
           microAction={pulses[0].microAction}
+          pulseCount={expectedCount}
         />
       )}
       <div className="mx-auto max-w-3xl">
@@ -56,14 +65,14 @@ export default function DashboardPage() {
         <div className="soft-card border border-gold/20 rounded-2xl p-4 mb-6 flex gap-3 items-start">
           <Smartphone size={18} className="text-gold-light shrink-0 mt-0.5" />
           <div className="text-sm">
-            <p className="font-semibold text-white">Web preview</p>
+            <p className="font-semibold text-white">Web preview (this device)</p>
             <p className="text-ink-soft mt-1">
-              You are viewing today&apos;s pulses in the browser. Push notifications will arrive with
-              the{" "}
-              <Link href="/#app" className="text-gold-light underline">
-                mobile app
-              </Link>
-              .
+              Aaj ke messages yahan padho. Automatic phone notifications app launch ke baad. Same
+              email se{" "}
+              <Link href="/login" className="text-gold-light underline">
+                sign in
+              </Link>{" "}
+              sirf is browser pe kaam karta hai abhi.
             </p>
           </div>
         </div>
@@ -71,14 +80,14 @@ export default function DashboardPage() {
         <div className="flex items-start justify-between gap-4 mb-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-1">
-              {user.subStatus === "active" ? "Active" : trialOk ? "Early access" : "Preview ended"}
+              {user.subStatus === "active" ? "Paid (preview)" : trialOk ? "Free preview" : "Preview ended"}
             </p>
             <h1 className="font-display text-3xl font-bold">Hello, {user.name}</h1>
             <p className="text-sm text-ink-soft mt-1">
               {user.streak} day streak · best {user.bestStreak} · {user.language}
             </p>
           </div>
-          <button type="button" onClick={logout} className="btn-secondary p-2.5 rounded-xl" aria-label="Sign out">
+          <button type="button" onClick={handleLogout} className="btn-secondary p-2.5 rounded-xl" aria-label="Sign out">
             <LogOut size={16} />
           </button>
         </div>
@@ -98,7 +107,7 @@ export default function DashboardPage() {
 
         <div className="grid sm:grid-cols-3 gap-3 mb-8">
           {[
-            { l: "Read today", v: `${readCount}/${pulses.length || 6}` },
+            { l: "Read today", v: `${readCount}/${pulses.length || expectedCount}` },
             { l: "Streak", v: String(user.streak) },
             { l: "Actions done", v: String(pulses.filter((p) => p.actionDone).length) },
           ].map((s) => (
@@ -109,22 +118,32 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-6">
-          <Link href="/family" className="btn-secondary px-4 py-2 rounded-xl text-xs">Family</Link>
-          <Link href="/programs" className="btn-secondary px-4 py-2 rounded-xl text-xs">Programs</Link>
-          <Link href="/billing" className="btn-secondary px-4 py-2 rounded-xl text-xs">Billing</Link>
+        <div className="flex flex-wrap gap-2 mb-2">
+          <Link href="/family" className="btn-secondary px-4 py-2 rounded-xl text-xs">
+            Family
+          </Link>
+          <Link href="/programs" className="btn-secondary px-4 py-2 rounded-xl text-xs">
+            Programs
+          </Link>
+          <Link href="/billing" className="btn-secondary px-4 py-2 rounded-xl text-xs">
+            Billing
+          </Link>
           <button
             type="button"
             onClick={() => patchUser({ softMode: !user.softMode })}
             className="btn-secondary px-4 py-2 rounded-xl text-xs"
+            title="Soft mode sends 4 gentler messages instead of 6"
           >
-            Soft mode: {user.softMode ? "On" : "Off"}
+            Soft mode: {user.softMode ? "On (4 msgs)" : "Off (6 msgs)"}
           </button>
         </div>
+        <p className="text-[11px] text-muted mb-6">
+          Soft mode = 4 gentler messages today instead of 6. Toggle updates today&apos;s list automatically.
+        </p>
 
         <h2 className="font-semibold mb-3">Today&apos;s messages</h2>
         <p className="text-xs text-muted mb-4">
-          On the app, these will appear as push notifications. For now, read them here.
+          Open dashboard to read — app launch pe yehi messages push notifications ban jayenge.
         </p>
         <div className="space-y-3 mb-8">
           {pulses.map((m) => (
@@ -140,7 +159,11 @@ export default function DashboardPage() {
               <p className="text-xs text-muted mb-3">Suggested action: {m.microAction}</p>
               <div className="flex gap-2">
                 {!m.read && (
-                  <button type="button" onClick={() => markPulse(m.id, { read: true })} className="btn-secondary px-3 py-1.5 rounded-lg text-xs">
+                  <button
+                    type="button"
+                    onClick={() => markPulse(m.id, { read: true })}
+                    className="btn-secondary px-3 py-1.5 rounded-lg text-xs"
+                  >
                     Mark read
                   </button>
                 )}
@@ -159,7 +182,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="soft-card rounded-2xl p-5 mb-6">
-          <p className="font-semibold text-sm mb-2">How are you feeling?</p>
+          <p className="font-semibold text-sm mb-2">Aaj mood kaisa hai?</p>
           <div className="flex gap-2">
             {EMOJIS.map((item) => (
               <button
@@ -183,7 +206,9 @@ export default function DashboardPage() {
           <p className="font-semibold text-sm mb-1">Invite someone</p>
           <p className="text-xs text-muted mb-3">Share your link — referral rewards when we launch billing.</p>
           <div className="flex gap-2">
-            <code className="flex-1 text-xs bg-black/50 rounded-lg px-3 py-2.5 truncate border border-white/10">{refLink}</code>
+            <code className="flex-1 text-xs bg-black/50 rounded-lg px-3 py-2.5 truncate border border-white/10">
+              {refLink}
+            </code>
             <button
               type="button"
               onClick={() => {

@@ -1,12 +1,3 @@
-const day = [
-  { time: "9:00", title: "Morning start", text: "Name + one clear intention for the day." },
-  { time: "11:00", title: "Focus block", text: "One important task — reduce noise." },
-  { time: "13:00", title: "Body check", text: "Lunch or water — fuel before more work." },
-  { time: "15:00", title: "Afternoon reset", text: "Short break before the energy dip." },
-  { time: "17:00", title: "Life action", text: "A small step for money or health." },
-  { time: "21:00", title: "Evening close", text: "Wrap the day and wind down." },
-];
-
 export function DayTimeline() {
   return (
     <section id="day" className="py-20 md:py-28">
@@ -15,16 +6,19 @@ export function DayTimeline() {
           <div className="lg:sticky lg:top-28">
             <p className="section-label mb-3">Your schedule</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-              Six messages between 9 AM and 9 PM
+              Up to six messages between 9 AM and 9 PM
             </h2>
             <p className="text-ink-soft leading-relaxed mb-6">
-              Not spam — six focused touchpoints. You set your window; on difficult days you can
-              switch to soft mode for gentler messages.
+              Not spam — six focused touchpoints in preview (four in soft mode). Custom wake/sleep
+              times and weekly summary are planned for the mobile app launch.
             </p>
             <ul className="space-y-2 text-sm text-ink-soft">
-              <li>Custom wake and sleep times</li>
+              <li>
+                <span className="text-white">Now:</span> default 9 AM–9 PM window in web preview
+              </li>
               <li>One small action per message</li>
-              <li>Streak and weekly summary in your dashboard</li>
+              <li>Streak tracking in dashboard today</li>
+              <li className="text-muted">Planned: custom hours, weekly summary, push delivery</li>
             </ul>
           </div>
 
@@ -50,3 +44,12 @@ export function DayTimeline() {
     </section>
   );
 }
+
+const day = [
+  { time: "9:00", title: "Morning start", text: "Name + one clear intention for the day." },
+  { time: "11:00", title: "Focus block", text: "One important task — reduce noise." },
+  { time: "13:00", title: "Body check", text: "Lunch or water — fuel before more work." },
+  { time: "15:00", title: "Afternoon reset", text: "Short break before the energy dip." },
+  { time: "17:00", title: "Life action", text: "A small step for money or health." },
+  { time: "21:00", title: "Evening close", text: "Wrap the day and wind down." },
+];

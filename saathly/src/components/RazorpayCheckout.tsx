@@ -45,8 +45,15 @@ export function RazorpayCheckout({ planId, email, name, onSuccess, className, ch
       const data = await res.json();
 
       if (data.demo) {
-        alert(data.message || "Demo mode — configure Razorpay in Admin panel.");
-        onSuccess?.();
+        alert(
+          data.message ||
+            "Billing is not live yet. You stay on the free preview — we will email you when payments open."
+        );
+        return;
+      }
+
+      if (data.error) {
+        alert(data.error);
         return;
       }
 

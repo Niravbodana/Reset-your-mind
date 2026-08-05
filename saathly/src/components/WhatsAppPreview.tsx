@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
+import Link from "next/link";
 import { DEMO_NAME } from "@/lib/constants";
 
 const chat = [
@@ -16,17 +17,20 @@ export function WhatsAppPreview() {
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="section-label mb-3">WhatsApp (Parivaar plan)</p>
+            <p className="section-label mb-3">WhatsApp (Parivaar — planned)</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-              Phone pe aise messages aayenge
+              Aise messages WhatsApp pe bhi — jab launch ho
             </h2>
             <p className="text-ink-soft leading-relaxed mb-4">
-              App ke saath push notifications; Parivaar plan me optional WhatsApp delivery bhi.
-              Same personalized content — tumhara channel choose karo.
+              Abhi web dashboard pe padho. Parivaar plan ke liye optional WhatsApp delivery plan
+              kiya hai — same personalized content, tumhara channel choose karoge.
             </p>
             <p className="text-xs text-muted">
-              WhatsApp setup: Admin panel → Integrations → Meta Cloud API token + Phone Number ID
+              Join Parivaar waitlist to get notified when WhatsApp delivery opens.
             </p>
+            <Link href="/signup?plan=parivaar" className="btn-secondary inline-flex mt-4 px-5 py-2.5 rounded-xl text-xs">
+              Parivaar waitlist
+            </Link>
           </div>
 
           <div className="max-w-sm mx-auto w-full">
@@ -37,7 +41,7 @@ export function WhatsAppPreview() {
                 </div>
                 <div>
                   <p className="text-white text-sm font-semibold">RIZN</p>
-                  <p className="text-[10px] text-[#8696a0]">online</p>
+                  <p className="text-[10px] text-[#8696a0]">preview mockup</p>
                 </div>
                 <MessageCircle className="ml-auto text-[#8696a0]" size={18} />
               </div>

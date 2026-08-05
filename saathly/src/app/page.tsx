@@ -15,7 +15,7 @@ import { HeroVideo } from "@/components/HeroVideo";
 
 export default function HomePage() {
   return (
-    <>
+    <div className="pb-20 md:pb-0">
       <Hero />
       <ValueComparison />
       <section className="py-16 border-y border-white/5 bg-bg-elevated/30">
@@ -26,8 +26,8 @@ export default function HomePage() {
               Phone pe aisa dikhega
             </h2>
             <p className="text-ink-soft text-sm leading-relaxed">
-              Admin panel se hero video URL add karo — warna animated phone preview dikhega.
-              App launch pe yehi experience push notification ke saath.
+              Ye preview hai — app launch pe push notifications ke saath same experience milega.
+              Neeche sample messages aur live naam demo try karo.
             </p>
           </div>
           <HeroVideo />
@@ -44,6 +44,6 @@ export default function HomePage() {
       <FaqSection />
       <FinalCTA />
       <StickyMobileCTA />
-    </>
+    </div>
   );
 }

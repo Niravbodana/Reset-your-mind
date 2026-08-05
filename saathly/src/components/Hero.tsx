@@ -33,7 +33,7 @@ export function Hero() {
     : config.marketing.launchPricePersonal;
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[72vh] md:min-h-[90vh] flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src="/images/hero-premium.jpg"

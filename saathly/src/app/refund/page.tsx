@@ -8,10 +8,24 @@ export default function RefundPage() {
       <article className="max-w-2xl mx-auto">
         <h1 className="font-display text-4xl font-bold mb-6">Refund & Cancellation</h1>
         <div className="space-y-4 text-ink-soft leading-relaxed text-[15px]">
-          <p>Cancel anytime from Billing. Access continues until period end.</p>
-          <p>Free trial: no charge if cancelled before trial ends (when card collected).</p>
-          <p>Paid month: refunds case-by-case within 7 days of first charge if unused — email hello@rizn.app.</p>
-          <p>Parivaar seats removed do not auto-refund mid-cycle.</p>
+          <p>
+            <strong className="text-white">Preview (now):</strong> No charges during the free web
+            preview. Joining the waitlist does not create a subscription.
+          </p>
+          <p>
+            <strong className="text-white">When billing opens:</strong> Cancel anytime from Billing or
+            by emailing hello@rizn.app. Access continues until the end of the paid period.
+          </p>
+          <p>
+            <strong className="text-white">Free trial:</strong> If a card is collected, you will not be
+            charged if you cancel before the trial ends (exact days shown at checkout).
+          </p>
+          <p>
+            <strong className="text-white">Refunds:</strong> First paid month — case-by-case refund
+            within 7 days of charge if the service was unused, at our discretion. Contact
+            hello@rizn.app with your Razorpay payment ID.
+          </p>
+          <p>Parivaar seat changes mid-cycle do not automatically prorate unless stated at purchase.</p>
         </div>
       </article>
     </div>

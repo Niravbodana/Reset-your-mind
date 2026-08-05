@@ -13,6 +13,12 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const areaIds = Object.keys(AREA_LABELS) as LifeArea[];
 
+const languages: { id: Language; label: string }[] = [
+  { id: "hinglish", label: "Hinglish" },
+  { id: "hindi", label: "Hindi" },
+  { id: "english", label: "English" },
+];
+
 function QuickSignup() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -27,6 +33,7 @@ function QuickSignup() {
   const [email, setEmail] = useState("");
   const [selected, setSelected] = useState<LifeArea[]>(["finance", "mind"]);
   const [language, setLanguage] = useState<Language>("hinglish");
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -38,7 +45,7 @@ function QuickSignup() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim().length < 2 || !email.includes("@") || selected.length < 1) return;
+    if (name.trim().length < 2 || !email.includes("@") || selected.length < 1 || !consent) return;
     setLoading(true);
 
     await fetch("/api/waitlist", {
@@ -122,6 +129,21 @@ function QuickSignup() {
         </button>
       </div>
       <div>
+        <p className="text-xs text-muted mb-2">Message language</p>
+        <div className="flex flex-wrap gap-2">
+          {languages.map((lang) => (
+            <button
+              key={lang.id}
+              type="button"
+              onClick={() => setLanguage(lang.id)}
+              className={`px-3 py-1.5 rounded-full text-xs ${language === lang.id ? "bg-gold text-black" : "bg-white/5 text-muted"}`}
+            >
+              {lang.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div>
         <p className="text-xs text-muted mb-2">Focus (max 3)</p>
         <div className="flex flex-wrap gap-2">
           {areaIds.map((id) => (
@@ -136,12 +158,36 @@ function QuickSignup() {
           ))}
         </div>
       </div>
-      <button type="submit" disabled={loading} className="btn-primary w-full py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2">
+      <label className="flex gap-3 items-start text-xs text-ink-soft cursor-pointer">
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+          className="mt-1 rounded border-white/20"
+          required
+        />
+        <span>
+          I agree to the{" "}
+          <Link href="/privacy" className="text-gold-light underline" target="_blank">
+            Privacy Policy
+          </Link>{" "}
+          and{" "}
+          <Link href="/terms" className="text-gold-light underline" target="_blank">
+            Terms
+          </Link>
+          . Waitlist email is stored on our server; preview data stays in this browser.
+        </span>
+      </label>
+      <button
+        type="submit"
+        disabled={loading || !consent}
+        className="btn-primary w-full py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2 disabled:opacity-50"
+      >
         {loading ? "…" : "Start free preview"}
         <ArrowRight size={16} />
       </button>
       <p className="text-[11px] text-center text-muted">
-        {config.marketing.trialDays} din preview · App launch pe notify · No payment now
+        {config.marketing.trialDays} din preview on this device · App launch pe notify · No payment now
       </p>
     </form>
   );
@@ -152,7 +198,7 @@ export default function SignupPage() {
     <div className="pt-28 pb-24 px-4">
       <div className="text-center mb-8 max-w-lg mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">1 minute me shuru karo</h1>
-        <p className="text-sm text-ink-soft">Naam, email, focus — bas. Turant dashboard pe pehla message.</p>
+        <p className="text-sm text-ink-soft">Naam, email, language, focus — bas. Turant dashboard pe pehla message.</p>
       </div>
       <Suspense fallback={<p className="text-center text-muted">Loading…</p>}>
         <QuickSignup />

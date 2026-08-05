@@ -47,6 +47,11 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          {!state.user && (
+            <Link href="/login" className="text-sm font-medium text-ink-soft hover:text-white">
+              Sign in
+            </Link>
+          )}
           {state.user ? (
             <Link href="/dashboard" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
               Dashboard
@@ -70,6 +75,11 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          {!state.user && (
+            <Link href="/login" className="text-ink-soft py-2" onClick={() => setOpen(false)}>
+              Sign in
+            </Link>
+          )}
           <Link
             href={state.user ? "/dashboard" : "/signup"}
             className="btn-primary text-center py-3 rounded-xl text-sm"

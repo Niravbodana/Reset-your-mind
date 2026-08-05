@@ -31,8 +31,8 @@ export function ParivaarPlanVisual() {
               Pure ghar ke liye — 4 log, ek plan
             </h2>
             <p className="text-ink-soft text-sm mb-6 leading-relaxed">
-              Alag alag goals, alag messages — papa health, maa mind, partner career, tum finance.
-              Sab apne naam ke saath roz rise karein.
+              Alag alag goals, alag messages — preview me seat list save karo. Full separate profiles
+              aur shared dashboard app launch pe.
             </p>
             <p className="text-3xl font-bold text-white mb-1">
               ₹{price}

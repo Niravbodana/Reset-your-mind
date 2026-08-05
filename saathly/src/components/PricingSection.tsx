@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { parivaarMonthlyPrice, parivaarPerPerson, personalMonthlyPrice } from "@/lib/pricing";
 
 const plans = [
   {
@@ -11,13 +12,13 @@ const plans = [
     desc: "One person, full access",
     popular: true,
     features: [
-      "6 personalized messages per day",
+      "Up to 6 personalized messages per day (4 in soft mode)",
       "Name and focus-area targeting",
       "Money, health, love, career, mind",
-      "Mood and streak tracking",
-      "Weekly summary",
+      "Mood and streak tracking in web preview",
+      "Language: Hinglish, Hindi, or English (at signup)",
       "Soft mode on difficult days",
-      "Hinglish, Hindi, or English",
+      "Weekly summary — planned at app launch",
     ],
   },
   {
@@ -27,10 +28,10 @@ const plans = [
     popular: false,
     features: [
       "Everything in Personal",
-      "4 profiles with separate goals",
-      "Shared family dashboard",
-      "Optional WhatsApp delivery",
-      "About ₹62 per person",
+      "4 separate profiles with own goals — at launch",
+      "Family seat list in preview (shared dashboard planned)",
+      "WhatsApp delivery — planned for Parivaar",
+      "Dynamic per-person pricing shown below",
       "Priority support at launch",
     ],
   },
@@ -38,6 +39,7 @@ const plans = [
 
 export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   const config = useSiteConfig();
+  const perPerson = parivaarPerPerson(config);
 
   return (
     <section id="pricing" className="py-20 md:py-28 border-t border-white/5">
@@ -46,16 +48,17 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="section-label mb-3">Pricing</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
-              Simple plans — early bird chal raha hai
+              Planned pricing — preview free abhi
             </h2>
             <p className="text-ink-soft text-sm">
               {config.features.earlyBirdActive && (
                 <>
-                  Launch pe Personal ₹{config.marketing.launchPricePersonal} hoga · Abhi lock karo ₹
-                  {config.marketing.earlyBirdPricePersonal} &nbsp;
+                  Early bird: Personal ₹{personalMonthlyPrice(config)} · Parivaar ₹
+                  {parivaarMonthlyPrice(config)} &nbsp;·&nbsp;
                 </>
               )}
-              · {config.marketing.trialDays} din free trial jab billing live ho
+              Launch target: ₹{config.marketing.launchPricePersonal}/₹{config.marketing.launchPriceParivaar} ·{" "}
+              {config.marketing.trialDays} din trial jab billing live ho · No card required now
             </p>
           </div>
         )}
@@ -63,17 +66,20 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
         <div className="grid md:grid-cols-2 gap-5 max-w-3xl mx-auto">
           {plans.map((plan) => {
             const price =
-              plan.id === "parivaar"
-                ? config.features.earlyBirdActive
-                  ? config.marketing.earlyBirdPriceParivaar
-                  : config.marketing.launchPriceParivaar
-                : config.features.earlyBirdActive
-                  ? config.marketing.earlyBirdPricePersonal
-                  : config.marketing.launchPricePersonal;
+              plan.id === "parivaar" ? parivaarMonthlyPrice(config) : personalMonthlyPrice(config);
             const launch =
               plan.id === "parivaar"
                 ? config.marketing.launchPriceParivaar
                 : config.marketing.launchPricePersonal;
+
+            const features =
+              plan.id === "parivaar"
+                ? plan.features.map((f) =>
+                    f === "Dynamic per-person pricing shown below"
+                      ? `About ₹${perPerson} per person at current price`
+                      : f
+                  )
+                : plan.features;
 
             return (
               <div
@@ -88,16 +94,16 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
                   </span>
                 )}
                 {config.features.earlyBirdActive && launch > price && (
-                  <p className="text-xs text-gold-light mb-2 line-through">₹{launch}/mo launch price</p>
+                  <p className="text-xs text-gold-light mb-2 line-through">₹{launch}/mo launch target</p>
                 )}
                 <h3 className="font-display text-2xl font-bold text-white mb-1">{plan.name}</h3>
                 <p className="text-sm text-muted mb-5">{plan.desc}</p>
                 <p className="mb-6">
                   <span className="font-display text-5xl font-bold text-white">₹{price}</span>
-                  <span className="text-sm text-muted">/month</span>
+                  <span className="text-sm text-muted">/month planned</span>
                 </p>
                 <ul className="space-y-3 mb-8">
-                  {plan.features.map((f) => (
+                  {features.map((f) => (
                     <li key={f} className="flex gap-2.5 text-sm text-ink-soft">
                       <Check size={16} className="text-success shrink-0 mt-0.5" />
                       {f}
@@ -110,7 +116,9 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
                 >
                   Join waitlist — free preview
                 </Link>
-                <p className="text-[10px] text-center text-muted mt-3">Cancel anytime · Secure Razorpay at launch</p>
+                <p className="text-[10px] text-center text-muted mt-3">
+                  No payment today · Secure Razorpay when billing opens
+                </p>
               </div>
             );
           })}

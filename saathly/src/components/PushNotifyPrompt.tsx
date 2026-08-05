@@ -15,6 +15,7 @@ function urlBase64ToUint8Array(base64: string) {
 
 export function PushNotifyPrompt() {
   const config = useSiteConfig();
+  const vapidReady = Boolean(config.integrations.vapidPublicKey?.trim());
   const [status, setStatus] = useState<"idle" | "done" | "denied" | "unsupported">("idle");
 
   useEffect(() => {
@@ -23,7 +24,14 @@ export function PushNotifyPrompt() {
     }
   }, []);
 
-  if (!config.features.webPushEnabled || status === "unsupported" || status === "done") return null;
+  if (
+    !config.features.webPushEnabled ||
+    !vapidReady ||
+    status === "unsupported" ||
+    status === "done"
+  ) {
+    return null;
+  }
 
   const subscribe = async () => {
     try {
@@ -34,14 +42,9 @@ export function PushNotifyPrompt() {
       }
       const reg = await navigator.serviceWorker.register("/sw.js");
       await reg.update();
-      const vapid = config.integrations.vapidPublicKey;
-      if (!vapid) {
-        setStatus("done");
-        return;
-      }
       const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(vapid),
+        applicationServerKey: urlBase64ToUint8Array(config.integrations.vapidPublicKey),
       });
       await fetch("/api/push/subscribe", {
         method: "POST",
@@ -60,9 +63,9 @@ export function PushNotifyPrompt() {
     <div className="soft-card rounded-xl p-4 flex gap-3 items-start mb-6 border border-gold/20">
       <Bell size={18} className="text-gold-light shrink-0 mt-0.5" />
       <div className="flex-1">
-        <p className="text-sm font-semibold text-white">Push notifications</p>
+        <p className="text-sm font-semibold text-white">Browser push (beta)</p>
         <p className="text-xs text-ink-soft mt-1">
-          Browser pe notifications allow karo — app aane se pehle alerts test kar sakte ho.
+          Optional test alerts on this device. Main notifications ship with the mobile app.
         </p>
       </div>
       <button type="button" onClick={subscribe} className="btn-primary px-3 py-2 rounded-lg text-xs shrink-0">

@@ -67,7 +67,7 @@ export function AdminPanel() {
     return (
       <div className="max-w-sm mx-auto soft-card rounded-2xl p-8">
         <h2 className="font-display text-xl font-bold mb-2">Admin login</h2>
-        <p className="text-xs text-muted mb-4">Default: rizn-admin-2026 (change after first login)</p>
+        <p className="text-xs text-muted mb-4">Set RIZN_ADMIN_PASSWORD env var or password saved in admin settings.</p>
         <input
           type="password"
           value={password}

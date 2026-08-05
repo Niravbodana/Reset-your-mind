@@ -24,7 +24,8 @@ export async function POST(req: Request) {
   if (!settings.features.paymentsEnabled || !rz.keyId || !rz.keySecret) {
     return NextResponse.json({
       demo: true,
-      message: "Payments not configured. Add Razorpay keys in Admin → Integrations.",
+      message:
+        "Billing is not live yet. You remain on the free preview — we will email you before any charge.",
       planId,
       amount,
       trialDays: settings.marketing.trialDays,

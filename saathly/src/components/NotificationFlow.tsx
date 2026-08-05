@@ -25,9 +25,9 @@ const channels = [
 ];
 
 const steps = [
-  { n: "1", title: "You set your profile", text: "Name, focus areas (money, health, love, career, mind), and active hours." },
-  { n: "2", title: "RIZN schedules 6 pulses", text: "Short, name-personalized messages with one small action each — not generic quotes." },
-  { n: "3", title: "You receive & act", text: "On web today; push on phone when the app is live. Mark done, track mood, build streak." },
+  { n: "1", title: "You set your profile", text: "Name, focus areas (money, health, love, career, mind), and message language at signup." },
+  { n: "2", title: "RIZN schedules up to 6 pulses", text: "Short, name-personalized messages with one small action each — four in soft mode. Default 9 AM–9 PM window in preview." },
+  { n: "3", title: "You receive & act", text: "Read on web dashboard today; push on phone when the app is live. Mark done, track mood, build streak." },
 ];
 
 export function NotificationFlow() {
@@ -40,8 +40,8 @@ export function NotificationFlow() {
             Notifications — clear and on your schedule
           </h2>
           <p className="text-ink-soft leading-relaxed">
-            RIZN sends up to 6 short messages per day, spaced about 2 hours apart, during the hours you choose.
-            Right now you can use the website preview. The mobile app will add push notifications.
+            RIZN sends up to 6 short messages per day (4 in soft mode), spaced about 2 hours apart, in a
+            default 9 AM–9 PM window during preview. Custom hours ship with the mobile app.
           </p>
         </div>
 

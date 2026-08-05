@@ -63,7 +63,7 @@ export type WaitlistEntry = {
 };
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  adminPassword: "rizn-admin-2026",
+  adminPassword: "",
   integrations: {
     razorpayKeyId: "",
     razorpayKeySecret: "",
