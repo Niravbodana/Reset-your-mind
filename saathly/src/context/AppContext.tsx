@@ -47,6 +47,13 @@ type Ctx = {
   checkinMood: (mood: MoodCheckin) => void;
   addFamilyMember: (m: FamilyMember) => void;
   activatePaid: () => void;
+  startTrialAutopay: (meta: {
+    demo?: boolean;
+    subscriptionId?: string;
+    trialEndsAt?: string;
+    trialDays?: number;
+    amount?: number;
+  }) => void;
   trackEvent: (name: string, meta?: string) => void;
 };
 
@@ -174,9 +181,34 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const activatePaid = useCallback(() => {
     setState((prev) => {
       if (!prev.user) return prev;
-      return upsertUser(prev, { ...prev.user, subStatus: "active" });
+      return upsertUser(prev, { ...prev.user, subStatus: "active", autopayEnabled: true });
     });
   }, []);
+
+  const startTrialAutopay = useCallback(
+    (meta: {
+      demo?: boolean;
+      subscriptionId?: string;
+      trialEndsAt?: string;
+      trialDays?: number;
+      amount?: number;
+    }) => {
+      setState((prev) => {
+        if (!prev.user) return prev;
+        const trialEndsAt = meta.trialEndsAt || prev.user.trialEndsAt;
+        return upsertUser(prev, {
+          ...prev.user,
+          subStatus: "trial",
+          trialEndsAt,
+          razorpaySubscriptionId: meta.subscriptionId || prev.user.razorpaySubscriptionId,
+          autopayAmount: meta.amount ?? prev.user.autopayAmount ?? 99,
+          nextBillingAt: trialEndsAt,
+          autopayEnabled: true,
+        });
+      });
+    },
+    []
+  );
 
   const trackEvent = useCallback((name: string, meta?: string) => {
     setState((prev) => track(prev, name, meta));
@@ -196,6 +228,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       checkinMood,
       addFamilyMember,
       activatePaid,
+      startTrialAutopay,
       trackEvent,
     }),
     [
@@ -211,6 +244,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       checkinMood,
       addFamilyMember,
       activatePaid,
+      startTrialAutopay,
       trackEvent,
     ]
   );

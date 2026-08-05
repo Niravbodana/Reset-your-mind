@@ -96,7 +96,7 @@ export function Hero() {
                 href="/signup"
                 className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-gold/30 w-full sm:w-auto min-h-[52px]"
               >
-                ₹99 plan — abhi shuru karo
+                {config.marketing.trialDays}-day free trial — start
                 <ArrowRight size={18} className="shrink-0" />
               </Link>
               <Link

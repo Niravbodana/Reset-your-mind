@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { haptic } from "@/lib/haptic";
 
 declare global {
   interface Window {
-    Razorpay?: new (options: Record<string, unknown>) => { open: () => void };
+    Razorpay?: new (options: Record<string, unknown>) => {
+      open: () => void;
+      on: (event: string, cb: (resp: unknown) => void) => void;
+    };
   }
 }
 
@@ -12,7 +16,14 @@ type Props = {
   planId: string;
   email: string;
   name: string;
-  onSuccess?: () => void;
+  phone?: string;
+  onSuccess?: (meta: {
+    demo?: boolean;
+    subscriptionId?: string;
+    trialEndsAt?: string;
+    trialDays?: number;
+    amount?: number;
+  }) => void;
   className?: string;
   children?: React.ReactNode;
 };
@@ -31,47 +42,71 @@ function loadRazorpay(): Promise<void> {
   });
 }
 
-export function RazorpayCheckout({ planId, email, name, onSuccess, className, children }: Props) {
+export function RazorpayCheckout({
+  planId,
+  email,
+  name,
+  phone,
+  onSuccess,
+  className,
+  children,
+}: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
 
-  const pay = async () => {
+  const start = async () => {
     setLoading(true);
     setError("");
+    setInfo("");
+    haptic("medium");
     try {
       const res = await fetch("/api/billing/create-subscription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId, email, name }),
+        body: JSON.stringify({ planId, email, name, phone }),
       });
       const data = await res.json();
 
       if (data.demo) {
-        setError(
+        setInfo(
           data.message ||
-            "Billing opens soon — we'll email you before any charge."
+            "Demo: 7-day free trial start. Live pe UPI/card se autopay mandate set hoga."
         );
+        onSuccess?.({
+          demo: true,
+          trialEndsAt: data.trialEndsAt,
+          trialDays: data.trialDays,
+          amount: data.amount,
+        });
         return;
       }
 
       if (data.error) {
-        setError(data.error);
+        setError(data.error + (data.detail ? `: ${data.detail}` : ""));
         return;
       }
 
       await loadRazorpay();
+
       const rzp = new window.Razorpay!({
         key: data.keyId,
-        amount: data.amount,
-        currency: data.currency,
+        subscription_id: data.subscriptionId,
         name: "RIZN",
-        description: `${planId} plan`,
-        order_id: data.orderId,
-        prefill: { email, name },
+        description: data.description || `${data.trialDays}-day free trial → ₹${data.amount}/mo`,
+        prefill: {
+          email,
+          name,
+          contact: phone || undefined,
+        },
+        notes: {
+          planId,
+          trialDays: String(data.trialDays),
+        },
         theme: { color: "#c9a227" },
         handler: async (response: {
-          razorpay_order_id: string;
           razorpay_payment_id: string;
+          razorpay_subscription_id: string;
           razorpay_signature: string;
         }) => {
           const verify = await fetch("/api/billing/verify-payment", {
@@ -80,10 +115,25 @@ export function RazorpayCheckout({ planId, email, name, onSuccess, className, ch
             body: JSON.stringify(response),
           });
           const result = await verify.json();
-          if (result.ok) onSuccess?.();
-          else setError(result.error || "Payment verification failed");
+          if (result.ok) {
+            haptic("success");
+            onSuccess?.({
+              subscriptionId: response.razorpay_subscription_id,
+              trialEndsAt: data.trialEndsAt,
+              trialDays: data.trialDays,
+              amount: data.amount,
+            });
+          } else {
+            setError(result.error || "Payment verification failed");
+          }
         },
       });
+
+      rzp.on("payment.failed", (resp: unknown) => {
+        const r = resp as { error?: { description?: string } };
+        setError(r?.error?.description || "Payment failed / cancelled");
+      });
+
       rzp.open();
     } catch (e) {
       setError(String(e));
@@ -94,10 +144,11 @@ export function RazorpayCheckout({ planId, email, name, onSuccess, className, ch
 
   return (
     <div>
-      <button type="button" onClick={pay} disabled={loading} className={className}>
-        {loading ? "Loading…" : children || "Pay with Razorpay"}
+      <button type="button" onClick={start} disabled={loading} className={className}>
+        {loading ? "Setting up trial…" : children || "Start 7-day free trial"}
       </button>
-      {error && <p className="text-xs text-gold-light mt-2">{error}</p>}
+      {error && <p className="text-xs text-red-300 mt-2 leading-relaxed">{error}</p>}
+      {info && <p className="text-xs text-gold-light mt-2 leading-relaxed">{info}</p>}
     </div>
   );
 }

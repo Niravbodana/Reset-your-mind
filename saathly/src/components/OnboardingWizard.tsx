@@ -2,10 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Bell, Calendar, CreditCard, X } from "lucide-react";
+import { ArrowRight, Bell, Calendar, CreditCard, Sparkles, X } from "lucide-react";
 import { haptic } from "@/lib/haptic";
 
 const STEPS = [
+  {
+    icon: Sparkles,
+    title: "7-day free trial + Autopay",
+    body: "Aaj mandate set (₹0). 7 din free. Phir har mahine ₹99 bank se automatic.",
+    href: "/billing?trial=1",
+    cta: "Free trial + Autopay set karo",
+  },
   {
     icon: CreditCard,
     title: "EMI set karo",

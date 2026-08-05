@@ -120,7 +120,7 @@ function SignupForm() {
     trackEvent("waitlist_signup", "personal");
     localStorage.removeItem("rizn_onboarding_done");
     setDone(true);
-    setTimeout(() => router.push("/emi-reminders?welcome=1&onboard=1"), 1400);
+    setTimeout(() => router.push("/billing?trial=1&welcome=1"), 1400);
   };
 
   if (done) {

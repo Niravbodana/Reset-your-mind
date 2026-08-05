@@ -36,7 +36,8 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
               Sirf <span className="text-gold-light">₹99</span> — poora plan
             </h2>
             <p className="text-ink-soft text-sm leading-relaxed">
-              Daily motivation + EMI reminders. Limited time — launch pe ₹{config.marketing.launchPricePersonal}.
+              {config.marketing.trialDays}-day free trial, phir ₹99/month autopay. Daily messages + EMI
+              reminders. Launch pe ₹{config.marketing.launchPricePersonal}.
             </p>
           </ScrollReveal>
         )}
@@ -63,13 +64,19 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
               href="/signup"
               className="btn-primary block text-center py-4 rounded-xl text-base font-bold min-h-[52px]"
             >
-              Abhi join karo — ₹99
+              Start {config.marketing.trialDays}-day free trial
+            </Link>
+            <Link
+              href="/billing"
+              className="mt-3 text-center text-sm text-gold-light hover:underline min-h-[44px] flex items-center justify-center"
+            >
+              Autopay detail dekho — 7 din baad ₹99/mo
             </Link>
             <div className="mt-3">
               <WhatsAppCTA variant="bar" />
             </div>
             <p className="text-xs text-center text-muted mt-3">
-              No payment today · {config.marketing.trialDays} din trial when billing opens
+              Aaj ₹0 · {config.marketing.trialDays} din free · Phir ₹99/month automatic
             </p>
           </div>
           <div className="mt-6">

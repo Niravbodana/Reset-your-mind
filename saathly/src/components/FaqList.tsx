@@ -39,9 +39,10 @@ export function FaqList({ variant = "section" }: Props) {
   const personal = personalMonthlyPrice(config);
   const launchPersonal = config.marketing.launchPricePersonal;
 
+  const trialDays = config.marketing.trialDays || 7;
   const pricingAnswer = config.features.earlyBirdActive
-    ? `RIZN Personal ₹${personal}/month (regular ₹${launchPersonal}) — daily messages + EMI reminders included. Start free today — no payment required.`
-    : `RIZN Personal ₹${personal}/month — messages and EMI reminders included.`;
+    ? `RIZN Personal: ${trialDays}-day free trial, then ₹${personal}/month autopay (regular ₹${launchPersonal}). UPI/card se mandate set — trial ke baad automatic cut. Cancel anytime.`
+    : `RIZN Personal: ${trialDays}-day free trial, then ₹${personal}/month autopay. Messages + EMI included.`;
 
   const faqs = [
     ...staticFaqs.slice(0, 3),

@@ -12,7 +12,7 @@ export function StickyMobileCTA() {
         onClick={() => haptic("medium")}
         className="btn-primary flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-bold min-h-[48px]"
       >
-        <span>₹99 plan join karo — abhi</span>
+        <span>7-day free trial — start</span>
         <ArrowRight size={16} className="shrink-0" />
       </Link>
     </div>

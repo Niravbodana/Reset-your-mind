@@ -32,6 +32,14 @@ export type UserProfile = {
   createdAt: string;
   trialEndsAt: string;
   subStatus: SubStatus;
+  /** Razorpay subscription id — mandate for autopay after trial */
+  razorpaySubscriptionId?: string;
+  /** Monthly amount that will auto-debit after trial (INR) */
+  autopayAmount?: number;
+  /** When first / next autopay charge is expected */
+  nextBillingAt?: string;
+  /** True once UPI/card mandate authorized (live or demo) */
+  autopayEnabled?: boolean;
   referralCode: string;
   referredBy?: string;
   familyOwnerId?: string;
