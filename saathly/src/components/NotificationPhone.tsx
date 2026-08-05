@@ -16,8 +16,7 @@ const notifications = [
     icon: Wallet,
     time: "11:00 AM",
     name: "Nirav",
-    message:
-      "Financial stress normal hai. Aaj ₹50 side me rakh — chhota step, bada future.",
+    message: "Financial stress normal hai. Aaj ₹50 side me rakh — chhota step, bada future.",
     color: "from-emerald-400/30 to-teal-500/15",
   },
   {
@@ -38,12 +37,12 @@ const notifications = [
     icon: Moon,
     time: "9:00 PM",
     name: "Nirav",
-    message: "Aaj ke liye proud ho. Phone band karo, mind ko rest do. Good night ✨",
+    message: "Aaj ke liye proud ho. Phone band karo, mind ko rest do. Good night.",
     color: "from-violet-400/30 to-purple-500/15",
   },
 ];
 
-export function NotificationPhone() {
+export function NotificationPhone({ name = "Nirav" }: { name?: string }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -57,23 +56,23 @@ export function NotificationPhone() {
   const Icon = current.icon;
 
   return (
-    <div className="relative w-[300px] md:w-[340px]">
-      <div className="absolute -inset-6 bg-gold/20 rounded-[3rem] blur-3xl animate-pulse-glow" />
+    <div className="relative w-[280px] md:w-[320px] mx-auto">
+      <div className="absolute -inset-8 bg-gold/25 rounded-[3rem] blur-3xl animate-pulse-glow" />
 
-      <div className="relative bg-white/10 backdrop-blur-xl rounded-[2.5rem] p-3 border-2 border-gold/30 shadow-2xl shadow-gold/20 animate-float">
-        <div className="bg-[#1a1528] rounded-[2rem] overflow-hidden">
+      <div className="relative bg-gradient-to-b from-white/15 to-white/5 backdrop-blur-xl rounded-[2.5rem] p-3 border-2 border-gold/40 shadow-2xl shadow-gold/30 animate-float">
+        <div className="bg-[#0a0a0f] rounded-[2rem] overflow-hidden">
           <div className="px-5 pt-4 pb-3 flex justify-between items-center bg-gold/10 border-b border-gold/20">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-sm font-bold text-gold-light">NaamSaath</span>
+              <span className="text-sm font-bold text-gold-light">RIZN</span>
             </div>
-            <span className="text-[10px] text-gold bg-gold/20 px-2 py-0.5 rounded-full font-bold">LIVE</span>
+            <span className="text-[10px] text-black bg-gold px-2 py-0.5 rounded-full font-bold">LIVE</span>
           </div>
 
-          <div className="px-4 pb-6 min-h-[300px]">
+          <div className="px-4 pb-6 min-h-[320px]">
             <div className="text-center py-4">
               <p className="text-xs text-white/50 uppercase tracking-widest">Aaj ke messages</p>
-              <p className="font-display text-4xl text-gold-light font-bold mt-1">{index + 1} / 6</p>
+              <p className="font-display text-4xl gradient-gold font-bold mt-1">{index + 1} / 6</p>
             </div>
 
             <AnimatePresence mode="wait">
@@ -91,11 +90,11 @@ export function NotificationPhone() {
                   </div>
                   <div>
                     <div className="flex gap-2 mb-1.5">
-                      <span className="text-xs font-bold text-gold-light">NaamSaath</span>
+                      <span className="text-xs font-bold text-gold-light">RIZN</span>
                       <span className="text-[10px] text-white/50">{current.time}</span>
                     </div>
                     <p className="text-sm text-white leading-relaxed">
-                      <span className="text-gold-light font-bold">{current.name}, </span>
+                      <span className="text-gold-light font-bold">{name}, </span>
                       {current.message}
                     </p>
                   </div>
@@ -104,7 +103,7 @@ export function NotificationPhone() {
             </AnimatePresence>
 
             <div className="mt-4 grid grid-cols-3 gap-2">
-              {["💰 Finance", "❤️ Love", "🏃 Health"].map((tag) => (
+              {["💰 Paisa", "❤️ Dil", "🏃 Health"].map((tag) => (
                 <span
                   key={tag}
                   className="text-[10px] text-center py-2 rounded-xl bg-white/5 text-white/70 border border-white/10"

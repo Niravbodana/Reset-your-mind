@@ -1,0 +1,14 @@
+services:
+  rizn:
+    build:
+      context: ./saathly
+      dockerfile: Dockerfile
+    image: rizn:latest
+    container_name: rizn-web
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    restart: unless-stopped

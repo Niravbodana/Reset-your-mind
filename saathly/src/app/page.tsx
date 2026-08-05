@@ -1,5 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
+import { PressTrustBar } from "@/components/PressTrustBar";
 import { TransformationSection } from "@/components/TransformationSection";
 import { HowItWorksSimple } from "@/components/HowItWorksSimple";
 import { DayTimeline } from "@/components/DayTimeline";
@@ -15,6 +16,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Marquee />
+      <PressTrustBar />
       <TransformationSection />
       <HowItWorksSimple />
       <DayTimeline />

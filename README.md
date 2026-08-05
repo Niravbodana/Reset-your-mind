@@ -2,7 +2,11 @@
 
 **Your name. Your nudge. Your rise.**
 
-Black-laser daily motivation system for busy minds — finance, health, love, career.
+Premium personalized daily motivation — finance, health, love, career.
+
+> ⚠️ **Screenshot me "Humsafar" (cream/orange) dikh raha hai?** Purana code hai.  
+> Latest pull karo: `git checkout cursor/saathly-website-9e8a && git pull`  
+> Full steps: [`saathly/UPDATE.md`](./saathly/UPDATE.md)
 
 ## Run
 
