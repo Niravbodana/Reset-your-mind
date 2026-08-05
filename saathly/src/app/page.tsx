@@ -12,6 +12,7 @@ import { FinalCTA } from "@/components/FinalCTA";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { IPhoneNotificationDemo } from "@/components/IPhoneNotificationDemo";
 import { AppComingSoon } from "@/components/AppComingSoon";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 export default function HomePage() {
   return (
@@ -28,11 +29,7 @@ export default function HomePage() {
               iPhone pe aise notifications — naam, value, timing
             </h2>
             <p className="text-ink-soft text-sm md:text-base leading-relaxed mb-6">
-              Real jaisa feel — EMI reminder, subah ka motivation, paisa ka nudge. Customer turant samajh
-              jata hai: ye app meri life me farak laayega.
-            </p>
-            <p className="text-gold-light text-sm font-semibold">
-              ↓ Scroll karo — poora journey dekho
+              EMI reminder, subah ka motivation, paisa ka nudge — sab tumhare naam pe, tumhari timing pe.
             </p>
           </ScrollReveal>
           <ScrollReveal delay={0.12}>
@@ -44,6 +41,7 @@ export default function HomePage() {
       <HowItWorksSimple />
       <DayTimeline />
       <Problems />
+      <AppComingSoon />
       <PricingSection />
       <FaqSection />
       <FinalCTA />
