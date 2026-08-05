@@ -63,9 +63,9 @@ export function Hero() {
         { icon: Zap, text: `${MESSAGE_COUNT}+ messages · Buddy · Wins` },
       ];
 
-  const tagline = isIN
-    ? config.marketing.indiaTagline || "Aapki life change ka reason"
-    : config.marketing.globalTagline || "Your reason for life change";
+  const tagline =
+    (isIN ? config.marketing.indiaTagline : config.marketing.globalTagline) ||
+    "aapki life change hone ka reason";
 
   return (
     <section id="hero" className="relative overflow-x-hidden">

@@ -48,15 +48,16 @@ export function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
-/** Tagline adapts: Worldwide English / India Hinglish */
+const DEFAULT_TAGLINE = "aapki life change hone ka reason";
+
+/** Brand tagline — same everywhere: aapki life change hone ka reason */
 export function BrandLockup({ size = "default" }: { size?: "default" | "sm" }) {
   const sm = size === "sm";
   const config = useSiteConfig();
   const { region } = useLocale();
   const tagline =
-    region === "IN"
-      ? config.marketing.indiaTagline || "Aapki life change ka reason"
-      : config.marketing.globalTagline || "Your reason for life change";
+    (region === "IN" ? config.marketing.indiaTagline : config.marketing.globalTagline) ||
+    DEFAULT_TAGLINE;
 
   return (
     <div className="flex items-center gap-2.5 min-w-0">

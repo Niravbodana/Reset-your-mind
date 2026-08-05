@@ -41,7 +41,7 @@ export function AuthShell({
           <div className="relative z-10 space-y-8 p-10 xl:p-12">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold/90">
-                Aapki life change ka reason
+                aapki life change hone ka reason
               </p>
               <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-white xl:text-4xl">
                 Har din thoda better.

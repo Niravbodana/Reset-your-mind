@@ -114,7 +114,7 @@ export function Footer() {
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted">
           <p>
             © {new Date().getFullYear()} RIZN —{" "}
-            {isIN ? "aapki life change ka reason" : "your reason for life change"}
+            aapki life change hone ka reason
           </p>
           <p>Not a medical or therapy service · Worldwide</p>
         </div>

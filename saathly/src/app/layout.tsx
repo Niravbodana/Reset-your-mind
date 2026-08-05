@@ -29,11 +29,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "RIZN — your reason for life change",
+    default: "RIZN — aapki life change hone ka reason",
     template: "%s | RIZN",
   },
   description:
-    "Daily personalized messages + bill reminders. 7-day free trial, then from ₹99 / $2.99 a month. Available worldwide.",
+    "RIZN — aapki life change hone ka reason. Daily personalized messages + bill reminders. 7-day free trial, then from ₹99 / $2.99 a month. Available worldwide.",
   applicationName: "RIZN",
   appleWebApp: {
     capable: true,
@@ -42,8 +42,9 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.webmanifest",
   openGraph: {
-    title: "RIZN — your reason for life change",
-    description: "Daily motivation + bill reminders worldwide. 7-day free trial. From ₹99 / $2.99.",
+    title: "RIZN — aapki life change hone ka reason",
+    description:
+      "RIZN — aapki life change hone ka reason. Daily motivation + bill reminders worldwide. 7-day free trial. From ₹99 / $2.99.",
     type: "website",
     images: ["/images/animatic-after-hope.jpg"],
   },

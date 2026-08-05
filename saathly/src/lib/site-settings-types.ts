@@ -130,8 +130,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     instagramUrl: "",
     playStoreUrl: "",
     appStoreUrl: "",
-    globalTagline: "Your reason for life change",
-    indiaTagline: "Aapki life change ka reason",
+    globalTagline: "aapki life change hone ka reason",
+    indiaTagline: "aapki life change hone ka reason",
   },
   features: {
     paymentsEnabled: false,

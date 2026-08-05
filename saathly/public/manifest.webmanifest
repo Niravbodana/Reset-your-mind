@@ -1,7 +1,7 @@
 {
-  "name": "RIZN — aapki life change ka reason",
+  "name": "RIZN — aapki life change hone ka reason",
   "short_name": "RIZN",
-  "description": "₹99/month — daily personalized messages + EMI reminder 1 day before.",
+  "description": "RIZN — aapki life change hone ka reason. ₹99/month — daily personalized messages + bill reminder 1 day before.",
   "start_url": "/dashboard",
   "scope": "/",
   "display": "standalone",
