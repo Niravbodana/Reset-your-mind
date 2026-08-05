@@ -195,7 +195,7 @@ function SignupForm() {
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold/15">
                 <Sparkles size={18} className="text-gold" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-semibold text-white">RIZN Personal — ₹99/month</p>
                 <p className="text-xs text-white/55">
                   {config.marketing.trialDays}-day free trial · Cancel anytime
@@ -204,11 +204,7 @@ function SignupForm() {
             </div>
           </div>
 
-          <AuthButton
-            type="button"
-            disabled={!canProceedStep1}
-            onClick={() => setStep(2)}
-          >
+          <AuthButton type="button" disabled={!canProceedStep1} onClick={() => setStep(2)}>
             Continue
             <ArrowRight size={16} />
           </AuthButton>
@@ -225,7 +221,7 @@ function SignupForm() {
                   key={lang.id}
                   type="button"
                   onClick={() => setLanguage(lang.id)}
-                  className={`min-h-[48px] rounded-xl border px-3 py-3 text-left transition-all ${
+                  className={`min-h-[52px] rounded-xl border px-4 py-3 text-left transition-all ${
                     language === lang.id
                       ? "border-gold/50 bg-gold/10 ring-1 ring-gold/30"
                       : "border-white/10 bg-white/[0.03] hover:border-white/20"
@@ -236,7 +232,7 @@ function SignupForm() {
                   >
                     {lang.label}
                   </p>
-                  <p className="mt-0.5 text-[10px] text-white/45">{lang.sub}</p>
+                  <p className="mt-0.5 text-xs text-white/45">{lang.sub}</p>
                 </button>
               ))}
             </div>
@@ -253,7 +249,7 @@ function SignupForm() {
                     key={id}
                     type="button"
                     onClick={() => toggle(id)}
-                    className={`rounded-full px-4 py-2 text-xs font-medium transition-all ${
+                    className={`min-h-[44px] rounded-full px-4 py-2.5 text-sm font-medium transition-all ${
                       active
                         ? "bg-gold text-black shadow-md shadow-gold/20"
                         : "border border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20"
@@ -267,7 +263,7 @@ function SignupForm() {
           </div>
 
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="flex items-baseline justify-between">
+            <div className="flex items-baseline justify-between gap-2">
               <span className="text-sm text-white/70">Monthly plan</span>
               <OfferPrice plan="personal" />
             </div>
@@ -276,15 +272,15 @@ function SignupForm() {
             </p>
           </div>
 
-          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-white/15">
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-white/15 min-h-[56px]">
             <input
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-white/20 bg-transparent accent-gold"
+              className="mt-0.5 h-5 w-5 shrink-0 rounded border-white/20 bg-transparent accent-gold"
               required
             />
-            <span className="text-xs leading-relaxed text-white/65">
+            <span className="text-sm leading-relaxed text-white/65">
               I agree to the{" "}
               <Link href="/privacy" className="text-gold underline-offset-2 hover:underline" target="_blank">
                 Privacy Policy
@@ -334,7 +330,7 @@ export default function SignupPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center">
+        <div className="flex min-h-[100dvh] items-center justify-center">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-gold/30 border-t-gold" />
         </div>
       }

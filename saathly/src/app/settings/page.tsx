@@ -94,7 +94,7 @@ function SettingsContent() {
       <div className="max-w-lg mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <Settings size={22} className="text-gold-light" />
-          <h1 className="font-display text-3xl font-bold">Settings</h1>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-white">Settings</h1>
         </div>
         {welcome && (
           <div className="rounded-xl border border-gold/30 bg-gold/10 p-4 mb-6 text-sm text-ink-soft">
@@ -127,7 +127,7 @@ function SettingsContent() {
                 key={opt.value}
                 type="button"
                 onClick={() => setInterval(opt.value)}
-                className={`rounded-xl border px-3 py-2.5 text-xs font-medium ${
+                className={`rounded-xl border px-3 py-3 text-sm font-medium min-h-[48px] ${
                   interval === opt.value ? "border-gold bg-accent-soft text-white" : "border-white/10 text-muted"
                 }`}
               >
@@ -146,7 +146,7 @@ function SettingsContent() {
                 type="time"
                 value={wakeTime}
                 onChange={(e) => setWakeTime(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm text-white"
+                className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-3 text-base text-white min-h-[48px]"
               />
             </label>
             <label className="block text-xs text-muted">
@@ -155,7 +155,7 @@ function SettingsContent() {
                 type="time"
                 value={sleepTime}
                 onChange={(e) => setSleepTime(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm text-white"
+                className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-3 text-base text-white min-h-[48px]"
               />
             </label>
           </div>
@@ -165,7 +165,7 @@ function SettingsContent() {
           <h2 className="font-semibold text-white text-sm">Daily reminders (optional)</h2>
           <p className="text-xs text-muted mb-2">In times pe extra personalized nudge milega</p>
           {ANCHOR_FIELDS.map((field) => (
-            <div key={field.key} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
+            <div key={field.key} className="flex items-center gap-3 py-3 min-h-[56px] border-b border-white/5 last:border-0">
               <input
                 type="checkbox"
                 checked={enabledAnchors[field.key] ?? false}
@@ -175,18 +175,18 @@ function SettingsContent() {
                     setAnchors((p) => ({ ...p, [field.key]: field.defaultTime }));
                   }
                 }}
-                className="rounded"
+                className="h-5 w-5 rounded accent-gold shrink-0"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white">{field.label}</p>
-                <p className="text-[10px] text-muted">{field.hint}</p>
+                <p className="text-xs text-muted">{field.hint}</p>
               </div>
               <input
                 type="time"
                 disabled={!enabledAnchors[field.key]}
                 value={anchors[field.key] ?? field.defaultTime ?? "12:00"}
                 onChange={(e) => setAnchors((p) => ({ ...p, [field.key]: e.target.value }))}
-                className="rounded-lg border border-white/10 bg-black/40 px-2 py-1.5 text-xs disabled:opacity-40"
+                className="rounded-lg border border-white/10 bg-black/40 px-2 py-2.5 text-base disabled:opacity-40 min-h-[44px]"
               />
             </div>
           ))}
@@ -200,7 +200,7 @@ function SettingsContent() {
                 key={id}
                 type="button"
                 onClick={() => toggleArea(id)}
-                className={`px-3 py-1.5 rounded-full text-xs ${
+                className={`px-4 py-2.5 rounded-full text-sm min-h-[44px] ${
                   areas.includes(id) ? "bg-gold text-black" : "bg-white/5 text-muted"
                 }`}
               >
@@ -218,7 +218,7 @@ function SettingsContent() {
                 key={lang.id}
                 type="button"
                 onClick={() => setLanguage(lang.id)}
-                className={`px-3 py-1.5 rounded-full text-xs ${
+                className={`px-4 py-2.5 rounded-full text-sm min-h-[44px] ${
                   language === lang.id ? "bg-gold text-black" : "bg-white/5 text-muted"
                 }`}
               >
@@ -226,8 +226,13 @@ function SettingsContent() {
               </button>
             ))}
           </div>
-          <label className="flex items-center gap-3 text-sm text-ink-soft cursor-pointer">
-            <input type="checkbox" checked={softMode} onChange={(e) => setSoftMode(e.target.checked)} />
+          <label className="flex items-center gap-3 text-sm text-ink-soft cursor-pointer min-h-[48px]">
+            <input
+              type="checkbox"
+              checked={softMode}
+              onChange={(e) => setSoftMode(e.target.checked)}
+              className="h-5 w-5 accent-gold"
+            />
             Soft mode — gentler messages, max 4 today
           </label>
         </section>
@@ -241,7 +246,11 @@ function SettingsContent() {
           </p>
         </div>
 
-        <button type="button" onClick={save} className="btn-primary w-full py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2">
+        <button
+          type="button"
+          onClick={save}
+          className="btn-primary w-full py-3.5 rounded-xl text-sm font-semibold inline-flex items-center justify-center gap-2 min-h-[52px]"
+        >
           {saved ? (
             <>
               <Check size={16} /> Saved
@@ -251,7 +260,10 @@ function SettingsContent() {
           )}
         </button>
 
-        <Link href="/dashboard" className="block text-center text-sm text-muted mt-6 hover:text-white">
+        <Link
+          href="/dashboard"
+          className="flex items-center justify-center text-center text-sm text-muted mt-6 hover:text-white min-h-[48px]"
+        >
           ← Dashboard
         </Link>
       </div>

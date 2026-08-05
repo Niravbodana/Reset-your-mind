@@ -62,21 +62,22 @@ body {
 }
 
 .safe-area-pt {
-  padding-top: env(safe-area-inset-top, 0);
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
+/* Never collapse to 0 — keep at least 1rem horizontal padding */
 .safe-area-px {
-  padding-left: env(safe-area-inset-left, 0);
-  padding-right: env(safe-area-inset-right, 0);
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
 }
 
 .page-top {
-  padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+  padding-top: calc(5.25rem + env(safe-area-inset-top, 0px));
 }
 
 @media (min-width: 640px) {
   .page-top {
-    padding-top: calc(5.5rem + env(safe-area-inset-top, 0px));
+    padding-top: calc(5.75rem + env(safe-area-inset-top, 0px));
   }
 }
 
@@ -85,15 +86,22 @@ body {
   padding-right: max(1rem, env(safe-area-inset-right, 0px));
 }
 
-/* Pages with sticky mobile CTA bar */
+/* Sticky mobile CTA clearance (includes footer) */
 .has-mobile-cta {
-  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0));
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
 }
 
 @media (min-width: 768px) {
   .has-mobile-cta {
     padding-bottom: 0;
   }
+}
+
+/* Prevent iOS zoom on inputs */
+input,
+select,
+textarea {
+  font-size: 16px;
 }
 
 .font-display {

@@ -7,7 +7,7 @@ import { BrandLockup } from "./Logo";
 import { useApp } from "@/context/AppContext";
 
 const links = [
-  { href: "/#hero", label: "Try it" },
+  { href: "/#hero", label: "Home" },
   { href: "/#emi-reminder", label: "EMI" },
   { href: "/samples", label: "Messages" },
   { href: "/pricing", label: "₹99 Plan" },
@@ -25,16 +25,23 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 safe-area-pt transition-all duration-300 ${
-        scrolled
-          ? "bg-black/70 backdrop-blur-2xl border-b border-white/[0.08] shadow-lg shadow-black/20"
-          : "bg-transparent"
+        scrolled || open
+          ? "bg-black/90 backdrop-blur-2xl border-b border-white/[0.08] shadow-lg shadow-black/20"
+          : "bg-black/40 backdrop-blur-md"
       }`}
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6 safe-area-px">
-        <Link href="/" className="flex items-center">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between py-3 md:px-6 safe-area-px">
+        <Link href="/" className="flex items-center min-w-0" onClick={() => setOpen(false)}>
           <BrandLockup size="sm" />
         </Link>
 
@@ -71,33 +78,54 @@ export function Navbar() {
 
         <button
           type="button"
-          className="md:hidden flex items-center justify-center min-h-11 min-w-11 -mr-2 text-white"
+          className="md:hidden flex items-center justify-center min-h-11 min-w-11 -mr-1 text-white rounded-xl hover:bg-white/5"
           onClick={() => setOpen(!open)}
-          aria-label="Menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
       {open && (
-        <div className="md:hidden border-t border-white/10 bg-black/95 px-4 py-4 flex flex-col gap-1 max-h-[min(70vh,420px)] overflow-y-auto safe-area-px">
+        <div className="md:hidden border-t border-white/10 bg-black/98 px-0 py-2 flex flex-col safe-area-px max-h-[calc(100dvh-4rem)] overflow-y-auto">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="text-ink-soft py-3 min-h-[44px] flex items-center" onClick={() => setOpen(false)}>
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-white/90 py-3.5 min-h-[48px] flex items-center text-[15px] font-medium border-b border-white/5"
+              onClick={() => setOpen(false)}
+            >
               {link.label}
             </Link>
           ))}
           {!state.user && (
-            <Link href="/login" className="text-ink-soft py-3 min-h-[44px] flex items-center" onClick={() => setOpen(false)}>
+            <Link
+              href="/login"
+              className="text-white/90 py-3.5 min-h-[48px] flex items-center text-[15px] font-medium border-b border-white/5"
+              onClick={() => setOpen(false)}
+            >
               Sign in
             </Link>
           )}
-          <Link
-            href={state.user ? "/dashboard" : "/signup"}
-            className="btn-primary text-center py-3 rounded-xl text-sm"
-            onClick={() => setOpen(false)}
-          >
-            {state.user ? "Dashboard" : "Start free"}
-          </Link>
+          {state.user && (
+            <Link
+              href="/settings"
+              className="text-white/90 py-3.5 min-h-[48px] flex items-center text-[15px] font-medium border-b border-white/5"
+              onClick={() => setOpen(false)}
+            >
+              Settings
+            </Link>
+          )}
+          <div className="pt-4 pb-3">
+            <Link
+              href={state.user ? "/dashboard" : "/signup"}
+              className="btn-primary block text-center py-3.5 rounded-xl text-sm font-bold min-h-[48px]"
+              onClick={() => setOpen(false)}
+            >
+              {state.user ? "Dashboard" : "₹99 Join — Start free"}
+            </Link>
+          </div>
         </div>
       )}
     </header>

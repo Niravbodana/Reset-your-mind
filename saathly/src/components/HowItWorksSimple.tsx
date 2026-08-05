@@ -24,7 +24,7 @@ export function HowItWorksSimple() {
         <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-4">
           Teen steps — life change shuru
         </h2>
-        <p className="text-center text-ink-soft mb-12 max-w-lg mx-auto">
+        <p className="text-center text-ink-soft mb-8 sm:mb-12 max-w-lg mx-auto text-sm sm:text-base">
           Simple setup. Roz tumhare naam pe value — habit ban jati hai, plan continue karna easy.
         </p>
         <div className="grid md:grid-cols-3 gap-6">

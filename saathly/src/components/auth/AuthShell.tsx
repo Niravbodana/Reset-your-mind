@@ -22,9 +22,8 @@ export function AuthShell({
   footer?: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto grid min-h-screen max-w-6xl lg:grid-cols-[1fr_1.05fr]">
-        {/* Brand panel — desktop */}
+    <div className="min-h-[100dvh]">
+      <div className="mx-auto grid min-h-[100dvh] max-w-6xl lg:grid-cols-[1fr_1.05fr]">
         <aside className="relative hidden overflow-hidden border-r border-white/10 lg:flex lg:flex-col lg:justify-between">
           <div
             className="absolute inset-0 bg-cover bg-center"
@@ -77,25 +76,32 @@ export function AuthShell({
           </div>
         </aside>
 
-        {/* Form panel */}
-        <main className="flex flex-col justify-center px-4 py-10 safe-area-pt safe-area-px sm:px-10 sm:py-12 lg:px-14 xl:px-16">
+        <div className="flex flex-col justify-start sm:justify-center safe-area-pt safe-area-px py-8 sm:py-12 lg:px-14 xl:px-16 overflow-y-auto">
           <div className="mb-6 sm:mb-8 lg:hidden">
             <Link href="/">
               <BrandLockup size="sm" />
             </Link>
           </div>
 
-          <div className="mx-auto w-full max-w-md">
-            <div className="mb-8">
-              <h1 className="font-display text-2xl font-bold text-white sm:text-3xl">{title}</h1>
-              <p className="mt-2 text-sm leading-relaxed text-white/60">{subtitle}</p>
-            </div>
+          <div className="mx-auto w-full max-w-md pb-8">
+            {(title || subtitle) && (
+              <div className="mb-6 sm:mb-8">
+                {title && (
+                  <h1 className="font-display text-2xl sm:text-3xl font-bold text-white leading-tight">
+                    {title}
+                  </h1>
+                )}
+                {subtitle && (
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{subtitle}</p>
+                )}
+              </div>
+            )}
 
             {children}
 
             {footer && <div className="mt-8 border-t border-white/10 pt-6">{footer}</div>}
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ export function BrandLockup({ size = "default" }: { size?: "default" | "sm" }) {
         <Wordmark className={sm ? "text-[1.15rem]" : "text-[1.45rem]"} />
         <span
           className={`font-medium text-gold-light/95 tracking-wide leading-tight ${
-            sm ? "text-[9px] sm:text-[10px]" : "text-[10px] sm:text-[11px]"
+            sm ? "text-[11px]" : "text-xs"
           }`}
         >
           Aapki life change ka reason

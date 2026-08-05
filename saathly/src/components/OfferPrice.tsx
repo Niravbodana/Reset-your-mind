@@ -68,7 +68,7 @@ export function OfferBanner() {
     >
       <span className="line-through text-muted">₹{was}</span>
       <span className="text-white font-semibold">₹{price}/mo</span>
-      <span className="text-[10px] uppercase tracking-wide text-gold">Limited offer</span>
+      <span className="text-xs uppercase tracking-wide text-gold">Limited offer</span>
     </Link>
   );
 }

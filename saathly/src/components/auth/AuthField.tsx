@@ -27,7 +27,7 @@ export const AuthField = forwardRef<HTMLInputElement, AuthFieldProps>(
           <input
             ref={ref}
             id={fieldId}
-            className={`w-full rounded-xl border bg-white/[0.04] px-4 py-3.5 text-white placeholder:text-white/35 transition-all focus:border-gold/50 focus:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-gold/20 ${
+            className={`w-full rounded-xl border bg-white/[0.04] px-4 py-3.5 text-base text-white placeholder:text-white/35 transition-all focus:border-gold/50 focus:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-gold/20 min-h-[52px] ${
               icon ? "pl-11" : ""
             } ${error ? "border-red-400/50" : "border-white/10"} ${className}`}
             {...props}
@@ -60,7 +60,7 @@ export function AuthButton({
   className?: string;
 }) {
   const base =
-    "relative flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50 min-h-[48px]";
+    "relative flex w-full items-center justify-center gap-2 rounded-xl px-6 py-4 text-[15px] font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50 min-h-[52px]";
   const styles =
     variant === "primary"
       ? "bg-gold text-black hover:bg-gold-light hover:shadow-lg hover:shadow-gold/20"
@@ -101,14 +101,14 @@ export function AuthButton({
 
 export function StepIndicator({ step, total }: { step: number; total: number }) {
   return (
-    <div className="mb-8">
+    <div className="mb-6 sm:mb-8">
       <div className="flex items-center justify-between text-xs font-medium text-white/50">
         <span>
           Step {step} of {total}
         </span>
         <span>{Math.round((step / total) * 100)}%</span>
       </div>
-      <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
         <div
           className="h-full rounded-full bg-gradient-to-r from-gold to-gold-light transition-all duration-500"
           style={{ width: `${(step / total) * 100}%` }}

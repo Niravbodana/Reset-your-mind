@@ -41,14 +41,14 @@ export default function DashboardPage() {
   const doneCount = pulses.filter((p) => p.actionDone).length;
 
   if (!ready || !user) {
-    return <div className="page-top text-center text-muted">Loading…</div>;
+    return <div className="page-top text-center text-muted px-4">Loading…</div>;
   }
 
   const displayName = formatCustomerName(user.name, user.language);
   const greeting = greetForHour(hour, user.language, user.name);
 
   return (
-    <div className="page-top pb-16 min-h-screen">
+    <div className="page-top pb-20 min-h-screen">
       {pulses[0] && (
         <FirstPulseModal
           name={user.name}
@@ -59,8 +59,7 @@ export default function DashboardPage() {
         />
       )}
 
-      {/* Hero banner with photo */}
-      <div className="relative h-48 md:h-56 overflow-hidden border-b border-white/10">
+      <div className="relative min-h-[200px] sm:min-h-[220px] overflow-hidden border-b border-white/10">
         <Image
           src="/images/person-wellness.jpg"
           alt=""
@@ -69,12 +68,14 @@ export default function DashboardPage() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/50 to-black/30" />
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 sm:pb-6 max-w-3xl mx-auto w-full">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/55 to-black/30" />
+        <div className="relative z-10 px-4 pb-5 pt-4 max-w-3xl mx-auto w-full flex flex-col gap-4 min-h-[200px] justify-end">
+          <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
               <p className="text-sm text-gold-light font-medium mb-1">{greeting}</p>
-              <h1 className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-white truncate">{displayName}</h1>
+              <h1 className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-white break-words">
+                {displayName}
+              </h1>
               <p className="text-xs text-ink-soft mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span className="inline-flex items-center gap-1">
                   <Flame size={14} className="text-gold-light" />
@@ -84,8 +85,12 @@ export default function DashboardPage() {
                 <span>{doneCount} actions done aaj</span>
               </p>
             </div>
-            <div className="flex gap-2 shrink-0 self-end sm:self-auto">
-              <Link href="/settings" className="btn-secondary p-2.5 rounded-xl min-h-11 min-w-11 flex items-center justify-center" aria-label="Settings">
+            <div className="flex gap-2 shrink-0">
+              <Link
+                href="/settings"
+                className="btn-secondary min-h-11 min-w-11 flex items-center justify-center rounded-xl"
+                aria-label="Settings"
+              >
                 <Settings size={18} />
               </Link>
               <button
@@ -94,7 +99,7 @@ export default function DashboardPage() {
                   logout();
                   router.push("/");
                 }}
-                className="btn-secondary p-2.5 rounded-xl min-h-11 min-w-11 flex items-center justify-center"
+                className="btn-secondary min-h-11 min-w-11 flex items-center justify-center rounded-xl"
                 aria-label="Sign out"
               >
                 <LogOut size={18} />
@@ -110,7 +115,7 @@ export default function DashboardPage() {
             Aaj ke {pulses.length} messages — har ek tumhare liye alag likha gaya
           </p>
           <p className="text-xs text-ink-soft mt-1">
-            RIZN ki wajah se chhote steps roz — life better feel hoti hai. Yehi tumhari daily habit hai.
+            RIZN ki wajah se chhote steps roz — life better feel hoti hai.
           </p>
         </div>
 
@@ -121,7 +126,7 @@ export default function DashboardPage() {
             { l: "Actions", v: String(doneCount) },
           ].map((s) => (
             <div key={s.l} className="soft-card rounded-xl p-3 text-center">
-              <p className="text-[10px] text-muted uppercase">{s.l}</p>
+              <p className="text-xs text-muted uppercase">{s.l}</p>
               <p className="font-display text-xl font-bold text-white mt-0.5">{s.v}</p>
             </div>
           ))}
@@ -136,7 +141,7 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={refreshPulses}
-            className="text-xs font-medium text-gold-light hover:text-gold shrink-0 self-start sm:self-auto min-h-[44px] sm:min-h-0 flex items-center"
+            className="text-sm font-medium text-gold-light hover:text-gold shrink-0 self-start min-h-[44px] flex items-center"
           >
             Naye messages load karo
           </button>
@@ -144,8 +149,12 @@ export default function DashboardPage() {
 
         {pulses.length === 0 && (
           <div className="soft-card rounded-2xl p-6 mb-6 text-center">
-            <p className="text-sm text-white mb-2">Aaj ke messages abhi load nahi hue</p>
-            <button type="button" onClick={refreshPulses} className="btn-primary px-5 py-2 rounded-xl text-sm">
+            <p className="text-sm text-white mb-3">Aaj ke messages abhi load nahi hue</p>
+            <button
+              type="button"
+              onClick={refreshPulses}
+              className="btn-primary px-5 py-3 rounded-xl text-sm min-h-[48px]"
+            >
               Messages load karo
             </button>
           </div>
@@ -159,22 +168,22 @@ export default function DashboardPage() {
                 m.read ? "border-white/5 opacity-80" : "border-gold/25 shadow-lg shadow-gold/5"
               }`}
             >
-              <div className="bg-[#1a1a22] px-4 py-2 flex items-center gap-2 border-b border-white/5">
-                <div className="w-7 h-7 rounded-full bg-gold flex items-center justify-center text-black text-[10px] font-bold">
+              <div className="bg-[#1a1a22] px-4 py-2.5 flex items-center gap-2 border-b border-white/5">
+                <div className="w-7 h-7 rounded-full bg-gold flex items-center justify-center text-black text-[10px] font-bold shrink-0">
                   R
                 </div>
                 <span className="text-xs font-semibold text-white">RIZN</span>
-                <span className="text-[10px] text-muted ml-auto">{m.timeLabel}</span>
+                <span className="text-xs text-muted ml-auto shrink-0">{m.timeLabel}</span>
               </div>
               <div className="p-4 bg-black/40">
-                <p className="text-[15px] leading-relaxed text-white/95 mb-3">{m.text}</p>
-                <p className="text-xs text-gold-light mb-3">Aaj ka step: {m.microAction}</p>
+                <p className="text-[15px] leading-relaxed text-white/95 mb-3 break-words">{m.text}</p>
+                <p className="text-sm text-gold-light mb-3">Aaj ka step: {m.microAction}</p>
                 <div className="flex flex-wrap gap-2">
                   {!m.read && (
                     <button
                       type="button"
                       onClick={() => markPulse(m.id, { read: true })}
-                      className="btn-secondary px-3 py-1.5 rounded-lg text-xs"
+                      className="btn-secondary px-4 py-3 rounded-xl text-sm min-h-[44px]"
                     >
                       Padh liya
                     </button>
@@ -183,13 +192,13 @@ export default function DashboardPage() {
                     <button
                       type="button"
                       onClick={() => markPulse(m.id, { read: true, actionDone: true })}
-                      className="btn-primary px-3 py-1.5 rounded-lg text-xs inline-flex items-center gap-1"
+                      className="btn-primary px-4 py-3 rounded-xl text-sm inline-flex items-center gap-1 min-h-[44px]"
                     >
                       <Check size={14} /> Ho gaya
                     </button>
                   )}
                   {m.actionDone && (
-                    <span className="text-xs text-success flex items-center gap-1 py-1.5">
+                    <span className="text-sm text-success flex items-center gap-1 py-2">
                       <Check size={14} /> Aaj ka step done — proud!
                     </span>
                   )}
@@ -200,7 +209,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="soft-card rounded-2xl p-5 mb-6">
-          <p className="font-semibold text-sm mb-2 text-white">Aaj mood kaisa hai?</p>
+          <p className="font-semibold text-sm mb-3 text-white">Aaj mood kaisa hai?</p>
           <div className="grid grid-cols-5 gap-2">
             {EMOJIS.map((item) => (
               <button
@@ -214,7 +223,7 @@ export default function DashboardPage() {
                     at: new Date().toISOString(),
                   })
                 }
-                className="text-2xl py-3 rounded-xl bg-white/5 hover:bg-accent-soft transition-colors"
+                className="text-2xl min-h-[48px] rounded-xl bg-white/5 hover:bg-accent-soft transition-colors"
               >
                 {item.e}
               </button>
@@ -225,16 +234,16 @@ export default function DashboardPage() {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2 justify-center text-xs">
-          <Link href="/emi-reminders" className="text-gold-light hover:underline">
+        <div className="flex flex-wrap gap-3 justify-center text-sm pb-4">
+          <Link href="/emi-reminders" className="text-gold-light hover:underline min-h-[44px] flex items-center">
             EMI Reminders
           </Link>
-          <span className="text-muted">·</span>
-          <Link href="/settings" className="text-muted hover:text-white">
+          <span className="text-muted self-center">·</span>
+          <Link href="/settings" className="text-muted hover:text-white min-h-[44px] flex items-center">
             Schedule
           </Link>
-          <span className="text-muted">·</span>
-          <Link href="/billing" className="text-muted hover:text-white">
+          <span className="text-muted self-center">·</span>
+          <Link href="/billing" className="text-muted hover:text-white min-h-[44px] flex items-center">
             Plan
           </Link>
         </div>

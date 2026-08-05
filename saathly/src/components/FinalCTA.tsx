@@ -17,10 +17,10 @@ export function FinalCTA() {
           </p>
           <Link
             href="/signup"
-            className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-12 py-4 sm:py-5 rounded-xl text-base sm:text-lg font-bold shadow-xl shadow-gold/25 w-full sm:w-auto max-w-sm mx-auto"
+            className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-12 py-4 sm:py-5 rounded-xl text-base sm:text-lg font-bold shadow-xl shadow-gold/25 w-full sm:w-auto max-w-sm mx-auto min-h-[52px]"
           >
             Abhi shuru karo — ₹99
-            <ArrowRight size={20} />
+            <ArrowRight size={20} className="shrink-0" />
           </Link>
           <p className="mt-6 text-xs text-muted">No card required · Cancel anytime when billing opens</p>
         </div>

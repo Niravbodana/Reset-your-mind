@@ -71,9 +71,9 @@ export function FaqList({ variant = "section" }: Props) {
     <div className="space-y-3">
       {faqs.map(({ q, a }) => (
         <details key={q} className="soft-card rounded-2xl p-5 group">
-          <summary className="font-semibold cursor-pointer list-none flex justify-between gap-3 text-white">
-            {q}
-            <span className="text-gold-light group-open:rotate-45 transition-transform">+</span>
+          <summary className="font-semibold cursor-pointer list-none flex justify-between items-center gap-3 text-white min-h-[48px] py-1">
+            <span className="text-[15px] leading-snug">{q}</span>
+            <span className="text-gold-light group-open:rotate-45 transition-transform shrink-0 text-xl">+</span>
           </summary>
           <p className="text-sm text-ink-soft mt-3 leading-relaxed">{a}</p>
         </details>

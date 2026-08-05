@@ -58,11 +58,11 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
             </ul>
             <Link
               href="/signup"
-              className="btn-primary block text-center py-4 rounded-xl text-base font-bold"
+              className="btn-primary block text-center py-4 rounded-xl text-base font-bold min-h-[52px]"
             >
               Abhi join karo — ₹99
             </Link>
-            <p className="text-[10px] text-center text-muted mt-3">
+            <p className="text-xs text-center text-muted mt-3">
               No payment today · {config.marketing.trialDays} din trial when billing opens
             </p>
           </div>
