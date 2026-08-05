@@ -6,6 +6,8 @@ import { DEMO_NAME } from "@/lib/constants";
 import { formatCustomerName } from "@/lib/message-format";
 import { DEMO_EMI, formatEmiNotification } from "@/lib/emi-reminder";
 import { MESSAGE_BANK } from "@/lib/message-bank";
+import { useLocale } from "@/context/LocaleContext";
+import type { Language } from "@/lib/types";
 
 type Notif = {
   id: string;
@@ -15,17 +17,30 @@ type Notif = {
   time: string;
 };
 
-function buildNotifications(name: string, seed: number): Notif[] {
-  const n = formatCustomerName(name, "hinglish");
-  const pool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any" || t.area === "finance");
+function pickText(
+  tpl: { hinglish: string; hindi: string; english: string },
+  language: Language
+): string {
+  if (language === "english") return tpl.english || tpl.hinglish;
+  if (language === "hindi") return tpl.hindi || tpl.hinglish;
+  return tpl.hinglish;
+}
+
+function buildNotifications(name: string, seed: number, language: Language): Notif[] {
+  const n = formatCustomerName(name, language);
+  const pool = MESSAGE_BANK.filter(
+    (t) => t.slot === "morning" || t.slot === "any" || t.area === "finance"
+  );
   const pick = (offset: number) => {
     const tpl = pool[(seed + offset) % pool.length];
-    return tpl.hinglish.replaceAll("{name}", n);
+    return pickText(tpl, language).replaceAll("{name}", n);
   };
-  const emi = formatEmiNotification(name, DEMO_EMI, "hinglish");
+  const bill = formatEmiNotification(name, DEMO_EMI, language);
+  const billTitle =
+    language === "english" ? "RIZN · Bill Reminder" : "RIZN · EMI Reminder";
 
   return [
-    { id: "emi", icon: CreditCard, title: "RIZN · EMI Reminder", body: emi, time: "9:41 AM" },
+    { id: "emi", icon: CreditCard, title: billTitle, body: bill, time: "9:41 AM" },
     { id: "morning", icon: Sunrise, title: "RIZN", body: pick(1), time: "7:15 AM" },
     { id: "money", icon: Wallet, title: "RIZN", body: pick(2), time: "11:00 AM" },
     { id: "evening", icon: Bell, title: "RIZN", body: pick(3), time: "9:00 PM" },
@@ -47,15 +62,33 @@ function StatusBar() {
 }
 
 export function IPhoneNotificationDemo({
-  name = DEMO_NAME,
+  name,
   compact = false,
 }: {
   name?: string;
   compact?: boolean;
 }) {
+  const { region, language } = useLocale();
+  const isIN = region === "IN";
+  const demoLang: Language = isIN
+    ? language === "hindi"
+      ? "hindi"
+      : language === "english"
+        ? "english"
+        : "hinglish"
+    : "english";
+  const demoName = name?.trim() || (isIN ? DEMO_NAME : "Alex");
+
   const [seed, setSeed] = useState(0);
-  const notifications = useMemo(() => buildNotifications(name, seed), [name, seed]);
+  const notifications = useMemo(
+    () => buildNotifications(demoName, seed, demoLang),
+    [demoName, seed, demoLang]
+  );
   const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    setIndex(0);
+  }, [demoLang, demoName]);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -92,7 +125,7 @@ export function IPhoneNotificationDemo({
             </div>
 
             <div
-              key={`${name}-${current.id}`}
+              key={`${demoName}-${demoLang}-${current.id}-${index}`}
               className="mx-1 rounded-2xl bg-white/12 backdrop-blur-xl border border-white/15 p-3 shadow-lg"
             >
               <div className="flex gap-2.5">
@@ -119,7 +152,9 @@ export function IPhoneNotificationDemo({
             </div>
 
             <p className="text-center text-[10px] text-muted mt-4 px-2">
-              iPhone pe aise notifications — naam ke saath, EMI 1 din pehle
+              {isIN
+                ? "iPhone pe aise notifications — naam ke saath, EMI 1 din pehle"
+                : "iPhone notifications like this — with your name, bills 1 day early"}
             </p>
           </div>
 

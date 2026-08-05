@@ -103,7 +103,7 @@ export function Hero() {
             <h1 className="font-display text-[1.85rem] sm:text-[2.4rem] md:text-[3rem] lg:text-[3.5rem] font-bold leading-[1.12] tracking-[-0.03em] mb-4 sm:mb-5 text-white mt-3 sm:mt-4">
               {isIN ? (
                 <>
-                  Humse judo —
+                  Humse join karo —
                   <span className="text-gold-light"> life better</span> ho sakti hai.
                 </>
               ) : (
