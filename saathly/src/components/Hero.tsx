@@ -6,28 +6,23 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { DEMO_NAME } from "@/lib/constants";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { MESSAGE_BANK } from "@/lib/message-bank";
+import { formatCustomerName } from "@/lib/message-format";
 import { NotificationPhone } from "./NotificationPhone";
 import { OfferBanner, OfferPrice } from "./OfferPrice";
 
-const templates = [
-  (n: string) =>
-    `${n}, subah ka signal: paani piyo aur 5 min walk — body on, dimaag sharp.`,
-  (n: string) =>
-    `${n}, EMI tension? Panic band. Aaj sirf ₹50 side — chhota step, bada future.`,
-  (n: string) =>
-    `${n}, dil heavy? Normal hai. 5 min saans lo — tu akela nahi hai.`,
-  (n: string) =>
-    `${n}, office overload? Ek kaam finish, baaki kal. Tu machine nahi hai.`,
-  (n: string) =>
-    `${n}, raat ko overthink? Phone side. Kal fresh start.`,
-];
+const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any").slice(0, 12);
 
 export function Hero() {
   const config = useSiteConfig();
   const [name, setName] = useState("");
   const [tick, setTick] = useState(0);
   const displayName = name.trim() || DEMO_NAME;
-  const message = useMemo(() => templates[tick % templates.length](displayName), [displayName, tick]);
+  const message = useMemo(() => {
+    const tpl = heroPool[tick % heroPool.length];
+    const n = formatCustomerName(displayName, "hinglish");
+    return tpl.hinglish.replaceAll("{name}", n);
+  }, [displayName, tick]);
 
   return (
     <section className="relative min-h-[72vh] md:min-h-[88vh] flex items-center overflow-hidden">
@@ -54,12 +49,12 @@ export function Hero() {
               )}
             </div>
             <h1 className="font-display text-[2rem] sm:text-[2.75rem] lg:text-[3.1rem] font-bold leading-[1.15] tracking-[-0.02em] mb-5 text-white">
-              Tumhare naam pe messages —
-              <span className="text-gold-light"> tumhari timing</span> pe.
+              Priya ji, good morning —
+              <span className="text-gold-light"> ab uth jao.</span> Life me aage badhna hai.
             </h1>
             <p className="text-base md:text-[1.05rem] text-ink-soft max-w-lg leading-[1.65] mb-6 font-normal">
-              30 min se 4 hour — khud choose karo kitni der baad nudge chahiye. Wake, lunch, gym,
-              medicine, dinner — sab Settings me. Preview abhi free.
+              Har din tumhare naam pe messages jo actually value dete hain — kabhi repeat nahi, har
+              baar kuch naya. Schedule tum choose karo; hum saath chalenge.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
               <Link

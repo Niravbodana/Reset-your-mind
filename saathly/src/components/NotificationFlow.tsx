@@ -2,32 +2,32 @@ import { Bell, Globe, MessageCircle } from "lucide-react";
 
 const channels = [
   {
-    icon: Globe,
-    title: "Web dashboard",
-    status: "Available now",
+    icon: Bell,
+    title: "Daily alerts",
+    status: "Your habit",
     statusColor: "text-success",
-    desc: "Sign up and read today's messages. Full Settings: interval, wake/sleep, lunch, gym, medicine, and more.",
+    desc: "Har din naam ke saath messages — motivation, health, money, dil. Kabhi wahi repeat nahi.",
   },
   {
-    icon: Bell,
-    title: "Push notifications",
-    status: "With mobile app",
+    icon: Globe,
+    title: "Your schedule",
+    status: "You control",
     statusColor: "text-gold-light",
-    desc: "App launch pe wahi schedule phone pe — tumne jo interval choose kiya Settings me.",
+    desc: "30 min se 4 hour interval — wake, lunch, gym, medicine, dinner. Sab tumhari life ke hisaab se.",
   },
   {
     icon: MessageCircle,
-    title: "WhatsApp (optional)",
-    status: "Planned",
+    title: "Parivaar plan",
+    status: "Family too",
     statusColor: "text-muted",
-    desc: "Parivaar plan users will be able to receive pulses on WhatsApp at their chosen times.",
+    desc: "Ghar walon ke naam pe bhi alerts — Anand ji, Maa ji — sabko apna rasta mile.",
   },
 ];
 
 const steps = [
-  { n: "1", title: "You set your profile", text: "Name, focus areas, language — 1 minute signup." },
-  { n: "2", title: "Open Settings", text: "Pick 30 min–4 hr interval, wake & sleep, optional lunch, gym, yoga, medicine, dinner." },
-  { n: "3", title: "You receive & act", text: "Read on web today; push on phone when the app is live." },
+  { n: "1", title: "Apna profile banao", text: "Naam, focus areas, language — 1 minute." },
+  { n: "2", title: "Schedule set karo", text: "Kitni der baad message, subah-raat ka time, lunch/gym anchors." },
+  { n: "3", title: "Roz value feel karo", text: "Padho, chhota step karo — life better feel hogi, habit ban jayegi." },
 ];
 
 export function NotificationFlow() {
@@ -35,13 +35,13 @@ export function NotificationFlow() {
     <section id="notifications" className="py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="max-w-2xl mb-14">
-          <p className="section-label mb-3">Your schedule</p>
+          <p className="section-label mb-3">How it works</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
-            Not fixed 2 hours — tum decide karo
+            Ek rasta — roz chhote steps, <span className="text-gold-light">badi hope</span>
           </h2>
           <p className="text-ink-soft leading-relaxed">
-            Half hour, 1 hour, 2, 3, ya 4 hour gap — plus optional anchors for lunch, dinner, gym,
-            yoga, medicine. Sab plan ke baad Settings me change kar sakte ho.
+            RIZN sirf notifications nahi bhejta — tumhari life me value add karta hai. Har message alag,
+            har din naya. Tum feel karoge: ye alerts meri wajah se accha ho raha hai.
           </p>
         </div>
 
@@ -64,8 +64,8 @@ export function NotificationFlow() {
 
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
           <div>
-            <p className="section-label mb-3">End-to-end flow</p>
-            <h3 className="font-display text-2xl font-bold text-white mb-6">From signup to daily pulse</h3>
+            <p className="section-label mb-3">Tumhara din</p>
+            <h3 className="font-display text-2xl font-bold text-white mb-6">Signup se roz ki habit tak</h3>
             <div className="space-y-4">
               {steps.map((s) => (
                 <div key={s.n} className="flex gap-4">
@@ -82,7 +82,7 @@ export function NotificationFlow() {
           </div>
 
           <div className="soft-card rounded-2xl p-6 md:p-8">
-            <p className="font-semibold text-white mb-4">Example day (your settings)</p>
+            <p className="font-semibold text-white mb-4">Ek din ka example — tumhare settings ke hisaab se</p>
             <ul className="space-y-3 text-sm">
               {[
                 ["07:00", "Gym anchor (if enabled)"],

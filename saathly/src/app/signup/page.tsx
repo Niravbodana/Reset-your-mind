@@ -83,6 +83,7 @@ function QuickSignup() {
       streak: 1,
       bestStreak: 1,
       lastActiveDate: new Date().toISOString().slice(0, 10),
+      sentHistory: [],
     };
     login(user);
     trackEvent("waitlist_signup", plan);

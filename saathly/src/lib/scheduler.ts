@@ -1,5 +1,5 @@
 import type { Language, LifeArea, Pulse, UserProfile } from "./types";
-import { pickTemplatesForDay, renderTemplate } from "./templates";
+import { renderMessage, pickTemplatesForSlots } from "./templates";
 import { todayKey, uid } from "./storage";
 import {
   type PulseIntervalMinutes,
@@ -29,10 +29,10 @@ export function migrateUserSchedule(user: UserProfile): UserProfile {
     scheduleAnchors: user.scheduleAnchors ?? defaultAnchors(),
     weekendMode: user.weekendMode ?? false,
     dndEnabled: user.dndEnabled ?? false,
+    sentHistory: user.sentHistory ?? [],
   };
 }
 
-/** Build all pulse times (minutes) between wake and sleep. */
 export function buildPulseSchedule(
   wakeTime: TimeString,
   sleepTime: TimeString,
@@ -72,7 +72,10 @@ export function buildPulseSchedule(
   return times;
 }
 
-export function generateDayPulses(user: UserProfile, date = todayKey()): Pulse[] {
+export function generateDayPulses(
+  user: UserProfile,
+  date = todayKey()
+): { pulses: Pulse[]; user: UserProfile } {
   const u = migrateUserSchedule(user);
   const times = buildPulseSchedule(
     u.wakeTime!,
@@ -82,14 +85,36 @@ export function generateDayPulses(user: UserProfile, date = todayKey()): Pulse[]
     u.softMode
   );
 
-  const templates = pickTemplatesForDay(u.areas as LifeArea[], u.softMode);
+  const hours = times.map((t) => Math.floor(parseTimeToMinutes(t) / 60));
+  const areas = (u.areas?.length ? u.areas : ["mind", "health", "finance"]) as LifeArea[];
 
-  return times.map((time, i) => {
-    const tpl = templates[i % templates.length];
-    const rendered = renderTemplate(tpl, u.name, u.language as Language);
-    const hour = Math.floor(parseTimeToMinutes(time) / 60);
+  const { templates, newHistory } = pickTemplatesForSlots(
+    areas,
+    hours,
+    u.sentHistory ?? [],
+    u.softMode
+  );
+
+  const pulses: Pulse[] = times.map((time, i) => {
+    const tpl = templates[i] ?? templates[i % templates.length];
+    const hour = hours[i];
+    if (!tpl) {
+      return {
+        id: uid("pulse"),
+        timeLabel: formatTimeLabel(time),
+        hour,
+        area: "daily",
+        text: `${u.name}, aaj ek chhota step — hum saath hain.`,
+        microAction: "Ek deep breath",
+        read: false,
+        actionDone: false,
+        date,
+      };
+    }
+    const rendered = renderMessage(tpl, u.name, u.language as Language);
     return {
       id: uid("pulse"),
+      templateId: rendered.templateId,
       timeLabel: formatTimeLabel(time),
       hour,
       area: rendered.area,
@@ -100,20 +125,29 @@ export function generateDayPulses(user: UserProfile, date = todayKey()): Pulse[]
       date,
     };
   });
+
+  return {
+    pulses,
+    user: { ...u, sentHistory: newHistory },
+  };
 }
 
-export function ensureTodayPulses(user: UserProfile, existing: Pulse[]): Pulse[] {
+export function ensureTodayPulses(user: UserProfile, existing: Pulse[]): { pulses: Pulse[]; user: UserProfile } {
   const today = todayKey();
   const todays = existing.filter((p) => p.date === today);
-  if (todays.length) return existing;
-  return [...generateDayPulses(user, today), ...existing].slice(0, 120);
+  if (todays.length) return { pulses: existing, user: migrateUserSchedule(user) };
+  const { pulses: newPulses, user: updated } = generateDayPulses(user, today);
+  return { pulses: [...newPulses, ...existing].slice(0, 120), user: updated };
 }
 
-/** Force rebuild today's pulses (after settings change). */
-export function regenerateTodayPulses(user: UserProfile, existing: Pulse[]): Pulse[] {
+export function regenerateTodayPulses(
+  user: UserProfile,
+  existing: Pulse[]
+): { pulses: Pulse[]; user: UserProfile } {
   const today = todayKey();
   const rest = existing.filter((p) => p.date !== today);
-  return [...generateDayPulses(user, today), ...rest].slice(0, 120);
+  const { pulses: newPulses, user: updated } = generateDayPulses(user, today);
+  return { pulses: [...newPulses, ...rest].slice(0, 120), user: updated };
 }
 
 export function updateStreak(user: UserProfile): UserProfile {

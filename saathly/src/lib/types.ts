@@ -1,11 +1,11 @@
 import type { PulseIntervalMinutes, ScheduleAnchors, TimeString } from "./schedule-config";
+import type { SentMessageRecord } from "./message-format";
 
+export type { PulseIntervalMinutes, ScheduleAnchors, TimeString, SentMessageRecord };
 export type LifeArea = "finance" | "career" | "love" | "health" | "mind" | "family";
 export type Language = "hinglish" | "hindi" | "english";
 export type PlanId = "personal" | "parivaar" | "annual" | "work";
 export type SubStatus = "trial" | "active" | "cancelled" | "expired";
-
-export type { PulseIntervalMinutes, ScheduleAnchors, TimeString };
 
 export type UserProfile = {
   id: string;
@@ -23,6 +23,8 @@ export type UserProfile = {
   softMode: boolean;
   weekendMode?: boolean;
   dndEnabled?: boolean;
+  /** Tracks sent message template ids — no repeat until pool cycles */
+  sentHistory?: SentMessageRecord[];
   createdAt: string;
   trialEndsAt: string;
   subStatus: SubStatus;
@@ -36,6 +38,7 @@ export type UserProfile = {
 
 export type Pulse = {
   id: string;
+  templateId?: string;
   timeLabel: string;
   hour: number;
   area: LifeArea | "daily";

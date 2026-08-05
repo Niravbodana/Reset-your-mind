@@ -24,7 +24,12 @@ import {
   track,
   upsertUser,
 } from "@/lib/storage";
-import { ensureTodayPulses, migrateUserSchedule, regenerateTodayPulses, updateStreak } from "@/lib/scheduler";
+import {
+  ensureTodayPulses,
+  migrateUserSchedule,
+  regenerateTodayPulses,
+  updateStreak,
+} from "@/lib/scheduler";
 
 type Ctx = {
   ready: boolean;
@@ -44,6 +49,14 @@ type Ctx = {
 
 const AppCtx = createContext<Ctx | null>(null);
 
+function applyPulseGen(
+  prev: AppState,
+  user: UserProfile,
+  gen: { pulses: Pulse[]; user: UserProfile }
+): AppState {
+  return setPulses(upsertUser(prev, gen.user), gen.pulses);
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [state, setState] = useState<AppState>(emptyState());
@@ -51,10 +64,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let s = loadState();
     if (s.user) {
-      const user = updateStreak(migrateUserSchedule(s.user));
-      const pulses = ensureTodayPulses(user, s.pulses);
-      s = { ...s, user, pulses };
-      saveState(s);
+      const migrated = migrateUserSchedule(s.user);
+      const user = updateStreak(migrated);
+      const gen = ensureTodayPulses(user, s.pulses);
+      s = applyPulseGen(s, user, gen);
     }
     setState(s);
     setReady(true);
@@ -63,17 +76,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const login = useCallback((user: UserProfile) => {
     setSessionLoggedOut(false);
     const migrated = migrateUserSchedule(user);
-    const pulses = ensureTodayPulses(migrated, []);
-    setState(upsertUser({ ...emptyState(), pulses }, migrated));
+    const gen = ensureTodayPulses(migrated, []);
+    setState(applyPulseGen({ ...emptyState(), pulses: [] }, migrated, gen));
   }, []);
 
   const restoreSession = useCallback(() => {
     setSessionLoggedOut(false);
     const parsed = peekState();
     if (!parsed.user) return false;
-    const user = updateStreak(migrateUserSchedule(parsed.user));
-    const pulses = ensureTodayPulses(user, parsed.pulses);
-    const next = { ...parsed, user, pulses };
+    const migrated = migrateUserSchedule(parsed.user);
+    const user = updateStreak(migrated);
+    const gen = ensureTodayPulses(user, parsed.pulses);
+    const next = applyPulseGen(parsed, user, gen);
     saveState(next);
     setState(next);
     return true;
@@ -93,8 +107,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState((prev) => {
       if (!prev.user) return prev;
       const user = migrateUserSchedule(prev.user);
-      const pulses = regenerateTodayPulses(user, prev.pulses);
-      return setPulses({ ...prev, user }, pulses);
+      const gen = regenerateTodayPulses(user, prev.pulses);
+      return applyPulseGen(prev, user, gen);
     });
   }, []);
 
@@ -114,8 +128,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         partial.pulseIntervalMinutes !== undefined ||
         partial.scheduleAnchors !== undefined
       ) {
-        const pulses = regenerateTodayPulses(user, prev.pulses);
-        next = setPulses(next, pulses);
+        const gen = regenerateTodayPulses(user, prev.pulses);
+        next = applyPulseGen(next, user, gen);
       }
       return next;
     });

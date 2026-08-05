@@ -5,7 +5,8 @@ import Link from "next/link";
 import { MESSAGE_SAMPLES, fillSample } from "@/lib/message-samples";
 import { DEMO_NAME } from "@/lib/constants";
 import { AREA_LABELS } from "@/lib/templates";
-import type { LifeArea } from "@/lib/types";
+import { formatCustomerName } from "@/lib/message-format";
+import type { Language, LifeArea } from "@/lib/types";
 
 const langs = ["hinglish", "hindi", "english"] as const;
 
@@ -22,7 +23,7 @@ export default function SamplesPage() {
       <div className="max-w-3xl mx-auto mb-10">
         <h1 className="font-display text-4xl font-bold mb-2">Message samples</h1>
         <p className="text-ink-soft text-sm mb-6">
-          22 real-style pulses — naam ke saath aise messages roz milenge.
+          50+ unique style messages — har din naya, naam ke saath respect (Priya ji, Anand ji).
         </p>
         <div className="flex flex-wrap gap-3 mb-4">
           <input
@@ -70,7 +71,12 @@ export default function SamplesPage() {
           <article key={m.id} className="soft-card rounded-2xl p-5">
             <p className="text-[10px] uppercase tracking-wide text-gold-light mb-2">{m.area}</p>
             <p className="text-[15px] leading-relaxed text-white">
-              {fillSample(m[lang], name.trim() || DEMO_NAME)}
+              {fillSample(
+                m[lang],
+                lang === "english"
+                  ? name.trim() || DEMO_NAME
+                  : formatCustomerName(name.trim() || DEMO_NAME, lang as Language)
+              )}
             </p>
           </article>
         ))}
