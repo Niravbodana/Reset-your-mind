@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Daily Motivation — RIZN",
     description: "Daily messages with your name. Small steps, real hope. Available worldwide.",
   },
-}
+};
 
 export default function DailyMotivationLandingPage() {
   return (
