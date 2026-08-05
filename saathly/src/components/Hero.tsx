@@ -41,7 +41,7 @@ export function Hero() {
       id="hero"
       className="relative overflow-x-hidden md:min-h-[100dvh] md:flex md:items-center"
     >
-      <div className="absolute inset-0 min-h-full">
+      <div className="absolute inset-0 min-h-[480px] md:min-h-full">
         <Image
           src="/images/animatic-after-hope.jpg"
           alt=""
@@ -103,9 +103,8 @@ export function Hero() {
           </div>
 
           {/* Phone demo */}
-          <div className="relative w-full min-w-0" id="feel">
-            <div className="relative scale-[0.92] sm:scale-100 origin-top mx-auto max-w-[min(280px,88vw)] sm:max-w-none">
-              <div className="absolute -inset-4 bg-gold/10 blur-3xl rounded-full opacity-60" />
+          <div className="relative w-full min-w-0 overflow-hidden" id="feel">
+            <div className="relative mx-auto max-w-[min(280px,88vw)] sm:max-w-[300px]">
               <IPhoneNotificationDemo name={displayName} compact />
             </div>
             <div className="mt-4 sm:mt-6 premium-card rounded-2xl p-4 sm:p-5 w-full max-w-sm mx-auto">

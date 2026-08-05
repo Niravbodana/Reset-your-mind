@@ -27,7 +27,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
     <section id="pricing" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {showTitle && (
-          <ScrollReveal immediate className="text-center max-w-2xl mx-auto mb-12">
+          <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
             <p className="section-label mb-3">Pricing</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
               Sirf <span className="text-gold-light">₹99</span> — poora plan
