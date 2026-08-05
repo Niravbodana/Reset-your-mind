@@ -1,13 +1,37 @@
 import type { AppState, UserProfile, Pulse, MoodCheckin, FamilyMember } from "./types";
 
 const KEY = "rizn_app_v1";
+const LOGGED_OUT_KEY = "rizn_logged_out";
 
 export function emptyState(): AppState {
   return { user: null, pulses: [], moods: [], family: [], analytics: { events: [] } };
 }
 
+export function isSessionLoggedOut(): boolean {
+  if (typeof window === "undefined") return false;
+  return sessionStorage.getItem(LOGGED_OUT_KEY) === "1";
+}
+
+export function setSessionLoggedOut(loggedOut: boolean) {
+  if (typeof window === "undefined") return;
+  if (loggedOut) sessionStorage.setItem(LOGGED_OUT_KEY, "1");
+  else sessionStorage.removeItem(LOGGED_OUT_KEY);
+}
+
+export function peekState(): AppState {
+  if (typeof window === "undefined") return emptyState();
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return emptyState();
+    return { ...emptyState(), ...JSON.parse(raw) } as AppState;
+  } catch {
+    return emptyState();
+  }
+}
+
 export function loadState(): AppState {
   if (typeof window === "undefined") return emptyState();
+  if (isSessionLoggedOut()) return emptyState();
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return emptyState();
@@ -65,7 +89,14 @@ export function setFamily(state: AppState, family: FamilyMember[]): AppState {
   return next;
 }
 
-export function clearAll() {
+/** Sign out without deleting preview data — login works again on same device. */
+export function softLogout() {
+  setSessionLoggedOut(true);
+}
+
+/** Wipe all preview data from this browser. */
+export function clearPreviewData() {
   if (typeof window === "undefined") return;
   localStorage.removeItem(KEY);
+  sessionStorage.removeItem(LOGGED_OUT_KEY);
 }

@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/admin-auth";
 import { getEffectiveWhatsApp, readSettings } from "@/lib/site-settings-server";
 
 export async function POST(req: Request) {
-  const body = await req.json().catch(() => ({}));
   const settings = await readSettings();
+  const auth = requireAdmin(req, settings);
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.message }, { status: auth.status });
+  }
+
+  const body = await req.json().catch(() => ({}));
   const wa = getEffectiveWhatsApp(settings);
   const to = String(body.to || "");
   const text = String(body.text || "");
@@ -13,9 +19,11 @@ export async function POST(req: Request) {
       demo: true,
       message: "WhatsApp not configured. Add token + Phone Number ID in Admin → Integrations.",
       setupUrl: settings.integrations.whatsappBusinessUrl,
-      to,
-      text,
     });
+  }
+
+  if (!to || !text) {
+    return NextResponse.json({ error: "to and text required" }, { status: 400 });
   }
 
   try {

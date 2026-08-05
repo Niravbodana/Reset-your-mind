@@ -6,8 +6,11 @@ import { useApp } from "@/context/AppContext";
 import { uid } from "@/lib/storage";
 import type { LifeArea } from "@/lib/types";
 
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+
 export default function FamilyPage() {
   const { state, addFamilyMember, trackEvent } = useApp();
+  const { ready } = useRequireAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -26,6 +29,10 @@ export default function FamilyPage() {
     setEmail("");
     setConsent(false);
   };
+
+  if (!ready) {
+    return <div className="pt-28 text-center text-muted">Loading…</div>;
+  }
 
   return (
     <div className="pt-28 pb-20 px-4">

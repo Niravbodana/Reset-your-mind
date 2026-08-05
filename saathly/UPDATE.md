@@ -1,87 +1,48 @@
-# ⚠️ PURANA HUMSAFAR DIKH RAHA? — YE EXACT STEPS
+# Update / fix local install
 
-## Problem kya hai?
+## Tum already `saathly` folder mein ho?
 
-Tumhare terminal me ye error aa raha tha:
+Terminal me `saathly %` dikhe to **sirf ye chalao** (no `cd saathly`):
+
+```bash
+git fetch origin && git reset --hard origin/cursor/saathly-website-9e8a
+rm -rf node_modules .next && npm install && npm run dev
 ```
-error: Your local changes to the following files would be overwritten by merge:
-  saathly/package.json
+
+## Tum repo root (`Reset-your-mind`) mein ho?
+
+```bash
+git fetch origin && git reset --hard origin/cursor/saathly-website-9e8a
+cd saathly && rm -rf node_modules .next && npm install && npm run dev
 ```
-
-Isliye **git pull fail** ho raha hai aur tum **purane Humsafar** code pe stuck ho.
-
-Confirm: `npm run dev` me `humsafar@0.1.0` dikhe = PURANA.  
-Sahi: `rizn@0.1.0` dikhe = NAYA.
 
 ---
 
-## FIX — copy paste karo (ek block me)
+## Purana Humsafar / git pull fail?
 
-```bash
-cd ~/Projects/dangerai.com/dangerai.com/aaj-kyabanayein/Reset-your-mind
+Local `package.json` changes block pull. `git reset --hard` fixes it.
 
-lsof -ti:3000 | xargs kill -9 2>/dev/null
-docker stop humsafar-web rizn-web 2>/dev/null
-docker rm humsafar-web rizn-web 2>/dev/null
-
-git fetch origin
-git checkout cursor/saathly-website-9e8a
-git reset --hard origin/cursor/saathly-website-9e8a
-
-cd saathly
-rm -rf node_modules .next
-npm install
-npm run dev
-```
-
-Ya root se script:
-```bash
-cd ~/Projects/dangerai.com/dangerai.com/aaj-kyabanayein/Reset-your-mind
-chmod +x fix-and-run.sh
-./fix-and-run.sh
-```
+| Check | Sahi |
+|-------|------|
+| `grep '"name"' package.json` | `"rizn"` |
+| npm output | `rizn@0.1.0 dev` |
+| Theme | Black + gold, RIZN logo |
 
 ---
 
 ## Browser
 
-1. **Incognito / Private window** kholo (purana cache hatane ke liye)
-2. Open: http://localhost:3000
-3. Hard refresh: `Cmd+Shift+R`
-
-Purane tab me recipe app (`/src/App.jsx` 404) dikh raha tha — wo **dusra project ka cache** hai. Incognito use karo.
+1. Incognito window — http://localhost:3000
+2. Hard refresh: `Cmd+Shift+R`
 
 ---
 
-## Sahi version me ye dikhega
-
-| Check | Sahi |
-|-------|------|
-| npm output | `rizn@0.1.0 dev` |
-| Logo | **RIZN** |
-| Theme | Black + gold |
-| Hero | Badi photo |
-| Badge | PREMIUM v2 |
-| Docker image | `rizn:latest` (humsafar NAHI) |
-
-Verify command:
-```bash
-grep '"name"' package.json
-# "name": "rizn"
-```
-
----
-
-## Docker (optional)
-
-Pehle npm se confirm karo. Docker ke liye **repo root** se:
+## Docker (optional, from repo root)
 
 ```bash
-cd ~/Projects/dangerai.com/dangerai.com/aaj-kyabanayein/Reset-your-mind
-git reset --hard origin/cursor/saathly-website-9e8a
-docker compose down
-docker compose build --no-cache
+git fetch origin && git reset --hard origin/cursor/saathly-website-9e8a
+RIZN_ADMIN_PASSWORD=your-secret docker compose build --no-cache
 docker compose up
 ```
 
-Image name `rizn:latest` honi chahiye — `humsafar:latest` = purana code.
+Image: `rizn:latest` (not `humsafar`).

@@ -10,6 +10,7 @@ import type { Language, LifeArea, PlanId } from "@/lib/types";
 import { trialEndDate } from "@/lib/plans";
 import { uid } from "@/lib/storage";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { parivaarMonthlyPrice, personalMonthlyPrice } from "@/lib/pricing";
 
 const areaIds = Object.keys(AREA_LABELS) as LifeArea[];
 
@@ -48,11 +49,16 @@ function QuickSignup() {
     if (name.trim().length < 2 || !email.includes("@") || selected.length < 1 || !consent) return;
     setLoading(true);
 
-    await fetch("/api/waitlist", {
+    const wl = await fetch("/api/waitlist", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: name.trim(), email: email.trim(), plan, areas: selected, language }),
-    }).catch(() => null);
+    });
+    if (!wl.ok) {
+      setLoading(false);
+      alert("Waitlist save failed — check connection and try again.");
+      return;
+    }
 
     const user = {
       id: uid("user"),
@@ -118,14 +124,14 @@ function QuickSignup() {
           onClick={() => setPlan("personal")}
           className={`rounded-xl border p-3 text-left text-sm ${plan === "personal" ? "border-gold bg-accent-soft" : "border-white/10"}`}
         >
-          Personal · ₹{config.marketing.earlyBirdPricePersonal}
+          Personal · ₹{personalMonthlyPrice(config)}
         </button>
         <button
           type="button"
           onClick={() => setPlan("parivaar")}
           className={`rounded-xl border p-3 text-left text-sm ${plan === "parivaar" ? "border-gold bg-accent-soft" : "border-white/10"}`}
         >
-          Parivaar · ₹{config.marketing.earlyBirdPriceParivaar}
+          Parivaar · ₹{parivaarMonthlyPrice(config)}
         </button>
       </div>
       <div>

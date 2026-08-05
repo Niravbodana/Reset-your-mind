@@ -36,7 +36,7 @@ export function ParivaarPlanVisual() {
             </p>
             <p className="text-3xl font-bold text-white mb-1">
               ₹{price}
-              <span className="text-base font-normal text-muted">/month</span>
+              <span className="text-base font-normal text-muted">/month planned</span>
             </p>
             <p className="text-sm text-gold-light mb-6">~₹{perPerson} per person</p>
             <Link href="/signup?plan=parivaar" className="btn-primary inline-flex px-6 py-3 rounded-xl text-sm">

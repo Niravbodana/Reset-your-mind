@@ -11,14 +11,7 @@ export function HeroVideo() {
   if (url) {
     return (
       <div className="relative w-full max-w-md mx-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/15 shadow-2xl">
-        <video
-          src={url}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-        />
+        <video src={url} autoPlay muted loop playsInline className="w-full h-full object-cover" />
       </div>
     );
   }
@@ -35,7 +28,7 @@ export function HeroVideo() {
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <p className="text-white text-sm font-medium px-4 text-center">
-            Hero video: Admin → Marketing → Hero video URL
+            Animated phone preview — app launch pe aisa dikhega
           </p>
         </div>
       </div>

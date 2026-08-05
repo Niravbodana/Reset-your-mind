@@ -6,9 +6,11 @@ import { PLANS } from "@/lib/plans";
 import { RazorpayCheckout } from "@/components/RazorpayCheckout";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { parivaarMonthlyPrice, personalMonthlyPrice } from "@/lib/pricing";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 export default function BillingPage() {
   const { state, activatePaid } = useApp();
+  const { ready } = useRequireAuth();
   const config = useSiteConfig();
   const user = state.user;
   const plan = user
@@ -19,6 +21,10 @@ export default function BillingPage() {
     user?.plan === "parivaar" ? parivaarMonthlyPrice(config) : personalMonthlyPrice(config);
 
   const paymentsLive = config.features.paymentsEnabled && Boolean(config.integrations.razorpayKeyId);
+
+  if (!ready) {
+    return <div className="pt-28 text-center text-muted">Loading…</div>;
+  }
 
   return (
     <div className="pt-28 pb-20 px-4">

@@ -42,3 +42,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# runtime data (waitlist, settings, push subs)
+/data/site-settings.json
+/data/waitlist.json
+/data/push-subscriptions.json
+/data/program-interests.json

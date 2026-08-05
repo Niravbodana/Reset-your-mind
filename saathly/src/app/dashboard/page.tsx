@@ -20,7 +20,7 @@ const EMOJIS = [
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { ready, state, markPulse, checkinMood, patchUser, logout } = useApp();
+  const { ready, state, markPulse, checkinMood, patchUser, logout, clearAllData } = useApp();
   const [copied, setCopied] = useState(false);
   const user = state.user;
 
@@ -35,10 +35,18 @@ export default function DashboardPage() {
   const expectedCount = user?.softMode ? 4 : 6;
 
   const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
+
+  const handleClearData = () => {
     const ok = window.confirm(
-      "Sign out on this device? Your preview data (messages, streak, mood) stored in this browser will be cleared. Waitlist email on our server stays."
+      "Delete all preview data on this device? Streak, messages, mood — sab wipe. Waitlist email on server stays. This cannot be undone."
     );
-    if (ok) logout();
+    if (ok) {
+      clearAllData();
+      router.push("/signup");
+    }
   };
 
   if (!ready || !user) {
@@ -87,9 +95,11 @@ export default function DashboardPage() {
               {user.streak} day streak · best {user.bestStreak} · {user.language}
             </p>
           </div>
-          <button type="button" onClick={handleLogout} className="btn-secondary p-2.5 rounded-xl" aria-label="Sign out">
-            <LogOut size={16} />
-          </button>
+          <div className="flex gap-2">
+            <button type="button" onClick={handleLogout} className="btn-secondary p-2.5 rounded-xl" aria-label="Sign out">
+              <LogOut size={16} />
+            </button>
+          </div>
         </div>
 
         {!trialOk && user.subStatus !== "active" && (
@@ -222,6 +232,14 @@ export default function DashboardPage() {
             </button>
           </div>
         </div>
+
+        <button
+          type="button"
+          onClick={handleClearData}
+          className="text-xs text-muted hover:text-gold-light mt-8 block mx-auto underline"
+        >
+          Delete all preview data on this device
+        </button>
       </div>
     </div>
   );

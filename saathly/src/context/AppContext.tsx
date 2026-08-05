@@ -12,12 +12,15 @@ import {
 import type { AppState, FamilyMember, MoodCheckin, Pulse, UserProfile } from "@/lib/types";
 import {
   addMood,
-  clearAll,
+  clearPreviewData,
   emptyState,
   loadState,
+  peekState,
   saveState,
   setFamily,
   setPulses,
+  setSessionLoggedOut,
+  softLogout,
   track,
   upsertUser,
 } from "@/lib/storage";
@@ -27,7 +30,9 @@ type Ctx = {
   ready: boolean;
   state: AppState;
   login: (user: UserProfile) => void;
+  restoreSession: () => boolean;
   logout: () => void;
+  clearAllData: () => void;
   refreshPulses: () => void;
   patchUser: (partial: Partial<UserProfile>) => void;
   markPulse: (id: string, patch: Partial<Pulse>) => void;
@@ -56,19 +61,40 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback((user: UserProfile) => {
+    setSessionLoggedOut(false);
     const pulses = ensureTodayPulses(user, []);
     setState(upsertUser({ ...emptyState(), pulses }, user));
   }, []);
 
+  const restoreSession = useCallback(() => {
+    setSessionLoggedOut(false);
+    const parsed = peekState();
+    if (!parsed.user) return false;
+    const user = updateStreak(parsed.user);
+    const pulses = ensureTodayPulses(user, parsed.pulses);
+    const next = { ...parsed, user, pulses };
+    saveState(next);
+    setState(next);
+    return true;
+  }, []);
+
   const logout = useCallback(() => {
-    clearAll();
+    softLogout();
+    setState(emptyState());
+  }, []);
+
+  const clearAllData = useCallback(() => {
+    clearPreviewData();
     setState(emptyState());
   }, []);
 
   const refreshPulses = useCallback(() => {
     setState((prev) => {
       if (!prev.user) return prev;
-      const pulses = ensureTodayPulses(prev.user, prev.pulses.filter((p) => p.date !== new Date().toISOString().slice(0, 10)));
+      const pulses = ensureTodayPulses(
+        prev.user,
+        prev.pulses.filter((p) => p.date !== new Date().toISOString().slice(0, 10))
+      );
       return setPulses(prev, pulses);
     });
   }, []);
@@ -131,7 +157,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ready,
       state,
       login,
+      restoreSession,
       logout,
+      clearAllData,
       refreshPulses,
       patchUser,
       markPulse,
@@ -144,7 +172,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ready,
       state,
       login,
+      restoreSession,
       logout,
+      clearAllData,
       refreshPulses,
       patchUser,
       markPulse,

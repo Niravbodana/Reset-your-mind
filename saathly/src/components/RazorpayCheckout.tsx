@@ -33,9 +33,11 @@ function loadRazorpay(): Promise<void> {
 
 export function RazorpayCheckout({ planId, email, name, onSuccess, className, children }: Props) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const pay = async () => {
     setLoading(true);
+    setError("");
     try {
       const res = await fetch("/api/billing/create-subscription", {
         method: "POST",
@@ -45,7 +47,7 @@ export function RazorpayCheckout({ planId, email, name, onSuccess, className, ch
       const data = await res.json();
 
       if (data.demo) {
-        alert(
+        setError(
           data.message ||
             "Billing is not live yet. You stay on the free preview — we will email you when payments open."
         );
@@ -53,7 +55,7 @@ export function RazorpayCheckout({ planId, email, name, onSuccess, className, ch
       }
 
       if (data.error) {
-        alert(data.error);
+        setError(data.error);
         return;
       }
 
@@ -67,21 +69,35 @@ export function RazorpayCheckout({ planId, email, name, onSuccess, className, ch
         order_id: data.orderId,
         prefill: { email, name },
         theme: { color: "#c9a227" },
-        handler: () => {
-          onSuccess?.();
+        handler: async (response: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          const verify = await fetch("/api/billing/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(response),
+          });
+          const result = await verify.json();
+          if (result.ok) onSuccess?.();
+          else setError(result.error || "Payment verification failed");
         },
       });
       rzp.open();
     } catch (e) {
-      alert(String(e));
+      setError(String(e));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <button type="button" onClick={pay} disabled={loading} className={className}>
-      {loading ? "Loading…" : children || "Pay with Razorpay"}
-    </button>
+    <div>
+      <button type="button" onClick={pay} disabled={loading} className={className}>
+        {loading ? "Loading…" : children || "Pay with Razorpay"}
+      </button>
+      {error && <p className="text-xs text-gold-light mt-2">{error}</p>}
+    </div>
   );
 }

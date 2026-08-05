@@ -6,8 +6,8 @@ const steps = [
   },
   {
     n: "02",
-    title: "Set your active hours",
-    desc: "Choose when you want messages — typically 9 AM to 9 PM, every two hours.",
+    title: "Preview your daily flow",
+    desc: "Default 9 AM–9 PM window in preview. Custom wake/sleep hours ship with the mobile app.",
   },
   {
     n: "03",

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { appendWaitlist, readSettings } from "@/lib/site-settings-server";
 import type { WaitlistEntry } from "@/lib/site-settings-types";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const name = String(body.name || "").trim();
@@ -10,7 +12,7 @@ export async function POST(req: Request) {
   const areas = Array.isArray(body.areas) ? body.areas.map(String) : [];
   const language = String(body.language || "hinglish");
 
-  if (!name || name.length < 2 || !email.includes("@")) {
+  if (!name || name.length < 2 || !EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Valid name and email required" }, { status: 400 });
   }
 
@@ -25,9 +27,9 @@ export async function POST(req: Request) {
     createdAt: new Date().toISOString(),
   };
 
-  const list = await appendWaitlist(entry);
+  const { list, isNew } = await appendWaitlist(entry);
 
-  if (settings.features.emailWaitlistEnabled && settings.integrations.resendApiKey) {
+  if (isNew && settings.features.emailWaitlistEnabled && settings.integrations.resendApiKey) {
     try {
       await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -47,5 +49,5 @@ export async function POST(req: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, waitlistCount: list.length, entry });
+  return NextResponse.json({ ok: true, isNew, waitlistCount: list.length, entry });
 }

@@ -1,7 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { Logo, Wordmark } from "./Logo";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 export function Footer() {
+  const config = useSiteConfig();
+  const email = config.marketing.supportEmail || "hello@rizn.app";
+  const crisis = config.marketing.crisisHelpline || "9152987821";
+
   return (
     <footer className="border-t border-white/10 relative z-10 bg-black/60">
       <div className="mx-auto max-w-6xl px-4 py-12 md:px-6">
@@ -22,6 +29,7 @@ export function Footer() {
               <li><Link href="/#notifications" className="hover:text-white">Notifications</Link></li>
               <li><Link href="/#app" className="hover:text-white">Mobile app</Link></li>
               <li><Link href="/pricing" className="hover:text-white">Pricing</Link></li>
+              <li><Link href="/samples" className="hover:text-white">Samples</Link></li>
               <li><Link href="/signup" className="hover:text-white">Early access</Link></li>
             </ul>
           </div>
@@ -37,8 +45,8 @@ export function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Contact</p>
             <ul className="space-y-2 text-sm text-ink-soft">
-              <li><a href="mailto:hello@rizn.app" className="hover:text-white">hello@rizn.app</a></li>
-              <li className="text-xs text-muted">Crisis support: iCall 9152987821</li>
+              <li><a href={`mailto:${email}`} className="hover:text-white">{email}</a></li>
+              <li className="text-xs text-muted">Crisis support: iCall {crisis}</li>
             </ul>
           </div>
         </div>

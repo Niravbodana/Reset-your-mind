@@ -2,17 +2,27 @@ import type { Language, LifeArea, Pulse, UserProfile } from "./types";
 import { pickTemplatesForDay, renderTemplate } from "./templates";
 import { todayKey, uid } from "./storage";
 
-const DEFAULT_HOURS = [9, 11, 13, 15, 17, 21];
-const SOFT_HOURS = [9, 13, 17, 21];
-
 function labelHour(h: number) {
   const ampm = h >= 12 ? "PM" : "AM";
   const hr = h % 12 === 0 ? 12 : h % 12;
   return `${hr}:00 ${ampm}`;
 }
 
+/** Evenly space `count` whole-hour slots between wake and sleep (inclusive). */
+export function scheduleHours(wakeHour: number, sleepHour: number, count: number): number[] {
+  let end = sleepHour;
+  if (end <= wakeHour) end = Math.min(wakeHour + 12, 23);
+  if (count <= 1) return [wakeHour];
+  const span = end - wakeHour;
+  return Array.from({ length: count }, (_, i) => {
+    const h = wakeHour + Math.round((span * i) / (count - 1));
+    return Math.min(Math.max(h, 0), 23);
+  });
+}
+
 export function generateDayPulses(user: UserProfile, date = todayKey()): Pulse[] {
-  const hours = user.softMode ? SOFT_HOURS : DEFAULT_HOURS;
+  const count = user.softMode ? 4 : 6;
+  const hours = scheduleHours(user.wakeHour ?? 9, user.sleepHour ?? 21, count);
   const templates = pickTemplatesForDay(user.areas as LifeArea[], user.softMode);
 
   return hours.map((hour, i) => {

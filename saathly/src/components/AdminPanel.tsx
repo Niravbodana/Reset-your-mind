@@ -290,6 +290,20 @@ export function AdminPanel() {
               />
             </label>
             <label className="block">
+              <span className="text-xs text-muted">Launch Parivaar ₹</span>
+              <input
+                type="number"
+                value={settings.marketing.launchPriceParivaar}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketing: { ...settings.marketing, launchPriceParivaar: Number(e.target.value) },
+                  })
+                }
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"
+              />
+            </label>
+            <label className="block">
               <span className="text-xs text-muted">Trial days</span>
               <input
                 type="number"

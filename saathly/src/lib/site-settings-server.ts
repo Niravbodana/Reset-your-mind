@@ -7,6 +7,13 @@ const DATA_DIR = path.join(process.cwd(), "data");
 const SETTINGS_FILE = path.join(DATA_DIR, "site-settings.json");
 const WAITLIST_FILE = path.join(DATA_DIR, "waitlist.json");
 const PUSH_FILE = path.join(DATA_DIR, "push-subscriptions.json");
+const INTERESTS_FILE = path.join(DATA_DIR, "program-interests.json");
+
+export type ProgramInterest = {
+  email: string;
+  programId: string;
+  at: string;
+};
 
 async function ensureDataDir() {
   await fs.mkdir(DATA_DIR, { recursive: true });
@@ -43,15 +50,15 @@ export async function readWaitlist(): Promise<WaitlistEntry[]> {
   }
 }
 
-export async function appendWaitlist(entry: WaitlistEntry): Promise<WaitlistEntry[]> {
+export async function appendWaitlist(entry: WaitlistEntry): Promise<{ list: WaitlistEntry[]; isNew: boolean }> {
   const list = await readWaitlist();
   if (list.some((e) => e.email.toLowerCase() === entry.email.toLowerCase())) {
-    return list;
+    return { list, isNew: false };
   }
   const next = [entry, ...list];
   await ensureDataDir();
   await fs.writeFile(WAITLIST_FILE, JSON.stringify(next, null, 2), "utf-8");
-  return next;
+  return { list: next, isNew: true };
 }
 
 export async function readPushSubscriptions(): Promise<unknown[]> {
@@ -59,6 +66,25 @@ export async function readPushSubscriptions(): Promise<unknown[]> {
     await ensureDataDir();
     const raw = await fs.readFile(PUSH_FILE, "utf-8");
     return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+export async function appendProgramInterest(email: string, programId: string): Promise<void> {
+  const list = await readProgramInterests();
+  const key = `${email.toLowerCase()}:${programId}`;
+  if (list.some((i) => `${i.email}:${i.programId}` === key)) return;
+  const next = [...list, { email: email.toLowerCase(), programId, at: new Date().toISOString() }];
+  await ensureDataDir();
+  await fs.writeFile(INTERESTS_FILE, JSON.stringify(next, null, 2), "utf-8");
+}
+
+export async function readProgramInterests(): Promise<ProgramInterest[]> {
+  try {
+    await ensureDataDir();
+    const raw = await fs.readFile(INTERESTS_FILE, "utf-8");
+    return JSON.parse(raw) as ProgramInterest[];
   } catch {
     return [];
   }
