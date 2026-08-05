@@ -153,8 +153,8 @@ export function IPhoneNotificationDemo({
 
             <p className="text-center text-[10px] text-muted mt-4 px-2">
               {isIN
-                ? "iPhone pe aise notifications — naam ke saath, EMI 1 din pehle"
-                : "iPhone notifications like this — with your name, bills 1 day early"}
+                ? "Demo preview — aise notifications, naam ke saath, bill 1 din pehle"
+                : "Demo preview — notifications like this, with your name, bills 1 day early"}
             </p>
           </div>
 

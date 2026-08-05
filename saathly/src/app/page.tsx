@@ -11,7 +11,6 @@ import { PricingSection } from "@/components/PricingSection";
 import { FaqSection } from "@/components/FaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
-import { WhatsAppCTA } from "@/components/WhatsAppCTA";
 import { NoSpamPromise } from "@/components/NoSpamPromise";
 
 export default function HomePage() {
@@ -19,8 +18,7 @@ export default function HomePage() {
     <>
       <Hero />
       <section className="py-8 px-4 border-b border-white/5">
-        <div className="mx-auto max-w-xl flex flex-col gap-3">
-          <WhatsAppCTA variant="bar" />
+        <div className="mx-auto max-w-xl">
           <NoSpamPromise />
         </div>
       </section>

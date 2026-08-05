@@ -26,10 +26,12 @@ export function SocialProof() {
     <section className="border-y border-white/5 bg-bg-elevated/50 py-8 sm:py-10 overflow-hidden">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <p className="section-label mb-2 text-center">
-          {region === "IN" ? "Logon ki life better ho rahi hai" : "People worldwide are leveling up"}
+          {region === "IN" ? "Demo examples — aisa feel" : "Demo examples — the vibe"}
         </p>
         <p className="text-center text-xs text-muted mb-4">
-          India · UAE · UK · US · Singapore — and growing
+          {region === "IN"
+            ? "Illustrative only · real reviews baad me"
+            : "Illustrative only · not real customer reviews yet"}
         </p>
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory -mx-1 px-1">
           {stories.map((s) => (

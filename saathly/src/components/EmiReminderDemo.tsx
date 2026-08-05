@@ -22,13 +22,13 @@ export function EmiReminderDemo() {
         { icon: User, label: "Naam", value: "Rahul" },
         { icon: CreditCard, label: "Amount", value: "₹12,500" },
         { icon: Calendar, label: "EMI date", value: "5 har mahine" },
-        { icon: Building2, label: "Bank / NBFC", value: "HDFC Bank" },
+        { icon: Building2, label: "Bank / NBFC", value: "Sample Bank (demo)" },
       ]
     : [
         { icon: User, label: "Name", value: "Alex" },
         { icon: CreditCard, label: "Amount", value: "$450" },
         { icon: Calendar, label: "Due date", value: "5th each month" },
-        { icon: Building2, label: "Provider", value: "Chase" },
+        { icon: Building2, label: "Provider", value: "Sample Bank (demo)" },
       ];
 
   // Advance steps only — notification stays mounted (avoids page jump)
@@ -52,8 +52,8 @@ export function EmiReminderDemo() {
         <ScrollReveal className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
           <p className="section-label mb-3">
             {isIN
-              ? `EMI / Bill Reminder — included in ${priceLabel} plan`
-              : `Bill Reminders — included in ${priceLabel} plan`}
+              ? `EMI / Bill Reminder (Demo) — ${priceLabel} plan`
+              : `Bill Reminders (Demo) — ${priceLabel} plan`}
           </p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
             {isIN ? (
@@ -63,7 +63,7 @@ export function EmiReminderDemo() {
               </>
             ) : (
               <>
-                Never miss a bill.{" "}
+                Bill due soon?{" "}
                 <span className="text-gold-light">One day early, caring alert.</span>
               </>
             )}

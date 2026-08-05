@@ -10,6 +10,7 @@ import { useLocale } from "@/context/LocaleContext";
 import { formatPersonalPrice } from "@/lib/pricing";
 import { LanguageSelect } from "./LanguageSelect";
 import { RegionSwitch } from "./RegionSwitch";
+import { DemoModeBanner } from "./DemoModeBanner";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -51,6 +52,7 @@ export function Navbar() {
           : "bg-black/40 backdrop-blur-md"
       }`}
     >
+      <DemoModeBanner />
       <nav className="mx-auto flex max-w-6xl items-center justify-between py-3 md:px-6 safe-area-px">
         <Link href="/" className="flex items-center min-w-0" onClick={() => setOpen(false)}>
           <BrandLockup size="sm" />

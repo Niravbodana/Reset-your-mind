@@ -157,23 +157,36 @@ export default function BillingPage() {
               }}
               className="btn-primary mt-6 w-full py-3.5 rounded-xl text-sm font-bold min-h-[52px]"
             >
-              {isIN
-                ? `Start ${trialDays}-day free trial — Autopay set karo`
-                : `Start ${trialDays}-day free trial — set autopay`}
+              {paymentsLive
+                ? isIN
+                  ? `Start ${trialDays}-day free trial — Autopay set karo`
+                  : `Start ${trialDays}-day free trial — set autopay`
+                : preferEnglish
+                  ? `Start ${trialDays}-day free trial (Demo)`
+                  : `${trialDays}-day free trial shuru (Demo)`}
             </RazorpayCheckout>
           ) : user?.autopayEnabled ? (
-            <div className="mt-6 rounded-xl border border-success/30 bg-success/10 p-4 text-sm text-ink-soft">
-              <p className="font-semibold text-success mb-1 flex items-center gap-2">
-                <Shield size={16} /> Autopay ready
+            <div className="mt-6 rounded-xl border border-gold/30 bg-gold/10 p-4 text-sm text-ink-soft">
+              <p className="font-semibold text-gold-light mb-1 flex items-center gap-2">
+                <Shield size={16} />{" "}
+                {user.razorpaySubscriptionId
+                  ? "Autopay ready"
+                  : preferEnglish
+                    ? "Demo autopay preview"
+                    : "Demo autopay preview"}
               </p>
               <p className="text-xs leading-relaxed">
-                {trialLive
-                  ? isIN
-                    ? `${trialEndLabel} ke baad ${formatMoney(user.autopayAmount || displayPrice, currency)} auto-cut hoga. Usse pehle ${zeroLabel}.`
-                    : `After ${trialEndLabel}, ${formatMoney(user.autopayAmount || displayPrice, currency)} autopay starts. Until then ${zeroLabel}.`
-                  : isIN
-                    ? `Monthly ${formatMoney(user.autopayAmount || displayPrice, currency)} autopay active hai.`
-                    : `${formatMoney(user.autopayAmount || displayPrice, currency)}/month autopay is active.`}
+                {!user.razorpaySubscriptionId
+                  ? preferEnglish
+                    ? `No real payment collected. Demo trial until ${trialEndLabel || "trial end"}. Live when Admin adds payment links.`
+                    : `Real payment nahi hua. Demo trial ${trialEndLabel || "trial end"} tak. Admin payment links add kare tab live.`
+                  : trialLive
+                    ? isIN
+                      ? `${trialEndLabel} ke baad ${formatMoney(user.autopayAmount || displayPrice, currency)} auto-cut hoga. Usse pehle ${zeroLabel}.`
+                      : `After ${trialEndLabel}, ${formatMoney(user.autopayAmount || displayPrice, currency)} autopay starts. Until then ${zeroLabel}.`
+                    : isIN
+                      ? `Monthly ${formatMoney(user.autopayAmount || displayPrice, currency)} autopay active hai.`
+                      : `${formatMoney(user.autopayAmount || displayPrice, currency)}/month autopay is active.`}
               </p>
             </div>
           ) : (

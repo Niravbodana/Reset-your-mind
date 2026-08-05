@@ -68,10 +68,13 @@ export function AuthShell({
             </ul>
 
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-gold/80">
+                Demo example
+              </p>
               <p className="text-sm italic text-white/70">
                 &ldquo;Pehle sirf tension thi. Ab roz ek message aata hai — lagta hai koi saath hai.&rdquo;
               </p>
-              <p className="mt-2 text-xs font-medium text-gold">— Priya ji, Mumbai</p>
+              <p className="mt-2 text-xs font-medium text-gold/80">— Sample story (not a real review)</p>
             </div>
           </div>
         </aside>

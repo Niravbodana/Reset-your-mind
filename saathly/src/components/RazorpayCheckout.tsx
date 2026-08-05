@@ -74,8 +74,8 @@ export function RazorpayCheckout({
         setInfo(
           data.message ||
             (region === "GLOBAL"
-              ? "Demo: free trial started. Live worldwide checkout coming with card autopay."
-              : "Demo: 7-day free trial start. Live pe UPI/card se autopay mandate set hoga.")
+              ? "Demo only — no real payment. Live checkout when Admin adds payment links."
+              : "Demo only — real payment nahi. Admin me payment links add hone pe live.")
         );
         onSuccess?.({
           demo: true,

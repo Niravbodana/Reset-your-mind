@@ -55,7 +55,7 @@ export function GoogleSignInButton({
   className?: string;
 }) {
   const config = useSiteConfig();
-  const { t } = useLocale();
+  const { t, preferEnglish } = useLocale();
   const clientId = config.integrations.googleClientId || "";
   const enabled = config.features.googleAuthEnabled && Boolean(clientId);
   const [ready, setReady] = useState(false);
@@ -95,8 +95,12 @@ export function GoogleSignInButton({
 
   const demoGoogle = () => {
     haptic("medium");
-    // Demo pipeline when admin hasn't set Google Client ID yet
-    const email = window.prompt("Demo Google — enter your Gmail:", "you@gmail.com");
+    const email = window.prompt(
+      preferEnglish
+        ? "Demo login — enter any email (not real Google):"
+        : "Demo login — koi bhi email likho (real Google nahi):",
+      "you@email.com"
+    );
     if (!email || !email.includes("@")) return;
     const name = email.split("@")[0].replace(/[._]/g, " ");
     onSuccess({
@@ -112,14 +116,17 @@ export function GoogleSignInButton({
         <button
           type="button"
           onClick={demoGoogle}
-          className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/15 bg-white px-4 py-3.5 text-sm font-bold text-black min-h-[52px] hover:bg-white/95"
+          className="flex w-full items-center justify-center gap-3 rounded-xl border border-dashed border-gold/40 bg-white/[0.06] px-4 py-3.5 text-sm font-bold text-white min-h-[52px] hover:bg-white/[0.1]"
         >
-          <GoogleIcon />
-          {t("signup.google")}
+          <span className="rounded-md bg-gold/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gold-light">
+            Demo
+          </span>
+          {preferEnglish ? "Continue with email (Demo)" : "Email se continue (Demo)"}
         </button>
         <p className="mt-2 text-[11px] text-center text-white/45">
-          {t("signup.googleHint")}{" "}
-          <span className="text-gold-light">(Admin: add Google Client ID to go live)</span>
+          {preferEnglish
+            ? "Preview signup — not real Google login. Admin can enable live Google later."
+            : "Preview signup — real Google nahi. Admin baad me live Google on kar sakte hain."}
         </p>
         {error && <p className="mt-1 text-xs text-rose-300 text-center">{error}</p>}
       </div>

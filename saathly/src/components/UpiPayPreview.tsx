@@ -45,12 +45,12 @@ export function UpiPayPreview({
       <div className="flex items-center justify-between gap-3 mb-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-gold-light">
-            Autopay setup
+            Autopay setup · Demo
           </p>
           <p className="text-sm text-white/70 mt-1">
             {isIN
-              ? `${trialDays} din free → phir ${priceLabel}/month auto`
-              : `${trialDays} days free → then ${priceLabel}/month`}
+              ? `${trialDays} din free → phir ${priceLabel}/month (preview)`
+              : `${trialDays} days free → then ${priceLabel}/month (preview)`}
           </p>
         </div>
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 text-gold">
@@ -65,8 +65,8 @@ export function UpiPayPreview({
         </div>
         <p className="text-xs text-muted mt-1">
           {isIN
-            ? "/month · UPI Autopay · Cards · Netbanking"
-            : "/month · Cards · Apple Pay / Google Pay · Worldwide"}
+            ? "/month · UPI / Cards (when live) · Demo preview"
+            : "/month · Cards / wallets (when live) · Demo preview"}
         </p>
       </div>
 
@@ -81,12 +81,12 @@ export function UpiPayPreview({
 
       <div className="rounded-xl border border-dashed border-gold/30 bg-gold/5 px-4 py-3 text-center">
         <p className="text-sm font-semibold text-gold-light">
-          Start free trial — {trialDays} days
+          Demo trial preview — {trialDays} days
         </p>
         <p className="text-xs text-white/45 mt-1">
           {isIN
-            ? "Razorpay secure · Autopay after trial · No surprise charges during trial"
-            : "Secure checkout · Autopay after trial · No charge during trial"}
+            ? "Abhi real payment nahi · Admin me payment link add hone pe live"
+            : "No real payment yet · Goes live when Admin adds payment links"}
         </p>
       </div>
     </div>

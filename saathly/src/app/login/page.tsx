@@ -114,8 +114,8 @@ export default function LoginPage() {
             <Shield size={18} className="mt-0.5 shrink-0 text-gold/80" />
             <p className="text-xs leading-relaxed text-white/55">
               {preferEnglish
-                ? "Gmail sign-in is managed from Admin → Google Client ID. No mobile OTP."
-                : "Gmail sign-in Admin se operate hota hai. Mobile OTP nahi."}
+                ? "Demo mode: email preview on this device. Live Google later from Admin. No mobile OTP."
+                : "Demo mode: is device pe email preview. Live Google baad me Admin se. Mobile OTP nahi."}
             </p>
           </div>
 

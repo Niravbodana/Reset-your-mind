@@ -78,7 +78,9 @@ export function HopeTransformation() {
 
       <div className="mx-auto max-w-7xl px-4 md:px-6 relative">
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
-          <p className="section-label mb-3">{isIN ? "Pehle vs Ab" : "Before vs After"}</p>
+          <p className="section-label mb-3">
+            {isIN ? "Demo — Pehle vs Ab" : "Demo — Before vs After"}
+          </p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
             {isIN ? (
               <>

@@ -23,7 +23,7 @@ export const DEMO_EMI: EmiReminder = {
   label: "Home Loan",
   amount: 12500,
   dueDay: 5,
-  bankName: "HDFC Bank",
+  bankName: "Sample Bank",
   enabled: true,
 };
 

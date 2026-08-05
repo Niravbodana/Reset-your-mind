@@ -10,7 +10,6 @@ import { formatMoney } from "@/lib/locale";
 import { OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
 import { UpiPayPreview } from "./UpiPayPreview";
-import { WhatsAppCTA } from "./WhatsAppCTA";
 import { NoSpamPromise } from "./NoSpamPromise";
 import { RegionSwitch } from "./RegionSwitch";
 
@@ -117,9 +116,6 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
                 ? `Autopay detail — ${trialDays} din baad ${priceLabel}/mo`
                 : `See autopay — ${priceLabel}/mo after trial`}
             </Link>
-            <div className="mt-3">
-              <WhatsAppCTA variant="bar" />
-            </div>
             <p className="text-xs text-center text-muted mt-3">
               {isIN
                 ? `Aaj ${formatMoney(0, currency)} · ${trialDays} din free · Phir ${priceLabel}/month automatic`
