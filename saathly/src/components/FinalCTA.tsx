@@ -1,28 +1,28 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export function FinalCTA() {
   return (
-    <section className="py-20 md:py-24">
-      <div className="mx-auto max-w-3xl px-4 md:px-6 text-center">
-        <div className="soft-card rounded-2xl p-10 md:p-14 border border-gold/25">
-          <p className="text-xs font-semibold uppercase tracking-wider text-gold-light mb-3">
-            RIZN — aapki life change ka reason
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
-            ₹99 me shuru karo — aaj hi
+    <section className="py-24 md:py-32 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-gold/[0.06] via-transparent to-transparent pointer-events-none" />
+      <div className="mx-auto max-w-4xl px-4 md:px-6 text-center relative">
+        <div className="premium-card shimmer-border rounded-3xl p-12 md:p-16">
+          <Sparkles className="w-8 h-8 text-gold-light mx-auto mb-4" />
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-white leading-tight mb-5">
+            Aaj hi judo — kal se life <span className="text-gold-light">better.</span>
           </h2>
-          <p className="text-ink-soft mb-8 max-w-md mx-auto">
-            Daily messages + EMI 1 din pehle alert. Hope wapas lao, habit banao, life control me lao.
+          <p className="text-ink-soft text-base md:text-lg mb-10 max-w-lg mx-auto leading-relaxed">
+            ₹99 me roz tumhare naam pe value. EMI alert, daily motivation, habit — sab ek jagah.
+            Tum deserve karte ho ye change.
           </p>
           <Link
             href="/signup"
-            className="btn-primary inline-flex items-center gap-2 px-10 py-4 rounded-xl text-base font-bold"
+            className="btn-primary inline-flex items-center gap-2 px-12 py-5 rounded-xl text-lg font-bold shadow-xl shadow-gold/25"
           >
-            Abhi join karo — ₹99
-            <ArrowRight size={18} />
+            Abhi shuru karo — ₹99
+            <ArrowRight size={20} />
           </Link>
-          <p className="mt-5 text-xs text-muted">No card required · Crisis support: iCall 9152987821</p>
+          <p className="mt-6 text-xs text-muted">No card required · Cancel anytime when billing opens</p>
         </div>
       </div>
     </section>

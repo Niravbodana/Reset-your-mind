@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Heart, Shield, Zap } from "lucide-react";
 import { DEMO_NAME } from "@/lib/constants";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { MESSAGE_BANK } from "@/lib/message-bank";
@@ -13,6 +13,12 @@ import { OfferBanner, OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
 
 const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any").slice(0, 12);
+
+const TRUST = [
+  { icon: Heart, text: "Naam ke saath daily care" },
+  { icon: Shield, text: "EMI 1 din pehle alert" },
+  { icon: Zap, text: "50+ unique messages" },
+];
 
 export function Hero() {
   const config = useSiteConfig();
@@ -26,80 +32,91 @@ export function Hero() {
   }, [displayName, tick]);
 
   return (
-    <section className="relative min-h-[90vh] md:min-h-[95vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[92vh] md:min-h-[96vh] flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="/images/transform-premium.jpg"
-          alt="RIZN — life change"
+          src="/images/animatic-after-hope.jpg"
+          alt=""
           fill
           priority
-          className="object-cover object-center scale-105"
+          className="object-cover object-center scale-105 hero-kenburns"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/92 via-black/85 to-black/72" />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg/95 via-transparent to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/80 to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-black/50" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 md:px-6 pt-28 pb-24 w-full">
+      <div className="relative mx-auto max-w-7xl px-4 md:px-6 pt-28 pb-20 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <ScrollReveal>
-            <div className="flex flex-wrap items-center gap-3 mb-5">
-              <OfferBanner />
-              {config.waitlistCount > 0 && (
-                <span className="text-xs text-ink-soft">{config.waitlistCount}+ members joined</span>
-              )}
-            </div>
-            <h1 className="font-display text-[2.1rem] sm:text-[2.85rem] lg:text-[3.25rem] font-bold leading-[1.12] tracking-[-0.03em] mb-5 text-white">
-              Tumhari life
-              <span className="text-gold-light"> better banane</span> ka ek rasta.
+            <OfferBanner />
+            {config.waitlistCount > 0 && (
+              <p className="text-xs text-gold-light/80 mt-3 mb-1">
+                {config.waitlistCount}+ logon ne apni life better banani shuru ki
+              </p>
+            )}
+            <h1 className="font-display text-[2.2rem] sm:text-[3rem] lg:text-[3.5rem] font-bold leading-[1.08] tracking-[-0.03em] mb-5 text-white mt-4">
+              Humse judo —
+              <span className="text-gold-light"> life better</span> ho sakti hai.
             </h1>
-            <p className="text-base md:text-lg text-ink-soft max-w-lg leading-[1.7] mb-6">
-              Roz naam pe messages + EMI 1 din pehle alert. ₹99 me poora plan — hope, habit, control.
+            <p className="text-base md:text-xl text-ink-soft max-w-lg leading-[1.65] mb-8">
+              Roz tumhare naam pe messages. EMI 1 din pehle. ₹99 me poora plan — hope, habit, control
+              wapas.
             </p>
+
+            <div className="flex flex-wrap gap-4 mb-8">
+              {TRUST.map((t) => (
+                <div key={t.text} className="flex items-center gap-2 text-xs text-ink-soft">
+                  <t.icon size={14} className="text-gold-light shrink-0" />
+                  {t.text}
+                </div>
+              ))}
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
               <Link
                 href="/signup"
-                className="btn-primary inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-gold/25"
+                className="btn-primary inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-gold/30"
               >
-                ₹99 plan join karo — abhi
+                ₹99 plan — abhi shuru karo
                 <ArrowRight size={18} />
               </Link>
               <Link
-                href="/#emi-reminder"
+                href="/#transform"
                 className="btn-secondary inline-flex items-center justify-center px-7 py-4 rounded-xl text-[15px] font-medium"
               >
-                EMI reminder dekho
+                Pehle vs Ab dekho
               </Link>
             </div>
             <OfferPrice plan="personal" size="sm" className="text-sm" />
-            <p className="text-xs text-muted mt-2">
-              Limited offer · {config.marketing.trialDays} din trial · No card now
-            </p>
           </ScrollReveal>
 
           <div className="relative" id="feel">
-            <ScrollReveal delay={0.15}>
-              <IPhoneNotificationDemo name={displayName} />
-              <div className="mt-6 soft-card rounded-2xl p-4 md:p-5 max-w-sm mx-auto">
-              <p className="text-sm font-medium text-white mb-2">Apna naam likho — feel karo</p>
-              <div className="flex gap-2 mb-3">
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Priya, Anand, Rahul..."
-                  maxLength={20}
-                  className="flex-1 rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-sm text-white placeholder:text-muted focus:outline-none focus:border-gold/60"
-                />
-                <button
-                  type="button"
-                  onClick={() => setTick((t) => t + 1)}
-                  className="btn-secondary rounded-xl px-4 text-sm font-medium"
-                >
-                  Agla
-                </button>
+            <ScrollReveal delay={0.12}>
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gold/10 blur-3xl rounded-full opacity-60" />
+                <IPhoneNotificationDemo name={displayName} />
               </div>
-              <p className="text-[14px] leading-relaxed text-white/95">{message}</p>
+              <div className="mt-6 premium-card rounded-2xl p-5 max-w-sm mx-auto">
+                <p className="text-sm font-medium text-white mb-2">Apna naam likho — message feel karo</p>
+                <div className="flex gap-2 mb-3">
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Priya, Rahul, Amit..."
+                    maxLength={20}
+                    className="flex-1 rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-sm text-white placeholder:text-muted focus:outline-none focus:border-gold/60"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setTick((t) => t + 1)}
+                    className="btn-secondary rounded-xl px-4 text-sm font-medium"
+                  >
+                    Agla
+                  </button>
+                </div>
+                <p className="text-[14px] leading-relaxed text-white/95">{message}</p>
               </div>
             </ScrollReveal>
           </div>

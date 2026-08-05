@@ -238,6 +238,15 @@ h1, h2, h3 {
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
+@keyframes kenburns {
+  0% { transform: scale(1.05) translate(0, 0); }
+  100% { transform: scale(1.12) translate(-1%, -1%); }
+}
+
+.hero-kenburns {
+  animation: kenburns 20s ease-in-out infinite alternate;
+}
+
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom, 0);
 }

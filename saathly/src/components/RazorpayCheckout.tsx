@@ -49,7 +49,7 @@ export function RazorpayCheckout({ planId, email, name, onSuccess, className, ch
       if (data.demo) {
         setError(
           data.message ||
-            "Billing is not live yet. You stay on the free preview — we will email you when payments open."
+            "Billing opens soon — we'll email you before any charge."
         );
         return;
       }

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Building2, Calendar, IndianRupee, User } from "lucide-react";
@@ -59,7 +60,7 @@ export function EmiReminderDemo() {
 
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <ScrollReveal delay={0.1}>
-            <div className="soft-card rounded-2xl p-6 border border-gold/20">
+            <div className="premium-card rounded-2xl p-6 border border-gold/20">
               <p className="text-xs font-semibold uppercase tracking-wider text-gold-light mb-4">
                 Easy setup — 4 fields
               </p>
@@ -96,7 +97,36 @@ export function EmiReminderDemo() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <div className="relative max-w-sm mx-auto">
+            <div className="relative">
+              <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden border border-white/10 shadow-2xl mb-6">
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image
+                    src="/images/animatic-before-emi.jpg"
+                    alt="EMI tension"
+                    fill
+                    className="object-cover brightness-75"
+                    sizes="200px"
+                  />
+                  <div className="absolute inset-0 bg-red-950/30" />
+                  <span className="absolute top-2 left-2 text-[8px] font-bold uppercase text-red-200 bg-black/50 px-2 py-1 rounded-full">
+                    Pehle
+                  </span>
+                </div>
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image
+                    src="/images/animatic-after-emi.jpg"
+                    alt="EMI peace"
+                    fill
+                    className="object-cover"
+                    sizes="200px"
+                  />
+                  <div className="absolute inset-0 bg-gold/10" />
+                  <span className="absolute top-2 left-2 text-[8px] font-bold uppercase text-gold-light bg-black/50 px-2 py-1 rounded-full">
+                    Ab
+                  </span>
+                </div>
+              </div>
+
               <p className="text-center text-xs text-muted mb-3">1 din pehle aisa notification</p>
               <AnimatePresence mode="wait">
                 {showNotif ? (

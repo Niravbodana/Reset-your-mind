@@ -3,7 +3,6 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { PreviewBanner } from "@/components/PreviewBanner";
 import { LaserBackground } from "@/components/LaserBackground";
 import { Providers } from "@/components/Providers";
 
@@ -29,7 +28,7 @@ export const metadata: Metadata = {
     title: "RIZN — aapki life change ka reason",
     description: "Daily motivation + EMI alerts. ₹99 limited offer. Start free today.",
     type: "website",
-    images: ["/images/transform-premium.jpg"],
+    images: ["/images/animatic-after-hope.jpg"],
   },
 };
 
@@ -39,7 +38,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-bg text-ink font-sans">
         <Providers>
           <LaserBackground />
-          <PreviewBanner />
           <Navbar />
           <main className="flex-1 relative z-10">{children}</main>
           <Footer />
