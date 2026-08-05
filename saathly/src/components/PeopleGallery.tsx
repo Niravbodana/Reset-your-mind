@@ -5,45 +5,46 @@ import { motion } from "framer-motion";
 
 const people = [
   {
-    src: "/images/person-wellness.jpg",
-    name: "Arjun",
-    city: "Bangalore",
-    tag: "Health & Mind",
-    quote: "Roz subah motivation milti hai",
-  },
-  {
-    src: "/images/person-couple.jpg",
-    name: "Sneha & Rohan",
-    city: "Pune",
-    tag: "Love & Family",
-    quote: "Dono ek saath streak banate hain",
-  },
-  {
-    src: "/images/person-happy.jpg",
+    src: "/images/testimonial-priya.jpg",
     name: "Priya",
     city: "Mumbai",
-    tag: "Finance",
-    quote: "₹8000 save kiya 30 din me",
+    tag: "Paisa",
+    quote: "30 din me ₹8,000 save — chhote nudges ne farq kiya",
   },
   {
-    src: "/images/person-stressed.jpg",
-    name: "Vikram",
+    src: "/images/customer-couple.jpg",
+    name: "Sneha & Rohan",
+    city: "Pune",
+    tag: "Parivaar",
+    quote: "Dono ek saath streak — ghar me positive energy",
+  },
+  {
+    src: "/images/testimonial-ananya.jpg",
+    name: "Ananya",
+    city: "Bangalore",
+    tag: "Dil & Mind",
+    quote: "Soft messages, no pressure — sleep finally better",
+  },
+  {
+    src: "/images/testimonial-rahul.jpg",
+    name: "Rahul",
     city: "Delhi",
     tag: "Career",
-    quote: "Burnout se nikal gaya",
+    quote: "Burnout se nikla — lunch breaks ab miss nahi",
   },
 ];
 
 export function PeopleGallery() {
   return (
-    <section className="py-16 md:py-20 overflow-hidden bg-surface/40">
+    <section className="py-16 md:py-24 overflow-hidden">
       <div className="mx-auto max-w-6xl px-4 md:px-6 mb-10 text-center">
-        <p className="text-gold text-sm font-semibold uppercase tracking-widest mb-2">
-          12,000+ log join kar chuke
-        </p>
+        <p className="section-label mb-2">Real stories</p>
         <h2 className="font-display text-2xl md:text-4xl font-bold text-white">
-          Har koi apni <span className="text-gold-light italic">kahani</span> likh raha hai
+          Har koi apni <span className="gradient-gold italic">kahani</span> likh raha hai
         </h2>
+        <p className="text-ink-soft mt-3 max-w-xl mx-auto">
+          Mumbai se Delhi, Bangalore se Pune — 47,000+ log roz rise kar rahe hain.
+        </p>
       </div>
 
       <div className="flex gap-4 overflow-x-auto pb-4 px-4 md:px-6 snap-x snap-mandatory scrollbar-hide md:justify-center">
@@ -57,16 +58,10 @@ export function PeopleGallery() {
             className="flex-shrink-0 w-64 snap-center group"
           >
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-gold/20 shadow-lg group-hover:border-gold/50 transition-all group-hover:scale-[1.02]">
-              <Image
-                src={person.src}
-                alt={person.name}
-                fill
-                className="object-cover"
-                sizes="256px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+              <Image src={person.src} alt={person.name} fill className="object-cover" sizes="256px" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
               <div className="absolute top-3 left-3">
-                <span className="text-[10px] bg-gold/90 text-background font-bold px-2.5 py-1 rounded-full">
+                <span className="text-[10px] bg-gold/90 text-black font-bold px-2.5 py-1 rounded-full">
                   {person.tag}
                 </span>
               </div>

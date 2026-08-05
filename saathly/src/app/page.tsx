@@ -1,24 +1,28 @@
 import { Hero } from "@/components/Hero";
-import { Problems } from "@/components/Problems";
+import { Marquee } from "@/components/Marquee";
+import { TransformationSection } from "@/components/TransformationSection";
+import { HowItWorksSimple } from "@/components/HowItWorksSimple";
 import { DayTimeline } from "@/components/DayTimeline";
+import { Problems } from "@/components/Problems";
+import { PeopleGallery } from "@/components/PeopleGallery";
 import { TrustStories } from "@/components/TrustStories";
 import { PricingSection } from "@/components/PricingSection";
-import { FinalCTA } from "@/components/FinalCTA";
-import { HowItWorksSimple } from "@/components/HowItWorksSimple";
 import { FaqSection } from "@/components/FaqSection";
-import { PhasesStrip } from "@/components/PhasesStrip";
+import { FinalCTA } from "@/components/FinalCTA";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Problems />
-      <DayTimeline />
+      <Marquee />
+      <TransformationSection />
       <HowItWorksSimple />
+      <DayTimeline />
+      <Problems />
+      <PeopleGallery />
       <TrustStories />
       <PricingSection />
       <FaqSection />
-      <PhasesStrip />
       <FinalCTA />
     </>
   );

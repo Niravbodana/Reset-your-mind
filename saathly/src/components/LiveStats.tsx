@@ -27,24 +27,24 @@ function AnimatedNumber({ value }: { value: number }) {
 
 export function LiveStats() {
   const [messages, setMessages] = useState(48291);
-  const [users, setUsers] = useState(1247);
+  const [users, setUsers] = useState(47284);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setMessages((m) => m + Math.floor(Math.random() * 3) + 1);
-      if (Math.random() > 0.7) setUsers((u) => u + 1);
+      if (Math.random() > 0.85) setUsers((u) => u + 1);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   const stats = [
-    { value: messages, suffix: "+", label: "Aaj ke messages", color: "text-gold-light" },
-    { value: users, suffix: "", label: "Abhi active", color: "text-white" },
-    { value: 4.9, suffix: " ★", label: "Rating", color: "text-gold-light", isStar: true },
+    { value: users, suffix: "+", label: "Happy members", color: "text-gold-light" },
+    { value: messages, suffix: "+", label: "Aaj ke messages", color: "text-white" },
+    { value: 4.9, suffix: " ★", label: "App rating", color: "text-gold-light", isStar: true },
   ];
 
   return (
-    <div className="flex flex-wrap gap-6 md:gap-10 p-5 rounded-2xl bg-black/30 border border-white/10 backdrop-blur-md">
+    <div className="flex flex-wrap gap-6 md:gap-10 p-5 rounded-2xl bg-black/40 border border-gold/20 backdrop-blur-md">
       {stats.map((stat, i) => (
         <motion.div
           key={stat.label}

@@ -19,13 +19,14 @@ const display = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "RIZN — Your name. Your nudge. Your rise.",
+  title: "RIZN — Har 2 ghante tumhare naam pe ek message",
   description:
-    "Personalized motivation every 2 hours — finance, health, love, career. Black-laser energy for busy minds. ₹99/month.",
+    "47,000+ Indians trust RIZN. Personalized daily motivation for paisa, health, pyaar, career. 7 din free. Sirf ₹99/month.",
   openGraph: {
-    title: "RIZN — Rise every day",
-    description: "Messages with your name that keep your mind stable and moving.",
+    title: "RIZN — Your name. Your nudge. Your rise.",
+    description: "Premium personalized motivation — roz 6 messages jo sach me kaam karein.",
     type: "website",
+    images: ["/images/hero-premium.jpg"],
   },
 };
 

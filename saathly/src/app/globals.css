@@ -2,18 +2,21 @@
 
 :root {
   --bg: #050508;
-  --bg-elevated: #0c0c12;
+  --bg-elevated: #0a0a0f;
   --bg-card: #101018;
-  --ink: #f4f4f8;
-  --ink-soft: #a8a8bc;
-  --muted: #6e6e86;
+  --ink: #f8f6f2;
+  --ink-soft: #b8b4ae;
+  --muted: #6e6e7a;
   --line: rgba(255, 255, 255, 0.08);
-  --laser: #ff2d6a;
-  --laser-2: #00e5ff;
-  --laser-3: #b14dff;
-  --accent: #ff2d6a;
-  --accent-soft: rgba(255, 45, 106, 0.12);
-  --success: #3dff9a;
+  --gold: #c9a227;
+  --gold-light: #e8c547;
+  --gold-dark: #9a7b1a;
+  --laser: #e8c547;
+  --laser-2: #c9a227;
+  --laser-3: #f0d878;
+  --accent: #c9a227;
+  --accent-soft: rgba(201, 162, 39, 0.12);
+  --success: #4ade80;
 }
 
 @theme inline {
@@ -24,6 +27,9 @@
   --color-ink-soft: var(--ink-soft);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
   --color-laser: var(--laser);
   --color-laser-2: var(--laser-2);
   --color-laser-3: var(--laser-3);
@@ -55,21 +61,21 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 45, 106, 0.35);
+  background: rgba(201, 162, 39, 0.35);
   color: #fff;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #ff2d6a, #ff5e3a);
-  color: #fff;
+  background: linear-gradient(135deg, #c9a227, #e8c547);
+  color: #0a0a0f;
   font-weight: 700;
-  box-shadow: 0 0 24px rgba(255, 45, 106, 0.35);
+  box-shadow: 0 4px 24px rgba(201, 162, 39, 0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 40px rgba(255, 45, 106, 0.55);
+  box-shadow: 0 8px 40px rgba(201, 162, 39, 0.5);
 }
 
 .btn-secondary {
@@ -81,23 +87,30 @@ body {
 }
 
 .btn-secondary:hover {
-  border-color: rgba(0, 229, 255, 0.5);
-  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(201, 162, 39, 0.5);
+  background: rgba(201, 162, 39, 0.08);
 }
 
 .soft-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
   border: 1px solid var(--line);
   backdrop-filter: blur(12px);
 }
 
-.laser-text {
-  background: linear-gradient(90deg, #ff2d6a, #00e5ff, #b14dff, #ff2d6a);
+.glass-gold {
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.08), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  backdrop-filter: blur(16px);
+}
+
+.laser-text,
+.gradient-gold {
+  background: linear-gradient(90deg, #c9a227, #e8c547, #f0d878, #c9a227);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: laser-shift 4s linear infinite;
+  animation: gold-shift 5s linear infinite;
 }
 
 .section-label {
@@ -105,13 +118,58 @@ body {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--laser-2);
+  color: var(--gold-light);
 }
 
-@keyframes laser-shift {
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.3), transparent);
+}
+
+.shimmer-border {
+  position: relative;
+}
+
+.shimmer-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.4), transparent, rgba(201, 162, 39, 0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes gold-shift {
   to {
     background-position: 200% center;
   }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes scan {
@@ -120,10 +178,10 @@ body {
     opacity: 0;
   }
   20% {
-    opacity: 0.7;
+    opacity: 0.3;
   }
   80% {
-    opacity: 0.7;
+    opacity: 0.3;
   }
   100% {
     transform: translateY(100vh);
@@ -135,9 +193,8 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #00e5ff, transparent);
-  box-shadow: 0 0 20px #00e5ff;
-  animation: scan 7s linear infinite;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.4), transparent);
+  animation: scan 9s linear infinite;
   pointer-events: none;
 }

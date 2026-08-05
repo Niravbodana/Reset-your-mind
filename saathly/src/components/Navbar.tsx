@@ -7,11 +7,11 @@ import { Logo, Wordmark } from "./Logo";
 import { useApp } from "@/context/AppContext";
 
 const links = [
-  { href: "/#feel", label: "Feel" },
-  { href: "/#problems", label: "Problems" },
+  { href: "/#feel", label: "Demo" },
+  { href: "/#transform", label: "Badlav" },
+  { href: "/#how", label: "Kaise" },
   { href: "/pricing", label: "Plans" },
   { href: "/faq", label: "FAQ" },
-  { href: "/work", label: "Work" },
 ];
 
 export function Navbar() {
@@ -28,7 +28,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/70 backdrop-blur-xl border-b border-white/10" : "bg-transparent"
+        scrolled ? "bg-black/80 backdrop-blur-xl border-b border-gold/10" : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
@@ -39,7 +39,7 @@ export function Navbar() {
 
         <div className="hidden md:flex items-center gap-6">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-medium text-ink-soft hover:text-white">
+            <Link key={link.href} href={link.href} className="text-sm font-medium text-ink-soft hover:text-gold-light transition-colors">
               {link.label}
             </Link>
           ))}
@@ -49,7 +49,7 @@ export function Navbar() {
             </Link>
           ) : (
             <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-              Start free
+              7 din free
             </Link>
           )}
         </div>
@@ -60,7 +60,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="md:hidden border-t border-white/10 bg-black/90 px-4 py-4 flex flex-col gap-3">
+        <div className="md:hidden border-t border-white/10 bg-black/95 px-4 py-4 flex flex-col gap-3">
           {links.map((link) => (
             <Link key={link.href} href={link.href} className="text-ink-soft py-2" onClick={() => setOpen(false)}>
               {link.label}
@@ -71,7 +71,7 @@ export function Navbar() {
             className="btn-primary text-center py-3 rounded-xl text-sm"
             onClick={() => setOpen(false)}
           >
-            {state.user ? "Dashboard" : "Start free"}
+            {state.user ? "Dashboard" : "7 din free"}
           </Link>
         </div>
       )}

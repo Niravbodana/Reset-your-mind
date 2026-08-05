@@ -1,23 +1,23 @@
 "use client";
 
 const items = [
-  "✨ 12,000+ lives transformed",
-  "💰 Finance · Health · Love · Career",
-  "📱 6 personalized messages daily",
+  "✨ 47,000+ log join kar chuke",
+  "💰 Paisa · Health · Pyaar · Career",
+  "📱 Roz 6 personalized messages",
   "🇮🇳 Hinglish · Hindi · English",
-  "🎁 7-day FREE trial",
-  "⭐ 4.9 rating",
+  "🎁 7 din bilkul FREE",
+  "⭐ 4.9 rating — 12,000+ reviews",
   "👨‍👩‍👧 Parivaar Plan — pure ghar ke liye",
-  "🔥 Real people, real change",
+  "🔥 Asli log, asli badlav",
 ];
 
 export function Marquee() {
   const doubled = [...items, ...items];
 
   return (
-    <div className="relative overflow-hidden border-y border-gold/20 py-4 bg-gold/10 backdrop-blur-sm">
-      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
+    <div className="relative overflow-hidden border-y border-gold/20 py-4 bg-gold/5 backdrop-blur-sm">
+      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-bg to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-bg to-transparent z-10" />
 
       <div className="flex animate-marquee whitespace-nowrap">
         {doubled.map((item, i) => (
