@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+.env*
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+coverage
+.vercel
+Dockerfile*
+docker-compose*
+.dockerignore
+AGENTS.md
+CLAUDE.md

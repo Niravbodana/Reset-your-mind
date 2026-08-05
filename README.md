@@ -2,20 +2,45 @@
 
 Roz tumhare naam ke saath — busy life me mind stable rakhne wala daily companion.
 
-## Brand
+## Stack
 
-- **Name:** Humsafar (life companion — instantly understood in India)
-- **Promise:** Personalized motivation every ~2 hours for finance, health, love, career, mind
-- **Plans:** Personal ₹99/mo · Parivaar ₹249/mo
+- **React** (Next.js App Router)
+- **Node.js 20**
+- **Tailwind CSS**
+- **Docker**
 
-## Why this product sticks
+## Run with Docker (recommended)
 
-People renew when they feel change: micro-actions done, mood up, less panic. Website leads with an interactive “type your name → feel the message” demo, then problem-first sections for real Indian life stress.
+```bash
+cd saathly
+docker compose up --build
+```
 
-## Run
+Open: [http://localhost:3000](http://localhost:3000)
+
+Stop:
+
+```bash
+docker compose down
+```
+
+### Manual Docker
+
+```bash
+cd saathly
+docker build -t humsafar .
+docker run --rm -p 3000:3000 humsafar
+```
+
+## Run without Docker
 
 ```bash
 cd saathly
 npm install
 npm run dev
 ```
+
+## Brand
+
+- **Name:** Humsafar
+- **Plans:** Personal ₹99/mo · Parivaar ₹249/mo
