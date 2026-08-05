@@ -24,7 +24,7 @@ import {
   track,
   upsertUser,
 } from "@/lib/storage";
-import { ensureTodayPulses, updateStreak } from "@/lib/scheduler";
+import { ensureTodayPulses, migrateUserSchedule, regenerateTodayPulses, updateStreak } from "@/lib/scheduler";
 
 type Ctx = {
   ready: boolean;
@@ -51,7 +51,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let s = loadState();
     if (s.user) {
-      const user = updateStreak(s.user);
+      const user = updateStreak(migrateUserSchedule(s.user));
       const pulses = ensureTodayPulses(user, s.pulses);
       s = { ...s, user, pulses };
       saveState(s);
@@ -62,15 +62,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback((user: UserProfile) => {
     setSessionLoggedOut(false);
-    const pulses = ensureTodayPulses(user, []);
-    setState(upsertUser({ ...emptyState(), pulses }, user));
+    const migrated = migrateUserSchedule(user);
+    const pulses = ensureTodayPulses(migrated, []);
+    setState(upsertUser({ ...emptyState(), pulses }, migrated));
   }, []);
 
   const restoreSession = useCallback(() => {
     setSessionLoggedOut(false);
     const parsed = peekState();
     if (!parsed.user) return false;
-    const user = updateStreak(parsed.user);
+    const user = updateStreak(migrateUserSchedule(parsed.user));
     const pulses = ensureTodayPulses(user, parsed.pulses);
     const next = { ...parsed, user, pulses };
     saveState(next);
@@ -91,31 +92,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const refreshPulses = useCallback(() => {
     setState((prev) => {
       if (!prev.user) return prev;
-      const pulses = ensureTodayPulses(
-        prev.user,
-        prev.pulses.filter((p) => p.date !== new Date().toISOString().slice(0, 10))
-      );
-      return setPulses(prev, pulses);
+      const user = migrateUserSchedule(prev.user);
+      const pulses = regenerateTodayPulses(user, prev.pulses);
+      return setPulses({ ...prev, user }, pulses);
     });
   }, []);
 
   const patchUser = useCallback((partial: Partial<UserProfile>) => {
     setState((prev) => {
       if (!prev.user) return prev;
-      const user = { ...prev.user, ...partial };
+      const user = migrateUserSchedule({ ...prev.user, ...partial });
       let next = upsertUser(prev, user);
       if (
         partial.softMode !== undefined ||
         partial.areas !== undefined ||
         partial.language !== undefined ||
         partial.wakeHour !== undefined ||
-        partial.sleepHour !== undefined
+        partial.sleepHour !== undefined ||
+        partial.wakeTime !== undefined ||
+        partial.sleepTime !== undefined ||
+        partial.pulseIntervalMinutes !== undefined ||
+        partial.scheduleAnchors !== undefined
       ) {
-        const today = new Date().toISOString().slice(0, 10);
-        const pulses = ensureTodayPulses(
-          user,
-          prev.pulses.filter((p) => p.date !== today)
-        );
+        const pulses = regenerateTodayPulses(user, prev.pulses);
         next = setPulses(next, pulses);
       }
       return next;

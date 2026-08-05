@@ -53,9 +53,14 @@ export function Navbar() {
             </Link>
           )}
           {state.user ? (
-            <Link href="/dashboard" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-              Dashboard
-            </Link>
+            <>
+              <Link href="/settings" className="text-sm font-medium text-ink-soft hover:text-white">
+                Settings
+              </Link>
+              <Link href="/dashboard" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
+                Dashboard
+              </Link>
+            </>
           ) : (
             <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
               Join waitlist

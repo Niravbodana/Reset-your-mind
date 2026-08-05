@@ -5,20 +5,18 @@ export function DayTimeline() {
         <div className="grid lg:grid-cols-[1fr_1.15fr] gap-12 items-start">
           <div className="lg:sticky lg:top-28">
             <p className="section-label mb-3">Your schedule</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-              Up to six messages between 9 AM and 9 PM
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+              A day built around your life
             </h2>
             <p className="text-ink-soft leading-relaxed mb-6">
-              Not spam — six focused touchpoints in preview (four in soft mode). Custom wake/sleep
-              times and weekly summary are planned for the mobile app launch.
+              Fixed 2-hour slots nahi — Settings me interval choose karo aur optional times set karo:
+              lunch, dinner, medicine, gym, yoga, breakfast, paani.
             </p>
             <ul className="space-y-2 text-sm text-ink-soft">
-              <li>
-                <span className="text-white">Now:</span> default 9 AM–9 PM window in web preview
-              </li>
-              <li>One small action per message</li>
-              <li>Streak tracking in dashboard today</li>
-              <li className="text-muted">Planned: custom hours, weekly summary, push delivery</li>
+              <li>30 min · 1h · 2h · 3h · 4h message gap</li>
+              <li>Wake & sleep window</li>
+              <li>Optional daily anchors — toggle on/off anytime</li>
+              <li>Soft mode for gentler days (max 4 messages)</li>
             </ul>
           </div>
 
@@ -46,10 +44,10 @@ export function DayTimeline() {
 }
 
 const day = [
-  { time: "9:00", title: "Morning start", text: "Name + one clear intention for the day." },
-  { time: "11:00", title: "Focus block", text: "One important task — reduce noise." },
-  { time: "13:00", title: "Body check", text: "Lunch or water — fuel before more work." },
-  { time: "15:00", title: "Afternoon reset", text: "Short break before the energy dip." },
-  { time: "17:00", title: "Life action", text: "A small step for money or health." },
-  { time: "21:00", title: "Evening close", text: "Wrap the day and wind down." },
+  { time: "06:30", title: "Yoga (optional)", text: "Stretch + breath if you enabled it in Settings." },
+  { time: "09:00", title: "Wake pulse", text: "Name + one clear intention for the day." },
+  { time: "13:00", title: "Lunch anchor", text: "Fuel up — optional reminder you control." },
+  { time: "17:00", title: "Life action", text: "Small step for money or health." },
+  { time: "20:00", title: "Dinner", text: "Wind down — optional evening anchor." },
+  { time: "21:00", title: "Sleep window", text: "Last message before your sleep time." },
 ];

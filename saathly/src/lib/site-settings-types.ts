@@ -84,9 +84,9 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   marketing: {
     heroVideoUrl: "",
     earlyBirdPricePersonal: 99,
-    launchPricePersonal: 149,
+    launchPricePersonal: 199,
     earlyBirdPriceParivaar: 249,
-    launchPriceParivaar: 349,
+    launchPriceParivaar: 499,
     trialDays: 7,
     siteUrl: "http://localhost:3000",
     supportEmail: "hello@rizn.app",

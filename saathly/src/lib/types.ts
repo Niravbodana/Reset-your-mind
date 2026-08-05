@@ -1,7 +1,11 @@
+import type { PulseIntervalMinutes, ScheduleAnchors, TimeString } from "./schedule-config";
+
 export type LifeArea = "finance" | "career" | "love" | "health" | "mind" | "family";
 export type Language = "hinglish" | "hindi" | "english";
 export type PlanId = "personal" | "parivaar" | "annual" | "work";
 export type SubStatus = "trial" | "active" | "cancelled" | "expired";
+
+export type { PulseIntervalMinutes, ScheduleAnchors, TimeString };
 
 export type UserProfile = {
   id: string;
@@ -12,7 +16,13 @@ export type UserProfile = {
   language: Language;
   wakeHour: number;
   sleepHour: number;
+  wakeTime?: TimeString;
+  sleepTime?: TimeString;
+  pulseIntervalMinutes?: PulseIntervalMinutes;
+  scheduleAnchors?: ScheduleAnchors;
   softMode: boolean;
+  weekendMode?: boolean;
+  dndEnabled?: boolean;
   createdAt: string;
   trialEndsAt: string;
   subStatus: SubStatus;

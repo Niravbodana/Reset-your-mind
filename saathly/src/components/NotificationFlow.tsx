@@ -1,4 +1,4 @@
-import { Bell, Globe, MessageCircle, Smartphone } from "lucide-react";
+import { Bell, Globe, MessageCircle } from "lucide-react";
 
 const channels = [
   {
@@ -6,28 +6,28 @@ const channels = [
     title: "Web dashboard",
     status: "Available now",
     statusColor: "text-success",
-    desc: "Sign up on this website and read today's personalized messages in your dashboard. Try the full flow in preview mode.",
+    desc: "Sign up and read today's messages. Full Settings: interval, wake/sleep, lunch, gym, medicine, and more.",
   },
   {
     icon: Bell,
     title: "Push notifications",
     status: "With mobile app",
     statusColor: "text-gold-light",
-    desc: "When the Android and iOS app launches, messages will arrive as phone notifications — roughly every 2 hours during your chosen window.",
+    desc: "App launch pe wahi schedule phone pe — tumne jo interval choose kiya Settings me.",
   },
   {
     icon: MessageCircle,
     title: "WhatsApp (optional)",
     status: "Planned",
     statusColor: "text-muted",
-    desc: "Parivaar plan users will be able to receive the same pulses on WhatsApp. Same content, your preferred channel.",
+    desc: "Parivaar plan users will be able to receive pulses on WhatsApp at their chosen times.",
   },
 ];
 
 const steps = [
-  { n: "1", title: "You set your profile", text: "Name, focus areas (money, health, love, career, mind), and message language at signup." },
-  { n: "2", title: "RIZN schedules up to 6 pulses", text: "Short, name-personalized messages with one small action each — four in soft mode. Default 9 AM–9 PM window in preview." },
-  { n: "3", title: "You receive & act", text: "Read on web dashboard today; push on phone when the app is live. Mark done, track mood, build streak." },
+  { n: "1", title: "You set your profile", text: "Name, focus areas, language — 1 minute signup." },
+  { n: "2", title: "Open Settings", text: "Pick 30 min–4 hr interval, wake & sleep, optional lunch, gym, yoga, medicine, dinner." },
+  { n: "3", title: "You receive & act", text: "Read on web today; push on phone when the app is live." },
 ];
 
 export function NotificationFlow() {
@@ -35,13 +35,13 @@ export function NotificationFlow() {
     <section id="notifications" className="py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="max-w-2xl mb-14">
-          <p className="section-label mb-3">How messages reach you</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-            Notifications — clear and on your schedule
+          <p className="section-label mb-3">Your schedule</p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+            Not fixed 2 hours — tum decide karo
           </h2>
           <p className="text-ink-soft leading-relaxed">
-            RIZN sends up to 6 short messages per day (4 in soft mode), spaced about 2 hours apart, in a
-            default 9 AM–9 PM window during preview. Custom hours ship with the mobile app.
+            Half hour, 1 hour, 2, 3, ya 4 hour gap — plus optional anchors for lunch, dinner, gym,
+            yoga, medicine. Sab plan ke baad Settings me change kar sakte ho.
           </p>
         </div>
 
@@ -82,25 +82,23 @@ export function NotificationFlow() {
           </div>
 
           <div className="soft-card rounded-2xl p-6 md:p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Smartphone size={20} className="text-gold-light" />
-              <p className="font-semibold text-white">Sample day (9 AM – 9 PM)</p>
-            </div>
+            <p className="font-semibold text-white mb-4">Example day (your settings)</p>
             <ul className="space-y-3 text-sm">
               {[
-                ["9:00 AM", "Morning intention — name + one priority for the day"],
-                ["11:00 AM", "Focus — one task, cut distractions"],
-                ["1:00 PM", "Body — lunch or water reminder"],
-                ["3:00 PM", "Energy — short break before afternoon dip"],
-                ["5:00 PM", "Life — small money or health action"],
-                ["9:00 PM", "Wind-down — close the day calmly"],
+                ["07:00", "Gym anchor (if enabled)"],
+                ["09:00", "Wake — morning intention"],
+                ["11:00", "Focus block"],
+                ["13:00", "Lunch reminder"],
+                ["17:00", "Life / money action"],
+                ["20:00", "Dinner wind-down"],
               ].map(([time, text]) => (
                 <li key={time} className="flex gap-3 border-b border-white/5 pb-3 last:border-0">
-                  <span className="text-gold-light font-mono text-xs w-16 shrink-0 pt-0.5">{time}</span>
+                  <span className="text-gold-light font-mono text-xs w-14 shrink-0 pt-0.5">{time}</span>
                   <span className="text-ink-soft">{text}</span>
                 </li>
               ))}
             </ul>
+            <p className="text-[11px] text-muted mt-4">Actual times = your interval + enabled anchors</p>
           </div>
         </div>
       </div>

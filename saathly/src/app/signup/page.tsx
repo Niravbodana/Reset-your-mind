@@ -11,6 +11,7 @@ import { trialEndDate } from "@/lib/plans";
 import { uid } from "@/lib/storage";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { parivaarMonthlyPrice, personalMonthlyPrice } from "@/lib/pricing";
+import { DEFAULT_INTERVAL, DEFAULT_SLEEP, DEFAULT_WAKE, defaultAnchors } from "@/lib/schedule-config";
 
 const areaIds = Object.keys(AREA_LABELS) as LifeArea[];
 
@@ -69,6 +70,10 @@ function QuickSignup() {
       language,
       wakeHour: 9,
       sleepHour: 21,
+      wakeTime: DEFAULT_WAKE,
+      sleepTime: DEFAULT_SLEEP,
+      pulseIntervalMinutes: DEFAULT_INTERVAL,
+      scheduleAnchors: defaultAnchors(),
       softMode: false,
       createdAt: new Date().toISOString(),
       trialEndsAt: trialEndDate(config.marketing.trialDays),
@@ -82,7 +87,7 @@ function QuickSignup() {
     login(user);
     trackEvent("waitlist_signup", plan);
     setDone(true);
-    setTimeout(() => router.push("/dashboard"), 800);
+    setTimeout(() => router.push("/settings?welcome=1"), 800);
   };
 
   if (done) {
@@ -90,7 +95,7 @@ function QuickSignup() {
       <div className="soft-card rounded-2xl p-8 text-center max-w-md mx-auto">
         <Check size={32} className="text-success mx-auto mb-4" />
         <h2 className="font-display text-2xl font-bold mb-2">Ho gaya, {name}!</h2>
-        <p className="text-ink-soft text-sm">Tumhara pehla message dashboard pe…</p>
+        <p className="text-ink-soft text-sm">Dashboard pe pehla message… phir Settings se schedule set karo.</p>
       </div>
     );
   }
@@ -204,7 +209,10 @@ export default function SignupPage() {
     <div className="pt-28 pb-24 px-4">
       <div className="text-center mb-8 max-w-lg mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">1 minute me shuru karo</h1>
-        <p className="text-sm text-ink-soft">Naam, email, language, focus — bas. Turant dashboard pe pehla message.</p>
+        <p className="text-sm text-ink-soft mb-8">
+          Signup ke baad <Link href="/settings" className="text-gold-light underline">Settings</Link> me
+          interval, wake/sleep, lunch, gym, medicine set karo — turant dashboard update.
+        </p>
       </div>
       <Suspense fallback={<p className="text-center text-muted">Loading…</p>}>
         <QuickSignup />

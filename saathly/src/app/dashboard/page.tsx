@@ -138,17 +138,14 @@ export default function DashboardPage() {
           <Link href="/billing" className="btn-secondary px-4 py-2 rounded-xl text-xs">
             Billing
           </Link>
-          <button
-            type="button"
-            onClick={() => patchUser({ softMode: !user.softMode })}
-            className="btn-secondary px-4 py-2 rounded-xl text-xs"
-            title="Soft mode sends 4 gentler messages instead of 6"
-          >
-            Soft mode: {user.softMode ? "On (4 msgs)" : "Off (6 msgs)"}
-          </button>
+          <Link href="/settings" className="btn-secondary px-4 py-2 rounded-xl text-xs">
+            Settings
+          </Link>
         </div>
         <p className="text-[11px] text-muted mb-6">
-          Soft mode = 4 gentler messages today instead of 6. Toggle updates today&apos;s list automatically.
+          Interval & anchors: <Link href="/settings" className="text-gold-light underline">Settings</Link>
+          {user.pulseIntervalMinutes ? ` · every ${user.pulseIntervalMinutes} min` : ""}
+          {user.softMode ? " · soft mode" : ""}
         </p>
 
         <h2 className="font-semibold mb-3">Today&apos;s messages</h2>

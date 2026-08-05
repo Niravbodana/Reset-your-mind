@@ -10,7 +10,11 @@ const staticFaqs = [
   },
   {
     q: "How do notifications work right now?",
-    a: "On the website preview, you open your dashboard to read today's pulses. When the mobile app launches, the same messages will arrive as push notifications on your phone.",
+    a: "On the website preview, open your dashboard to read today's pulses. In Settings you choose the interval (30 min to 4 hours) and optional times for lunch, gym, medicine, etc. Push notifications ship with the mobile app.",
+  },
+  {
+    q: "Can I change my message schedule?",
+    a: "Yes. After signup, go to Settings to set wake/sleep times, message frequency (30 min, 1h, 2h, 3h, or 4h), and optional anchors like lunch, dinner, gym, yoga, and medicine.",
   },
   {
     q: "Is the mobile app available?",
