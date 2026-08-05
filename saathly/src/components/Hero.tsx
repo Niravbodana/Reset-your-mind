@@ -46,13 +46,13 @@ export function Hero() {
 
   const trust = isIN
     ? [
-        { icon: Heart, text: "Morning one-card + Soft Day" },
-        { icon: Shield, text: "Bills calendar · Mark paid · Freeze" },
+        { icon: Heart, text: "Steps · Water · Sleep — naam ke saath nudge" },
+        { icon: Shield, text: "Bills + Health score · Soft Day" },
         { icon: Zap, text: `${MESSAGE_COUNT}+ messages · Buddy · Wins` },
       ]
     : [
-        { icon: Heart, text: "Morning one-card + Soft Day" },
-        { icon: Shield, text: "Bill calendar · Mark paid · Freeze" },
+        { icon: Heart, text: "Steps · Water · Sleep — nudges with your name" },
+        { icon: Shield, text: "Bills + Health score · Soft Day" },
         { icon: Zap, text: `${MESSAGE_COUNT}+ messages · Buddy · Wins` },
       ];
 

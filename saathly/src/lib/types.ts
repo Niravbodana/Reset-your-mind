@@ -58,6 +58,21 @@ export type UserProfile = {
   };
   /** Trial value report dismissed */
   trialReportDismissed?: boolean;
+  /** Daily habit goals — steps, water, sleep wind-down */
+  habitGoals?: {
+    stepGoal: number;
+    waterGoal: number;
+    sleepWindDownHour: number;
+  };
+  /** Per-day habit log keyed by YYYY-MM-DD */
+  habitDays?: Record<
+    string,
+    {
+      steps: number;
+      water: number;
+      sleepDone: boolean;
+    }
+  >;
 };
 
 export type Pulse = {

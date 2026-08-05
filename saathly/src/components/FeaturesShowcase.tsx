@@ -2,14 +2,18 @@
 
 import Link from "next/link";
 import {
+  Activity,
   Bell,
   CalendarDays,
   CloudSun,
   CreditCard,
+  Droplets,
   Flame,
+  Footprints,
   Gift,
   Globe2,
   HeartHandshake,
+  Moon,
   PauseCircle,
   Shield,
   Sparkles,
@@ -51,6 +55,34 @@ const FEATURES: Feature[] = [
     titleEN: "Bill calendar",
     bodyIN: "Poora mahina ek nazar me — due dates gold me highlight.",
     bodyEN: "See the whole month at a glance — due dates highlighted.",
+  },
+  {
+    icon: Footprints,
+    titleIN: "Steps goal + live walk",
+    titleEN: "Steps goal + live walk",
+    bodyIN: "3k–10k goal. Live walk count. Incomplete pe naam ke saath nudge.",
+    bodyEN: "3k–10k goal. Live walk count. Incomplete? Nudge with your name.",
+  },
+  {
+    icon: Droplets,
+    titleIN: "Water / hydrate goal",
+    titleEN: "Water / hydrate goal",
+    bodyIN: "Glasses tap karo. Goal miss pe caring reminder — spam nahi.",
+    bodyEN: "Tap glasses. Miss the goal? A caring reminder — never spam.",
+  },
+  {
+    icon: Moon,
+    titleIN: "Sleep wind-down",
+    titleEN: "Sleep wind-down",
+    bodyIN: "Raat ka soft close — screen down, clear mind for tomorrow.",
+    bodyEN: "Evening soft close — screen down, clear mind for tomorrow.",
+  },
+  {
+    icon: Activity,
+    titleIN: "Health score",
+    titleEN: "Health score",
+    bodyIN: "Steps + water + sleep + mood + bills = shareable score.",
+    bodyEN: "Steps + water + sleep + mood + bills = a shareable score.",
   },
   {
     icon: Sunrise,
@@ -155,8 +187,8 @@ export function FeaturesShowcase() {
           </h2>
           <p className="text-ink-soft text-sm leading-relaxed">
             {isIN
-              ? `Daily habit + bill control + soft days + wins — sab ek jagah. ${dualPersonalPriceLabel(config)} worldwide.`
-              : `Daily habit + bill control + soft days + wins — in one place. ${dualPersonalPriceLabel(config)} worldwide.`}
+              ? `Steps, water, sleep, bills, Soft Day, wins — sab ek jagah. ${dualPersonalPriceLabel(config)} worldwide.`
+              : `Steps, water, sleep, bills, Soft Day, wins — in one place. ${dualPersonalPriceLabel(config)} worldwide.`}
           </p>
         </ScrollReveal>
 

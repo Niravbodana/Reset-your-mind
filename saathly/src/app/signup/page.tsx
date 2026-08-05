@@ -122,6 +122,8 @@ function SignupForm() {
       lastActiveDate: new Date().toISOString().slice(0, 10),
       sentHistory: [],
       emiReminders: [],
+      habitGoals: { stepGoal: 8000, waterGoal: 8, sleepWindDownHour: 21 },
+      habitDays: {},
     };
 
     login(user);

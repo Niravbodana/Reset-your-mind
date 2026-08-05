@@ -32,21 +32,21 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   const features = isIN
     ? [
         `${MESSAGE_COUNT}+ unique messages — naam ke saath`,
-        "EMI / bill reminders + month calendar",
-        "Morning one-card · Today briefing",
-        "Mark as paid · Soft Day · Pause 7 days",
-        "Streak freeze (1 miss / month maaf)",
-        "Weekly wins + Buddy check-in",
+        "Steps goal + live walk · Water · Sleep wind-down",
+        "Health score · naam ke saath goal nudges",
+        "EMI / bills + calendar · Mark as paid",
+        "Morning one-card · Soft Day · Pause 7 days",
+        "Streak freeze · Weekly wins · Buddy check-in",
         "Trial day-5 value report",
         "Hinglish / Hindi / English · Worldwide",
       ]
     : [
         `${MESSAGE_COUNT}+ unique messages — with your name`,
-        "Bill reminders + month calendar",
-        "Morning one-card · Today briefing",
-        "Mark as paid · Soft Day · Pause 7 days",
-        "Streak freeze (1 miss forgiven / month)",
-        "Weekly wins + Buddy check-in",
+        "Steps goal + live walk · Water · Sleep wind-down",
+        "Health score · goal nudges with your name",
+        "Bills + calendar · Mark as paid",
+        "Morning one-card · Soft Day · Pause 7 days",
+        "Streak freeze · Weekly wins · Buddy check-in",
         "Trial day-5 value report",
         "English / Hinglish / Hindi · Worldwide",
       ];

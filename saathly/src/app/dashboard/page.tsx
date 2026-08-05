@@ -21,6 +21,9 @@ import { MorningOneCard } from "@/components/MorningOneCard";
 import { TrialValueReport } from "@/components/TrialValueReport";
 import { BuddyCheckin } from "@/components/BuddyCheckin";
 import { StreakFreezeBadge } from "@/components/StreakFreezeBadge";
+import { HabitsPanel } from "@/components/HabitsPanel";
+import { WeeklyHealthScore } from "@/components/WeeklyHealthScore";
+import { GoalNudgeCard } from "@/components/GoalNudgeCard";
 import { useLocale } from "@/context/LocaleContext";
 
 const EMOJIS = [
@@ -132,6 +135,9 @@ export default function DashboardPage() {
         <TrialValueReport />
         <MorningOneCard />
         <TodayBriefing />
+        <GoalNudgeCard />
+        <HabitsPanel />
+        <WeeklyHealthScore />
         <SoftDayButton />
         <StreakFreezeBadge />
 
