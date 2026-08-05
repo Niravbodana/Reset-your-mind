@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useLocale } from "@/context/LocaleContext";
+import { formatPersonalPrice } from "@/lib/pricing";
 import { haptic } from "@/lib/haptic";
-
-const JOIN_TEXT =
-  "Hi RIZN! Main ₹99 plan join karna chahta/chahti hoon. Daily messages + EMI reminder chahiye.";
 
 export function WhatsAppCTA({
   variant = "button",
@@ -16,9 +15,16 @@ export function WhatsAppCTA({
   className?: string;
 }) {
   const config = useSiteConfig();
+  const { region, currency } = useLocale();
+  const isIN = region === "IN";
+  const priceLabel = formatPersonalPrice(config, currency);
+  const joinText = isIN
+    ? `Hi RIZN! Main ${priceLabel} plan join karna chahta/chahti hoon. Daily messages + EMI reminder chahiye.`
+    : `Hi RIZN! I'd like to join the ${priceLabel} plan. Daily messages + bill reminders please.`;
+
   const digits = (config.marketing.whatsappJoinNumber || "").replace(/\D/g, "");
   const href = digits
-    ? `https://wa.me/${digits}?text=${encodeURIComponent(JOIN_TEXT)}`
+    ? `https://wa.me/${digits}?text=${encodeURIComponent(joinText)}`
     : `/signup?from=whatsapp`;
 
   const external = Boolean(digits);
@@ -30,7 +36,13 @@ export function WhatsAppCTA({
         ? "inline-flex items-center gap-2 text-sm font-medium text-[#25D366] hover:underline"
         : "inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-bold text-black min-h-[48px] w-full sm:w-auto hover:brightness-110 transition shadow-lg shadow-[#25D366]/20";
 
-  const label = digits ? "WhatsApp pe join karo" : "WhatsApp style — signup shuru karo";
+  const label = isIN
+    ? digits
+      ? "WhatsApp pe join karo"
+      : "WhatsApp style — signup shuru karo"
+    : digits
+      ? "Join on WhatsApp"
+      : "Continue with signup";
 
   if (external) {
     return (

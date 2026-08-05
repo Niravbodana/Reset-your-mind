@@ -16,7 +16,6 @@ export function EmiReminderDemo() {
   const isIN = region === "IN";
   const priceLabel = formatPersonalPrice(config, isIN ? "INR" : "USD");
   const [step, setStep] = useState(0);
-  const [showNotif, setShowNotif] = useState(true);
 
   const steps = isIN
     ? [
@@ -32,26 +31,13 @@ export function EmiReminderDemo() {
         { icon: Building2, label: "Provider", value: "Chase" },
       ];
 
+  // Advance steps only — notification stays mounted (avoids page jump)
   useEffect(() => {
     const t = setInterval(() => {
-      setStep((s) => {
-        if (s >= steps.length - 1) {
-          setShowNotif(true);
-          return s;
-        }
-        return s + 1;
-      });
-    }, 1200);
+      setStep((s) => (s >= steps.length - 1 ? 0 : s + 1));
+    }, 1600);
     return () => clearInterval(t);
   }, [steps.length]);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setShowNotif((v) => !v);
-      setStep(0);
-    }, 6000);
-    return () => clearInterval(t);
-  }, []);
 
   const notifLang = isIN ? "hinglish" : "english";
   const notifName = isIN ? "Rahul" : "Alex";
@@ -158,30 +144,35 @@ export function EmiReminderDemo() {
               {isIN ? "1 din pehle aisa notification" : "Notification like this — 1 day early"}
             </p>
 
-            {showNotif ? (
-              <div className="rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 p-4 shadow-2xl">
-                <div className="flex gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gold flex items-center justify-center text-black font-bold text-sm shrink-0">
-                    R
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-white mb-1">
-                      {isIN ? "RIZN · EMI Reminder" : "RIZN · Bill Reminder"}
-                    </p>
-                    <p className="text-sm text-white/95 leading-relaxed break-words">{notifText}</p>
-                    <p className="text-[11px] sm:text-xs text-gold-light mt-2">
-                      {isIN
-                        ? "Kal due · Aap capable hain — balance check kijiye"
-                        : "Due tomorrow · You've got this — check your balance"}
-                    </p>
+            {/* Fixed min-height — prevents page jump when demo toggles */}
+            <div className="min-h-[148px]">
+              {showNotif ? (
+                <div className="rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 p-4 shadow-2xl">
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gold flex items-center justify-center text-black font-bold text-sm shrink-0">
+                      R
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-bold text-white mb-1">
+                        {isIN ? "RIZN · EMI Reminder" : "RIZN · Bill Reminder"}
+                      </p>
+                      <p className="text-sm text-white/95 leading-relaxed break-words line-clamp-4">
+                        {notifText}
+                      </p>
+                      <p className="text-[11px] sm:text-xs text-gold-light mt-2">
+                        {isIN
+                          ? "Kal due · Aap capable hain — balance check kijiye"
+                          : "Due tomorrow · You've got this — check your balance"}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="h-24 rounded-2xl border border-dashed border-white/10 flex items-center justify-center text-muted text-sm">
-                {isIN ? "Form fill ho raha hai…" : "Setting up…"}
-              </div>
-            )}
+              ) : (
+                <div className="min-h-[148px] rounded-2xl border border-dashed border-white/10 flex items-center justify-center text-muted text-sm">
+                  {isIN ? "Form fill ho raha hai…" : "Setting up…"}
+                </div>
+              )}
+            </div>
 
             <div className="mt-6 grid grid-cols-2 gap-2 text-center text-xs">
               <div className="soft-card rounded-xl p-3">

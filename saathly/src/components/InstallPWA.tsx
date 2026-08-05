@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Download, X } from "lucide-react";
 import { haptic } from "@/lib/haptic";
+import { useLocale } from "@/context/LocaleContext";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -10,6 +11,8 @@ type BeforeInstallPromptEvent = Event & {
 };
 
 export function InstallPWA() {
+  const { region } = useLocale();
+  const isIN = region === "IN";
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [showIos, setShowIos] = useState(false);
   const [dismissed, setDismissed] = useState(true);
@@ -64,11 +67,17 @@ export function InstallPWA() {
           <Download size={18} />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-white">Home screen pe add karo</p>
+          <p className="text-sm font-semibold text-white">
+            {isIN ? "Home screen pe add karo" : "Add to Home Screen"}
+          </p>
           <p className="text-xs text-ink-soft mt-0.5 leading-relaxed">
             {deferred
-              ? "RIZN app jaisa open hoga — fast, offline-ready feel."
-              : "Safari → Share → Add to Home Screen"}
+              ? isIN
+                ? "RIZN app jaisa open hoga — fast, offline-ready feel."
+                : "Open RIZN like an app — fast and offline-ready."
+              : isIN
+                ? "Safari → Share → Add to Home Screen"
+                : "Safari → Share → Add to Home Screen"}
           </p>
           {deferred && (
             <button

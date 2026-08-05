@@ -1,50 +1,111 @@
+"use client";
+
 import { Bell, Globe, CreditCard } from "lucide-react";
 import { getMessageBankStats } from "@/lib/message-bank";
+import { useLocale } from "@/context/LocaleContext";
 
 const MESSAGE_COUNT = getMessageBankStats().total;
 
-const channels = [
-  {
-    icon: Bell,
-    title: "Daily alerts",
-    status: "Your habit",
-    statusColor: "text-success",
-    desc: `${MESSAGE_COUNT}+ unique messages — motivation, health, money, dil. Kabhi wahi repeat nahi jab tak pool complete na ho.`,
-  },
-  {
-    icon: Globe,
-    title: "Your schedule",
-    status: "You control",
-    statusColor: "text-gold-light",
-    desc: "30 min se 4 hour interval — wake, lunch, gym, medicine, dinner. Sab tumhari life ke hisaab se.",
-  },
-  {
-    icon: CreditCard,
-    title: "EMI Reminder",
-    status: "1 day before",
-    statusColor: "text-gold-light",
-    desc: "Amount, date, bank/NBFC — naam ke saath caring alert. Tension kam, confidence zyada.",
-  },
-];
-
-const steps = [
-  { n: "1", title: "Apna profile banao", text: "Naam, focus areas, language — 1 minute." },
-  { n: "2", title: "EMI + schedule set karo", text: "EMI amount, date, bank — phir message interval aur wake/sleep." },
-  { n: "3", title: "Roz value feel karo", text: "Padho, chhota step karo — life better feel hogi, habit ban jayegi." },
-];
-
 export function NotificationFlow() {
+  const { region } = useLocale();
+  const isIN = region === "IN";
+
+  const channels = isIN
+    ? [
+        {
+          icon: Bell,
+          title: "Daily alerts",
+          status: "Your habit",
+          statusColor: "text-success",
+          desc: `${MESSAGE_COUNT}+ unique messages — motivation, health, money, dil. Kabhi wahi repeat nahi jab tak pool complete na ho.`,
+        },
+        {
+          icon: Globe,
+          title: "Your schedule",
+          status: "You control",
+          statusColor: "text-gold-light",
+          desc: "30 min se 4 hour interval — wake, lunch, gym, medicine, dinner. Sab tumhari life ke hisaab se.",
+        },
+        {
+          icon: CreditCard,
+          title: "EMI Reminder",
+          status: "1 day before",
+          statusColor: "text-gold-light",
+          desc: "Amount, date, bank/NBFC — naam ke saath caring alert. Tension kam, confidence zyada.",
+        },
+      ]
+    : [
+        {
+          icon: Bell,
+          title: "Daily alerts",
+          status: "Your habit",
+          statusColor: "text-success",
+          desc: `${MESSAGE_COUNT}+ unique messages — motivation, health, money, mind. No repeats until the pool is complete.`,
+        },
+        {
+          icon: Globe,
+          title: "Your schedule",
+          status: "You control",
+          statusColor: "text-gold-light",
+          desc: "30 min to 4 hour intervals — wake, lunch, gym, medicine, dinner. Built around your life.",
+        },
+        {
+          icon: CreditCard,
+          title: "Bill reminders",
+          status: "1 day before",
+          statusColor: "text-gold-light",
+          desc: "Amount, date, provider — a caring alert with your name. Less stress, more control.",
+        },
+      ];
+
+  const steps = isIN
+    ? [
+        { n: "1", title: "Apna profile banao", text: "Naam, focus areas, language — 1 minute." },
+        {
+          n: "2",
+          title: "EMI + schedule set karo",
+          text: "EMI amount, date, bank — phir message interval aur wake/sleep.",
+        },
+        {
+          n: "3",
+          title: "Roz value feel karo",
+          text: "Padho, chhota step karo — life better feel hogi, habit ban jayegi.",
+        },
+      ]
+    : [
+        { n: "1", title: "Create your profile", text: "Name, focus areas, language — about a minute." },
+        {
+          n: "2",
+          title: "Set bills + schedule",
+          text: "Bill amount, date, provider — then message interval and wake/sleep.",
+        },
+        {
+          n: "3",
+          title: "Feel daily value",
+          text: "Read, take a small step — life feels better, habits stick.",
+        },
+      ];
+
   return (
     <section id="notifications" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="max-w-2xl mb-8 sm:mb-14">
           <p className="section-label mb-3">How it works</p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
-            Ek rasta — roz chhote steps, <span className="text-gold-light">badi hope</span>
+            {isIN ? (
+              <>
+                Ek rasta — roz chhote steps, <span className="text-gold-light">badi hope</span>
+              </>
+            ) : (
+              <>
+                One path — small daily steps, <span className="text-gold-light">real hope</span>
+              </>
+            )}
           </h2>
           <p className="text-ink-soft leading-relaxed">
-            RIZN sirf notifications nahi bhejta — tumhari life me value add karta hai. Har message alag,
-            har din naya. Tum feel karoge: ye alerts meri wajah se accha ho raha hai.
+            {isIN
+              ? "RIZN sirf notifications nahi bhejta — tumhari life me value add karta hai. Har message alag, har din naya. Tum feel karoge: ye alerts meri wajah se accha ho raha hai."
+              : "RIZN doesn’t just send notifications — it adds value to your day. Every message is different. You’ll feel these alerts are helping because they’re for you."}
           </p>
         </div>
 
@@ -67,8 +128,10 @@ export function NotificationFlow() {
 
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
           <div>
-            <p className="section-label mb-3">Tumhara din</p>
-            <h3 className="font-display text-2xl font-bold text-white mb-6">Signup se roz ki habit tak</h3>
+            <p className="section-label mb-3">{isIN ? "Tumhara din" : "Your day"}</p>
+            <h3 className="font-display text-2xl font-bold text-white mb-6">
+              {isIN ? "Signup se roz ki habit tak" : "From signup to a daily habit"}
+            </h3>
             <div className="space-y-4">
               {steps.map((s) => (
                 <div key={s.n} className="flex gap-4">
@@ -85,23 +148,35 @@ export function NotificationFlow() {
           </div>
 
           <div className="soft-card rounded-2xl p-6 md:p-8">
-            <p className="font-semibold text-white mb-4">Ek din ka example — tumhare settings ke hisaab se</p>
+            <p className="font-semibold text-white mb-4">
+              {isIN
+                ? "Ek din ka example — tumhare settings ke hisaab se"
+                : "A day example — based on your settings"}
+            </p>
             <ul className="space-y-3 text-sm">
-              {[
-                ["07:00", "Gym anchor (if enabled)"],
-                ["09:00", "Wake — morning intention"],
-                ["11:00", "Focus block"],
-                ["13:00", "Lunch reminder"],
-                ["17:00", "Life / money action"],
-                ["20:00", "Dinner wind-down"],
-              ].map(([time, text]) => (
+              {(
+                [
+                  ["07:00", isIN ? "Gym anchor (if enabled)" : "Gym anchor (if enabled)"],
+                  ["09:00", isIN ? "Wake — morning intention" : "Wake — morning intention"],
+                  ["11:00", isIN ? "Focus block" : "Focus block"],
+                  ["13:00", isIN ? "Lunch reminder" : "Lunch reminder"],
+                  ["17:00", isIN ? "Life / money action" : "Life / money action"],
+                  ["20:00", isIN ? "Dinner wind-down" : "Dinner wind-down"],
+                ] as const
+              ).map(([time, text]) => (
                 <li key={time} className="flex gap-3 border-b border-white/5 pb-3 last:border-0">
-                  <span className="text-gold-light font-mono text-xs w-14 shrink-0 pt-0.5">{time}</span>
+                  <span className="text-gold-light font-mono text-xs w-14 shrink-0 pt-0.5">
+                    {time}
+                  </span>
                   <span className="text-ink-soft">{text}</span>
                 </li>
               ))}
             </ul>
-            <p className="text-[11px] text-muted mt-4">Actual times = your interval + enabled anchors</p>
+            <p className="text-[11px] text-muted mt-4">
+              {isIN
+                ? "Actual times = your interval + enabled anchors"
+                : "Actual times = your interval + enabled anchors"}
+            </p>
           </div>
         </div>
       </div>

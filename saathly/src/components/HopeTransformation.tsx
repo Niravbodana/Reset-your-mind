@@ -145,13 +145,13 @@ export function HopeTransformation() {
           </div>
 
           <div className="mt-5 sm:mt-6">
-            <div className="premium-card rounded-2xl p-5 sm:p-6 border border-gold/20 bg-black/75 shadow-2xl shadow-gold/10">
+            <div className="premium-card rounded-2xl p-5 sm:p-6 border border-gold/20 bg-black/75 shadow-2xl shadow-gold/10 min-h-[168px] flex flex-col justify-center">
               <p className="text-xs font-semibold uppercase tracking-wider text-gold-light mb-3 text-center">
                 {isIN
                   ? `${story.name} ko aisa message aata hai`
                   : `${story.name} gets messages like this`}
               </p>
-              <p className="text-[15px] sm:text-base leading-relaxed text-white text-center break-words">
+              <p className="text-[15px] sm:text-base leading-relaxed text-white text-center break-words line-clamp-4">
                 {story.message}
               </p>
               <p className="text-sm text-gold-light mt-3 font-medium text-center">

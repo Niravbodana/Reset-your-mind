@@ -32,7 +32,7 @@ export default function DailyMotivationLandingPage() {
               href="/signup"
               className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold min-h-[48px] flex-1"
             >
-              Free start — ₹99 plan
+              Start free trial
               <ArrowRight size={16} />
             </Link>
             <WhatsAppCTA className="flex-1" />

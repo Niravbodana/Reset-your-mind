@@ -48,6 +48,7 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   max-width: 100%;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -59,6 +60,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   padding-bottom: env(safe-area-inset-bottom, 0);
+  overscroll-behavior-y: none;
 }
 
 .safe-area-pt {
@@ -162,13 +164,29 @@ h1, h2, h3 {
   }
 }
 
+/* Mobile: freeze heavy background motion — stops iOS "vibrate/jump" feel */
 @media (max-width: 768px) {
+  .hero-kenburns,
+  .animatic-orb,
+  .animatic-mesh,
+  .animatic-noise,
+  .animate-float,
+  .animate-pulse-glow {
+    animation: none !important;
+  }
   .hero-kenburns {
-    animation-duration: 40s;
+    transform: scale(1.04) !important;
   }
   .animatic-orb {
     filter: blur(70px);
-    opacity: 0.7;
+    opacity: 0.55;
+  }
+}
+
+/* Prefer visualViewport-stable fixed chrome on iOS */
+@supports (height: 100dvh) {
+  html {
+    height: 100%;
   }
 }
 
