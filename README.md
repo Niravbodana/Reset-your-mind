@@ -1,38 +1,10 @@
-# Humsafar
+# RIZN
 
-Roz tumhare naam ke saath — busy life me mind stable rakhne wala daily companion.
+**Your name. Your nudge. Your rise.**
 
-## Stack
+Black-laser daily motivation system for busy minds — finance, health, love, career.
 
-- **React** (Next.js App Router)
-- **Node.js 20**
-- **Tailwind CSS**
-- **Docker**
-
-## Run with Docker (recommended)
-
-```bash
-cd saathly
-docker compose up --build
-```
-
-Open: [http://localhost:3000](http://localhost:3000)
-
-Stop:
-
-```bash
-docker compose down
-```
-
-### Manual Docker
-
-```bash
-cd saathly
-docker build -t humsafar .
-docker run --rm -p 3000:3000 humsafar
-```
-
-## Run without Docker
+## Run
 
 ```bash
 cd saathly
@@ -40,7 +12,22 @@ npm install
 npm run dev
 ```
 
-## Brand
+Docker:
 
-- **Name:** Humsafar
-- **Plans:** Personal ₹99/mo · Parivaar ₹249/mo
+```bash
+cd saathly
+docker compose up --build
+```
+
+→ http://localhost:3000
+
+## Plans
+
+| Plan | Price |
+|------|-------|
+| Personal | ₹99/mo |
+| Parivaar | ₹249/mo |
+
+## Docs
+
+Full architecture, legal name check, A→Z phases: [`ARCHITECTURE.md`](./ARCHITECTURE.md)

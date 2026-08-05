@@ -1,10 +1,10 @@
 services:
-  humsafar:
+  rizn:
     build:
       context: .
       dockerfile: Dockerfile
-    image: humsafar:latest
-    container_name: humsafar-web
+    image: rizn:latest
+    container_name: rizn-web
     ports:
       - "3000:3000"
     environment:

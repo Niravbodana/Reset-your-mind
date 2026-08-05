@@ -1,36 +1,22 @@
 const steps = [
-  {
-    n: "1",
-    title: "Naam + situation batao",
-    desc: "2 minute. Paisa, health, love, career — jo abhi heavy hai, choose karo.",
-  },
-  {
-    n: "2",
-    title: "Timing set karo",
-    desc: "Subah kab uthte ho, raat kab soote ho. Messages usi window me aayenge.",
-  },
-  {
-    n: "3",
-    title: "Roz saath raho",
-    desc: "Har message pe chhota action. Mood tap. Streak. Weekly dekho kitna better feel hua.",
-  },
+  { n: "01", title: "Name + situation", desc: "2 min. Paisa, health, love, career — jo heavy hai." },
+  { n: "02", title: "Set your window", desc: "Subah–raat timing. Pulses usi me fire honge." },
+  { n: "03", title: "Rise daily", desc: "Actions. Mood. Streak. Weekly report — proof of change." },
 ];
 
 export function HowItWorksSimple() {
   return (
-    <section className="py-16 md:py-20 border-y border-line">
+    <section className="py-16 md:py-20 border-y border-white/10">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <p className="section-label mb-3 text-center">Simple</p>
-        <h2 className="font-display text-3xl md:text-4xl font-semibold text-center text-ink mb-12">
-          Complicated app nahi. Roz ka saath.
+        <p className="section-label mb-3 text-center">Protocol</p>
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-white mb-12">
+          Simple system. Strong rise.
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {steps.map((s) => (
-            <div key={s.n} className="text-center md:text-left">
-              <div className="inline-flex w-12 h-12 rounded-2xl bg-accent text-white font-display text-xl font-semibold items-center justify-center mb-4">
-                {s.n}
-              </div>
-              <h3 className="font-semibold text-lg text-ink mb-2">{s.title}</h3>
+            <div key={s.n} className="soft-card rounded-2xl p-6 text-center md:text-left">
+              <p className="font-display text-3xl font-bold laser-text mb-3">{s.n}</p>
+              <h3 className="font-semibold text-lg text-white mb-2">{s.title}</h3>
               <p className="text-sm text-ink-soft leading-relaxed">{s.desc}</p>
             </div>
           ))}

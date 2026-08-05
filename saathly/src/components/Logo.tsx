@@ -7,30 +7,29 @@ export function Logo({ className = "w-9 h-9" }: { className?: string }) {
       className={className}
       aria-hidden
     >
-      <rect width="40" height="40" rx="12" fill="#1C1410" />
+      <rect width="40" height="40" rx="11" fill="#0c0c12" stroke="url(#g)" strokeWidth="1.5" />
       <path
-        d="M12 26c0-6 3.5-10 8-10s8 4 8 10"
-        stroke="#E85D04"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        fill="none"
+        d="M12 28V12h7.2c3.4 0 5.5 1.9 5.5 4.7 0 2.1-1.1 3.6-2.9 4.2L27 28h-4.2l-4.4-6.2H16V28H12Zm4-9.6h3c1.5 0 2.4-.8 2.4-2s-.9-2-2.4-2H16v4Z"
+        fill="#fff"
       />
-      <circle cx="20" cy="13" r="3.2" fill="#FFF3E8" />
-      <path
-        d="M15 26h10"
-        stroke="#FFF3E8"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
+      <path d="M8 31h24" stroke="#ff2d6a" strokeWidth="2" strokeLinecap="round" />
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="40" y2="40">
+          <stop stopColor="#ff2d6a" />
+          <stop offset="0.5" stopColor="#00e5ff" />
+          <stop offset="1" stopColor="#b14dff" />
+        </linearGradient>
+      </defs>
     </svg>
   );
 }
 
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span className={`font-display text-[1.65rem] leading-none tracking-tight text-ink ${className}`}>
-      Humsafar
+    <span
+      className={`font-display text-[1.55rem] font-bold tracking-[0.12em] text-white ${className}`}
+    >
+      RIZN
     </span>
   );
 }

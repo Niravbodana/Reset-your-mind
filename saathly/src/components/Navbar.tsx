@@ -6,9 +6,9 @@ import { Menu, X } from "lucide-react";
 import { Logo, Wordmark } from "./Logo";
 
 const links = [
-  { href: "/#feel", label: "Feel karo" },
-  { href: "/#problems", label: "Kiske liye" },
-  { href: "/#day", label: "Ek din" },
+  { href: "/#feel", label: "Feel" },
+  { href: "/#problems", label: "Problems" },
+  { href: "/#day", label: "Day" },
   { href: "/pricing", label: "Plans" },
 ];
 
@@ -25,7 +25,9 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-bg/90 backdrop-blur-md border-b border-line shadow-sm" : "bg-transparent"
+        scrolled
+          ? "bg-black/70 backdrop-blur-xl border-b border-white/10"
+          : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
@@ -39,19 +41,19 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-ink-soft hover:text-ink transition-colors"
+              className="text-sm font-medium text-ink-soft hover:text-white transition-colors"
             >
               {link.label}
             </Link>
           ))}
           <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-            Free try karo
+            Start free
           </Link>
         </div>
 
         <button
           type="button"
-          className="md:hidden p-2 text-ink"
+          className="md:hidden p-2 text-white"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
         >
@@ -60,7 +62,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="md:hidden border-t border-line bg-bg px-4 py-4 flex flex-col gap-3">
+        <div className="md:hidden border-t border-white/10 bg-black/90 px-4 py-4 flex flex-col gap-3">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -76,7 +78,7 @@ export function Navbar() {
             className="btn-primary text-center py-3 rounded-xl text-sm"
             onClick={() => setOpen(false)}
           >
-            Free try karo
+            Start free
           </Link>
         </div>
       )}

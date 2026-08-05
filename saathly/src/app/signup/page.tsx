@@ -17,7 +17,6 @@ const areas = [
 function SignupForm() {
   const searchParams = useSearchParams();
   const initialPlan = searchParams.get("plan") === "family" ? "family" : "individual";
-
   const [step, setStep] = useState(1);
   const [plan, setPlan] = useState<"individual" | "family">(initialPlan);
   const [name, setName] = useState("");
@@ -37,14 +36,10 @@ function SignupForm() {
         <div className="w-14 h-14 rounded-full bg-success/15 flex items-center justify-center mx-auto mb-5">
           <Check size={28} className="text-success" />
         </div>
-        <h2 className="font-display text-3xl font-semibold mb-2">
-          Welcome, {name}
-        </h2>
-        <p className="text-ink-soft mb-6">
-          Tumhara 7 din free trial ready hai. Pehla message tumhari morning window me aayega.
-        </p>
+        <h2 className="font-display text-3xl font-bold mb-2">Welcome, {name}</h2>
+        <p className="text-ink-soft mb-6">7 din free trial live. Pehla pulse morning window me.</p>
         <Link href="/dashboard" className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl">
-          Dashboard dekho <ArrowRight size={16} />
+          Open dashboard <ArrowRight size={16} />
         </Link>
       </div>
     );
@@ -54,38 +49,35 @@ function SignupForm() {
     <div className="max-w-md mx-auto">
       <div className="flex gap-2 mb-6">
         {[1, 2, 3].map((s) => (
-          <div
-            key={s}
-            className={`h-1.5 flex-1 rounded-full ${s <= step ? "bg-accent" : "bg-line"}`}
-          />
+          <div key={s} className={`h-1.5 flex-1 rounded-full ${s <= step ? "bg-laser" : "bg-white/10"}`} />
         ))}
       </div>
 
       <div className="soft-card rounded-3xl p-6 md:p-8">
         {step === 1 && (
           <>
-            <h2 className="font-display text-2xl font-semibold mb-1">Pehle naam</h2>
-            <p className="text-sm text-ink-soft mb-6">Har message isi naam se aayega.</p>
+            <h2 className="font-display text-2xl font-bold mb-1">Pehle naam</h2>
+            <p className="text-sm text-ink-soft mb-6">Har pulse isi naam se aayega.</p>
             <div className="space-y-4">
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Tumhara naam"
-                className="w-full rounded-xl border border-line px-4 py-3 focus:outline-none focus:border-accent"
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 focus:outline-none focus:border-laser"
               />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="w-full rounded-xl border border-line px-4 py-3 focus:outline-none focus:border-accent"
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 focus:outline-none focus:border-laser"
               />
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={() => setPlan("individual")}
                   className={`rounded-xl border p-4 text-left ${
-                    plan === "individual" ? "border-accent bg-accent-soft" : "border-line"
+                    plan === "individual" ? "border-laser bg-accent-soft" : "border-white/10"
                   }`}
                 >
                   <p className="font-semibold text-sm">Personal</p>
@@ -95,7 +87,7 @@ function SignupForm() {
                   type="button"
                   onClick={() => setPlan("family")}
                   className={`rounded-xl border p-4 text-left ${
-                    plan === "family" ? "border-accent bg-accent-soft" : "border-line"
+                    plan === "family" ? "border-laser bg-accent-soft" : "border-white/10"
                   }`}
                 >
                   <p className="font-semibold text-sm">Parivaar</p>
@@ -108,18 +100,16 @@ function SignupForm() {
 
         {step === 2 && (
           <>
-            <h2 className="font-display text-2xl font-semibold mb-1">
-              Abhi kya heavy hai, {name || "dost"}?
-            </h2>
-            <p className="text-sm text-ink-soft mb-6">Max 3 choose karo.</p>
-            <div className="grid grid-cols-1 gap-2">
+            <h2 className="font-display text-2xl font-bold mb-1">Kya heavy hai, {name || "dost"}?</h2>
+            <p className="text-sm text-ink-soft mb-6">Max 3.</p>
+            <div className="grid gap-2">
               {areas.map((a) => (
                 <button
                   key={a.id}
                   type="button"
                   onClick={() => toggle(a.id)}
                   className={`rounded-xl border px-4 py-3.5 text-left text-sm font-medium ${
-                    selected.includes(a.id) ? "border-accent bg-accent-soft" : "border-line"
+                    selected.includes(a.id) ? "border-laser bg-accent-soft" : "border-white/10"
                   }`}
                 >
                   {a.label}
@@ -131,14 +121,14 @@ function SignupForm() {
 
         {step === 3 && (
           <>
-            <h2 className="font-display text-2xl font-semibold mb-1">Confirm</h2>
-            <p className="text-sm text-ink-soft mb-6">7 din free. Card abhi nahi.</p>
-            <div className="space-y-3 text-sm mb-4">
-              <div className="flex justify-between py-2 border-b border-line">
+            <h2 className="font-display text-2xl font-bold mb-1">Confirm</h2>
+            <p className="text-sm text-ink-soft mb-6">7 din free. Card optional.</p>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between py-2 border-b border-white/10">
                 <span className="text-muted">Naam</span>
                 <span className="font-medium">{name}</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-line">
+              <div className="flex justify-between py-2 border-b border-white/10">
                 <span className="text-muted">Plan</span>
                 <span className="font-medium">
                   {plan === "individual" ? "Personal · ₹99" : "Parivaar · ₹249"}
@@ -156,11 +146,7 @@ function SignupForm() {
 
         <div className="flex justify-between mt-8">
           {step > 1 ? (
-            <button
-              type="button"
-              onClick={() => setStep(step - 1)}
-              className="flex items-center gap-1 text-sm text-ink-soft"
-            >
+            <button type="button" onClick={() => setStep(step - 1)} className="flex items-center gap-1 text-sm text-ink-soft">
               <ArrowLeft size={16} /> Back
             </button>
           ) : (
@@ -176,15 +162,11 @@ function SignupForm() {
               onClick={() => setStep(step + 1)}
               className="btn-primary px-5 py-2.5 rounded-xl text-sm disabled:opacity-40"
             >
-              Aage
+              Next
             </button>
           ) : (
-            <button
-              type="button"
-              onClick={() => setDone(true)}
-              className="btn-primary px-5 py-2.5 rounded-xl text-sm"
-            >
-              Free trial shuru
+            <button type="button" onClick={() => setDone(true)} className="btn-primary px-5 py-2.5 rounded-xl text-sm">
+              Start free
             </button>
           )}
         </div>
@@ -197,7 +179,7 @@ export default function SignupPage() {
   return (
     <div className="pt-28 pb-20 px-4">
       <div className="text-center mb-8">
-        <h1 className="font-display text-3xl font-semibold mb-2">Apna humsafar shuru karo</h1>
+        <h1 className="font-display text-3xl font-bold mb-2">Start your RIZN</h1>
         <p className="text-sm text-ink-soft">2 minute · 7 din free</p>
       </div>
       <Suspense fallback={<p className="text-center text-muted">Loading...</p>}>

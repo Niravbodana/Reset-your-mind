@@ -1,7 +1,8 @@
-# Humsafar (Docker + Node + React)
+# RIZN
 
 ```bash
-docker compose up --build
+npm install
+npm run dev
 ```
 
-App: http://localhost:3000
+Architecture: see `ARCHITECTURE.md`
