@@ -6,7 +6,7 @@ import { ArrowRight, Bell, Calendar, CreditCard, Sparkles, X } from "lucide-reac
 import { haptic } from "@/lib/haptic";
 import { useLocale } from "@/context/LocaleContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { formatMoney } from "@/lib/locale";
 
 export function OnboardingWizard() {
@@ -15,7 +15,7 @@ export function OnboardingWizard() {
   const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
   const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const trialDays = config.marketing.trialDays || 7;
   const zero = formatMoney(0, currency);
 

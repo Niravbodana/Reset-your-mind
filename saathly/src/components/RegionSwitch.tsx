@@ -1,11 +1,34 @@
 "use client";
 
+import { useEffect } from "react";
 import { Globe } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
+import { useApp } from "@/context/AppContext";
 
-/** Compact India / Worldwide toggle */
+/** India / Worldwide toggle — after login, only the chosen region stays visible */
 export function RegionSwitch({ className = "" }: { className?: string }) {
-  const { region, setRegion } = useLocale();
+  const { region, setRegion, regionLocked, setRegionLocked } = useLocale();
+  const { state } = useApp();
+  const loggedIn = Boolean(state.user);
+
+  useEffect(() => {
+    if (loggedIn && !regionLocked) setRegionLocked(true);
+    if (!loggedIn && regionLocked) setRegionLocked(false);
+  }, [loggedIn, regionLocked, setRegionLocked]);
+
+  if (loggedIn || regionLocked) {
+    return (
+      <div
+        className={`inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 ${className}`}
+        aria-label="Region"
+      >
+        <Globe size={14} className="text-gold-light shrink-0" />
+        <span className="text-xs font-semibold text-gold-light">
+          {region === "IN" ? "India" : "Worldwide"}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div

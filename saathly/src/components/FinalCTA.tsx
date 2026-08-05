@@ -4,13 +4,13 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
-import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 
 export function FinalCTA() {
   const config = useSiteConfig();
-  const { region, currency, preferEnglish } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
 
   return (
     <section className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
@@ -33,7 +33,7 @@ export function FinalCTA() {
           <p className="text-ink-soft text-sm sm:text-base md:text-lg mb-8 sm:mb-10 max-w-lg mx-auto leading-relaxed">
             {isIN
               ? `${priceLabel} me roz tumhare naam pe value. EMI/bill alert, daily motivation, habit — sab ek jagah. Tum deserve karte ho ye change.`
-              : `${priceLabel}/month — daily messages with your name, bill reminders, habits in one place. Available worldwide (${dualPersonalPriceLabel(config)}).`}
+              : `${priceLabel}/month — daily messages with your name, bill reminders, habits in one place.`}
           </p>
           <Link
             href="/signup"
@@ -43,7 +43,8 @@ export function FinalCTA() {
             <ArrowRight size={20} className="shrink-0" />
           </Link>
           <p className="mt-6 text-xs text-muted">
-            {config.marketing.trialDays}-day free trial · Cancel anytime · Worldwide
+            {config.marketing.trialDays}-day free trial · Cancel anytime ·{" "}
+            {region === "IN" ? "India" : "Worldwide"}
           </p>
         </div>
       </div>

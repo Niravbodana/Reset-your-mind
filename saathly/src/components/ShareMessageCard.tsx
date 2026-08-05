@@ -13,7 +13,7 @@ type Props = {
 export function ShareMessageCard({ name, message, className = "" }: Props) {
   const [copied, setCopied] = useState(false);
 
-  const shareText = `Mera pehla RIZN message 💛\n\n"${message}"\n\n— ${name} ke liye, RIZN pe\nRIZN — aapki life change hone ka reason · ₹99/month\nhttps://rizn.app`;
+  const shareText = `Mera pehla RIZN message 💛\n\n"${message}"\n\n— ${name} ke liye, RIZN pe\nRIZN — aapki life change hone ka reason\nhttps://rizn.app`;
 
   const share = async () => {
     haptic("success");

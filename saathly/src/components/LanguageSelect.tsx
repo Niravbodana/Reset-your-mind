@@ -3,26 +3,27 @@
 import { useEffect, useRef, useState } from "react";
 import { Languages } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
-import { UI_LANGUAGES } from "@/lib/i18n";
+import { UI_LANGUAGES, type UiLang } from "@/lib/i18n";
 
-/** World language picker — changes whole UI via i18n */
+/** World language picker — India defaults to Hinglish (Roman), not Devanagari */
 export function LanguageSelect({ compact = false }: { compact?: boolean }) {
   const { uiLang, setUiLang, t, region } = useLocale();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const current = UI_LANGUAGES.find((l) => l.code === uiLang) || UI_LANGUAGES[0];
 
-  // India default (hi) = Hinglish site/messages
-  const labelFor = (code: string, native: string, label: string) => {
-    if (code === "hi" && region === "IN") {
-      return { native: "Hinglish", label: "India default" };
-    }
-    if (code === "hi" && region === "GLOBAL") {
-      return { native, label: "Hindi" };
-    }
-    return { native, label };
-  };
-  const shown = labelFor(current.code, current.native, current.label);
+  // India: put Hinglish first; Worldwide: English first, hide Hinglish option
+  const options =
+    region === "IN"
+      ? [
+          ...UI_LANGUAGES.filter((l) => l.code === "hinglish"),
+          ...UI_LANGUAGES.filter((l) => l.code !== "hinglish"),
+        ]
+      : UI_LANGUAGES.filter((l) => l.code !== "hinglish");
+
+  const current =
+    options.find((l) => l.code === uiLang) ||
+    UI_LANGUAGES.find((l) => l.code === uiLang) ||
+    options[0];
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -44,7 +45,7 @@ export function LanguageSelect({ compact = false }: { compact?: boolean }) {
         aria-expanded={open}
       >
         <Languages size={14} className="text-gold-light shrink-0" />
-        <span className="font-semibold max-w-[4.5rem] truncate">{shown.native}</span>
+        <span className="font-semibold max-w-[4.5rem] truncate">{current.native}</span>
       </button>
 
       {open && (
@@ -52,27 +53,26 @@ export function LanguageSelect({ compact = false }: { compact?: boolean }) {
           <p className="px-2 py-1.5 text-[10px] uppercase tracking-wider text-muted font-semibold">
             {t("nav.language")}
           </p>
-          {UI_LANGUAGES.map((l) => {
-            const item = labelFor(l.code, l.native, l.label);
-            return (
-              <button
-                key={l.code}
-                type="button"
-                onClick={() => {
-                  setUiLang(l.code);
-                  setOpen(false);
-                }}
-                className={`w-full flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm min-h-[44px] ${
-                  uiLang === l.code
-                    ? "bg-gold/20 text-gold-light"
-                    : "text-white/85 hover:bg-white/5"
-                }`}
-              >
-                <span className="font-medium">{item.native}</span>
-                <span className="text-[11px] text-muted">{item.label}</span>
-              </button>
-            );
-          })}
+          {options.map((l) => (
+            <button
+              key={l.code}
+              type="button"
+              onClick={() => {
+                setUiLang(l.code as UiLang);
+                setOpen(false);
+              }}
+              className={`w-full flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm min-h-[44px] ${
+                uiLang === l.code
+                  ? "bg-gold/20 text-gold-light"
+                  : "text-white/85 hover:bg-white/5"
+              }`}
+            >
+              <span className="font-medium">{l.native}</span>
+              <span className="text-[11px] text-muted">
+                {l.code === "hinglish" ? "India default" : l.label}
+              </span>
+            </button>
+          ))}
         </div>
       )}
     </div>

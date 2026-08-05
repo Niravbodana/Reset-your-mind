@@ -7,7 +7,7 @@ import { BrandLockup } from "./Logo";
 import { useApp } from "@/context/AppContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
-import { formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { LanguageSelect } from "./LanguageSelect";
 import { RegionSwitch } from "./RegionSwitch";
 import { DemoModeBanner } from "./DemoModeBanner";
@@ -17,8 +17,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { state } = useApp();
   const config = useSiteConfig();
-  const { currency, region, t, preferEnglish } = useLocale();
-  const priceLabel = formatPersonalPrice(config, currency);
+  const { region, t, preferEnglish } = useLocale();
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const links = [
     { href: "/#hero", label: t("nav.home") },
     { href: "/#features", label: t("nav.features") },

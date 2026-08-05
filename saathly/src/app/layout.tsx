@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | RIZN",
   },
   description:
-    "RIZN — aapki life change hone ka reason. Daily personalized messages + bill reminders. 7-day free trial, then from ₹99 / $2.99 a month. Available worldwide.",
+    "RIZN — aapki life change hone ka reason. Daily personalized messages + bill reminders. 7-day free trial. India ₹99/- · Worldwide from $2.99.",
   applicationName: "RIZN",
   appleWebApp: {
     capable: true,
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RIZN — aapki life change hone ka reason",
     description:
-      "RIZN — aapki life change hone ka reason. Daily motivation + bill reminders worldwide. 7-day free trial. From ₹99 / $2.99.",
+      "RIZN — aapki life change hone ka reason. Daily motivation + bill reminders. 7-day free trial.",
     type: "website",
     images: ["/images/animatic-after-hope.jpg"],
   },

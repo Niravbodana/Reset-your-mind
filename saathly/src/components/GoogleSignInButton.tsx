@@ -123,11 +123,7 @@ export function GoogleSignInButton({
           </span>
           {preferEnglish ? "Continue with email (Demo)" : "Email se continue (Demo)"}
         </button>
-        <p className="mt-2 text-[11px] text-center text-white/45">
-          {preferEnglish
-            ? "Preview signup — not real Google login. Admin can enable live Google later."
-            : "Preview signup — real Google nahi. Admin baad me live Google on kar sakte hain."}
-        </p>
+        <p className="mt-2 text-[11px] text-center text-white/45">{t("signup.googleHint")}</p>
         {error && <p className="mt-1 text-xs text-rose-300 text-center">{error}</p>}
       </div>
     );

@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { formatPersonalPrice, dualPersonalPriceLabel } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { ScrollReveal } from "./ScrollReveal";
 
 type Feature = {
@@ -167,7 +167,7 @@ export function FeaturesShowcase() {
   const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
   const isIN = region === "IN" && !preferEnglish;
-  const price = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
 
   return (
     <section id="features" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
@@ -177,18 +177,18 @@ export function FeaturesShowcase() {
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
             {isIN ? (
               <>
-                Jo milta hai <span className="text-gold-light">{price}/month</span> me
+                Jo milta hai <span className="text-gold-light">{priceLabel}/month</span> me
               </>
             ) : (
               <>
-                Everything in <span className="text-gold-light">{price}/month</span>
+                Everything in <span className="text-gold-light">{priceLabel}/month</span>
               </>
             )}
           </h2>
           <p className="text-ink-soft text-sm leading-relaxed">
             {isIN
-              ? `Steps, water, sleep, bills, Soft Day, wins — sab ek jagah. ${dualPersonalPriceLabel(config)} worldwide.`
-              : `Steps, water, sleep, bills, Soft Day, wins — in one place. ${dualPersonalPriceLabel(config)} worldwide.`}
+              ? `Steps, water, sleep, bills, Soft Day, wins — sab ek jagah. ${priceLabel}/month.`
+              : `Steps, water, sleep, bills, Soft Day, wins — in one place. ${priceLabel}/month.`}
           </p>
         </ScrollReveal>
 

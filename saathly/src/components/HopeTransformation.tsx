@@ -8,7 +8,7 @@ import { MESSAGE_BANK } from "@/lib/message-bank";
 import { formatEmiNotification, DEMO_EMI } from "@/lib/emi-reminder";
 import { useLocale } from "@/context/LocaleContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 
 const STORIES_IN = [
   {
@@ -65,7 +65,7 @@ export function HopeTransformation() {
   const stories = isIN ? STORIES_IN : STORIES_GLOBAL;
   const [idx, setIdx] = useState(0);
   const story = stories[idx % stories.length];
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
 
   useEffect(() => {
     const t = setInterval(() => setIdx((i) => (i + 1) % stories.length), ROTATE_MS);
@@ -190,8 +190,7 @@ export function HopeTransformation() {
             <ArrowRight size={18} className="shrink-0" />
           </Link>
           <p className="text-xs text-muted mt-4">
-            {priceLabel}/month · {isIN ? "EMI/bill reminders" : "Bill reminders"} ·{" "}
-            {dualPersonalPriceLabel(config)} · Start free
+            {priceLabel}/month · {isIN ? "EMI/bill reminders" : "Bill reminders"} · Start free
           </p>
         </div>
       </div>

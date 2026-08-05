@@ -4,9 +4,8 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { getMessageBankStats } from "@/lib/message-bank";
-import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { useLocale } from "@/context/LocaleContext";
-import { formatMoney } from "@/lib/locale";
 import { OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
 import { UpiPayPreview } from "./UpiPayPreview";
@@ -19,14 +18,12 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   const config = useSiteConfig();
   const { region, currency, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const trialDays = config.marketing.trialDays;
-  const launchLabel = formatMoney(
-    currency === "USD"
-      ? config.marketing.launchPricePersonalUsd
-      : config.marketing.launchPricePersonal,
-    currency
-  );
+  const launchLabel =
+    currency === "INR"
+      ? `₹${config.marketing.launchPricePersonal}/-`
+      : `$${config.marketing.launchPricePersonalUsd}`;
 
   const features = isIN
     ? [
@@ -37,7 +34,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
         "Morning one-card · Soft Day · Pause 7 days",
         "Streak freeze · Weekly wins · Buddy check-in",
         "Trial day-5 value report",
-        "Hinglish / Hindi / English · Worldwide",
+        "Hinglish / Hindi / English · India pricing",
       ]
     : [
         `${MESSAGE_COUNT}+ unique messages — with your name`,
@@ -47,7 +44,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
         "Morning one-card · Soft Day · Pause 7 days",
         "Streak freeze · Weekly wins · Buddy check-in",
         "Trial day-5 value report",
-        "English / Hinglish / Hindi · Worldwide",
+        "English + world languages · USD pricing",
       ];
 
   return (
@@ -72,8 +69,8 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
             </h2>
             <p className="text-ink-soft text-sm leading-relaxed">
               {isIN
-                ? `${trialDays}-day free trial, phir ${priceLabel}/month autopay. Daily messages + EMI reminders. Launch pe ${launchLabel}. Also ${dualPersonalPriceLabel(config)}.`
-                : `${trialDays}-day free trial, then ${priceLabel}/month. Daily messages + bill reminders. Also ${dualPersonalPriceLabel(config)}.`}
+                ? `${trialDays}-day free trial, phir ${priceLabel}/month autopay. Daily messages + EMI reminders. Launch pe ${launchLabel}.`
+                : `${trialDays}-day free trial, then ${priceLabel}/month. Daily messages + bill reminders.`}
             </p>
           </ScrollReveal>
         )}
@@ -118,8 +115,8 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
             </Link>
             <p className="text-xs text-center text-muted mt-3">
               {isIN
-                ? `Aaj ${formatMoney(0, currency)} · ${trialDays} din free · Phir ${priceLabel}/month automatic`
-                : `${formatMoney(0, currency)} today · ${trialDays} days free · Then ${priceLabel}/month`}
+                ? `Aaj ₹0/- · ${trialDays} din free · Phir ${priceLabel}/month automatic`
+                : `$0 today · ${trialDays} days free · Then ${priceLabel}/month`}
             </p>
           </div>
           <div className="mt-6">

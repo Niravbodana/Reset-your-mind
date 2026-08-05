@@ -2,8 +2,8 @@
 
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
-import { dualPersonalPriceLabel, personalMonthlyPrice } from "@/lib/pricing";
-import { formatMoney, crisisResources } from "@/lib/locale";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
+import { crisisResources } from "@/lib/locale";
 
 type Props = {
   variant?: "section" | "page";
@@ -13,21 +13,21 @@ export function FaqList({ variant = "section" }: Props) {
   const config = useSiteConfig();
   const { region, currency, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
-  const personal = personalMonthlyPrice(config, currency);
-  const launchPersonal =
-    currency === "USD"
-      ? config.marketing.launchPricePersonalUsd
-      : config.marketing.launchPricePersonal;
+  const priceLabel = regionPersonalPriceLabel(config, region);
+  const launchLabel =
+    currency === "INR"
+      ? `₹${config.marketing.launchPricePersonal}/-`
+      : `$${config.marketing.launchPricePersonalUsd}`;
   const trialDays = config.marketing.trialDays || 7;
   const crisis = crisisResources(region);
 
   const pricingAnswer = config.features.earlyBirdActive
     ? isIN
-      ? `RIZN Personal: ${trialDays}-day free trial, then ${formatMoney(personal, currency)}/month autopay (regular ${formatMoney(launchPersonal, currency)}). Also worldwide at ${dualPersonalPriceLabel(config)}. UPI/card mandate — trial ke baad automatic. Cancel anytime.`
-      : `RIZN Personal: ${trialDays}-day free trial, then ${formatMoney(personal, currency)}/month autopay (regular ${formatMoney(launchPersonal, currency)}). Available worldwide — ${dualPersonalPriceLabel(config)}. Cancel anytime.`
+      ? `RIZN Personal: ${trialDays}-day free trial, phir ${priceLabel}/month autopay (regular ${launchLabel}). UPI/card mandate — trial ke baad automatic. Cancel anytime.`
+      : `RIZN Personal: ${trialDays}-day free trial, then ${priceLabel}/month autopay (regular ${launchLabel}). Cancel anytime.`
     : isIN
-      ? `RIZN Personal: ${trialDays}-day free trial, then ${formatMoney(personal, currency)}/month. Messages + EMI/bill reminders. Worldwide: ${dualPersonalPriceLabel(config)}.`
-      : `RIZN Personal: ${trialDays}-day free trial, then ${formatMoney(personal, currency)}/month. Messages + bill reminders included. Also ${dualPersonalPriceLabel(config)}.`;
+      ? `RIZN Personal: ${trialDays}-day free trial, phir ${priceLabel}/month. Messages + EMI/bill reminders.`
+      : `RIZN Personal: ${trialDays}-day free trial, then ${priceLabel}/month. Messages + bill reminders included.`;
 
   const crisisLine = crisis
     .map((c) => `${c.label} (${c.value})`)

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
-import { formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { haptic } from "@/lib/haptic";
 
 export function WhatsAppCTA({
@@ -17,7 +17,7 @@ export function WhatsAppCTA({
   const config = useSiteConfig();
   const { region, currency, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const joinText = isIN
     ? `Hi RIZN! Main ${priceLabel} plan join karna chahta/chahti hoon. Daily messages + EMI reminder chahiye.`
     : `Hi RIZN! I'd like to join the ${priceLabel} plan. Daily messages + bill reminders please.`;

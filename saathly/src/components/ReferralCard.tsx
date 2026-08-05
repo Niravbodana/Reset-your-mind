@@ -5,20 +5,20 @@ import { Check, Gift } from "lucide-react";
 import { haptic } from "@/lib/haptic";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
-import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 
 export function ReferralCard({ code }: { code: string }) {
   const config = useSiteConfig();
   const { region, currency, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const [copied, setCopied] = useState(false);
   const origin =
     typeof window !== "undefined" ? window.location.origin : config.marketing.siteUrl;
   const link = `${origin}/signup?ref=${encodeURIComponent(code)}`;
   const shareText = isIN
-    ? `RIZN try karo — daily messages + EMI/bill reminder, ${priceLabel}/month (${dualPersonalPriceLabel(config)}).\nMere code se join karo → ${config.marketing.trialDays} din free:\n${link}`
-    : `Try RIZN — daily messages + bill reminders, ${priceLabel}/month worldwide (${dualPersonalPriceLabel(config)}).\nJoin with my code → ${config.marketing.trialDays} days free:\n${link}`;
+    ? `RIZN try karo — daily messages + EMI/bill reminder, ${priceLabel}/month.\nMere code se join karo → ${config.marketing.trialDays} din free:\n${link}`
+    : `Try RIZN — daily messages + bill reminders, ${priceLabel}/month.\nJoin with my code → ${config.marketing.trialDays} days free:\n${link}`;
 
   const copy = async () => {
     haptic("success");

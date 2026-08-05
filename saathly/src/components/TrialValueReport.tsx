@@ -6,7 +6,7 @@ import { useApp } from "@/context/AppContext";
 import { useLocale } from "@/context/LocaleContext";
 import { trialDayNumber } from "@/lib/bills";
 import { isTrialActive } from "@/lib/plans";
-import { formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { haptic } from "@/lib/haptic";
 
@@ -33,7 +33,7 @@ export function TrialValueReport() {
   const actions = state.pulses.filter((p) => p.actionDone).length;
   const reads = state.pulses.filter((p) => p.read).length;
   const bills = user.emiReminders?.length ?? 0;
-  const price = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
 
   const dismiss = () => {
     haptic("light");
@@ -76,8 +76,8 @@ export function TrialValueReport() {
       </div>
       <p className="text-xs text-ink-soft leading-relaxed mb-4">
         {isIN
-          ? `${bills} bill reminder set · Soft Day + Pause ready · Trial ke baad sirf ${price}/month. Cancel anytime.`
-          : `${bills} bill reminder(s) set · Soft Day + Pause ready · After trial just ${price}/month. Cancel anytime.`}
+          ? `${bills} bill reminder set · Soft Day + Pause ready · Trial ke baad sirf ${priceLabel}/month. Cancel anytime.`
+          : `${bills} bill reminder(s) set · Soft Day + Pause ready · After trial just ${priceLabel}/month. Cancel anytime.`}
       </p>
       <div className="flex flex-col sm:flex-row gap-2">
         <Link

@@ -9,7 +9,7 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
 import { MESSAGE_BANK, getMessageBankStats } from "@/lib/message-bank";
 import { formatCustomerName } from "@/lib/message-format";
-import { formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { IPhoneNotificationDemo } from "./IPhoneNotificationDemo";
 import { OfferBanner, OfferPrice } from "./OfferPrice";
 import { Wordmark } from "./Logo";
@@ -24,7 +24,7 @@ export function Hero() {
   const [name, setName] = useState("");
   const [tick, setTick] = useState(0);
   const displayName = name.trim() || (preferEnglish ? "Alex" : DEMO_NAME);
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const isIN = region === "IN" && !preferEnglish;
 
   const message = useMemo(() => {

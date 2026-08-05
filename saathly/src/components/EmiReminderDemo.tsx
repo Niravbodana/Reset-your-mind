@@ -7,14 +7,14 @@ import Link from "next/link";
 import { formatEmiNotification, DEMO_EMI } from "@/lib/emi-reminder";
 import { useLocale } from "@/context/LocaleContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { ScrollReveal } from "./ScrollReveal";
 
 export function EmiReminderDemo() {
   const { region, preferEnglish } = useLocale();
   const config = useSiteConfig();
   const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = formatPersonalPrice(config, isIN ? "INR" : "USD");
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const [step, setStep] = useState(0);
 
   const steps = isIN

@@ -3,11 +3,20 @@
 import Link from "next/link";
 import { BrandLockup } from "@/components/Logo";
 import { getMessageBankStats } from "@/lib/message-bank";
+import { useLocale } from "@/context/LocaleContext";
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 
-const BENEFITS = [
+const BENEFITS_IN = [
   `${getMessageBankStats().total}+ unique messages — aapke naam ke saath`,
   "EMI reminders — 1 din pehle, bank/NBFC naam ke saath",
   "Dashboard se sab control — pause, edit, delete",
+];
+
+const BENEFITS_GLOBAL = [
+  `${getMessageBankStats().total}+ unique messages — with your name`,
+  "Bill reminders — 1 day early, with provider name",
+  "Full control from dashboard — pause, edit, delete",
 ];
 
 export function AuthShell({
@@ -21,6 +30,11 @@ export function AuthShell({
   subtitle: string;
   footer?: React.ReactNode;
 }) {
+  const { region, preferEnglish } = useLocale();
+  const config = useSiteConfig();
+  const priceLabel = regionPersonalPriceLabel(config, region);
+  const benefits = region === "IN" && !preferEnglish ? BENEFITS_IN : BENEFITS_GLOBAL;
+
   return (
     <div className="min-h-[100dvh]">
       <div className="mx-auto grid min-h-[100dvh] max-w-6xl lg:grid-cols-[1fr_1.05fr]">
@@ -44,14 +58,24 @@ export function AuthShell({
                 aapki life change hone ka reason
               </p>
               <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-white xl:text-4xl">
-                Har din thoda better.
-                <br />
-                <span className="text-gold">₹99/month.</span>
+                {region === "IN" && !preferEnglish ? (
+                  <>
+                    Har din thoda better.
+                    <br />
+                    <span className="text-gold">{priceLabel}/month.</span>
+                  </>
+                ) : (
+                  <>
+                    A little better every day.
+                    <br />
+                    <span className="text-gold">{priceLabel}/month.</span>
+                  </>
+                )}
               </h2>
             </div>
 
             <ul className="space-y-4">
-              {BENEFITS.map((b) => (
+              {benefits.map((b) => (
                 <li key={b} className="flex items-start gap-3 text-sm text-white/85">
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold/20 text-gold">
                     <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">

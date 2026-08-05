@@ -39,9 +39,8 @@ export default function BillingPage() {
     user?.plan === "parivaar"
       ? parivaarMonthlyPrice(config, currency)
       : personalMonthlyPrice(config, currency);
-  const displayPriceLabel = formatMoney(displayPrice, currency);
-  const inrPrice = personalMonthlyPrice(config, "INR");
-  const usdPrice = personalMonthlyPrice(config, "USD");
+  const displayPriceLabel =
+    currency === "INR" ? `₹${displayPrice}/-` : formatMoney(displayPrice, currency);
   const zeroLabel = formatMoney(0, currency);
 
   const paymentsLive = config.features.paymentsEnabled && Boolean(config.integrations.razorpayKeyId);
@@ -89,14 +88,16 @@ export default function BillingPage() {
           {isIN ? (
             <>
               Pehle <strong className="text-white">{trialDays} din free</strong>. Phir har mahine{" "}
-              <strong className="text-gold-light">{displayPriceLabel}</strong> bank/UPI se automatic —
-              jab tak cancel na karo. Worldwide cards bhi support (when live).
+              <strong className="text-gold-light">
+                {currency === "INR" ? `₹${displayPrice}/-` : displayPriceLabel}
+              </strong>{" "}
+              bank/UPI se automatic — jab tak cancel na karo.
             </>
           ) : (
             <>
               First <strong className="text-white">{trialDays} days free</strong>. Then{" "}
-              <strong className="text-gold-light">{displayPriceLabel}/month</strong> autopay worldwide
-              (≈ {formatMoney(inrPrice, "INR")} / {formatMoney(usdPrice, "USD")}). Cancel anytime.
+              <strong className="text-gold-light">{displayPriceLabel}/month</strong> autopay. Cancel
+              anytime.
             </>
           )}
         </p>

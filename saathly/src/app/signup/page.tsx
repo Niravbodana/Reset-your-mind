@@ -10,7 +10,7 @@ import type { Language, LifeArea } from "@/lib/types";
 import { trialEndDate } from "@/lib/plans";
 import { uid } from "@/lib/storage";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { DEFAULT_INTERVAL, DEFAULT_SLEEP, DEFAULT_WAKE, defaultAnchors } from "@/lib/schedule-config";
 import { OfferPrice } from "@/components/OfferPrice";
 import { AuthShell } from "@/components/auth/AuthShell";
@@ -29,8 +29,9 @@ function SignupForm() {
   const router = useRouter();
   const { login, trackEvent } = useApp();
   const config = useSiteConfig();
-  const { currency, region, t, preferEnglish, setLanguage: setLocaleMsgLang } = useLocale();
-  const priceLabel = formatPersonalPrice(config, currency);
+  const { region, t, preferEnglish, setLanguage: setLocaleMsgLang, setRegionLocked } =
+    useLocale();
+  const priceLabel = regionPersonalPriceLabel(config, region);
   const isIN = region === "IN" && !preferEnglish;
   const crisis = crisisResources(region);
 
@@ -133,12 +134,22 @@ function SignupForm() {
       };
 
       login(user);
+      setRegionLocked(true);
       trackEvent("waitlist_signup", opts.provider);
       localStorage.removeItem("rizn_onboarding_done");
       setDone(true);
       setTimeout(() => router.push("/billing?trial=1&welcome=1"), 1400);
     },
-    [selected, language, config.marketing.trialDays, login, trackEvent, router, searchParams]
+    [
+      selected,
+      language,
+      config.marketing.trialDays,
+      login,
+      trackEvent,
+      router,
+      searchParams,
+      setRegionLocked,
+    ]
   );
 
   const onGoogle = useCallback((g: { name: string; email: string }) => {
@@ -268,8 +279,7 @@ function SignupForm() {
                   RIZN Personal — {priceLabel}/month
                 </p>
                 <p className="text-xs text-white/55">
-                  {config.marketing.trialDays}-day free trial · {dualPersonalPriceLabel(config)} ·
-                  Cancel anytime
+                  {config.marketing.trialDays}-day free trial · {priceLabel} · Cancel anytime
                 </p>
               </div>
             </div>

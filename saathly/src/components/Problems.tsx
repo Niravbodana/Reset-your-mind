@@ -3,13 +3,13 @@
 import { Wallet, HeartPulse, HeartCrack, Briefcase, Brain, CreditCard } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { formatPersonalPrice } from "@/lib/pricing";
+import { regionPersonalPriceLabel } from "@/lib/pricing";
 
 export function Problems() {
   const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
   const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = formatPersonalPrice(config, currency);
+  const priceLabel = regionPersonalPriceLabel(config, region);
 
   const problems = [
     {

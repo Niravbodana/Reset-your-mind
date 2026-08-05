@@ -1,5 +1,5 @@
 import type { PublicSiteConfig } from "./site-settings-types";
-import type { DisplayCurrency } from "./locale";
+import type { DisplayCurrency, Region } from "./locale";
 import { formatMoney } from "./locale";
 
 type Config = Pick<PublicSiteConfig, "marketing" | "features">;
@@ -35,18 +35,37 @@ export function formatPersonalPrice(config: Config, currency: DisplayCurrency): 
   return formatMoney(personalMonthlyPrice(config, currency), currency);
 }
 
-/** Dual price line for world-level marketing */
-export function dualPersonalPriceLabel(config: Config): string {
-  const inr = formatPersonalPrice(config, "INR");
-  const usd = formatPersonalPrice(config, "USD");
-  return `${inr} · ${usd}`;
+/** Single-currency price for the active region — never mix ₹ and $ */
+export function regionPersonalPriceLabel(
+  config: Config,
+  region: Region,
+  currency?: DisplayCurrency
+): string {
+  const c = currency || (region === "IN" ? "INR" : "USD");
+  const amount = personalMonthlyPrice(config, c);
+  if (c === "INR") return `₹${amount}/-`;
+  return formatMoney(amount, "USD");
 }
 
-export function pricingLabel(config: Config): string {
-  const personal = personalMonthlyPrice(config, "INR");
+/**
+ * @deprecated Use regionPersonalPriceLabel — dual ₹·$ causes India/Worldwide mismatch.
+ * Kept as region-aware alias so old call sites stay correct.
+ */
+export function dualPersonalPriceLabel(config: Config, region: Region = "GLOBAL"): string {
+  return regionPersonalPriceLabel(config, region);
+}
+
+export function pricingLabel(config: Config, region: Region = "GLOBAL"): string {
+  if (region === "IN") {
+    const personal = personalMonthlyPrice(config, "INR");
+    if (config.features.earlyBirdActive) {
+      return `Early access: ₹${personal}/- per month`;
+    }
+    return `Personal ₹${personal}/- per month`;
+  }
   const usd = personalMonthlyPrice(config, "USD");
   if (config.features.earlyBirdActive) {
-    return `Early access: ₹${personal}/mo · $${usd}/mo worldwide`;
+    return `Early access: ${formatMoney(usd, "USD")}/mo`;
   }
-  return `Personal ₹${personal}/mo · $${usd}/mo`;
+  return `Personal ${formatMoney(usd, "USD")}/mo`;
 }

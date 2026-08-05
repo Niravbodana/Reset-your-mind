@@ -9,6 +9,7 @@
  */
 export type UiLang =
   | "en"
+  | "hinglish"
   | "hi"
   | "es"
   | "fr"
@@ -40,6 +41,7 @@ export type UiLangOption = { code: UiLang; label: string; native: string };
 
 export const UI_LANGUAGES: UiLangOption[] = [
   { code: "en", label: "English", native: "English" },
+  { code: "hinglish", label: "Hinglish", native: "Hinglish" },
   { code: "hi", label: "Hindi", native: "हिन्दी" },
   { code: "es", label: "Spanish", native: "Español" },
   { code: "fr", label: "French", native: "Français" },
@@ -107,7 +109,45 @@ const en: Dict = {
   "cta.freeTrial": "Free trial worldwide — start",
 };
 
-/** Hindi — only used when user explicitly picks Hindi (or India + Hindi) */
+/** Hinglish — Roman script (India default). NOT Devanagari. */
+const hinglish: Dict = {
+  "nav.home": "Home",
+  "nav.features": "Features",
+  "nav.bills": "EMI / Bills",
+  "nav.messages": "Messages",
+  "nav.pricing": "Plan",
+  "nav.faq": "FAQ",
+  "nav.signin": "Sign in",
+  "nav.join": "Join karo",
+  "nav.dashboard": "Dashboard",
+  "nav.settings": "Settings",
+  "nav.language": "Language",
+  "signup.title": "Apna account banao",
+  "signup.subtitle": "Demo signup — mobile OTP nahi. Live Google baad me Admin se.",
+  "signup.name": "Poora naam",
+  "signup.nameHint": "Yeh naam aapke daily messages me aayega",
+  "signup.namePh": "e.g. Priya Sharma",
+  "signup.email": "Email address",
+  "signup.emailHint": "Account recovery aur updates ke liye",
+  "signup.emailPh": "you@email.com",
+  "signup.google": "Google se continue",
+  "signup.googleHint": "Admin enable kare tab live Google. Demo me email preview.",
+  "signup.orEmail": "Ya email se continue karo",
+  "signup.continue": "Aage badho",
+  "signup.personalize": "Apna experience choose karo",
+  "signup.personalizeSub": "Language aur focus areas choose karo. Baad me Settings se change.",
+  "signup.welcome": "Welcome",
+  "signup.ready": "Account ready. Next: bills, schedule, pehla message.",
+  "signup.settingUp": "Setup ho raha hai…",
+  "signup.already": "Pehle se account hai?",
+  "signup.invite": "Invite code laga — dost ke saath free trial!",
+  "login.title": "Welcome back",
+  "login.subtitle": "Demo login — is device ki email. Live Google baad me Admin se.",
+  "login.error": "Is email se account nahi mila. Pehle signup karo.",
+  "cta.freeTrial": "Free trial shuru karo",
+};
+
+/** Hindi Devanagari — only when user explicitly picks Hindi */
 const hi: Dict = {
   "nav.home": "होम",
   "nav.features": "फीचर्स",
@@ -206,6 +246,7 @@ const fr: Dict = {
 
 const TABLES: Partial<Record<UiLang, Dict>> = {
   en,
+  hinglish,
   hi,
   es,
   fr,
@@ -324,14 +365,14 @@ export function messageLanguageFor(
   region: "IN" | "GLOBAL",
   uiLang: UiLang
 ): "english" | "hindi" | "hinglish" {
+  if (uiLang === "hinglish") return "hinglish";
   if (region === "GLOBAL") {
     if (uiLang === "hi") return "hindi";
     return "english";
   }
   // India
   if (uiLang === "en") return "english";
-  if (uiLang === "hi") return "hinglish";
-  // Any other UI lang on India still defaults message bank to Hinglish
+  if (uiLang === "hi") return "hindi";
   return "hinglish";
 }
 
@@ -341,7 +382,7 @@ export function defaultsForRegion(region: "IN" | "GLOBAL"): {
   language: "english" | "hindi" | "hinglish";
 } {
   if (region === "IN") {
-    return { uiLang: "hi", language: "hinglish" };
+    return { uiLang: "hinglish", language: "hinglish" };
   }
   return { uiLang: "en", language: "english" };
 }
