@@ -3,15 +3,16 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, CreditCard } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { AREA_LABELS } from "@/lib/templates";
-import type { Language, LifeArea, PlanId } from "@/lib/types";
+import type { Language, LifeArea } from "@/lib/types";
 import { trialEndDate } from "@/lib/plans";
 import { uid } from "@/lib/storage";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { parivaarMonthlyPrice, personalMonthlyPrice } from "@/lib/pricing";
+import { personalMonthlyPrice } from "@/lib/pricing";
 import { DEFAULT_INTERVAL, DEFAULT_SLEEP, DEFAULT_WAKE, defaultAnchors } from "@/lib/schedule-config";
+import { OfferPrice } from "@/components/OfferPrice";
 
 const areaIds = Object.keys(AREA_LABELS) as LifeArea[];
 
@@ -26,11 +27,7 @@ function QuickSignup() {
   const router = useRouter();
   const { login, trackEvent } = useApp();
   const config = useSiteConfig();
-  const planParam = searchParams.get("plan");
-  const initialPlan: PlanId =
-    planParam === "family" || planParam === "parivaar" ? "parivaar" : "personal";
 
-  const [plan, setPlan] = useState<PlanId>(initialPlan);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selected, setSelected] = useState<LifeArea[]>(["finance", "mind"]);
@@ -53,7 +50,13 @@ function QuickSignup() {
     const wl = await fetch("/api/waitlist", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: name.trim(), email: email.trim(), plan, areas: selected, language }),
+      body: JSON.stringify({
+        name: name.trim(),
+        email: email.trim(),
+        plan: "personal",
+        areas: selected,
+        language,
+      }),
     });
     if (!wl.ok) {
       setLoading(false);
@@ -65,7 +68,7 @@ function QuickSignup() {
       id: uid("user"),
       name: name.trim(),
       email: email.trim().toLowerCase(),
-      plan,
+      plan: "personal" as const,
       areas: selected,
       language,
       wakeHour: 9,
@@ -78,31 +81,39 @@ function QuickSignup() {
       createdAt: new Date().toISOString(),
       trialEndsAt: trialEndDate(config.marketing.trialDays),
       subStatus: "trial" as const,
-      referralCode: name.trim().toLowerCase().replace(/\s+/g, "").slice(0, 8) + Math.floor(Math.random() * 90 + 10),
+      referralCode:
+        name.trim().toLowerCase().replace(/\s+/g, "").slice(0, 8) +
+        Math.floor(Math.random() * 90 + 10),
       referredBy: searchParams.get("ref") || undefined,
       streak: 1,
       bestStreak: 1,
       lastActiveDate: new Date().toISOString().slice(0, 10),
       sentHistory: [],
+      emiReminders: [],
     };
     login(user);
-    trackEvent("waitlist_signup", plan);
+    trackEvent("waitlist_signup", "personal");
     setDone(true);
-    setTimeout(() => router.push("/settings?welcome=1"), 800);
+    setTimeout(() => router.push("/emi-reminders?welcome=1"), 800);
   };
 
   if (done) {
     return (
       <div className="soft-card rounded-2xl p-8 text-center max-w-md mx-auto">
         <Check size={32} className="text-success mx-auto mb-4" />
-        <h2 className="font-display text-2xl font-bold mb-2">Ho gaya, {name}!</h2>
-        <p className="text-ink-soft text-sm">Dashboard pe pehla message… phir Settings se schedule set karo.</p>
+        <h2 className="font-display text-2xl font-bold mb-2">Welcome, {name}!</h2>
+        <p className="text-ink-soft text-sm">Ab EMI reminder set karo — phir dashboard pe messages.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={submit} className="max-w-md mx-auto soft-card rounded-2xl p-6 md:p-8 space-y-4">
+    <form onSubmit={submit} className="max-w-md mx-auto soft-card rounded-2xl p-6 md:p-8 space-y-4 border border-gold/20">
+      <div className="text-center pb-2 border-b border-white/10 mb-2">
+        <p className="text-xs text-gold-light font-semibold uppercase mb-2">RIZN Personal Plan</p>
+        <OfferPrice plan="personal" />
+        <p className="text-[11px] text-muted mt-2">Messages + EMI reminders included</p>
+      </div>
       <div>
         <label className="text-xs text-muted block mb-1">Naam</label>
         <input
@@ -110,7 +121,7 @@ function QuickSignup() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3"
-          placeholder="Tumhara naam"
+          placeholder="Tumhara naam — notifications me aayega"
         />
       </div>
       <div>
@@ -124,21 +135,12 @@ function QuickSignup() {
           placeholder="you@email.com"
         />
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          type="button"
-          onClick={() => setPlan("personal")}
-          className={`rounded-xl border p-3 text-left text-sm ${plan === "personal" ? "border-gold bg-accent-soft" : "border-white/10"}`}
-        >
-          Personal · ₹{personalMonthlyPrice(config)}
-        </button>
-        <button
-          type="button"
-          onClick={() => setPlan("parivaar")}
-          className={`rounded-xl border p-3 text-left text-sm ${plan === "parivaar" ? "border-gold bg-accent-soft" : "border-white/10"}`}
-        >
-          Parivaar · ₹{parivaarMonthlyPrice(config)}
-        </button>
+      <div className="rounded-xl border border-gold/20 bg-gold/5 p-3 flex gap-3 items-start">
+        <CreditCard size={18} className="text-gold-light shrink-0 mt-0.5" />
+        <p className="text-xs text-ink-soft">
+          Signup ke baad <strong className="text-white">EMI reminder</strong> set karo — amount, date,
+          bank name. 1 din pehle alert tumhare naam pe.
+        </p>
       </div>
       <div>
         <p className="text-xs text-muted mb-2">Message language</p>
@@ -187,20 +189,17 @@ function QuickSignup() {
           <Link href="/terms" className="text-gold-light underline" target="_blank">
             Terms
           </Link>
-          . Waitlist email is stored on our server; preview data stays in this browser.
+          .
         </span>
       </label>
       <button
         type="submit"
         disabled={loading || !consent}
-        className="btn-primary w-full py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2 disabled:opacity-50"
+        className="btn-primary w-full py-4 rounded-xl text-sm font-bold inline-flex items-center justify-center gap-2 disabled:opacity-50"
       >
-        {loading ? "…" : "Start free preview"}
+        {loading ? "…" : `Join — ₹${personalMonthlyPrice(config)}/month`}
         <ArrowRight size={16} />
       </button>
-      <p className="text-[11px] text-center text-muted">
-        {config.marketing.trialDays} din preview on this device · App launch pe notify · No payment now
-      </p>
     </form>
   );
 }
@@ -209,10 +208,9 @@ export default function SignupPage() {
   return (
     <div className="pt-28 pb-24 px-4">
       <div className="text-center mb-8 max-w-lg mx-auto">
-        <h1 className="font-display text-3xl font-bold mb-2">1 minute me shuru karo</h1>
-        <p className="text-sm text-ink-soft mb-8">
-          Signup ke baad <Link href="/settings" className="text-gold-light underline">Settings</Link> me
-          interval, wake/sleep, lunch, gym, medicine set karo — turant dashboard update.
+        <h1 className="font-display text-3xl font-bold mb-2">Life change shuru karo</h1>
+        <p className="text-sm text-ink-soft">
+          1 minute signup — phir EMI reminder + daily messages tumhare naam pe.
         </p>
       </div>
       <Suspense fallback={<p className="text-center text-muted">Loading…</p>}>

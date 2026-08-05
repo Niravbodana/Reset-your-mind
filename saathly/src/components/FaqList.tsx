@@ -1,7 +1,7 @@
 "use client";
 
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { personalMonthlyPrice, parivaarMonthlyPrice } from "@/lib/pricing";
+import { personalMonthlyPrice } from "@/lib/pricing";
 
 const staticFaqs = [
   {
@@ -37,18 +37,21 @@ type Props = {
 export function FaqList({ variant = "section" }: Props) {
   const config = useSiteConfig();
   const personal = personalMonthlyPrice(config);
-  const parivaar = parivaarMonthlyPrice(config);
   const launchPersonal = config.marketing.launchPricePersonal;
-  const launchParivaar = config.marketing.launchPriceParivaar;
 
   const pricingAnswer = config.features.earlyBirdActive
-    ? `Early bird pricing: Personal ₹${personal}/month, Parivaar (up to 4 members) ₹${parivaar}/month while early bird is active. Planned launch pricing: ₹${launchPersonal}/₹${launchParivaar}. Web preview is free — no payment today.`
-    : `Personal ₹${personal}/month. Parivaar (up to 4 members) ₹${parivaar}/month. Web preview is free during early access.`;
+    ? `RIZN Personal ₹${personal}/month (launch ₹${launchPersonal}) — daily messages + EMI reminders included. Web preview free — no payment today.`
+    : `RIZN Personal ₹${personal}/month — messages and EMI reminders. Web preview free during early access.`;
 
   const faqs = [
-    ...staticFaqs.slice(0, 4),
+    ...staticFaqs.slice(0, 3),
+    {
+      q: "How does EMI reminder work?",
+      a: "Add EMI name, amount, due date (day of month), and bank/NBFC. RIZN sends a notification 1 day before with your name — so you never miss a payment or get a late fee.",
+    },
+    staticFaqs[3],
     { q: "What will pricing be?", a: pricingAnswer },
-    staticFaqs[4],
+    ...staticFaqs.slice(4),
   ];
 
   if (variant === "page") {

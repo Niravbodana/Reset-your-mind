@@ -1,4 +1,4 @@
-import { Wallet, HeartPulse, HeartCrack, Briefcase, Brain, Users } from "lucide-react";
+import { Wallet, HeartPulse, HeartCrack, Briefcase, Brain, CreditCard } from "lucide-react";
 
 const problems = [
   {
@@ -32,10 +32,10 @@ const problems = [
     help: "Mood check-ins and a softer evening close.",
   },
   {
-    icon: Users,
-    who: "Family responsibilities",
-    pain: "Time for everyone else, none left for yourself.",
-    help: "Parivaar plan — support for the whole household.",
+    icon: CreditCard,
+    who: "EMI miss ho jati hai",
+    pain: "Date bhool jao, late fee lag jaye, credit score down.",
+    help: "1 din pehle alert — naam, amount, bank sab clear. ₹99 plan me included.",
   },
 ];
 

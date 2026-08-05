@@ -22,14 +22,14 @@ const display = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "RIZN — Personalized daily motivation",
+  title: "RIZN — aapki life change ka reason",
   description:
-    "Name-personalized messages on your schedule — choose 30 min to 4 hour intervals. Wake, lunch, gym, medicine reminders in Settings. Web preview free.",
+    "₹99/month — daily personalized messages + EMI reminder 1 day before. Your name, your schedule. Join free preview.",
   openGraph: {
-    title: "RIZN — Your name. Your schedule. Your rise.",
-    description: "Motivation on your time — not fixed 2-hour slots. Free web preview.",
+    title: "RIZN — aapki life change ka reason",
+    description: "Daily motivation + EMI alerts. ₹99 limited offer. Free web preview.",
     type: "website",
-    images: ["/images/hero-premium.jpg"],
+    images: ["/images/transform-premium.jpg"],
   },
 };
 

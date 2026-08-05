@@ -1,47 +1,49 @@
 import { Hero } from "@/components/Hero";
 import { HopeTransformation } from "@/components/HopeTransformation";
+import { EmiReminderDemo } from "@/components/EmiReminderDemo";
 import { ValueComparison } from "@/components/ValueComparison";
 import { NotificationFlow } from "@/components/NotificationFlow";
-import { WhatsAppPreview } from "@/components/WhatsAppPreview";
-import { AppComingSoon } from "@/components/AppComingSoon";
 import { HowItWorksSimple } from "@/components/HowItWorksSimple";
 import { DayTimeline } from "@/components/DayTimeline";
 import { Problems } from "@/components/Problems";
-import { ParivaarPlanVisual } from "@/components/ParivaarPlanVisual";
 import { PricingSection } from "@/components/PricingSection";
 import { FaqSection } from "@/components/FaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
-import { HeroVideo } from "@/components/HeroVideo";
+import { IPhoneNotificationDemo } from "@/components/IPhoneNotificationDemo";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 export default function HomePage() {
   return (
     <div className="pb-20 md:pb-0">
       <Hero />
       <HopeTransformation />
+      <EmiReminderDemo />
       <ValueComparison />
-      <section className="py-16 border-y border-white/5 bg-bg-elevated/30">
-        <div className="mx-auto max-w-6xl px-4 md:px-6 grid lg:grid-cols-2 gap-10 items-center">
-          <div>
-            <p className="section-label mb-3">Your daily companion</p>
-            <h2 className="font-display text-3xl font-bold text-white mb-4">
-              Phone pe aisa feel hoga — jaise koi apna saath de raha ho
+      <section className="py-20 md:py-28 border-y border-white/5 bg-bg-elevated/30 overflow-hidden">
+        <div className="mx-auto max-w-6xl px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center">
+          <ScrollReveal>
+            <p className="section-label mb-3">Trust on screen</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+              iPhone pe aise notifications — naam, value, timing
             </h2>
-            <p className="text-ink-soft text-sm leading-relaxed">
-              Har alert tumhare naam pe, tumhari timing pe. Chhote steps jo roz life me farak laate
-              hain — yehi habit ban jati hai.
+            <p className="text-ink-soft text-sm md:text-base leading-relaxed mb-6">
+              Real jaisa feel — EMI reminder, subah ka motivation, paisa ka nudge. Customer turant samajh
+              jata hai: ye app meri life me farak laayega.
             </p>
-          </div>
-          <HeroVideo />
+            <p className="text-gold-light text-sm font-semibold">
+              ↓ Scroll karo — poora journey dekho
+            </p>
+          </ScrollReveal>
+          <ScrollReveal delay={0.12}>
+            <IPhoneNotificationDemo />
+          </ScrollReveal>
         </div>
       </section>
       <NotificationFlow />
-      <WhatsAppPreview />
-      <AppComingSoon />
       <HowItWorksSimple />
       <DayTimeline />
       <Problems />
-      <ParivaarPlanVisual />
       <PricingSection />
       <FaqSection />
       <FinalCTA />

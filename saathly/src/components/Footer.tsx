@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Logo, Wordmark } from "./Logo";
+import { BrandLockup } from "./Logo";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 
 export function Footer() {
@@ -14,23 +14,19 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-12 md:px-6">
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2.5 mb-3">
-              <Logo className="w-8 h-8" />
-              <Wordmark className="text-[1.35rem]" />
-            </div>
-            <p className="text-sm text-ink-soft leading-relaxed">
-              Personalized daily motivation for busy lives in India.
+            <BrandLockup />
+            <p className="text-sm text-ink-soft leading-relaxed mt-4">
+              RIZN — aapki life change ka reason. Daily motivation + EMI reminders, India ke liye.
             </p>
-            <p className="text-xs text-muted mt-3">Mobile app — coming soon</p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Product</p>
             <ul className="space-y-2 text-sm text-ink-soft">
+              <li><Link href="/#emi-reminder" className="hover:text-white">EMI Reminder</Link></li>
               <li><Link href="/#notifications" className="hover:text-white">Notifications</Link></li>
-              <li><Link href="/#app" className="hover:text-white">Mobile app</Link></li>
-              <li><Link href="/pricing" className="hover:text-white">Pricing</Link></li>
+              <li><Link href="/pricing" className="hover:text-white">₹99 Plan</Link></li>
               <li><Link href="/samples" className="hover:text-white">Samples</Link></li>
-              <li><Link href="/signup" className="hover:text-white">Early access</Link></li>
+              <li><Link href="/signup" className="hover:text-white">Join now</Link></li>
             </ul>
           </div>
           <div>
@@ -51,7 +47,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted">
-          <p>© {new Date().getFullYear()} RIZN</p>
+          <p>© {new Date().getFullYear()} RIZN — aapki life change ka reason</p>
           <p>Not a medical or therapy service</p>
         </div>
       </div>

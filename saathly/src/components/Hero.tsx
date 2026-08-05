@@ -3,13 +3,14 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { DEMO_NAME } from "@/lib/constants";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { MESSAGE_BANK } from "@/lib/message-bank";
 import { formatCustomerName } from "@/lib/message-format";
-import { NotificationPhone } from "./NotificationPhone";
+import { IPhoneNotificationDemo } from "./IPhoneNotificationDemo";
 import { OfferBanner, OfferPrice } from "./OfferPrice";
+import { ScrollReveal } from "./ScrollReveal";
 
 const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any").slice(0, 12);
 
@@ -25,72 +26,71 @@ export function Hero() {
   }, [displayName, tick]);
 
   return (
-    <section className="relative min-h-[72vh] md:min-h-[88vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[90vh] md:min-h-[95vh] flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="/images/hero-premium.jpg"
-          alt="RIZN personalized daily motivation"
+          src="/images/transform-premium.jpg"
+          alt="RIZN — life change"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-center scale-105"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/90 to-black/75" />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/88 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/40 to-black/60" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 md:px-6 pt-28 pb-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <div>
+      <div className="relative mx-auto max-w-7xl px-4 md:px-6 pt-28 pb-24 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <ScrollReveal>
             <div className="flex flex-wrap items-center gap-3 mb-5">
               <OfferBanner />
-              {config.waitlistCount > 0 && (
-                <span className="text-xs text-ink-soft">{config.waitlistCount}+ on waitlist</span>
-              )}
+              <span className="inline-flex items-center gap-1 text-xs text-gold-light bg-gold/10 px-3 py-1 rounded-full border border-gold/20">
+                <Sparkles size={12} />
+                aapki life change ka reason
+              </span>
             </div>
-            <h1 className="font-display text-[2rem] sm:text-[2.75rem] lg:text-[3.1rem] font-bold leading-[1.15] tracking-[-0.02em] mb-5 text-white">
-              Priya ji, good morning —
-              <span className="text-gold-light"> ab uth jao.</span> Life me aage badhna hai.
+            <h1 className="font-display text-[2.1rem] sm:text-[2.85rem] lg:text-[3.25rem] font-bold leading-[1.12] tracking-[-0.03em] mb-5 text-white">
+              RIZN — tumhari life
+              <span className="text-gold-light"> better banane</span> ka ek rasta.
             </h1>
-            <p className="text-base md:text-[1.05rem] text-ink-soft max-w-lg leading-[1.65] mb-6 font-normal">
-              Har din tumhare naam pe messages jo actually value dete hain — kabhi repeat nahi, har
-              baar kuch naya. Schedule tum choose karo; hum saath chalenge.
+            <p className="text-base md:text-lg text-ink-soft max-w-lg leading-[1.7] mb-6">
+              Roz naam pe messages + EMI 1 din pehle alert. ₹99 me poora plan — hope, habit, control.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
               <Link
                 href="/signup"
-                className="btn-primary inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-semibold"
+                className="btn-primary inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-gold/25"
               >
-                Start free preview
-                <ArrowRight size={17} />
+                ₹99 plan join karo — abhi
+                <ArrowRight size={18} />
               </Link>
               <Link
-                href="/samples"
-                className="btn-secondary inline-flex items-center justify-center px-7 py-3.5 rounded-xl text-[15px] font-medium"
+                href="/#emi-reminder"
+                className="btn-secondary inline-flex items-center justify-center px-7 py-4 rounded-xl text-[15px] font-medium"
               >
-                Sample messages
+                EMI reminder dekho
               </Link>
             </div>
             <OfferPrice plan="personal" size="sm" className="text-sm" />
             <p className="text-xs text-muted mt-2">
-              {config.marketing.trialDays} din trial when billing opens · No card now
+              Limited offer · {config.marketing.trialDays} din trial · No card now
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div id="feel" className="relative">
-            <div className="hidden lg:block absolute -left-4 top-8 z-10">
-              <NotificationPhone name={displayName} />
-            </div>
-            <div className="lg:ml-[180px] soft-card rounded-2xl p-5 md:p-6">
-              <p className="text-sm font-medium text-white mb-1">Apna naam likho — feel karo</p>
-              <div className="flex gap-2 mb-3 mt-3">
+          <div className="relative" id="feel">
+            <ScrollReveal delay={0.15}>
+              <IPhoneNotificationDemo name={displayName} />
+              <div className="mt-6 soft-card rounded-2xl p-4 md:p-5 max-w-sm mx-auto">
+              <p className="text-sm font-medium text-white mb-2">Apna naam likho — feel karo</p>
+              <div className="flex gap-2 mb-3">
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Priya, Rahul, Ananya..."
+                  placeholder="Priya, Anand, Rahul..."
                   maxLength={20}
-                  className="flex-1 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-[15px] text-white placeholder:text-muted focus:outline-none focus:border-gold/60"
+                  className="flex-1 rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-sm text-white placeholder:text-muted focus:outline-none focus:border-gold/60"
                 />
                 <button
                   type="button"
@@ -100,13 +100,9 @@ export function Hero() {
                   Agla
                 </button>
               </div>
-              <div className="rounded-xl bg-black/50 border border-white/10 p-4">
-                <p className="text-[15px] leading-[1.6] text-white/95 font-normal">{message}</p>
+              <p className="text-[14px] leading-relaxed text-white/95">{message}</p>
               </div>
-            </div>
-            <div className="lg:hidden mt-6">
-              <NotificationPhone name={displayName} />
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

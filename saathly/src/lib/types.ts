@@ -25,6 +25,8 @@ export type UserProfile = {
   dndEnabled?: boolean;
   /** Tracks sent message template ids — no repeat until pool cycles */
   sentHistory?: SentMessageRecord[];
+  /** EMI reminders — alert 1 day before due date */
+  emiReminders?: import("./emi-reminder").EmiReminder[];
   createdAt: string;
   trialEndsAt: string;
   subStatus: SubStatus;

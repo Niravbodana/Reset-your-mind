@@ -1,4 +1,4 @@
-import { Bell, Globe, MessageCircle } from "lucide-react";
+import { Bell, Globe, CreditCard } from "lucide-react";
 
 const channels = [
   {
@@ -16,17 +16,17 @@ const channels = [
     desc: "30 min se 4 hour interval — wake, lunch, gym, medicine, dinner. Sab tumhari life ke hisaab se.",
   },
   {
-    icon: MessageCircle,
-    title: "Parivaar plan",
-    status: "Family too",
-    statusColor: "text-muted",
-    desc: "Ghar walon ke naam pe bhi alerts — Anand ji, Maa ji — sabko apna rasta mile.",
+    icon: CreditCard,
+    title: "EMI Reminder",
+    status: "1 day before",
+    statusColor: "text-gold-light",
+    desc: "Amount, date, bank/NBFC — naam ke saath alert. Late fee se bacho, tension kam.",
   },
 ];
 
 const steps = [
   { n: "1", title: "Apna profile banao", text: "Naam, focus areas, language — 1 minute." },
-  { n: "2", title: "Schedule set karo", text: "Kitni der baad message, subah-raat ka time, lunch/gym anchors." },
+  { n: "2", title: "EMI + schedule set karo", text: "EMI amount, date, bank — phir message interval aur wake/sleep." },
   { n: "3", title: "Roz value feel karo", text: "Padho, chhota step karo — life better feel hogi, habit ban jayegi." },
 ];
 

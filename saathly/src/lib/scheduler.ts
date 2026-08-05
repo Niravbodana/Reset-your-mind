@@ -30,6 +30,7 @@ export function migrateUserSchedule(user: UserProfile): UserProfile {
     weekendMode: user.weekendMode ?? false,
     dndEnabled: user.dndEnabled ?? false,
     sentHistory: user.sentHistory ?? [],
+    emiReminders: user.emiReminders ?? [],
   };
 }
 

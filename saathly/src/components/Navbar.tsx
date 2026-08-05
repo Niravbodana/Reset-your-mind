@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Logo, Wordmark } from "./Logo";
+import { BrandLockup } from "./Logo";
 import { useApp } from "@/context/AppContext";
 
 const links = [
   { href: "/#feel", label: "Demo" },
+  { href: "/#emi-reminder", label: "EMI" },
   { href: "/samples", label: "Samples" },
-  { href: "/#notifications", label: "Notifications" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/pricing", label: "₹99 Plan" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -32,9 +32,8 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
-        <Link href="/" className="flex items-center gap-2.5">
-          <Logo className="w-9 h-9" />
-          <Wordmark />
+        <Link href="/" className="flex items-center">
+          <BrandLockup compact />
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
@@ -62,8 +61,8 @@ export function Navbar() {
               </Link>
             </>
           ) : (
-            <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-              Join waitlist
+            <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm font-bold">
+              ₹99 Join
             </Link>
           )}
         </div>

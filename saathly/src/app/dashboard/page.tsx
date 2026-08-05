@@ -203,12 +203,12 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex flex-wrap gap-2 justify-center text-xs">
-          <Link href="/settings" className="text-gold-light hover:underline">
-            Schedule & reminders
+          <Link href="/emi-reminders" className="text-gold-light hover:underline">
+            EMI Reminders
           </Link>
           <span className="text-muted">·</span>
-          <Link href="/family" className="text-muted hover:text-white">
-            Parivaar
+          <Link href="/settings" className="text-muted hover:text-white">
+            Schedule
           </Link>
           <span className="text-muted">·</span>
           <Link href="/billing" className="text-muted hover:text-white">

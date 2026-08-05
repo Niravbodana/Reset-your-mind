@@ -1,25 +1,36 @@
-export function Logo({ className = "w-9 h-9" }: { className?: string }) {
+export function Logo({ className = "w-10 h-10" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 40 40"
+      viewBox="0 0 48 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden
     >
-      <rect width="40" height="40" rx="11" fill="#0c0c12" stroke="url(#g)" strokeWidth="1.5" />
-      <path
-        d="M12 28V12h7.2c3.4 0 5.5 1.9 5.5 4.7 0 2.1-1.1 3.6-2.9 4.2L27 28h-4.2l-4.4-6.2H16V28H12Zm4-9.6h3c1.5 0 2.4-.8 2.4-2s-.9-2-2.4-2H16v4Z"
-        fill="#fff"
-      />
-      <path d="M8 31h24" stroke="#c9a227" strokeWidth="2" strokeLinecap="round" />
       <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="40" y2="40">
-          <stop stopColor="#c9a227" />
-          <stop offset="0.5" stopColor="#e8c547" />
+        <linearGradient id="rizn-g" x1="0" y1="0" x2="48" y2="48">
+          <stop stopColor="#e8c547" />
+          <stop offset="0.5" stopColor="#c9a227" />
           <stop offset="1" stopColor="#9a7b1a" />
         </linearGradient>
+        <linearGradient id="rizn-rise" x1="24" y1="32" x2="24" y2="8">
+          <stop stopColor="#e8c547" stopOpacity="0.9" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0.95" />
+        </linearGradient>
       </defs>
+      <rect width="48" height="48" rx="14" fill="#0a0a10" stroke="url(#rizn-g)" strokeWidth="1.75" />
+      <path
+        d="M14 34V14h8.5c4 0 6.5 2.2 6.5 5.5 0 2.5-1.3 4.2-3.4 4.9L32 34h-5l-5.2-7.3H18.5V34H14Zm4.5-11.5h3.5c1.8 0 2.8-1 2.8-2.4s-1-2.4-2.8-2.4H18.5v4.8Z"
+        fill="#fff"
+      />
+      <path
+        d="M30 10l4 6-4 6M34 16H22"
+        stroke="url(#rizn-rise)"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M10 37h28" stroke="url(#rizn-g)" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }
@@ -27,9 +38,25 @@ export function Logo({ className = "w-9 h-9" }: { className?: string }) {
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`font-display text-[1.55rem] font-bold tracking-[0.12em] text-white ${className}`}
+      className={`font-display text-[1.6rem] font-extrabold tracking-[0.14em] text-white ${className}`}
     >
       RIZN
     </span>
+  );
+}
+
+export function BrandLockup({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <Logo className={compact ? "w-8 h-8" : "w-10 h-10"} />
+      <div className="flex flex-col leading-none">
+        <Wordmark className={compact ? "text-[1.25rem]" : ""} />
+        {!compact && (
+          <span className="text-[9px] sm:text-[10px] font-medium text-gold-light/90 tracking-wide mt-0.5 max-w-[140px] leading-tight">
+            aapki life change ka reason
+          </span>
+        )}
+      </div>
+    </div>
   );
 }

@@ -98,10 +98,25 @@ function SettingsContent() {
         </div>
         {welcome && (
           <div className="rounded-xl border border-gold/30 bg-gold/10 p-4 mb-6 text-sm text-ink-soft">
-            <p className="font-semibold text-white mb-1">Pehli baar? Schedule set karo</p>
-            <p className="text-xs">Interval, wake/sleep, lunch, gym — save karo, phir dashboard pe messages dikhenge.</p>
+            <p className="font-semibold text-white mb-1">Pehli baar? Do steps</p>
+            <p className="text-xs">
+              1) <Link href="/emi-reminders" className="text-gold-light underline">EMI reminder</Link> set karo ·
+              2) Schedule save karo — phir dashboard pe messages dikhenge.
+            </p>
           </div>
         )}
+
+        <Link
+          href="/emi-reminders"
+          className="block soft-card rounded-2xl p-4 mb-5 border border-gold/20 hover:border-gold/40 transition-colors"
+        >
+          <p className="text-sm font-semibold text-white">EMI Reminders</p>
+          <p className="text-xs text-ink-soft mt-1">
+            {(user.emiReminders?.length ?? 0) > 0
+              ? `${user.emiReminders!.length} EMI set — 1 din pehle alert`
+              : "Amount, date, bank add karo — 1 din pehle notification"}
+          </p>
+        </Link>
 
         <section className="soft-card rounded-2xl p-5 mb-5 space-y-4">
           <h2 className="font-semibold text-white text-sm">Message frequency</h2>
