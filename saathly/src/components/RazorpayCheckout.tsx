@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { haptic } from "@/lib/haptic";
+import { useLocale } from "@/context/LocaleContext";
 
 declare global {
   interface Window {
@@ -51,6 +52,7 @@ export function RazorpayCheckout({
   className,
   children,
 }: Props) {
+  const { currency, region } = useLocale();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
@@ -64,14 +66,16 @@ export function RazorpayCheckout({
       const res = await fetch("/api/billing/create-subscription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId, email, name, phone }),
+        body: JSON.stringify({ planId, email, name, phone, currency, region }),
       });
       const data = await res.json();
 
       if (data.demo) {
         setInfo(
           data.message ||
-            "Demo: 7-day free trial start. Live pe UPI/card se autopay mandate set hoga."
+            (region === "GLOBAL"
+              ? "Demo: free trial started. Live worldwide checkout coming with card autopay."
+              : "Demo: 7-day free trial start. Live pe UPI/card se autopay mandate set hoga.")
         );
         onSuccess?.({
           demo: true,

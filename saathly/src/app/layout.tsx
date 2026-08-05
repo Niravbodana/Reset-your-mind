@@ -29,11 +29,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "RIZN — aapki life change ka reason",
+    default: "RIZN — your reason for life change",
     template: "%s | RIZN",
   },
   description:
-    "₹99/month — daily personalized messages + EMI reminder 1 day before. Aapki life change ka reason.",
+    "Daily personalized messages + bill reminders. 7-day free trial, then from ₹99 / $2.99 a month. Available worldwide.",
   applicationName: "RIZN",
   appleWebApp: {
     capable: true,
@@ -42,23 +42,25 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.webmanifest",
   openGraph: {
-    title: "RIZN — aapki life change ka reason",
-    description: "Daily motivation + EMI alerts. ₹99 limited offer. Start free today.",
+    title: "RIZN — your reason for life change",
+    description: "Daily motivation + bill reminders worldwide. 7-day free trial. From ₹99 / $2.99.",
     type: "website",
     images: ["/images/animatic-after-hope.jpg"],
   },
   keywords: [
     "daily motivation",
+    "bill reminder",
     "EMI reminder",
-    "Hinglish motivation",
-    "habit app India",
+    "habit app",
+    "personalized messages",
     "RIZN",
+    "wellness worldwide",
   ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="hi-IN" className={`${body.variable} ${display.variable} h-full antialiased`}>
+    <html lang="en" className={`${body.variable} ${display.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink font-sans">
         <Providers>
           <LaserBackground />

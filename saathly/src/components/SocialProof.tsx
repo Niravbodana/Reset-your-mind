@@ -1,6 +1,16 @@
 "use client";
 
-const STORIES = [
+import { useLocale } from "@/context/LocaleContext";
+
+const GLOBAL_STORIES = [
+  { name: "Alex", city: "London", streak: 14, line: "Mornings feel lighter again" },
+  { name: "Priya", city: "Mumbai", streak: 12, line: "Bills no longer surprise me" },
+  { name: "Sam", city: "Singapore", streak: 9, line: "Small steps, real momentum" },
+  { name: "Maya", city: "New York", streak: 18, line: "Messages with my name hit different" },
+  { name: "Rahul", city: "Dubai", streak: 11, line: "Finally a habit that sticks" },
+];
+
+const INDIA_STORIES = [
   { name: "Priya", city: "Mumbai", streak: 12, line: "Neend wapas aa gayi" },
   { name: "Rahul", city: "Pune", streak: 8, line: "EMI pehle se ready" },
   { name: "Ananya", city: "Delhi", streak: 21, line: "Roz ek chhota win" },
@@ -9,14 +19,22 @@ const STORIES = [
 ];
 
 export function SocialProof() {
+  const { region } = useLocale();
+  const stories = region === "IN" ? INDIA_STORIES : GLOBAL_STORIES;
+
   return (
     <section className="border-y border-white/5 bg-bg-elevated/50 py-8 sm:py-10 overflow-hidden">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <p className="section-label mb-4 text-center">Logon ki life better ho rahi hai</p>
+        <p className="section-label mb-2 text-center">
+          {region === "IN" ? "Logon ki life better ho rahi hai" : "People worldwide are leveling up"}
+        </p>
+        <p className="text-center text-xs text-muted mb-4">
+          India · UAE · UK · US · Singapore — and growing
+        </p>
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory -mx-1 px-1">
-          {STORIES.map((s) => (
+          {stories.map((s) => (
             <article
-              key={s.name}
+              key={`${s.name}-${s.city}`}
               className="snap-start shrink-0 w-[240px] sm:w-[260px] premium-card rounded-2xl p-4 border border-white/10"
             >
               <div className="flex items-center gap-3 mb-3">
@@ -25,9 +43,11 @@ export function SocialProof() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-white truncate">
-                    {s.name} ji · {s.city}
+                    {s.name} · {s.city}
                   </p>
-                  <p className="text-xs text-gold-light">{s.streak} din ki habit</p>
+                  <p className="text-xs text-gold-light">
+                    {s.streak} {region === "IN" ? "din ki habit" : "day streak"}
+                  </p>
                 </div>
               </div>
               <p className="text-sm text-ink-soft leading-relaxed">&ldquo;{s.line}&rdquo;</p>

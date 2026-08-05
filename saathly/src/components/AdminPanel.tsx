@@ -281,6 +281,42 @@ export function AdminPanel() {
               />
             </label>
             <label className="block">
+              <span className="text-xs text-muted">Early bird Personal $</span>
+              <input
+                type="number"
+                step="0.01"
+                value={settings.marketing.earlyBirdPricePersonalUsd}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketing: {
+                      ...settings.marketing,
+                      earlyBirdPricePersonalUsd: Number(e.target.value),
+                    },
+                  })
+                }
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs text-muted">Launch Personal $</span>
+              <input
+                type="number"
+                step="0.01"
+                value={settings.marketing.launchPricePersonalUsd}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketing: {
+                      ...settings.marketing,
+                      launchPricePersonalUsd: Number(e.target.value),
+                    },
+                  })
+                }
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"
+              />
+            </label>
+            <label className="block">
               <span className="text-xs text-muted">Early bird Parivaar ₹</span>
               <input
                 type="number"
@@ -303,6 +339,70 @@ export function AdminPanel() {
                   setSettings({
                     ...settings,
                     marketing: { ...settings.marketing, launchPriceParivaar: Number(e.target.value) },
+                  })
+                }
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs text-muted">Early bird Parivaar $</span>
+              <input
+                type="number"
+                step="0.01"
+                value={settings.marketing.earlyBirdPriceParivaarUsd}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketing: {
+                      ...settings.marketing,
+                      earlyBirdPriceParivaarUsd: Number(e.target.value),
+                    },
+                  })
+                }
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"
+              />
+            </label>
+            <label className="block">
+              <span className="text-xs text-muted">Launch Parivaar $</span>
+              <input
+                type="number"
+                step="0.01"
+                value={settings.marketing.launchPriceParivaarUsd}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketing: {
+                      ...settings.marketing,
+                      launchPriceParivaarUsd: Number(e.target.value),
+                    },
+                  })
+                }
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"
+              />
+            </label>
+            <label className="block col-span-2">
+              <span className="text-xs text-muted">India tagline</span>
+              <input
+                type="text"
+                value={settings.marketing.indiaTagline}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketing: { ...settings.marketing, indiaTagline: e.target.value },
+                  })
+                }
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"
+              />
+            </label>
+            <label className="block col-span-2">
+              <span className="text-xs text-muted">Worldwide tagline</span>
+              <input
+                type="text"
+                value={settings.marketing.globalTagline}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketing: { ...settings.marketing, globalTagline: e.target.value },
                   })
                 }
                 className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2.5 text-sm mt-1"

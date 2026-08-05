@@ -12,13 +12,13 @@ import { getMessageBankStats } from "@/lib/message-bank";
 const COUNT = getMessageBankStats().total;
 
 export const metadata: Metadata = {
-  title: "Daily Motivation Messages — naam ke saath | RIZN",
-  description: `${COUNT}+ unique daily motivation messages in Hinglish, Hindi, English — personalized with your name. ₹99/month + EMI reminders.`,
+  title: "Daily Motivation Messages — with your name | RIZN",
+  description: `${COUNT}+ unique daily motivation messages in English, Hinglish, Hindi — personalized with your name. From ₹99 / $2.99 + bill reminders. Worldwide.`,
   openGraph: {
     title: "Daily Motivation — RIZN",
-    description: "Roz tumhare naam pe messages. Chhote steps, badi hope. ₹99.",
+    description: "Daily messages with your name. Small steps, real hope. Available worldwide.",
   },
-};
+}
 
 export default function DailyMotivationLandingPage() {
   return (

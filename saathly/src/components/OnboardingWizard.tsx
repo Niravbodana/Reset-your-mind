@@ -4,41 +4,20 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Bell, Calendar, CreditCard, Sparkles, X } from "lucide-react";
 import { haptic } from "@/lib/haptic";
-
-const STEPS = [
-  {
-    icon: Sparkles,
-    title: "7-day free trial + Autopay",
-    body: "Aaj mandate set (₹0). 7 din free. Phir har mahine ₹99 bank se automatic.",
-    href: "/billing?trial=1",
-    cta: "Free trial + Autopay set karo",
-  },
-  {
-    icon: CreditCard,
-    title: "EMI set karo",
-    body: "Amount, date, bank — 30 second. 1 din pehle caring alert milega.",
-    href: "/emi-reminders?welcome=1",
-    cta: "EMI add karo",
-  },
-  {
-    icon: Calendar,
-    title: "Schedule choose karo",
-    body: "Wake, sleep, interval — messages tumhari life ke hisaab se.",
-    href: "/settings?welcome=1",
-    cta: "Schedule set karo",
-  },
-  {
-    icon: Bell,
-    title: "Pehla message feel karo",
-    body: "Dashboard pe aaj ke alerts — naam ke saath, value ke saath.",
-    href: "/dashboard",
-    cta: "Dashboard kholo",
-  },
-];
+import { useLocale } from "@/context/LocaleContext";
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { formatPersonalPrice } from "@/lib/pricing";
+import { formatMoney } from "@/lib/locale";
 
 export function OnboardingWizard() {
   const [step, setStep] = useState(0);
   const [open, setOpen] = useState(false);
+  const { region, currency } = useLocale();
+  const config = useSiteConfig();
+  const isIN = region === "IN";
+  const priceLabel = formatPersonalPrice(config, currency);
+  const trialDays = config.marketing.trialDays || 7;
+  const zero = formatMoney(0, currency);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -48,9 +27,71 @@ export function OnboardingWizard() {
 
   if (!open) return null;
 
-  const current = STEPS[step];
+  const steps = isIN
+    ? [
+        {
+          icon: Sparkles,
+          title: `${trialDays}-day free trial + Autopay`,
+          body: `Aaj mandate set (${zero}). ${trialDays} din free. Phir har mahine ${priceLabel} bank se automatic.`,
+          href: "/billing?trial=1",
+          cta: "Free trial + Autopay set karo",
+        },
+        {
+          icon: CreditCard,
+          title: "EMI / bill set karo",
+          body: "Amount, date, bank — 30 second. 1 din pehle caring alert milega.",
+          href: "/emi-reminders?welcome=1",
+          cta: "EMI / bill add karo",
+        },
+        {
+          icon: Calendar,
+          title: "Schedule choose karo",
+          body: "Wake, sleep, interval — messages tumhari life ke hisaab se.",
+          href: "/settings?welcome=1",
+          cta: "Schedule set karo",
+        },
+        {
+          icon: Bell,
+          title: "Pehla message feel karo",
+          body: "Dashboard pe aaj ke alerts — naam ke saath, value ke saath.",
+          href: "/dashboard",
+          cta: "Dashboard kholo",
+        },
+      ]
+    : [
+        {
+          icon: Sparkles,
+          title: `${trialDays}-day free trial + Autopay`,
+          body: `Authorize mandate today (${zero}). ${trialDays} days free. Then ${priceLabel}/month automatic.`,
+          href: "/billing?trial=1",
+          cta: "Start free trial + Autopay",
+        },
+        {
+          icon: CreditCard,
+          title: "Set bill reminders",
+          body: "Amount, date, provider — 30 seconds. Caring alert one day early.",
+          href: "/emi-reminders?welcome=1",
+          cta: "Add a bill",
+        },
+        {
+          icon: Calendar,
+          title: "Choose your schedule",
+          body: "Wake, sleep, interval — messages that fit your life.",
+          href: "/settings?welcome=1",
+          cta: "Set schedule",
+        },
+        {
+          icon: Bell,
+          title: "Feel your first message",
+          body: "Today's alerts on the dashboard — with your name, with value.",
+          href: "/dashboard",
+          cta: "Open dashboard",
+        },
+      ];
+
+  const current = steps[step];
   const Icon = current.icon;
-  const last = step === STEPS.length - 1;
+  const last = step === steps.length - 1;
 
   const finish = () => {
     localStorage.setItem("rizn_onboarding_done", "1");
@@ -77,31 +118,32 @@ export function OnboardingWizard() {
         </button>
 
         <p className="text-xs font-semibold uppercase tracking-wider text-gold-light mb-1">
-          Setup · {step + 1}/{STEPS.length}
+          Setup · {step + 1}/{steps.length}
         </p>
-        <div className="mb-5 flex gap-1.5">
-          {STEPS.map((_, i) => (
-            <span
+        <div className="flex items-start gap-3 mb-4 mt-3">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold">
+            <Icon size={22} />
+          </div>
+          <div>
+            <h2 className="font-display text-xl font-bold text-white">{current.title}</h2>
+            <p className="text-sm text-ink-soft mt-1.5 leading-relaxed">{current.body}</p>
+          </div>
+        </div>
+
+        <div className="flex gap-1.5 mb-6">
+          {steps.map((_, i) => (
+            <div
               key={i}
               className={`h-1 flex-1 rounded-full ${i <= step ? "bg-gold" : "bg-white/10"}`}
             />
           ))}
         </div>
 
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold/15 text-gold mb-4">
-          <Icon size={26} />
-        </div>
-        <h2 className="font-display text-2xl font-bold text-white mb-2">{current.title}</h2>
-        <p className="text-sm text-ink-soft leading-relaxed mb-6">{current.body}</p>
-
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <Link
             href={current.href}
-            onClick={() => {
-              if (last) localStorage.setItem("rizn_onboarding_done", "1");
-              haptic("medium");
-            }}
-            className="btn-primary inline-flex items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-bold min-h-[52px]"
+            onClick={finish}
+            className="btn-primary flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-bold min-h-[48px]"
           >
             {current.cta}
             <ArrowRight size={16} />
@@ -111,7 +153,7 @@ export function OnboardingWizard() {
             onClick={next}
             className="text-sm text-muted hover:text-white min-h-[44px]"
           >
-            {last ? "Skip — later" : "Agla step"}
+            {last ? (isIN ? "Skip — dashboard pe jao" : "Skip — go to dashboard") : isIN ? "Agla step" : "Next step"}
           </button>
         </div>
       </div>

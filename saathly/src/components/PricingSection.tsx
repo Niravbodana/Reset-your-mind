@@ -4,40 +4,77 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { getMessageBankStats } from "@/lib/message-bank";
+import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
+import { useLocale } from "@/context/LocaleContext";
+import { formatMoney } from "@/lib/locale";
 import { OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
 import { UpiPayPreview } from "./UpiPayPreview";
 import { WhatsAppCTA } from "./WhatsAppCTA";
 import { NoSpamPromise } from "./NoSpamPromise";
+import { RegionSwitch } from "./RegionSwitch";
 
 const MESSAGE_COUNT = getMessageBankStats().total;
 
-const features = [
-  `${MESSAGE_COUNT}+ unique messages — naam ke saath, kabhi repeat nahi`,
-  "EMI reminder 1 din pehle — amount, date, bank/NBFC",
-  "Schedule control: 30 min to 4 hour interval",
-  "Wake, sleep, lunch, gym, medicine, dinner anchors",
-  "Money, health, love, career, mind — tum choose karo",
-  "Mood & streak tracking",
-  "Hinglish, Hindi, or English",
-  "Soft mode on difficult days",
-];
-
 export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   const config = useSiteConfig();
+  const { region, currency } = useLocale();
+  const isIN = region === "IN";
+  const priceLabel = formatPersonalPrice(config, currency);
+  const trialDays = config.marketing.trialDays;
+  const launchLabel = formatMoney(
+    currency === "USD"
+      ? config.marketing.launchPricePersonalUsd
+      : config.marketing.launchPricePersonal,
+    currency
+  );
+
+  const features = isIN
+    ? [
+        `${MESSAGE_COUNT}+ unique messages — naam ke saath, kabhi repeat nahi`,
+        "EMI / bill reminder 1 din pehle — amount, date, bank",
+        "Schedule control: 30 min to 4 hour interval",
+        "Wake, sleep, lunch, gym, medicine, dinner anchors",
+        "Money, health, love, career, mind — tum choose karo",
+        "Mood & streak tracking",
+        "Hinglish, Hindi, or English",
+        "Soft mode on difficult days",
+      ]
+    : [
+        `${MESSAGE_COUNT}+ unique messages — with your name, never generic`,
+        "Bill reminders 1 day early — amount, date, provider",
+        "Schedule control: 30 min to 4 hour interval",
+        "Wake, sleep, lunch, gym, medicine, dinner anchors",
+        "Money, health, love, career, mind — you choose",
+        "Mood & streak tracking",
+        "English, Hinglish, or Hindi",
+        "Soft mode on difficult days",
+      ];
 
   return (
     <section id="pricing" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {showTitle && (
           <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
+            <div className="flex justify-center mb-4">
+              <RegionSwitch />
+            </div>
             <p className="section-label mb-3">Pricing</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
-              Sirf <span className="text-gold-light">₹99</span> — poora plan
+              {isIN ? (
+                <>
+                  Sirf <span className="text-gold-light">{priceLabel}</span> — poora plan
+                </>
+              ) : (
+                <>
+                  From <span className="text-gold-light">{priceLabel}</span> — worldwide
+                </>
+              )}
             </h2>
             <p className="text-ink-soft text-sm leading-relaxed">
-              {config.marketing.trialDays}-day free trial, phir ₹99/month autopay. Daily messages + EMI
-              reminders. Launch pe ₹{config.marketing.launchPricePersonal}.
+              {isIN
+                ? `${trialDays}-day free trial, phir ${priceLabel}/month autopay. Daily messages + EMI reminders. Launch pe ${launchLabel}. Also ${dualPersonalPriceLabel(config)}.`
+                : `${trialDays}-day free trial, then ${priceLabel}/month. Daily messages + bill reminders. Also ${dualPersonalPriceLabel(config)}.`}
             </p>
           </ScrollReveal>
         )}
@@ -47,8 +84,14 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
             <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-black text-[11px] font-bold px-4 py-1 rounded-full">
               Life change plan
             </span>
-            <h3 className="font-display text-2xl font-bold text-white mb-1 text-center">RIZN Personal</h3>
-            <p className="text-sm text-muted mb-6 text-center">Messages + EMI reminders — sab included</p>
+            <h3 className="font-display text-2xl font-bold text-white mb-1 text-center">
+              RIZN Personal
+            </h3>
+            <p className="text-sm text-muted mb-6 text-center">
+              {isIN
+                ? "Messages + EMI / bill reminders — sab included"
+                : "Messages + bill reminders — everything included"}
+            </p>
             <div className="flex justify-center mb-8">
               <OfferPrice plan="personal" size="lg" />
             </div>
@@ -64,19 +107,23 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
               href="/signup"
               className="btn-primary block text-center py-4 rounded-xl text-base font-bold min-h-[52px]"
             >
-              Start {config.marketing.trialDays}-day free trial
+              Start {trialDays}-day free trial
             </Link>
             <Link
               href="/billing"
               className="mt-3 text-center text-sm text-gold-light hover:underline min-h-[44px] flex items-center justify-center"
             >
-              Autopay detail dekho — 7 din baad ₹99/mo
+              {isIN
+                ? `Autopay detail — ${trialDays} din baad ${priceLabel}/mo`
+                : `See autopay — ${priceLabel}/mo after trial`}
             </Link>
             <div className="mt-3">
               <WhatsAppCTA variant="bar" />
             </div>
             <p className="text-xs text-center text-muted mt-3">
-              Aaj ₹0 · {config.marketing.trialDays} din free · Phir ₹99/month automatic
+              {isIN
+                ? `Aaj ${formatMoney(0, currency)} · ${trialDays} din free · Phir ${priceLabel}/month automatic`
+                : `${formatMoney(0, currency)} today · ${trialDays} days free · Then ${priceLabel}/month`}
             </p>
           </div>
           <div className="mt-6">

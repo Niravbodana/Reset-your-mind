@@ -6,36 +6,59 @@ import Link from "next/link";
 import { ArrowRight, Heart, Shield, Zap } from "lucide-react";
 import { DEMO_NAME } from "@/lib/constants";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useLocale } from "@/context/LocaleContext";
 import { MESSAGE_BANK, getMessageBankStats } from "@/lib/message-bank";
 import { formatCustomerName } from "@/lib/message-format";
+import { formatPersonalPrice } from "@/lib/pricing";
 import { IPhoneNotificationDemo } from "./IPhoneNotificationDemo";
 import { OfferBanner, OfferPrice } from "./OfferPrice";
 import { Wordmark } from "./Logo";
+import { RegionSwitch } from "./RegionSwitch";
 
 const MESSAGE_COUNT = getMessageBankStats().total;
 const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any");
 
-const TRUST = [
-  { icon: Heart, text: "Naam ke saath daily care" },
-  { icon: Shield, text: "EMI 1 din pehle alert" },
-  { icon: Zap, text: `${MESSAGE_COUNT}+ unique messages` },
-];
-
 export function Hero() {
   const config = useSiteConfig();
+  const { region, currency, language } = useLocale();
   const [name, setName] = useState("");
   const [tick, setTick] = useState(0);
   const displayName = name.trim() || DEMO_NAME;
+  const priceLabel = formatPersonalPrice(config, currency);
+  const isIN = region === "IN";
+
   const message = useMemo(() => {
     const tpl = heroPool[tick % heroPool.length];
-    const n = formatCustomerName(displayName, "hinglish");
-    return tpl.hinglish.replaceAll("{name}", n);
-  }, [displayName, tick]);
+    const n = formatCustomerName(displayName, language === "hindi" ? "hindi" : isIN ? "hinglish" : "english");
+    const text =
+      language === "english" || !isIN
+        ? tpl.english || tpl.hinglish
+        : language === "hindi"
+          ? tpl.hindi || tpl.hinglish
+          : tpl.hinglish;
+    return text.replaceAll("{name}", n);
+  }, [displayName, tick, language, isIN]);
 
   useEffect(() => {
     const t = setInterval(() => setTick((v) => v + 1), 4500);
     return () => clearInterval(t);
   }, []);
+
+  const trust = isIN
+    ? [
+        { icon: Heart, text: "Naam ke saath daily care" },
+        { icon: Shield, text: "EMI / bills 1 din pehle" },
+        { icon: Zap, text: `${MESSAGE_COUNT}+ unique messages` },
+      ]
+    : [
+        { icon: Heart, text: "Personalized daily messages" },
+        { icon: Shield, text: "Bill reminders — 1 day early" },
+        { icon: Zap, text: `${MESSAGE_COUNT}+ unique messages` },
+      ];
+
+  const tagline = isIN
+    ? config.marketing.indiaTagline || "Aapki life change ka reason"
+    : config.marketing.globalTagline || "Your reason for life change";
 
   return (
     <section id="hero" className="relative overflow-x-hidden">
@@ -53,35 +76,52 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-5 md:px-6 page-top pb-12 sm:pb-16 md:pb-24 w-full">
+        <div className="mb-5 flex flex-wrap items-center gap-3">
+          <RegionSwitch />
+          <span className="text-[11px] text-white/45 uppercase tracking-wider">
+            Available worldwide
+          </span>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start lg:items-center">
           <div className="min-w-0">
             <div className="mb-4 lg:hidden">
               <Wordmark className="text-2xl sm:text-3xl" />
-              <p className="text-xs text-gold-light mt-1.5 font-medium tracking-wide">
-                Aapki life change ka reason
-              </p>
+              <p className="text-xs text-gold-light mt-1.5 font-medium tracking-wide">{tagline}</p>
             </div>
 
             <OfferBanner />
 
             {config.waitlistCount > 0 && (
               <p className="text-xs text-gold-light/80 mt-3 mb-1">
-                {config.waitlistCount}+ logon ne apni life better banani shuru ki
+                {isIN
+                  ? `${config.waitlistCount}+ logon ne apni life better banani shuru ki`
+                  : `${config.waitlistCount}+ people started building better days with RIZN`}
               </p>
             )}
 
             <h1 className="font-display text-[1.85rem] sm:text-[2.4rem] md:text-[3rem] lg:text-[3.5rem] font-bold leading-[1.12] tracking-[-0.03em] mb-4 sm:mb-5 text-white mt-3 sm:mt-4">
-              Humse judo —
-              <span className="text-gold-light"> life better</span> ho sakti hai.
+              {isIN ? (
+                <>
+                  Humse judo —
+                  <span className="text-gold-light"> life better</span> ho sakti hai.
+                </>
+              ) : (
+                <>
+                  Join us —
+                  <span className="text-gold-light"> life can get better</span>.
+                </>
+              )}
             </h1>
 
             <p className="text-[15px] sm:text-base md:text-xl text-ink-soft max-w-lg leading-[1.65] mb-6 sm:mb-8">
-              Roz tumhare naam pe messages. EMI 1 din pehle. ₹99 me poora plan — hope, habit, control
-              wapas.
+              {isIN
+                ? `Roz tumhare naam pe messages. Bills/EMI 1 din pehle. ${priceLabel}/month — hope, habit, control wapas. ${config.marketing.trialDays}-day free trial.`
+                : `Daily messages with your name. Bill reminders 1 day early. ${priceLabel}/month worldwide — hope, habits, control back. ${config.marketing.trialDays}-day free trial.`}
             </p>
 
             <div className="flex flex-col gap-3 mb-6 sm:mb-8">
-              {TRUST.map((t) => (
+              {trust.map((t) => (
                 <div key={t.text} className="flex items-center gap-2.5 text-sm text-ink-soft">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gold/15">
                     <t.icon size={16} className="text-gold-light" />
@@ -103,7 +143,7 @@ export function Hero() {
                 href="/#transform"
                 className="btn-secondary inline-flex items-center justify-center px-6 sm:px-7 py-3.5 rounded-xl text-[15px] font-medium w-full sm:w-auto min-h-[48px]"
               >
-                Pehle vs Ab dekho
+                {isIN ? "Pehle vs Ab dekho" : "See before vs after"}
               </Link>
             </div>
 
@@ -117,13 +157,15 @@ export function Hero() {
               <IPhoneNotificationDemo name={displayName} compact />
             </div>
             <div className="mt-5 premium-card rounded-2xl p-4 sm:p-5 w-full max-w-sm mx-auto border border-white/10">
-              <p className="text-sm font-medium text-white mb-3">Apna naam likho — message feel karo</p>
+              <p className="text-sm font-medium text-white mb-3">
+                {isIN ? "Apna naam likho — message feel karo" : "Type your name — feel the message"}
+              </p>
               <div className="flex flex-col gap-2 mb-3">
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Priya, Rahul, Amit..."
+                  placeholder={isIN ? "Priya, Rahul, Amit..." : "Alex, Priya, Sam..."}
                   maxLength={20}
                   className="w-full min-w-0 rounded-xl border border-white/10 bg-black/60 px-4 py-3.5 text-base text-white placeholder:text-muted focus:outline-none focus:border-gold/60 min-h-[48px]"
                 />
@@ -132,7 +174,7 @@ export function Hero() {
                   onClick={() => setTick((t) => t + 1)}
                   className="btn-secondary rounded-xl px-5 py-3 text-sm font-medium w-full min-h-[48px]"
                 >
-                  Agla message dekho
+                  {isIN ? "Agla message dekho" : "Next message"}
                 </button>
               </div>
               <p className="text-[14px] leading-relaxed text-white/95 break-words">{message}</p>

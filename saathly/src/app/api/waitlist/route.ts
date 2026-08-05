@@ -3,7 +3,8 @@ import { appendWaitlist, readSettings } from "@/lib/site-settings-server";
 import type { WaitlistEntry } from "@/lib/site-settings-types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_RE = /^[6-9]\d{9}$/;
+/** India 10-digit or international 8–15 digits */
+const PHONE_RE = /^([6-9]\d{9}|\d{8,15})$/;
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
@@ -21,7 +22,10 @@ export async function POST(req: Request) {
   }
 
   if (phone && !PHONE_RE.test(phone)) {
-    return NextResponse.json({ error: "Valid 10-digit Indian mobile required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Valid phone required (India 10-digit or international 8–15 digits)" },
+      { status: 400 }
+    );
   }
 
   const settings = await readSettings();

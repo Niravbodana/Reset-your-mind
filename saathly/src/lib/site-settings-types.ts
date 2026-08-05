@@ -23,15 +23,23 @@ export type SiteSettings = {
     launchPricePersonal: number;
     earlyBirdPriceParivaar: number;
     launchPriceParivaar: number;
+    /** Global USD early-bird personal price */
+    earlyBirdPricePersonalUsd: number;
+    launchPricePersonalUsd: number;
+    earlyBirdPriceParivaarUsd: number;
+    launchPriceParivaarUsd: number;
     trialDays: number;
     siteUrl: string;
     supportEmail: string;
     crisisHelpline: string;
-    /** India WhatsApp number digits only, e.g. 9198XXXXXXXX — join / support CTA */
+    /** WhatsApp number digits with country code, e.g. 9198XXXXXXXX */
     whatsappJoinNumber: string;
     instagramUrl: string;
     playStoreUrl: string;
     appStoreUrl: string;
+    /** Brand positioning: worldwide by default */
+    globalTagline: string;
+    indiaTagline: string;
   };
   features: {
     paymentsEnabled: boolean;
@@ -91,6 +99,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     launchPricePersonal: 199,
     earlyBirdPriceParivaar: 249,
     launchPriceParivaar: 499,
+    earlyBirdPricePersonalUsd: 2.99,
+    launchPricePersonalUsd: 4.99,
+    earlyBirdPriceParivaarUsd: 6.99,
+    launchPriceParivaarUsd: 9.99,
     trialDays: 7,
     siteUrl: "http://localhost:3000",
     supportEmail: "hello@rizn.app",
@@ -99,6 +111,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     instagramUrl: "",
     playStoreUrl: "",
     appStoreUrl: "",
+    globalTagline: "Your reason for life change",
+    indiaTagline: "Aapki life change ka reason",
   },
   features: {
     paymentsEnabled: false,

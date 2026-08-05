@@ -1,3 +1,8 @@
+"use client";
+
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useLocale } from "@/context/LocaleContext";
+
 export function Logo({ className = "w-10 h-10" }: { className?: string }) {
   return (
     <svg
@@ -37,28 +42,33 @@ export function Logo({ className = "w-10 h-10" }: { className?: string }) {
 
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span
-      className={`font-display font-extrabold tracking-[0.14em] text-white ${className}`}
-    >
+    <span className={`font-display font-extrabold tracking-[0.14em] text-white ${className}`}>
       RIZN
     </span>
   );
 }
 
-/** Tagline always directly under RIZN */
+/** Tagline adapts: Worldwide English / India Hinglish */
 export function BrandLockup({ size = "default" }: { size?: "default" | "sm" }) {
   const sm = size === "sm";
+  const config = useSiteConfig();
+  const { region } = useLocale();
+  const tagline =
+    region === "IN"
+      ? config.marketing.indiaTagline || "Aapki life change ka reason"
+      : config.marketing.globalTagline || "Your reason for life change";
+
   return (
-    <div className="flex items-center gap-2.5">
-      <Logo className={sm ? "w-9 h-9" : "w-10 h-10"} />
-      <div className="flex flex-col leading-none gap-0.5">
+    <div className="flex items-center gap-2.5 min-w-0">
+      <Logo className={sm ? "w-9 h-9 shrink-0" : "w-10 h-10 shrink-0"} />
+      <div className="flex flex-col leading-none gap-0.5 min-w-0">
         <Wordmark className={sm ? "text-[1.15rem]" : "text-[1.45rem]"} />
         <span
-          className={`font-medium text-gold-light/95 tracking-wide leading-tight ${
+          className={`font-medium text-gold-light/95 tracking-wide leading-tight truncate ${
             sm ? "text-[11px]" : "text-xs"
           }`}
         >
-          Aapki life change ka reason
+          {tagline}
         </span>
       </div>
     </div>

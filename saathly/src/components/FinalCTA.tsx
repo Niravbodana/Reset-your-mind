@@ -1,7 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useLocale } from "@/context/LocaleContext";
+import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
 
 export function FinalCTA() {
+  const config = useSiteConfig();
+  const { region, currency } = useLocale();
+  const isIN = region === "IN";
+  const priceLabel = formatPersonalPrice(config, currency);
+
   return (
     <section className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-gold/[0.06] via-transparent to-transparent pointer-events-none" />
@@ -9,20 +19,32 @@ export function FinalCTA() {
         <div className="premium-card shimmer-border rounded-2xl sm:rounded-3xl p-6 sm:p-12 md:p-16">
           <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-gold-light mx-auto mb-4" />
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-5">
-            Aaj hi judo — kal se life <span className="text-gold-light">better.</span>
+            {isIN ? (
+              <>
+                Aaj hi judo — kal se life <span className="text-gold-light">better.</span>
+              </>
+            ) : (
+              <>
+                Join today — tomorrow can feel{" "}
+                <span className="text-gold-light">better.</span>
+              </>
+            )}
           </h2>
           <p className="text-ink-soft text-sm sm:text-base md:text-lg mb-8 sm:mb-10 max-w-lg mx-auto leading-relaxed">
-            ₹99 me roz tumhare naam pe value. EMI alert, daily motivation, habit — sab ek jagah.
-            Tum deserve karte ho ye change.
+            {isIN
+              ? `${priceLabel} me roz tumhare naam pe value. EMI/bill alert, daily motivation, habit — sab ek jagah. Tum deserve karte ho ye change.`
+              : `${priceLabel}/month — daily messages with your name, bill reminders, habits in one place. Available worldwide (${dualPersonalPriceLabel(config)}).`}
           </p>
           <Link
             href="/signup"
             className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-12 py-4 sm:py-5 rounded-xl text-base sm:text-lg font-bold shadow-xl shadow-gold/25 w-full sm:w-auto max-w-sm mx-auto min-h-[52px]"
           >
-            Abhi shuru karo — ₹99
+            {isIN ? `Abhi shuru karo — ${priceLabel}` : `Start free — ${priceLabel}/mo`}
             <ArrowRight size={20} className="shrink-0" />
           </Link>
-          <p className="mt-6 text-xs text-muted">No card required · Cancel anytime when billing opens</p>
+          <p className="mt-6 text-xs text-muted">
+            {config.marketing.trialDays}-day free trial · Cancel anytime · Worldwide
+          </p>
         </div>
       </div>
     </section>

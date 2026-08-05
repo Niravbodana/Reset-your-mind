@@ -2,26 +2,40 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { ArrowRight, Building2, Calendar, IndianRupee, User } from "lucide-react";
+import { ArrowRight, Building2, Calendar, CreditCard, User } from "lucide-react";
 import Link from "next/link";
 import { formatEmiNotification, DEMO_EMI } from "@/lib/emi-reminder";
+import { useLocale } from "@/context/LocaleContext";
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { formatPersonalPrice } from "@/lib/pricing";
 import { ScrollReveal } from "./ScrollReveal";
 
-const STEPS = [
-  { icon: User, label: "Naam", value: "Rahul" },
-  { icon: IndianRupee, label: "Amount", value: "₹12,500" },
-  { icon: Calendar, label: "EMI date", value: "5 har mahine" },
-  { icon: Building2, label: "Bank / NBFC", value: "HDFC Bank" },
-];
-
 export function EmiReminderDemo() {
+  const { region } = useLocale();
+  const config = useSiteConfig();
+  const isIN = region === "IN";
+  const priceLabel = formatPersonalPrice(config, isIN ? "INR" : "USD");
   const [step, setStep] = useState(0);
   const [showNotif, setShowNotif] = useState(true);
+
+  const steps = isIN
+    ? [
+        { icon: User, label: "Naam", value: "Rahul" },
+        { icon: CreditCard, label: "Amount", value: "₹12,500" },
+        { icon: Calendar, label: "EMI date", value: "5 har mahine" },
+        { icon: Building2, label: "Bank / NBFC", value: "HDFC Bank" },
+      ]
+    : [
+        { icon: User, label: "Name", value: "Alex" },
+        { icon: CreditCard, label: "Amount", value: "$450" },
+        { icon: Calendar, label: "Due date", value: "5th each month" },
+        { icon: Building2, label: "Provider", value: "Chase" },
+      ];
 
   useEffect(() => {
     const t = setInterval(() => {
       setStep((s) => {
-        if (s >= STEPS.length - 1) {
+        if (s >= steps.length - 1) {
           setShowNotif(true);
           return s;
         }
@@ -29,7 +43,7 @@ export function EmiReminderDemo() {
       });
     }, 1200);
     return () => clearInterval(t);
-  }, []);
+  }, [steps.length]);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -39,29 +53,49 @@ export function EmiReminderDemo() {
     return () => clearInterval(t);
   }, []);
 
-  const notifText = formatEmiNotification("Rahul", DEMO_EMI, "hinglish");
+  const notifLang = isIN ? "hinglish" : "english";
+  const notifName = isIN ? "Rahul" : "Alex";
+  const notifText = formatEmiNotification(notifName, DEMO_EMI, notifLang);
 
   return (
-    <section id="emi-reminder" className="py-14 sm:py-20 md:py-28 border-y border-white/5 bg-bg-elevated/40 overflow-x-hidden">
+    <section
+      id="emi-reminder"
+      className="py-14 sm:py-20 md:py-28 border-y border-white/5 bg-bg-elevated/40 overflow-x-hidden"
+    >
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <ScrollReveal className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
-          <p className="section-label mb-3">EMI Reminder — included in ₹99 plan</p>
+          <p className="section-label mb-3">
+            {isIN
+              ? `EMI / Bill Reminder — included in ${priceLabel} plan`
+              : `Bill Reminders — included in ${priceLabel} plan`}
+          </p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-            EMI yaad dilana? <span className="text-gold-light">1 din pehle, caring alert.</span>
+            {isIN ? (
+              <>
+                EMI yaad dilana?{" "}
+                <span className="text-gold-light">1 din pehle, caring alert.</span>
+              </>
+            ) : (
+              <>
+                Never miss a bill.{" "}
+                <span className="text-gold-light">One day early, caring alert.</span>
+              </>
+            )}
           </h2>
           <p className="text-ink-soft text-sm md:text-base leading-relaxed">
-            Naam, amount, date, bank/NBFC — 30 second me set. Kal EMI hai to aaj supportive
-            notification — tension kam, confidence zyada. Aap capable hain.
+            {isIN
+              ? "Naam, amount, date, bank/NBFC — 30 second me set. Kal EMI hai to aaj supportive notification — tension kam, confidence zyada."
+              : "Name, amount, date, provider — set in 30 seconds. Get a supportive notification one day before due. Less stress, more control — worldwide."}
           </p>
         </ScrollReveal>
 
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 items-start">
           <div className="premium-card rounded-2xl p-4 sm:p-6 border border-gold/20">
             <p className="text-xs font-semibold uppercase tracking-wider text-gold-light mb-4">
-              Easy setup — 4 fields
+              {isIN ? "Easy setup — 4 fields" : "Easy setup — 4 fields"}
             </p>
             <div className="space-y-3">
-              {STEPS.map((s, i) => (
+              {steps.map((s, i) => (
                 <div
                   key={s.label}
                   className={`flex items-center gap-3 rounded-xl border px-4 py-3 transition-colors ${
@@ -83,7 +117,9 @@ export function EmiReminderDemo() {
               href="/signup"
               className="btn-primary mt-6 w-full py-3 rounded-xl text-sm font-semibold inline-flex items-center justify-center gap-2 min-h-[48px]"
             >
-              ₹99 plan join karo — EMI reminder free
+              {isIN
+                ? `${priceLabel} plan — EMI reminder included`
+                : `Join ${priceLabel} plan — bill reminders included`}
               <ArrowRight size={16} className="shrink-0" />
             </Link>
           </div>
@@ -93,32 +129,34 @@ export function EmiReminderDemo() {
               <div className="relative aspect-[3/4] min-h-[140px] bg-[#1a1520] overflow-hidden">
                 <Image
                   src="/images/animatic-before-emi.jpg"
-                  alt="EMI tension"
+                  alt={isIN ? "EMI tension" : "Bill stress"}
                   fill
                   className="object-cover brightness-75"
                   sizes="(max-width: 768px) 45vw, 200px"
                 />
                 <div className="absolute inset-0 bg-red-950/30" />
                 <span className="absolute top-2 left-2 text-[10px] sm:text-[11px] font-bold uppercase text-red-200 bg-black/60 px-2 py-1 rounded-full">
-                  Pehle
+                  {isIN ? "Pehle" : "Before"}
                 </span>
               </div>
               <div className="relative aspect-[3/4] min-h-[140px] bg-[#151510] overflow-hidden">
                 <Image
                   src="/images/animatic-after-emi.jpg"
-                  alt="EMI peace"
+                  alt={isIN ? "EMI peace" : "Bill calm"}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 45vw, 200px"
                 />
                 <div className="absolute inset-0 bg-gold/10" />
                 <span className="absolute top-2 left-2 text-[10px] sm:text-[11px] font-bold uppercase text-gold-light bg-black/60 px-2 py-1 rounded-full">
-                  Ab
+                  {isIN ? "Ab" : "With RIZN"}
                 </span>
               </div>
             </div>
 
-            <p className="text-center text-xs text-muted mb-3">1 din pehle aisa notification</p>
+            <p className="text-center text-xs text-muted mb-3">
+              {isIN ? "1 din pehle aisa notification" : "Notification like this — 1 day early"}
+            </p>
 
             {showNotif ? (
               <div className="rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 p-4 shadow-2xl">
@@ -127,28 +165,38 @@ export function EmiReminderDemo() {
                     R
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-white mb-1">RIZN · EMI Reminder</p>
+                    <p className="text-xs font-bold text-white mb-1">
+                      {isIN ? "RIZN · EMI Reminder" : "RIZN · Bill Reminder"}
+                    </p>
                     <p className="text-sm text-white/95 leading-relaxed break-words">{notifText}</p>
                     <p className="text-[11px] sm:text-xs text-gold-light mt-2">
-                      Kal due · Aap capable hain — balance check kijiye
+                      {isIN
+                        ? "Kal due · Aap capable hain — balance check kijiye"
+                        : "Due tomorrow · You've got this — check your balance"}
                     </p>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="h-24 rounded-2xl border border-dashed border-white/10 flex items-center justify-center text-muted text-sm">
-                Form fill ho raha hai…
+                {isIN ? "Form fill ho raha hai…" : "Setting up…"}
               </div>
             )}
 
             <div className="mt-6 grid grid-cols-2 gap-2 text-center text-xs">
               <div className="soft-card rounded-xl p-3">
-                <p className="text-red-300/90 font-medium">Pehle</p>
-                <p className="text-muted mt-1">Date miss, stress, guilt</p>
+                <p className="text-red-300/90 font-medium">{isIN ? "Pehle" : "Before"}</p>
+                <p className="text-muted mt-1">
+                  {isIN ? "Date miss, stress, guilt" : "Missed dates, stress, guilt"}
+                </p>
               </div>
               <div className="soft-card rounded-xl p-3 border border-gold/20">
-                <p className="text-success font-medium">Ab RIZN ke saath</p>
-                <p className="text-muted mt-1">1 din pehle alert, control me</p>
+                <p className="text-success font-medium">
+                  {isIN ? "Ab RIZN ke saath" : "With RIZN"}
+                </p>
+                <p className="text-muted mt-1">
+                  {isIN ? "1 din pehle alert, control me" : "1-day early alert, in control"}
+                </p>
               </div>
             </div>
           </div>

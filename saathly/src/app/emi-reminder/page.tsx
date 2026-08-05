@@ -7,12 +7,12 @@ import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { FinalCTA } from "@/components/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "EMI Reminder 1 din pehle — RIZN",
+  title: "Bill & EMI Reminders — 1 day early | RIZN",
   description:
-    "EMI date miss mat karo. RIZN 1 din pehle naam, amount, bank ke saath caring alert bhejta hai. ₹99 plan me included.",
+    "Never miss a bill or EMI. RIZN sends a caring alert 1 day early with your name, amount, and provider. From ₹99 / $2.99 — available worldwide.",
   openGraph: {
-    title: "EMI Reminder — RIZN",
-    description: "1 din pehle supportive EMI alert. Daily motivation + EMI. ₹99/month.",
+    title: "Bill & EMI Reminders — RIZN",
+    description: "1-day early supportive bill alerts + daily motivation. Worldwide. From ₹99 / $2.99.",
   },
 };
 
@@ -21,20 +21,21 @@ export default function EmiReminderLandingPage() {
     <div>
       <section className="page-top pb-10 px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="section-label mb-3">EMI Reminder</p>
+          <p className="section-label mb-3">Bill & EMI Reminders</p>
           <h1 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
-            EMI yaad dilana? <span className="text-gold-light">1 din pehle, caring alert.</span>
+            Never miss a payment.{" "}
+            <span className="text-gold-light">1 day early, caring alert.</span>
           </h1>
           <p className="text-ink-soft text-sm sm:text-base leading-relaxed mb-6">
-            Naam, amount, date, bank/NBFC — set karo. Kal EMI hai to aaj supportive notification.
-            Tension kam, confidence zyada. ₹99 plan me free included.
+            Name, amount, date, provider — set once. Get a supportive notification the day before.
+            Less stress, more control. Included in every plan — India to worldwide.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center">
             <Link
               href="/signup"
               className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold min-h-[48px]"
             >
-              ₹99 plan — EMI + messages
+              Start free — bills + messages
               <ArrowRight size={16} />
             </Link>
             <WhatsAppCTA />

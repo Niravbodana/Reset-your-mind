@@ -4,14 +4,21 @@ import { useState } from "react";
 import { Check, Gift } from "lucide-react";
 import { haptic } from "@/lib/haptic";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useLocale } from "@/context/LocaleContext";
+import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
 
 export function ReferralCard({ code }: { code: string }) {
   const config = useSiteConfig();
+  const { region, currency } = useLocale();
+  const isIN = region === "IN";
+  const priceLabel = formatPersonalPrice(config, currency);
   const [copied, setCopied] = useState(false);
   const origin =
     typeof window !== "undefined" ? window.location.origin : config.marketing.siteUrl;
   const link = `${origin}/signup?ref=${encodeURIComponent(code)}`;
-  const shareText = `RIZN try karo — daily messages + EMI reminder, ₹99/month.\nMere code se join karo → 7 din free feel:\n${link}`;
+  const shareText = isIN
+    ? `RIZN try karo — daily messages + EMI/bill reminder, ${priceLabel}/month (${dualPersonalPriceLabel(config)}).\nMere code se join karo → ${config.marketing.trialDays} din free:\n${link}`
+    : `Try RIZN — daily messages + bill reminders, ${priceLabel}/month worldwide (${dualPersonalPriceLabel(config)}).\nJoin with my code → ${config.marketing.trialDays} days free:\n${link}`;
 
   const copy = async () => {
     haptic("success");
@@ -36,10 +43,21 @@ export function ReferralCard({ code }: { code: string }) {
           <Gift size={18} />
         </div>
         <div>
-          <p className="font-semibold text-white text-sm">Dost ko invite karo</p>
+          <p className="font-semibold text-white text-sm">
+            {isIN ? "Dost ko invite karo" : "Invite a friend"}
+          </p>
           <p className="text-xs text-ink-soft mt-1 leading-relaxed">
-            Share link → unhe free trial. Tumhara code:{" "}
-            <span className="text-gold-light font-mono font-semibold">{code}</span>
+            {isIN ? (
+              <>
+                Share link → unhe free trial. Tumhara code:{" "}
+                <span className="text-gold-light font-mono font-semibold">{code}</span>
+              </>
+            ) : (
+              <>
+                Share your link — they get a free trial. Your code:{" "}
+                <span className="text-gold-light font-mono font-semibold">{code}</span>
+              </>
+            )}
           </p>
         </div>
       </div>
@@ -57,7 +75,7 @@ export function ReferralCard({ code }: { code: string }) {
           onClick={waShare}
           className="flex-1 rounded-xl py-3 text-sm font-semibold min-h-[44px] bg-[#25D366] text-black inline-flex items-center justify-center"
         >
-          WhatsApp pe bhejo
+          {isIN ? "WhatsApp pe bhejo" : "Share on WhatsApp"}
         </button>
       </div>
     </div>

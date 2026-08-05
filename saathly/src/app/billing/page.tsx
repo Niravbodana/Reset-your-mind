@@ -8,12 +8,17 @@ import { RazorpayCheckout } from "@/components/RazorpayCheckout";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { personalMonthlyPrice, parivaarMonthlyPrice } from "@/lib/pricing";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useLocale } from "@/context/LocaleContext";
+import { formatMoney } from "@/lib/locale";
 import { UpiPayPreview } from "@/components/UpiPayPreview";
+import { RegionSwitch } from "@/components/RegionSwitch";
 
 export default function BillingPage() {
   const { state, startTrialAutopay, trackEvent } = useApp();
   const { ready } = useRequireAuth();
   const config = useSiteConfig();
+  const { currency, region } = useLocale();
+  const isIN = region === "IN";
   const user = state.user;
   const trialDays = config.marketing.trialDays || 7;
 
@@ -30,17 +35,37 @@ export default function BillingPage() {
     : PLANS.personal;
 
   const displayPrice =
-    user?.plan === "parivaar" ? parivaarMonthlyPrice(config) : personalMonthlyPrice(config);
+    user?.plan === "parivaar"
+      ? parivaarMonthlyPrice(config, currency)
+      : personalMonthlyPrice(config, currency);
+  const displayPriceLabel = formatMoney(displayPrice, currency);
+  const inrPrice = personalMonthlyPrice(config, "INR");
+  const usdPrice = personalMonthlyPrice(config, "USD");
+  const zeroLabel = formatMoney(0, currency);
 
   const paymentsLive = config.features.paymentsEnabled && Boolean(config.integrations.razorpayKeyId);
   const trialLive = user?.trialEndsAt ? isTrialActive(user.trialEndsAt) : false;
   const trialEndLabel = user?.trialEndsAt
-    ? new Date(user.trialEndsAt).toLocaleDateString("en-IN", {
+    ? new Date(user.trialEndsAt).toLocaleDateString(isIN ? "en-IN" : "en-US", {
         day: "numeric",
         month: "short",
         year: "numeric",
       })
     : null;
+
+  const bullets = isIN
+    ? [
+        `Day 1–${trialDays}: ${zeroLabel} — poora access free`,
+        `Day ${trialDays + 1}: pehla ${displayPriceLabel} autopay`,
+        `Har mahine: ${displayPriceLabel} automatic (UPI / card / netbanking)`,
+        "Cancel anytime — next cycle se charge ruk jayega",
+      ]
+    : [
+        `Day 1–${trialDays}: ${zeroLabel} — full access free`,
+        `Day ${trialDays + 1}: first ${displayPriceLabel} autopay`,
+        `Every month: ${displayPriceLabel} automatic (card / wallet)`,
+        "Cancel anytime — billing stops on the next cycle",
+      ];
 
   if (!ready) {
     return <div className="page-top text-center text-muted px-4">Loading…</div>;
@@ -49,30 +74,38 @@ export default function BillingPage() {
   return (
     <div className="page-top pb-20 px-4">
       <div className="max-w-lg mx-auto">
+        <div className="mb-4">
+          <RegionSwitch />
+        </div>
         <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2 text-white">
           Free trial + Autopay
         </h1>
         <p className="text-ink-soft text-sm mb-8 leading-relaxed">
-          Pehle <strong className="text-white">{trialDays} din free</strong>. Phir har mahine{" "}
-          <strong className="text-gold-light">₹{displayPrice}</strong> bank/UPI se automatic cut —
-          jab tak aap cancel na karo.
+          {isIN ? (
+            <>
+              Pehle <strong className="text-white">{trialDays} din free</strong>. Phir har mahine{" "}
+              <strong className="text-gold-light">{displayPriceLabel}</strong> bank/UPI se automatic —
+              jab tak cancel na karo. Worldwide cards bhi support (when live).
+            </>
+          ) : (
+            <>
+              First <strong className="text-white">{trialDays} days free</strong>. Then{" "}
+              <strong className="text-gold-light">{displayPriceLabel}/month</strong> autopay worldwide
+              (≈ {formatMoney(inrPrice, "INR")} / {formatMoney(usdPrice, "USD")}). Cancel anytime.
+            </>
+          )}
         </p>
 
         <div className="premium-card rounded-2xl p-6 sm:p-7 mb-6 border border-gold/25">
           <p className="text-xs text-muted mb-2 uppercase tracking-wide">Your plan</p>
           <p className="font-display text-2xl font-bold text-white">{plan.name}</p>
           <p className="text-3xl font-bold mt-2 text-white">
-            ₹{displayPrice}
+            {displayPriceLabel}
             <span className="text-sm text-muted font-normal">/month after trial</span>
           </p>
 
           <ul className="mt-5 space-y-2.5">
-            {[
-              `Day 1–${trialDays}: ₹0 — poora access free`,
-              `Day ${trialDays + 1}: pehla ₹${displayPrice} autopay`,
-              `Har mahine: ₹${displayPrice} automatic (UPI / card / netbanking)`,
-              "Cancel anytime — next cycle se charge ruk jayega",
-            ].map((t) => (
+            {bullets.map((t) => (
               <li key={t} className="flex gap-2 text-sm text-ink-soft">
                 <Check size={16} className="text-success shrink-0 mt-0.5" />
                 {t}
@@ -87,9 +120,13 @@ export default function BillingPage() {
                 Status:{" "}
                 {user.autopayEnabled
                   ? trialLive
-                    ? `Free trial active · Autopay set · pehla charge ${trialEndLabel}`
+                    ? isIN
+                      ? `Free trial active · Autopay set · pehla charge ${trialEndLabel}`
+                      : `Free trial active · Autopay set · first charge ${trialEndLabel}`
                     : user.subStatus === "active"
-                      ? "Autopay active — monthly ₹" + (user.autopayAmount || displayPrice)
+                      ? isIN
+                        ? `Autopay active — monthly ${formatMoney(user.autopayAmount || displayPrice, currency)}`
+                        : `Autopay active — ${formatMoney(user.autopayAmount || displayPrice, currency)}/month`
                       : user.subStatus
                   : user.subStatus === "trial"
                     ? "Trial (autopay mandate pending)"
@@ -115,7 +152,9 @@ export default function BillingPage() {
               }}
               className="btn-primary mt-6 w-full py-3.5 rounded-xl text-sm font-bold min-h-[52px]"
             >
-              Start {trialDays}-day free trial — Autopay set karo
+              {isIN
+                ? `Start ${trialDays}-day free trial — Autopay set karo`
+                : `Start ${trialDays}-day free trial — set autopay`}
             </RazorpayCheckout>
           ) : user?.autopayEnabled ? (
             <div className="mt-6 rounded-xl border border-success/30 bg-success/10 p-4 text-sm text-ink-soft">
@@ -124,15 +163,23 @@ export default function BillingPage() {
               </p>
               <p className="text-xs leading-relaxed">
                 {trialLive
-                  ? `${trialEndLabel} ke baad ₹${user.autopayAmount || displayPrice} auto-cut hoga. Usse pehle ₹0.`
-                  : `Monthly ₹${user.autopayAmount || displayPrice} autopay active hai.`}
+                  ? isIN
+                    ? `${trialEndLabel} ke baad ${formatMoney(user.autopayAmount || displayPrice, currency)} auto-cut hoga. Usse pehle ${zeroLabel}.`
+                    : `After ${trialEndLabel}, ${formatMoney(user.autopayAmount || displayPrice, currency)} autopay starts. Until then ${zeroLabel}.`
+                  : isIN
+                    ? `Monthly ${formatMoney(user.autopayAmount || displayPrice, currency)} autopay active hai.`
+                    : `${formatMoney(user.autopayAmount || displayPrice, currency)}/month autopay is active.`}
               </p>
             </div>
           ) : (
             <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4 text-sm text-ink-soft">
-              <p className="font-semibold text-white mb-1">Login / signup pehle</p>
+              <p className="font-semibold text-white mb-1">
+                {isIN ? "Login / signup pehle" : "Sign in or create an account first"}
+              </p>
               <p className="text-xs leading-relaxed">
-                Account banao, phir yahan se {trialDays}-day free trial + autopay mandate set karo.
+                {isIN
+                  ? `Account banao, phir yahan se ${trialDays}-day free trial + autopay mandate set karo.`
+                  : `Create your account, then set your ${trialDays}-day free trial + autopay here.`}
               </p>
             </div>
           )}
@@ -140,8 +187,9 @@ export default function BillingPage() {
           {!paymentsLive && (
             <p className="mt-3 text-xs text-gold-light leading-relaxed flex gap-2">
               <CreditCard size={14} className="shrink-0 mt-0.5" />
-              Razorpay abhi demo/local mode me hai. Admin me keys + &quot;Payments enabled&quot; on
-              karo — tab real UPI/card mandate open hoga.
+              {isIN
+                ? 'Razorpay abhi demo/local mode me hai. Admin me keys + "Payments enabled" on karo — tab real UPI/card mandate open hoga.'
+                : "Payments are in demo mode. Add Razorpay International (or Stripe) keys in Admin to go live worldwide."}
             </p>
           )}
         </div>
@@ -149,15 +197,39 @@ export default function BillingPage() {
         <UpiPayPreview className="mb-6" />
 
         <div className="soft-card rounded-2xl p-5 text-sm text-ink-soft">
-          <p className="font-semibold text-white mb-2">Kaise kaam karta hai?</p>
+          <p className="font-semibold text-white mb-2">
+            {isIN ? "Kaise kaam karta hai?" : "How it works"}
+          </p>
           <ol className="text-xs leading-relaxed space-y-2 list-decimal pl-4">
-            <li>Aap UPI/card se <strong className="text-white">mandate authorize</strong> karte ho (aaj ₹0).</li>
-            <li>{trialDays} din tak poora RIZN free use.</li>
-            <li>
-              Din {trialDays + 1} pe bank se <strong className="text-gold-light">₹{displayPrice}</strong>{" "}
-              automatic cut — phir har mahine.
-            </li>
-            <li>Cancel anytime from support / Razorpay customer portal when live.</li>
+            {isIN ? (
+              <>
+                <li>
+                  Aap UPI/card se <strong className="text-white">mandate authorize</strong> karte ho
+                  (aaj {zeroLabel}).
+                </li>
+                <li>{trialDays} din tak poora RIZN free use.</li>
+                <li>
+                  Din {trialDays + 1} pe bank se{" "}
+                  <strong className="text-gold-light">{displayPriceLabel}</strong> automatic cut —
+                  phir har mahine.
+                </li>
+                <li>Cancel anytime from support / Razorpay customer portal when live.</li>
+              </>
+            ) : (
+              <>
+                <li>
+                  Authorize card/wallet <strong className="text-white">mandate</strong> today (
+                  {zeroLabel} charged).
+                </li>
+                <li>Use full RIZN free for {trialDays} days.</li>
+                <li>
+                  On day {trialDays + 1},{" "}
+                  <strong className="text-gold-light">{displayPriceLabel}</strong> autopay begins —
+                  then monthly.
+                </li>
+                <li>Cancel anytime from Settings or your payment provider portal.</li>
+              </>
+            )}
           </ol>
           <p className="text-xs mt-4">
             Details:{" "}
@@ -172,7 +244,7 @@ export default function BillingPage() {
             href="/signup"
             className="btn-primary block text-center mt-6 py-3.5 rounded-xl text-sm font-bold min-h-[52px]"
           >
-            Pehle account banao — free trial
+            {isIN ? "Pehle account banao — free trial" : "Create account — start free trial"}
           </Link>
         )}
       </div>

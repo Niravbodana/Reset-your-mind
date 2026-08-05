@@ -10,7 +10,7 @@ import type { Language, LifeArea } from "@/lib/types";
 import { trialEndDate } from "@/lib/plans";
 import { uid } from "@/lib/storage";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { personalMonthlyPrice } from "@/lib/pricing";
+import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
 import { DEFAULT_INTERVAL, DEFAULT_SLEEP, DEFAULT_WAKE, defaultAnchors } from "@/lib/schedule-config";
 import { detectPreferredLanguage } from "@/lib/detect-language";
 import { OfferPrice } from "@/components/OfferPrice";
@@ -18,6 +18,8 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { AuthButton, AuthField, StepIndicator } from "@/components/auth/AuthField";
 import { NoSpamPromise } from "@/components/NoSpamPromise";
 import { WhatsAppCTA } from "@/components/WhatsAppCTA";
+import { useLocale } from "@/context/LocaleContext";
+import { RegionSwitch } from "@/components/RegionSwitch";
 
 const areaIds = Object.keys(AREA_LABELS) as LifeArea[];
 
@@ -32,6 +34,8 @@ function SignupForm() {
   const router = useRouter();
   const { login, trackEvent } = useApp();
   const config = useSiteConfig();
+  const { currency, region } = useLocale();
+  const priceLabel = formatPersonalPrice(config, currency);
   const crisis = config.marketing.crisisHelpline || "9152987821";
 
   const [step, setStep] = useState(1);
@@ -56,7 +60,11 @@ function SignupForm() {
   };
 
   const phoneDigits = phone.replace(/\D/g, "");
-  const phoneOk = !phoneDigits || /^[6-9]\d{9}$/.test(phoneDigits);
+  // India 10-digit OR international E.164 (8–15 digits)
+  const phoneOk =
+    !phoneDigits ||
+    /^[6-9]\d{9}$/.test(phoneDigits) ||
+    (phoneDigits.length >= 8 && phoneDigits.length <= 15);
   const canProceedStep1 = name.trim().length >= 2 && email.includes("@") && phoneOk;
 
   const submit = async () => {
@@ -157,8 +165,12 @@ function SignupForm() {
       title={step === 1 ? "Create your account" : "Personalize your experience"}
       subtitle={
         step === 1
-          ? "Naam, email, phone — notifications isi pe aayenge. Phone optional."
-          : "Language aur focus choose karo. Bad me dashboard se change kar sakte ho."
+          ? region === "IN"
+            ? "Naam, email, phone — notifications isi pe aayenge. Phone optional."
+            : "Name, email, phone — we'll use these for notifications. Phone optional."
+          : region === "IN"
+            ? "Language aur focus choose karo. Bad me dashboard se change kar sakte ho."
+            : "Choose language and focus areas. You can change them anytime in Settings."
       }
       footer={
         <div className="space-y-4">
@@ -172,6 +184,9 @@ function SignupForm() {
         </div>
       }
     >
+      <div className="mb-4 flex justify-center">
+        <RegionSwitch />
+      </div>
       <StepIndicator step={step} total={2} />
 
       {searchParams.get("ref") && (
@@ -209,14 +224,14 @@ function SignupForm() {
             label="Phone (optional)"
             name="phone"
             type="tel"
-            inputMode="numeric"
+            inputMode="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="98XXXXXXXX"
-            hint="WhatsApp / SMS alerts ke liye — 10 digit India mobile"
+            placeholder="+91 98… or +1 555…"
+            hint="WhatsApp / SMS — India or international with country code"
             icon={<Phone size={18} />}
             autoComplete="tel"
-            error={phoneDigits && !phoneOk ? "Valid 10-digit mobile daalo" : undefined}
+            error={phoneDigits && !phoneOk ? "Enter a valid phone with country code" : undefined}
           />
 
           <div className="rounded-xl border border-gold/20 bg-gold/5 p-4">
@@ -225,9 +240,12 @@ function SignupForm() {
                 <Sparkles size={18} className="text-gold" />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-white">RIZN Personal — ₹99/month</p>
+                <p className="text-sm font-semibold text-white">
+                  RIZN Personal — {priceLabel}/month
+                </p>
                 <p className="text-xs text-white/55">
-                  {config.marketing.trialDays}-day free trial · Cancel anytime
+                  {config.marketing.trialDays}-day free trial · {dualPersonalPriceLabel(config)} ·
+                  Cancel anytime
                 </p>
               </div>
             </div>
@@ -299,7 +317,8 @@ function SignupForm() {
               <OfferPrice plan="personal" />
             </div>
             <p className="mt-2 text-xs text-white/45">
-              Includes daily messages + EMI reminders · ₹{personalMonthlyPrice(config)}/month after trial
+              Includes daily messages + {region === "IN" ? "EMI/bill" : "bill"} reminders ·{" "}
+              {priceLabel}/month after trial
             </p>
           </div>
 

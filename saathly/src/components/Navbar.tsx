@@ -5,19 +5,24 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { BrandLockup } from "./Logo";
 import { useApp } from "@/context/AppContext";
-
-const links = [
-  { href: "/#hero", label: "Home" },
-  { href: "/#emi-reminder", label: "EMI" },
-  { href: "/samples", label: "Messages" },
-  { href: "/pricing", label: "₹99 Plan" },
-  { href: "/faq", label: "FAQ" },
-];
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useLocale } from "@/context/LocaleContext";
+import { formatPersonalPrice } from "@/lib/pricing";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { state } = useApp();
+  const config = useSiteConfig();
+  const { currency, region } = useLocale();
+  const priceLabel = formatPersonalPrice(config, currency);
+  const links = [
+    { href: "/#hero", label: "Home" },
+    { href: "/#emi-reminder", label: region === "IN" ? "EMI / Bills" : "Bills" },
+    { href: "/samples", label: "Messages" },
+    { href: "/pricing", label: `${priceLabel} Plan` },
+    { href: "/faq", label: "FAQ" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -71,7 +76,7 @@ export function Navbar() {
             </>
           ) : (
             <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm font-bold">
-              ₹99 Join
+              Join {priceLabel}
             </Link>
           )}
         </div>
@@ -123,7 +128,7 @@ export function Navbar() {
               className="btn-primary block text-center py-3.5 rounded-xl text-sm font-bold min-h-[48px]"
               onClick={() => setOpen(false)}
             >
-              {state.user ? "Dashboard" : "₹99 Join — Start free"}
+              {state.user ? "Dashboard" : `Join ${priceLabel} — Start free`}
             </Link>
           </div>
         </div>

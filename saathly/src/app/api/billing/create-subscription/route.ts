@@ -44,9 +44,12 @@ export async function POST(req: Request) {
   const email = String(body.email || "").trim().toLowerCase();
   const name = String(body.name || "").trim();
   const phone = String(body.phone || "").replace(/\D/g, "");
+  const preferredCurrency = String(body.currency || "INR").toUpperCase() === "USD" ? "USD" : "INR";
+  const preferredRegion = String(body.region || "").toUpperCase() === "GLOBAL" ? "GLOBAL" : "IN";
   const trialDays = settings.marketing.trialDays || 7;
 
-  const amount =
+  // Razorpay subscriptions settle in INR today; USD amount is stored for display / future Stripe
+  const amountInr =
     planId === "parivaar"
       ? settings.features.earlyBirdActive
         ? settings.marketing.earlyBirdPriceParivaar
@@ -54,6 +57,16 @@ export async function POST(req: Request) {
       : settings.features.earlyBirdActive
         ? settings.marketing.earlyBirdPricePersonal
         : settings.marketing.launchPricePersonal;
+  const amountUsd =
+    planId === "parivaar"
+      ? settings.features.earlyBirdActive
+        ? settings.marketing.earlyBirdPriceParivaarUsd
+        : settings.marketing.launchPriceParivaarUsd
+      : settings.features.earlyBirdActive
+        ? settings.marketing.earlyBirdPricePersonalUsd
+        : settings.marketing.launchPricePersonalUsd;
+  const amount = amountInr;
+  const displayAmount = preferredCurrency === "USD" ? amountUsd : amountInr;
 
   const trialEndsAt = trialEndDate(trialDays);
   const startAt = Math.floor(new Date(trialEndsAt).getTime() / 1000);
@@ -63,9 +76,16 @@ export async function POST(req: Request) {
     return NextResponse.json({
       demo: true,
       message:
-        "Payments demo mode: 7-day free trial locally start. Jab Razorpay live hoga, UPI/card se mandate set hoga — 7 din baad ₹99 auto-cut.",
+        preferredRegion === "GLOBAL" || preferredCurrency === "USD"
+          ? `Payments demo mode: ${trialDays}-day free trial. Live worldwide checkout will charge ~$${amountUsd}/month after trial (Razorpay International / Stripe).`
+          : `Payments demo mode: ${trialDays}-day free trial. Jab Razorpay live hoga, UPI/card se mandate set hoga — ${trialDays} din baad ₹${amountInr} auto-cut.`,
       planId,
       amount,
+      amountInr,
+      amountUsd,
+      displayAmount,
+      currency: preferredCurrency,
+      region: preferredRegion,
       trialDays,
       trialEndsAt,
       autopay: true,
@@ -90,6 +110,9 @@ export async function POST(req: Request) {
         name,
         trialDays: String(trialDays),
         amount: String(amount),
+        amountUsd: String(amountUsd),
+        preferredCurrency,
+        preferredRegion,
       },
     };
     if (email || phone) {
@@ -136,7 +159,12 @@ export async function POST(req: Request) {
       subscriptionId: sub.id,
       razorpayPlanId,
       amount,
+      amountInr,
+      amountUsd,
+      displayAmount,
       currency: "INR",
+      preferredCurrency,
+      preferredRegion,
       planId,
       trialDays,
       trialEndsAt,
@@ -144,7 +172,7 @@ export async function POST(req: Request) {
       name,
       email,
       autopay: true,
-      description: `${trialDays}-day free trial, then ₹${amount}/month autopay`,
+      description: `${trialDays}-day free trial, then ₹${amount}/month autopay (display ${preferredCurrency} ${displayAmount})`,
     });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
