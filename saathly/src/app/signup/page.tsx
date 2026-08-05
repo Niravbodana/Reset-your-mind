@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, Mail, Phone, User, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Mail, User, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { AREA_LABELS } from "@/lib/templates";
 import type { Language, LifeArea } from "@/lib/types";
@@ -12,46 +12,60 @@ import { uid } from "@/lib/storage";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
 import { DEFAULT_INTERVAL, DEFAULT_SLEEP, DEFAULT_WAKE, defaultAnchors } from "@/lib/schedule-config";
-import { detectPreferredLanguage } from "@/lib/detect-language";
 import { OfferPrice } from "@/components/OfferPrice";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { AuthButton, AuthField, StepIndicator } from "@/components/auth/AuthField";
 import { NoSpamPromise } from "@/components/NoSpamPromise";
-import { WhatsAppCTA } from "@/components/WhatsAppCTA";
 import { useLocale } from "@/context/LocaleContext";
 import { RegionSwitch } from "@/components/RegionSwitch";
+import { LanguageSelect } from "@/components/LanguageSelect";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
+import { crisisResources } from "@/lib/locale";
 
 const areaIds = Object.keys(AREA_LABELS) as LifeArea[];
-
-const languages: { id: Language; label: string; sub: string }[] = [
-  { id: "hinglish", label: "Hinglish", sub: "Most popular" },
-  { id: "hindi", label: "Hindi", sub: "Pure Hindi" },
-  { id: "english", label: "English", sub: "Professional" },
-];
 
 function SignupForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { login, trackEvent } = useApp();
   const config = useSiteConfig();
-  const { currency, region } = useLocale();
+  const { currency, region, t, preferEnglish, setLanguage: setLocaleMsgLang } = useLocale();
   const priceLabel = formatPersonalPrice(config, currency);
-  const crisis = config.marketing.crisisHelpline || "9152987821";
+  const isIN = region === "IN" && !preferEnglish;
+  const crisis = crisisResources(region);
 
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [selected, setSelected] = useState<LifeArea[]>(["finance", "mind"]);
-  const [language, setLanguage] = useState<Language>("hinglish");
+  const [language, setLanguage] = useState<Language>(preferEnglish ? "english" : "hinglish");
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+  const [authProvider, setAuthProvider] = useState<"google" | "email">("email");
 
   useEffect(() => {
-    setLanguage(detectPreferredLanguage());
-  }, []);
+    // Worldwide / English UI → message language English; never Hinglish by default
+    const next: Language = preferEnglish ? "english" : isIN ? "hinglish" : "english";
+    setLanguage(next);
+    setLocaleMsgLang(next);
+  }, [preferEnglish, isIN, setLocaleMsgLang]);
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("rizn_google_prefill");
+      if (!raw) return;
+      const g = JSON.parse(raw) as { name?: string; email?: string };
+      if (g.name) setName(g.name);
+      if (g.email) setEmail(g.email);
+      setAuthProvider("google");
+      sessionStorage.removeItem("rizn_google_prefill");
+      if (searchParams.get("google") === "1") setStep(2);
+    } catch {
+      /* ignore */
+    }
+  }, [searchParams]);
 
   const toggle = (id: LifeArea) => {
     setSelected((prev) =>
@@ -59,79 +73,97 @@ function SignupForm() {
     );
   };
 
-  const phoneDigits = phone.replace(/\D/g, "");
-  // India 10-digit OR international E.164 (8–15 digits)
-  const phoneOk =
-    !phoneDigits ||
-    /^[6-9]\d{9}$/.test(phoneDigits) ||
-    (phoneDigits.length >= 8 && phoneDigits.length <= 15);
-  const canProceedStep1 = name.trim().length >= 2 && email.includes("@") && phoneOk;
+  const canProceedStep1 = name.trim().length >= 2 && email.includes("@");
+
+  const finishSignup = useCallback(
+    async (opts: { name: string; email: string; provider: "google" | "email" }) => {
+      setLoading(true);
+      setError("");
+      const referredBy = searchParams.get("ref") || undefined;
+
+      const wl = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: opts.name.trim(),
+          email: opts.email.trim(),
+          plan: "personal",
+          areas: selected,
+          language,
+          referredBy,
+          authProvider: opts.provider,
+        }),
+      });
+
+      if (!wl.ok) {
+        setLoading(false);
+        const data = await wl.json().catch(() => ({}));
+        setError(data.error || "Connection issue — please try again.");
+        return;
+      }
+
+      const user = {
+        id: uid("user"),
+        name: opts.name.trim(),
+        email: opts.email.trim().toLowerCase(),
+        plan: "personal" as const,
+        areas: selected,
+        language,
+        wakeHour: 9,
+        sleepHour: 21,
+        wakeTime: DEFAULT_WAKE,
+        sleepTime: DEFAULT_SLEEP,
+        pulseIntervalMinutes: DEFAULT_INTERVAL,
+        scheduleAnchors: defaultAnchors(),
+        softMode: false,
+        createdAt: new Date().toISOString(),
+        trialEndsAt: trialEndDate(config.marketing.trialDays),
+        subStatus: "trial" as const,
+        referralCode:
+          opts.name.trim().toLowerCase().replace(/\s+/g, "").slice(0, 8) +
+          Math.floor(Math.random() * 90 + 10),
+        referredBy,
+        streak: 1,
+        bestStreak: 1,
+        lastActiveDate: new Date().toISOString().slice(0, 10),
+        sentHistory: [],
+        emiReminders: [],
+        habitGoals: { stepGoal: 8000, waterGoal: 8, sleepWindDownHour: 21 },
+        habitDays: {},
+      };
+
+      login(user);
+      trackEvent("waitlist_signup", opts.provider);
+      localStorage.removeItem("rizn_onboarding_done");
+      setDone(true);
+      setTimeout(() => router.push("/billing?trial=1&welcome=1"), 1400);
+    },
+    [selected, language, config.marketing.trialDays, login, trackEvent, router, searchParams]
+  );
+
+  const onGoogle = useCallback((g: { name: string; email: string }) => {
+    setName(g.name);
+    setEmail(g.email);
+    setAuthProvider("google");
+    setStep(2);
+  }, []);
 
   const submit = async () => {
     if (!consent || selected.length < 1) return;
-    setLoading(true);
-    setError("");
-
-    const referredBy = searchParams.get("ref") || undefined;
-
-    const wl = await fetch("/api/waitlist", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: name.trim(),
-        email: email.trim(),
-        phone: phoneDigits || undefined,
-        plan: "personal",
-        areas: selected,
-        language,
-        referredBy,
-      }),
-    });
-
-    if (!wl.ok) {
-      setLoading(false);
-      const data = await wl.json().catch(() => ({}));
-      setError(data.error || "Connection issue — please check internet and try again.");
-      return;
-    }
-
-    const user = {
-      id: uid("user"),
-      name: name.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phoneDigits || undefined,
-      plan: "personal" as const,
-      areas: selected,
-      language,
-      wakeHour: 9,
-      sleepHour: 21,
-      wakeTime: DEFAULT_WAKE,
-      sleepTime: DEFAULT_SLEEP,
-      pulseIntervalMinutes: DEFAULT_INTERVAL,
-      scheduleAnchors: defaultAnchors(),
-      softMode: false,
-      createdAt: new Date().toISOString(),
-      trialEndsAt: trialEndDate(config.marketing.trialDays),
-      subStatus: "trial" as const,
-      referralCode:
-        name.trim().toLowerCase().replace(/\s+/g, "").slice(0, 8) +
-        Math.floor(Math.random() * 90 + 10),
-      referredBy,
-      streak: 1,
-      bestStreak: 1,
-      lastActiveDate: new Date().toISOString().slice(0, 10),
-      sentHistory: [],
-      emiReminders: [],
-      habitGoals: { stepGoal: 8000, waterGoal: 8, sleepWindDownHour: 21 },
-      habitDays: {},
-    };
-
-    login(user);
-    trackEvent("waitlist_signup", "personal");
-    localStorage.removeItem("rizn_onboarding_done");
-    setDone(true);
-    setTimeout(() => router.push("/billing?trial=1&welcome=1"), 1400);
+    await finishSignup({ name, email, provider: authProvider });
   };
+
+  const msgLanguages: { id: Language; label: string; sub: string }[] = preferEnglish
+    ? [
+        { id: "english", label: "English", sub: "Worldwide default" },
+        { id: "hindi", label: "Hindi", sub: "Optional" },
+        { id: "hinglish", label: "Hinglish", sub: "India mix" },
+      ]
+    : [
+        { id: "hinglish", label: "Hinglish", sub: "Most popular" },
+        { id: "hindi", label: "Hindi", sub: "Pure Hindi" },
+        { id: "english", label: "English", sub: "Worldwide" },
+      ];
 
   if (done) {
     return (
@@ -141,10 +173,10 @@ function SignupForm() {
             <Check className="h-10 w-10 text-gold" strokeWidth={2.5} />
           </div>
           <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
-            Welcome, {name.split(" ")[0]}!
+            {t("signup.welcome")}, {name.split(" ")[0]}!
           </h2>
           <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-white/60">
-            Account ready. Ab 3 chhote steps — EMI, schedule, pehla message.
+            {t("signup.ready")}
           </p>
           <div className="mt-6 flex items-center justify-center gap-2 text-xs text-white/40">
             <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -155,7 +187,7 @@ function SignupForm() {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
               />
             </svg>
-            Setup shuru ho raha hai...
+            {t("signup.settingUp")}
           </div>
         </div>
       </AuthShell>
@@ -164,76 +196,66 @@ function SignupForm() {
 
   return (
     <AuthShell
-      title={step === 1 ? "Create your account" : "Personalize your experience"}
-      subtitle={
-        step === 1
-          ? region === "IN"
-            ? "Naam, email, phone — notifications isi pe aayenge. Phone optional."
-            : "Name, email, phone — we'll use these for notifications. Phone optional."
-          : region === "IN"
-            ? "Language aur focus choose karo. Bad me dashboard se change kar sakte ho."
-            : "Choose language and focus areas. You can change them anytime in Settings."
-      }
+      title={step === 1 ? t("signup.title") : t("signup.personalize")}
+      subtitle={step === 1 ? t("signup.subtitle") : t("signup.personalizeSub")}
       footer={
-        <div className="space-y-4">
-          <WhatsAppCTA variant="bar" />
-          <p className="text-center text-xs text-white/45">
-            Already have an account?{" "}
-            <Link href="/login" className="font-medium text-gold hover:text-gold-light">
-              Sign in
-            </Link>
-          </p>
-        </div>
+        <p className="text-center text-xs text-white/45">
+          {t("signup.already")}{" "}
+          <Link href="/login" className="font-medium text-gold hover:text-gold-light">
+            {t("nav.signin")}
+          </Link>
+        </p>
       }
     >
-      <div className="mb-4 flex justify-center">
+      <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
         <RegionSwitch />
+        <LanguageSelect compact />
       </div>
       <StepIndicator step={step} total={2} />
 
       {searchParams.get("ref") && (
         <div className="mb-5 rounded-xl border border-gold/25 bg-gold/10 px-4 py-3 text-xs text-gold-light">
-          Invite code applied — dost ke saath free trial start!
+          {t("signup.invite")}
         </div>
       )}
 
       {step === 1 && (
         <div className="space-y-5">
+          <GoogleSignInButton onSuccess={onGoogle} />
+
+          <div className="relative flex items-center gap-3">
+            <div className="h-px flex-1 bg-white/10" />
+            <span className="text-[11px] uppercase tracking-wider text-muted">
+              {t("signup.orEmail")}
+            </span>
+            <div className="h-px flex-1 bg-white/10" />
+          </div>
+
           <AuthField
-            label="Full name"
+            label={t("signup.name")}
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Priya Sharma"
-            hint="Yeh naam aapke daily messages me aayega"
+            placeholder={t("signup.namePh")}
+            hint={t("signup.nameHint")}
             icon={<User size={18} />}
             autoComplete="name"
             required
           />
           <AuthField
-            label="Email address"
+            label={t("signup.email")}
             name="email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@email.com"
-            hint="Account recovery aur updates ke liye"
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setAuthProvider("email");
+            }}
+            placeholder={t("signup.emailPh")}
+            hint={t("signup.emailHint")}
             icon={<Mail size={18} />}
             autoComplete="email"
             required
-          />
-          <AuthField
-            label="Phone (optional)"
-            name="phone"
-            type="tel"
-            inputMode="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="+91 98… or +1 555…"
-            hint="WhatsApp / SMS — India or international with country code"
-            icon={<Phone size={18} />}
-            autoComplete="tel"
-            error={phoneDigits && !phoneOk ? "Enter a valid phone with country code" : undefined}
           />
 
           <div className="rounded-xl border border-gold/20 bg-gold/5 p-4">
@@ -256,7 +278,7 @@ function SignupForm() {
           <NoSpamPromise />
 
           <AuthButton type="button" disabled={!canProceedStep1} onClick={() => setStep(2)}>
-            Continue
+            {t("signup.continue")}
             <ArrowRight size={16} />
           </AuthButton>
         </div>
@@ -264,14 +286,27 @@ function SignupForm() {
 
       {step === 2 && (
         <div className="space-y-6">
+          {(name || email) && (
+            <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-xs text-ink-soft">
+              <span className="text-white font-medium">{name}</span>
+              {email ? ` · ${email}` : ""}
+              {authProvider === "google" ? " · Google" : ""}
+            </div>
+          )}
+
           <div>
-            <p className="mb-3 text-sm font-medium text-white/90">Message language</p>
+            <p className="mb-3 text-sm font-medium text-white/90">
+              {preferEnglish ? "Message language" : "Message language"}
+            </p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-              {languages.map((lang) => (
+              {msgLanguages.map((lang) => (
                 <button
                   key={lang.id}
                   type="button"
-                  onClick={() => setLanguage(lang.id)}
+                  onClick={() => {
+                    setLanguage(lang.id);
+                    setLocaleMsgLang(lang.id);
+                  }}
                   className={`min-h-[52px] rounded-xl border px-4 py-3 text-left transition-all ${
                     language === lang.id
                       ? "border-gold/50 bg-gold/10 ring-1 ring-gold/30"
@@ -291,7 +326,11 @@ function SignupForm() {
 
           <div>
             <p className="mb-1 text-sm font-medium text-white/90">Focus areas</p>
-            <p className="mb-3 text-xs text-white/45">Max 3 select karo — messages in topics pe aayenge</p>
+            <p className="mb-3 text-xs text-white/45">
+              {preferEnglish
+                ? "Pick up to 3 — messages will match these topics"
+                : "Max 3 select karo — messages in topics pe aayenge"}
+            </p>
             <div className="flex flex-wrap gap-2">
               {areaIds.map((id) => {
                 const active = selected.includes(id);
@@ -346,11 +385,16 @@ function SignupForm() {
           </label>
 
           <p className="text-xs text-white/40 leading-relaxed">
-            Tough day? Free support: iCall{" "}
-            <a href={`tel:${crisis}`} className="text-gold-light underline-offset-2 hover:underline">
-              {crisis}
-            </a>
-            . RIZN therapy nahi hai — daily habit support hai.
+            Crisis help:{" "}
+            {crisis.map((c, i) => (
+              <span key={c.href}>
+                {i > 0 ? " · " : ""}
+                <a href={c.href} className="text-gold-light underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+                  {c.label}
+                </a>
+              </span>
+            ))}
+            . RIZN is habit support, not therapy.
           </p>
 
           {error && (
@@ -372,9 +416,9 @@ function SignupForm() {
             <AuthButton
               type="button"
               loading={loading}
-              disabled={!consent || selected.length < 1}
+              disabled={!consent || selected.length < 1 || !canProceedStep1}
               className="sm:flex-1"
-              onClick={submit}
+              onClick={() => void submit()}
             >
               Start free trial
               <ArrowRight size={16} />

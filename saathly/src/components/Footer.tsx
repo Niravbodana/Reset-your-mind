@@ -9,7 +9,8 @@ import { crisisResources } from "@/lib/locale";
 
 export function Footer() {
   const config = useSiteConfig();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const email = config.marketing.supportEmail || "hello@rizn.app";
   const crisis = crisisResources(region);
 
@@ -23,7 +24,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <BrandLockup />
             <p className="text-sm text-ink-soft leading-relaxed mt-4">
-              {region === "IN"
+              {isIN
                 ? "Daily motivation + bill/EMI reminders — India se lekar duniya tak."
                 : "Daily motivation + bill reminders for busy lives — available worldwide."}
             </p>
@@ -113,7 +114,7 @@ export function Footer() {
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted">
           <p>
             © {new Date().getFullYear()} RIZN —{" "}
-            {region === "IN" ? "aapki life change ka reason" : "your reason for life change"}
+            {isIN ? "aapki life change ka reason" : "your reason for life change"}
           </p>
           <p>Not a medical or therapy service · Worldwide</p>
         </div>

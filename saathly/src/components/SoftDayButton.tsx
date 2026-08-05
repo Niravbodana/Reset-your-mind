@@ -8,11 +8,11 @@ import { haptic } from "@/lib/haptic";
 /** One-tap Soft Day — fewer / gentler messages without opening Settings */
 export function SoftDayButton() {
   const { state, patchUser, trackEvent } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN" || user.language !== "english";
+  const isIN = !preferEnglish && (region === "IN" || user.language !== "english");
   const on = user.softMode;
 
   const toggle = () => {

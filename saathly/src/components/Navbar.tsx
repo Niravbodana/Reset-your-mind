@@ -8,21 +8,26 @@ import { useApp } from "@/context/AppContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
 import { formatPersonalPrice } from "@/lib/pricing";
+import { LanguageSelect } from "./LanguageSelect";
+import { RegionSwitch } from "./RegionSwitch";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { state } = useApp();
   const config = useSiteConfig();
-  const { currency, region } = useLocale();
+  const { currency, region, t, preferEnglish } = useLocale();
   const priceLabel = formatPersonalPrice(config, currency);
   const links = [
-    { href: "/#hero", label: "Home" },
-    { href: "/#features", label: region === "IN" ? "Features" : "Features" },
-    { href: "/#emi-reminder", label: region === "IN" ? "EMI / Bills" : "Bills" },
-    { href: "/samples", label: "Messages" },
-    { href: "/pricing", label: `${priceLabel} Plan` },
-    { href: "/faq", label: "FAQ" },
+    { href: "/#hero", label: t("nav.home") },
+    { href: "/#features", label: t("nav.features") },
+    {
+      href: "/#emi-reminder",
+      label: region === "IN" && !preferEnglish ? "EMI / Bills" : t("nav.bills"),
+    },
+    { href: "/samples", label: t("nav.messages") },
+    { href: "/pricing", label: `${priceLabel} ${t("nav.pricing")}` },
+    { href: "/faq", label: t("nav.faq") },
   ];
 
   useEffect(() => {
@@ -51,7 +56,7 @@ export function Navbar() {
           <BrandLockup size="sm" />
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-3 lg:gap-5">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -61,40 +66,48 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <RegionSwitch />
+          <LanguageSelect compact />
           {!state.user && (
             <Link href="/login" className="text-sm font-medium text-ink-soft hover:text-white">
-              Sign in
+              {t("nav.signin")}
             </Link>
           )}
           {state.user ? (
             <>
               <Link href="/settings" className="text-sm font-medium text-ink-soft hover:text-white">
-                Settings
+                {t("nav.settings")}
               </Link>
               <Link href="/dashboard" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-                Dashboard
+                {t("nav.dashboard")}
               </Link>
             </>
           ) : (
             <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm font-bold">
-              Join {priceLabel}
+              {t("nav.join")} {priceLabel}
             </Link>
           )}
         </div>
 
-        <button
-          type="button"
-          className="md:hidden flex items-center justify-center min-h-11 min-w-11 -mr-1 text-white rounded-xl hover:bg-white/5"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="md:hidden flex items-center gap-1.5">
+          <LanguageSelect compact />
+          <button
+            type="button"
+            className="flex items-center justify-center min-h-11 min-w-11 -mr-1 text-white rounded-xl hover:bg-white/5"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </nav>
 
       {open && (
         <div className="md:hidden border-t border-white/10 bg-black/98 px-0 py-2 flex flex-col safe-area-px max-h-[calc(100dvh-4rem)] overflow-y-auto">
+          <div className="py-3 border-b border-white/5">
+            <RegionSwitch />
+          </div>
           {links.map((link) => (
             <Link
               key={link.href}
@@ -129,7 +142,7 @@ export function Navbar() {
               className="btn-primary block text-center py-3.5 rounded-xl text-sm font-bold min-h-[48px]"
               onClick={() => setOpen(false)}
             >
-              {state.user ? "Dashboard" : `Join ${priceLabel} — Start free`}
+              {state.user ? t("nav.dashboard") : `${t("nav.join")} ${priceLabel}`}
             </Link>
           </div>
         </div>

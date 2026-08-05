@@ -6,9 +6,9 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 import { formatPersonalPrice } from "@/lib/pricing";
 
 export function Problems() {
-  const { region, currency } = useLocale();
+  const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const priceLabel = formatPersonalPrice(config, currency);
 
   const problems = [

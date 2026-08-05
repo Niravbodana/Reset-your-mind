@@ -18,8 +18,8 @@ export default function BillingPage() {
   const { state, startTrialAutopay, trackEvent } = useApp();
   const { ready } = useRequireAuth();
   const config = useSiteConfig();
-  const { currency, region } = useLocale();
-  const isIN = region === "IN";
+  const { currency, region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const user = state.user;
   const trialDays = config.marketing.trialDays || 7;
 
@@ -45,6 +45,10 @@ export default function BillingPage() {
   const zeroLabel = formatMoney(0, currency);
 
   const paymentsLive = config.features.paymentsEnabled && Boolean(config.integrations.razorpayKeyId);
+  const hostedPayLink =
+    user?.plan === "parivaar"
+      ? config.integrations.paymentLinkParivaar
+      : config.integrations.paymentLinkPersonal;
   const trialLive = user?.trialEndsAt ? isTrialActive(user.trialEndsAt) : false;
   const trialEndLabel = user?.trialEndsAt
     ? new Date(user.trialEndsAt).toLocaleDateString(isIN ? "en-IN" : "en-US", {
@@ -193,6 +197,18 @@ export default function BillingPage() {
                 : "Payments are in demo mode. Add Razorpay International (or Stripe) keys in Admin to go live worldwide."}
             </p>
           )}
+
+          {hostedPayLink ? (
+            <a
+              href={hostedPayLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-gold/30 bg-gold/10 px-4 py-3.5 text-sm font-bold text-gold-light min-h-[48px] hover:bg-gold/15"
+            >
+              {preferEnglish ? "Open hosted payment link" : "Payment link kholo"}
+              <CreditCard size={16} />
+            </a>
+          ) : null}
         </div>
 
         <UpiPayPreview className="mb-6" />

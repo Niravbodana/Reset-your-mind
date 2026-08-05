@@ -30,11 +30,11 @@ function EmiRemindersContent() {
   const searchParams = useSearchParams();
   const welcome = searchParams.get("welcome") === "1";
   const { state, patchUser, trackEvent } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const { ready } = useRequireAuth();
   const user = state.user;
   const reminders = user?.emiReminders ?? [];
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const currencyPrefix = isIN ? "₹" : "$";
 
   const [label, setLabel] = useState("");

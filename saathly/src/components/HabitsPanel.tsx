@@ -17,11 +17,11 @@ import { haptic } from "@/lib/haptic";
 
 export function HabitsPanel() {
   const { state, patchUser, trackEvent } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const goals = getHabitGoals(user);
   const day = getHabitDay(user);
   const [tracking, setTracking] = useState(false);

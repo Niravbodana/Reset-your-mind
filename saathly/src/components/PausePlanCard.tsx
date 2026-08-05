@@ -8,11 +8,11 @@ import { haptic } from "@/lib/haptic";
 /** Retention: pause 7 days instead of feeling stuck / cancelling */
 export function PausePlanCard() {
   const { state, patchUser, trackEvent } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN" || user.language !== "english";
+  const isIN = !preferEnglish && (region === "IN" || user.language !== "english");
   const pausedUntil = user.planPausedUntil ? new Date(user.planPausedUntil) : null;
   const paused = pausedUntil ? pausedUntil.getTime() > Date.now() : false;
 

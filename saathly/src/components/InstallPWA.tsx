@@ -11,8 +11,8 @@ type BeforeInstallPromptEvent = Event & {
 };
 
 export function InstallPWA() {
-  const { region } = useLocale();
-  const isIN = region === "IN";
+  const { region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [showIos, setShowIos] = useState(false);
   const [dismissed, setDismissed] = useState(true);

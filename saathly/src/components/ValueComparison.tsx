@@ -7,8 +7,8 @@ import { personalMonthlyPrice } from "@/lib/pricing";
 
 export function ValueComparison() {
   const config = useSiteConfig();
-  const { currency, region } = useLocale();
-  const isIN = region === "IN";
+  const { currency, region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const price = personalMonthlyPrice(config, currency);
   const launch =
     currency === "USD"

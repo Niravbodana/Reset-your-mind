@@ -8,8 +8,8 @@ import { billsForMonth, isPaidThisCycle } from "@/lib/bills";
 
 export function BillCalendar({ className = "" }: { className?: string }) {
   const { state } = useApp();
-  const { region } = useLocale();
-  const isIN = region === "IN";
+  const { region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const now = new Date();
   const [cursor, setCursor] = useState(() => new Date(now.getFullYear(), now.getMonth(), 1));
 

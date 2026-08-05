@@ -7,11 +7,11 @@ import { hasStreakFreeze } from "@/lib/scheduler";
 
 export function StreakFreezeBadge() {
   const { state } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const available = hasStreakFreeze(user);
 
   return (

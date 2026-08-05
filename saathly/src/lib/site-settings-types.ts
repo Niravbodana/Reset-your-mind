@@ -16,6 +16,14 @@ export type SiteSettings = {
     vapidPublicKey: string;
     vapidPrivateKey: string;
     vapidSubject: string;
+    /** Google OAuth / Gmail One Tap client ID (public) */
+    googleClientId: string;
+    googleClientSecret: string;
+    /** Optional hosted payment / checkout URLs operated from admin */
+    paymentLinkPersonal: string;
+    paymentLinkParivaar: string;
+    /** Auth callback / redirect URL for Google */
+    googleAuthRedirectUrl: string;
   };
   marketing: {
     heroVideoUrl: string;
@@ -47,6 +55,8 @@ export type SiteSettings = {
     webPushEnabled: boolean;
     emailWaitlistEnabled: boolean;
     earlyBirdActive: boolean;
+    /** Gmail / Google sign-in (no mobile OTP) */
+    googleAuthEnabled: boolean;
   };
 };
 
@@ -57,6 +67,10 @@ export type PublicSiteConfig = {
     razorpayKeyId: string;
     vapidPublicKey: string;
     whatsappBusinessUrl: string;
+    googleClientId: string;
+    paymentLinkPersonal: string;
+    paymentLinkParivaar: string;
+    googleAuthRedirectUrl: string;
   };
   waitlistCount: number;
 };
@@ -92,6 +106,11 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     vapidPublicKey: "",
     vapidPrivateKey: "",
     vapidSubject: "mailto:hello@rizn.app",
+    googleClientId: "",
+    googleClientSecret: "",
+    paymentLinkPersonal: "",
+    paymentLinkParivaar: "",
+    googleAuthRedirectUrl: "",
   },
   marketing: {
     heroVideoUrl: "",
@@ -120,6 +139,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     webPushEnabled: true,
     emailWaitlistEnabled: true,
     earlyBirdActive: true,
+    googleAuthEnabled: false,
   },
 };
 
@@ -131,6 +151,10 @@ export function toPublicConfig(settings: SiteSettings, waitlistCount: number): P
       razorpayKeyId: settings.integrations.razorpayKeyId,
       vapidPublicKey: settings.integrations.vapidPublicKey,
       whatsappBusinessUrl: settings.integrations.whatsappBusinessUrl,
+      googleClientId: settings.integrations.googleClientId,
+      paymentLinkPersonal: settings.integrations.paymentLinkPersonal,
+      paymentLinkParivaar: settings.integrations.paymentLinkParivaar,
+      googleAuthRedirectUrl: settings.integrations.googleAuthRedirectUrl,
     },
     waitlistCount,
   };

@@ -18,8 +18,8 @@ const MESSAGE_COUNT = getMessageBankStats().total;
 
 export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   const config = useSiteConfig();
-  const { region, currency } = useLocale();
-  const isIN = region === "IN";
+  const { region, currency, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const priceLabel = formatPersonalPrice(config, currency);
   const trialDays = config.marketing.trialDays;
   const launchLabel = formatMoney(

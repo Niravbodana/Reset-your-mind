@@ -9,11 +9,11 @@ import { formatDueLabel, getUpcomingBills } from "@/lib/bills";
 /** One morning card: first message + next bill — the daily habit loop */
 export function MorningOneCard() {
   const { state, markPulse } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const today = new Date().toISOString().slice(0, 10);
   const pulses = state.pulses
     .filter((p) => p.date === today)

@@ -11,8 +11,8 @@ type Props = {
 
 export function FaqList({ variant = "section" }: Props) {
   const config = useSiteConfig();
-  const { region, currency } = useLocale();
-  const isIN = region === "IN";
+  const { region, currency, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const personal = personalMonthlyPrice(config, currency);
   const launchPersonal =
     currency === "USD"

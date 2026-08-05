@@ -17,8 +17,8 @@ export function UpiPayPreview({
   currency?: string;
 }) {
   const config = useSiteConfig();
-  const { currency, region } = useLocale();
-  const isIN = region === "IN";
+  const { currency, region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const price = personalMonthlyPrice(config, currency);
   const priceLabel = amountLabel || formatMoney(price, currency);
   const trialDays = config.marketing.trialDays || 7;

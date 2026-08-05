@@ -192,6 +192,64 @@ export function AdminPanel() {
             setSettings({ ...settings, integrations: { ...settings.integrations, vapidSubject: v } })
           )}
 
+          <h2 className="font-semibold mb-4 mt-8">Gmail / Google Auth (no mobile OTP)</h2>
+          <p className="text-xs text-muted mb-3 leading-relaxed">
+            Operate auth + payments from this admin pipeline — no mobile OTP. Add Google Cloud OAuth
+            Client ID, enable the feature toggle, and set payment links below. Future auth/payment
+            integrations should also plug in here.
+          </p>
+          {field("Google Client ID", settings.integrations.googleClientId, (v) =>
+            setSettings({
+              ...settings,
+              integrations: { ...settings.integrations, googleClientId: v },
+            })
+          )}
+          {field(
+            "Google Client Secret",
+            settings.integrations.googleClientSecret,
+            (v) =>
+              setSettings({
+                ...settings,
+                integrations: { ...settings.integrations, googleClientSecret: v },
+              }),
+            "password"
+          )}
+          {field(
+            "Google Auth redirect URL",
+            settings.integrations.googleAuthRedirectUrl,
+            (v) =>
+              setSettings({
+                ...settings,
+                integrations: { ...settings.integrations, googleAuthRedirectUrl: v },
+              }),
+            "url"
+          )}
+
+          <h2 className="font-semibold mb-4 mt-8">Payment links (hosted checkout)</h2>
+          <p className="text-xs text-muted mb-3 leading-relaxed">
+            Optional Razorpay/Stripe payment page URLs — site can deep-link here when live.
+          </p>
+          {field(
+            "Payment link — Personal",
+            settings.integrations.paymentLinkPersonal,
+            (v) =>
+              setSettings({
+                ...settings,
+                integrations: { ...settings.integrations, paymentLinkPersonal: v },
+              }),
+            "url"
+          )}
+          {field(
+            "Payment link — Parivaar",
+            settings.integrations.paymentLinkParivaar,
+            (v) =>
+              setSettings({
+                ...settings,
+                integrations: { ...settings.integrations, paymentLinkParivaar: v },
+              }),
+            "url"
+          )}
+
           <h2 className="font-semibold mb-4 mt-8">Supabase (optional)</h2>
           {field(
             "Project URL",
@@ -431,6 +489,7 @@ export function AdminPanel() {
           {(
             [
               ["paymentsEnabled", "Enable Razorpay payments"],
+              ["googleAuthEnabled", "Enable Gmail / Google sign-in (live Client ID)"],
               ["whatsappEnabled", "Enable WhatsApp sending"],
               ["webPushEnabled", "Enable web push prompts"],
               ["emailWaitlistEnabled", "Send Resend email on waitlist signup"],

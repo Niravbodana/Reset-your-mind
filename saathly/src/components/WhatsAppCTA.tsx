@@ -15,8 +15,8 @@ export function WhatsAppCTA({
   className?: string;
 }) {
   const config = useSiteConfig();
-  const { region, currency } = useLocale();
-  const isIN = region === "IN";
+  const { region, currency, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const priceLabel = formatPersonalPrice(config, currency);
   const joinText = isIN
     ? `Hi RIZN! Main ${priceLabel} plan join karna chahta/chahti hoon. Daily messages + EMI reminder chahiye.`

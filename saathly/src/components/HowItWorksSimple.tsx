@@ -3,8 +3,8 @@
 import { useLocale } from "@/context/LocaleContext";
 
 export function HowItWorksSimple() {
-  const { region } = useLocale();
-  const isIN = region === "IN";
+  const { region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
 
   const steps = isIN
     ? [

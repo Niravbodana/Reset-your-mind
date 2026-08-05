@@ -8,11 +8,11 @@ import { formatDueLabel, getUpcomingBills } from "@/lib/bills";
 
 export function TodayBriefing() {
   const { state } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const fmtAmt = (n: number) =>
     `${isIN ? "₹" : "$"}${n.toLocaleString(isIN ? "en-IN" : "en-US")}`;
   const today = new Date().toISOString().slice(0, 10);

@@ -13,12 +13,12 @@ import { haptic } from "@/lib/haptic";
 /** Day 5+ trial value report → nudge toward keeping autopay */
 export function TrialValueReport() {
   const { state, patchUser, trackEvent } = useApp();
-  const { region, currency } = useLocale();
+  const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const day = trialDayNumber(user.createdAt, user.trialEndsAt);
   const trialLive = isTrialActive(user.trialEndsAt);
   const show =

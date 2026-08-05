@@ -12,9 +12,9 @@ import { formatMoney } from "@/lib/locale";
 export function OnboardingWizard() {
   const [step, setStep] = useState(0);
   const [open, setOpen] = useState(false);
-  const { region, currency } = useLocale();
+  const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const priceLabel = formatPersonalPrice(config, currency);
   const trialDays = config.marketing.trialDays || 7;
   const zero = formatMoney(0, currency);

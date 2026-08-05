@@ -37,10 +37,10 @@ const EMOJIS = [
 export default function DashboardPage() {
   const router = useRouter();
   const { ready, state, markPulse, checkinMood, logout, refreshPulses } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   const hour = new Date().getHours();
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
 
   useEffect(() => {
     if (ready && !user) router.replace("/signup");

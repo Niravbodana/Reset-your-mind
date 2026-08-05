@@ -9,8 +9,8 @@ import { dualPersonalPriceLabel, formatPersonalPrice } from "@/lib/pricing";
 
 export function ReferralCard({ code }: { code: string }) {
   const config = useSiteConfig();
-  const { region, currency } = useLocale();
-  const isIN = region === "IN";
+  const { region, currency, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const priceLabel = formatPersonalPrice(config, currency);
   const [copied, setCopied] = useState(false);
   const origin =

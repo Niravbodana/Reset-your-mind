@@ -20,24 +20,31 @@ const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "
 
 export function Hero() {
   const config = useSiteConfig();
-  const { region, currency, language } = useLocale();
+  const { region, currency, language, preferEnglish } = useLocale();
   const [name, setName] = useState("");
   const [tick, setTick] = useState(0);
-  const displayName = name.trim() || DEMO_NAME;
+  const displayName = name.trim() || (preferEnglish ? "Alex" : DEMO_NAME);
   const priceLabel = formatPersonalPrice(config, currency);
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
 
   const message = useMemo(() => {
     const tpl = heroPool[tick % heroPool.length];
-    const n = formatCustomerName(displayName, language === "hindi" ? "hindi" : isIN ? "hinglish" : "english");
+    const msgLang = preferEnglish
+      ? "english"
+      : language === "hindi"
+        ? "hindi"
+        : language === "english"
+          ? "english"
+          : "hinglish";
+    const n = formatCustomerName(displayName, msgLang);
     const text =
-      language === "english" || !isIN
+      msgLang === "english"
         ? tpl.english || tpl.hinglish
-        : language === "hindi"
+        : msgLang === "hindi"
           ? tpl.hindi || tpl.hinglish
           : tpl.hinglish;
     return text.replaceAll("{name}", n);
-  }, [displayName, tick, language, isIN]);
+  }, [displayName, tick, language, preferEnglish]);
 
   useEffect(() => {
     const t = setInterval(() => setTick((v) => v + 1), 4500);

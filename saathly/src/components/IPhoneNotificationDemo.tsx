@@ -68,8 +68,8 @@ export function IPhoneNotificationDemo({
   name?: string;
   compact?: boolean;
 }) {
-  const { region, language } = useLocale();
-  const isIN = region === "IN";
+  const { region, language, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const demoLang: Language = isIN
     ? language === "hindi"
       ? "hindi"

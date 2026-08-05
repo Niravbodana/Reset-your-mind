@@ -11,9 +11,9 @@ import { formatPersonalPrice } from "@/lib/pricing";
 import { ScrollReveal } from "./ScrollReveal";
 
 export function EmiReminderDemo() {
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const config = useSiteConfig();
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const priceLabel = formatPersonalPrice(config, isIN ? "INR" : "USD");
   const [step, setStep] = useState(0);
 

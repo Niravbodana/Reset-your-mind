@@ -7,11 +7,11 @@ import { haptic } from "@/lib/haptic";
 
 export function WeeklyWinsCard() {
   const { state, trackEvent } = useApp();
-  const { region } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const user = state.user;
   if (!user) return null;
 
-  const isIN = region === "IN" || user.language !== "english";
+  const isIN = !preferEnglish && (region === "IN" || user.language !== "english");
   const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const moodsWeek = state.moods.filter((m) => new Date(m.at).getTime() >= weekAgo).length;
   const actionsWeek = state.pulses.filter((p) => p.actionDone).length;

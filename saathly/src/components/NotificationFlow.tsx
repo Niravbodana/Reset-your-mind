@@ -7,8 +7,8 @@ import { useLocale } from "@/context/LocaleContext";
 const MESSAGE_COUNT = getMessageBankStats().total;
 
 export function NotificationFlow() {
-  const { region } = useLocale();
-  const isIN = region === "IN";
+  const { region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
 
   const channels = isIN
     ? [

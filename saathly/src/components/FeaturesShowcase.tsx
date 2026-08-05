@@ -164,9 +164,9 @@ const FEATURES: Feature[] = [
 ];
 
 export function FeaturesShowcase() {
-  const { region, currency } = useLocale();
+  const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const price = formatPersonalPrice(config, currency);
 
   return (

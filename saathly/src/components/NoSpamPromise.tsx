@@ -5,8 +5,8 @@ import { useLocale } from "@/context/LocaleContext";
 import { crisisResources } from "@/lib/locale";
 
 export function NoSpamPromise({ className = "" }: { className?: string }) {
-  const { region } = useLocale();
-  const isIN = region === "IN";
+  const { region, preferEnglish } = useLocale();
+  const isIN = region === "IN" && !preferEnglish;
   const crisis = crisisResources(region);
 
   return (

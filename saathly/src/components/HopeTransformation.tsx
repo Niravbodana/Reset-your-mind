@@ -59,9 +59,9 @@ const STORIES_GLOBAL = [
 const ROTATE_MS = 8000;
 
 export function HopeTransformation() {
-  const { region, currency } = useLocale();
+  const { region, currency, preferEnglish } = useLocale();
   const config = useSiteConfig();
-  const isIN = region === "IN";
+  const isIN = region === "IN" && !preferEnglish;
   const stories = isIN ? STORIES_IN : STORIES_GLOBAL;
   const [idx, setIdx] = useState(0);
   const story = stories[idx % stories.length];
