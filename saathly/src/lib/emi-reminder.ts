@@ -9,6 +9,9 @@ export type EmiReminder = {
   dueDay: number;
   bankName: string;
   enabled: boolean;
+  /** YYYY-MM of the cycle that was marked paid */
+  lastPaidMonth?: string;
+  lastPaidAt?: string;
 };
 
 export function emptyEmiReminder(): Omit<EmiReminder, "id"> {

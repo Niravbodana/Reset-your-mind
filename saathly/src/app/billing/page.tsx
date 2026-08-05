@@ -12,6 +12,7 @@ import { useLocale } from "@/context/LocaleContext";
 import { formatMoney } from "@/lib/locale";
 import { UpiPayPreview } from "@/components/UpiPayPreview";
 import { RegionSwitch } from "@/components/RegionSwitch";
+import { PausePlanCard } from "@/components/PausePlanCard";
 
 export default function BillingPage() {
   const { state, startTrialAutopay, trackEvent } = useApp();
@@ -195,6 +196,7 @@ export default function BillingPage() {
         </div>
 
         <UpiPayPreview className="mb-6" />
+        {user && <PausePlanCard />}
 
         <div className="soft-card rounded-2xl p-5 text-sm text-ink-soft">
           <p className="font-semibold text-white mb-2">

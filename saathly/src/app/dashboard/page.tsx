@@ -13,6 +13,11 @@ import { ReferralCard } from "@/components/ReferralCard";
 import { ShareMessageCard } from "@/components/ShareMessageCard";
 import { DashboardSkeleton } from "@/components/Skeleton";
 import { NoSpamPromise } from "@/components/NoSpamPromise";
+import { TodayBriefing } from "@/components/TodayBriefing";
+import { SoftDayButton } from "@/components/SoftDayButton";
+import { WeeklyWinsCard } from "@/components/WeeklyWinsCard";
+import { PausePlanCard } from "@/components/PausePlanCard";
+import { useLocale } from "@/context/LocaleContext";
 
 const EMOJIS = [
   { e: "😔", s: 1 },
@@ -25,8 +30,10 @@ const EMOJIS = [
 export default function DashboardPage() {
   const router = useRouter();
   const { ready, state, markPulse, checkinMood, logout, refreshPulses } = useApp();
+  const { region } = useLocale();
   const user = state.user;
   const hour = new Date().getHours();
+  const isIN = region === "IN";
 
   useEffect(() => {
     if (ready && !user) router.replace("/signup");
@@ -85,10 +92,12 @@ export default function DashboardPage() {
               <p className="text-xs text-ink-soft mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span className="inline-flex items-center gap-1">
                   <Flame size={14} className="text-gold-light" />
-                  {user.streak} din ki habit
+                  {isIN ? `${user.streak} din ki habit` : `${user.streak}-day streak`}
                 </span>
                 <span>·</span>
-                <span>{doneCount} actions done aaj</span>
+                <span>
+                  {isIN ? `${doneCount} actions done aaj` : `${doneCount} actions done today`}
+                </span>
               </p>
             </div>
             <div className="flex gap-2 shrink-0">
@@ -116,20 +125,14 @@ export default function DashboardPage() {
       </div>
 
       <div className="mx-auto max-w-3xl px-4 -mt-2">
-        <div className="soft-card rounded-2xl p-4 mb-6 border border-gold/15 text-center">
-          <p className="text-sm text-white font-medium">
-            Aaj ke {pulses.length} messages — har ek tumhare liye alag likha gaya
-          </p>
-          <p className="text-xs text-ink-soft mt-1">
-            RIZN ki wajah se chhote steps roz — life better feel hoti hai.
-          </p>
-        </div>
+        <TodayBriefing />
+        <SoftDayButton />
 
         <div className="grid grid-cols-3 gap-2 mb-8">
           {[
-            { l: "Padhe", v: `${readCount}/${pulses.length}` },
+            { l: isIN ? "Padhe" : "Read", v: `${readCount}/${pulses.length}` },
             { l: "Streak", v: String(user.streak) },
-            { l: "Actions", v: String(doneCount) },
+            { l: isIN ? "Actions" : "Wins", v: String(doneCount) },
           ].map((s) => (
             <div key={s.l} className="soft-card rounded-xl p-3 text-center">
               <p className="text-xs text-muted uppercase">{s.l}</p>
@@ -140,16 +143,20 @@ export default function DashboardPage() {
 
         <h2 className="font-semibold text-white mb-1 flex items-center gap-2">
           <Bell size={16} className="text-gold-light" />
-          Aaj ke alerts
+          {isIN ? "Aaj ke alerts" : "Today's alerts"}
         </h2>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
-          <p className="text-xs text-muted">Latest messages — naam ke saath, value ke saath</p>
+          <p className="text-xs text-muted">
+            {isIN
+              ? "Latest messages — naam ke saath, value ke saath"
+              : "Latest messages — with your name, with value"}
+          </p>
           <button
             type="button"
             onClick={refreshPulses}
             className="text-sm font-medium text-gold-light hover:text-gold shrink-0 self-start min-h-[44px] flex items-center"
           >
-            Naye messages load karo
+            {isIN ? "Naye messages load karo" : "Load fresh messages"}
           </button>
         </div>
 
@@ -221,11 +228,15 @@ export default function DashboardPage() {
           ))}
         </div>
 
+        <WeeklyWinsCard />
         <ReferralCard code={user.referralCode} />
+        <PausePlanCard />
         <NoSpamPromise className="mb-6" />
 
         <div className="soft-card rounded-2xl p-5 mb-6">
-          <p className="font-semibold text-sm mb-3 text-white">Aaj mood kaisa hai?</p>
+          <p className="font-semibold text-sm mb-3 text-white">
+            {isIN ? "Aaj mood kaisa hai?" : "How's your mood today?"}
+          </p>
           <div className="grid grid-cols-5 gap-2">
             {EMOJIS.map((item) => (
               <button
@@ -252,7 +263,7 @@ export default function DashboardPage() {
 
         <div className="flex flex-wrap gap-3 justify-center text-sm pb-4">
           <Link href="/emi-reminders" className="text-gold-light hover:underline min-h-[44px] flex items-center">
-            EMI Reminders
+            {isIN ? "EMI / Bills" : "Bill reminders"}
           </Link>
           <span className="text-muted self-center">·</span>
           <Link href="/settings" className="text-muted hover:text-white min-h-[44px] flex items-center">

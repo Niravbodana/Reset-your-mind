@@ -40,6 +40,8 @@ export type UserProfile = {
   nextBillingAt?: string;
   /** True once UPI/card mandate authorized (live or demo) */
   autopayEnabled?: boolean;
+  /** Soft pause — fewer/no pressure; resume after this ISO date */
+  planPausedUntil?: string;
   referralCode: string;
   referredBy?: string;
   familyOwnerId?: string;
