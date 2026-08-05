@@ -33,4 +33,5 @@ docker compose up --build
 | Doc | What |
 |-----|------|
 | [`saathly/PHASES.md`](./saathly/PHASES.md) | **A → Z** start-to-end phases (full checklist) |
+| [`saathly/PHASES_STATUS.md`](./saathly/PHASES_STATUS.md) | What’s coded vs needs API keys |
 | [`saathly/ARCHITECTURE.md`](./saathly/ARCHITECTURE.md) | Legal, stack, architecture index |

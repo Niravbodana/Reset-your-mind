@@ -3,6 +3,8 @@
 Complete build roadmap from idea → million-dollar scale.  
 Work **in order**. Do not skip core product (D–E) for shiny features.
 
+**Implementation status (code vs keys):** see [`PHASES_STATUS.md`](./PHASES_STATUS.md)
+
 **Rule:** Feel → Pay → Scale.
 
 | Status key | Meaning |

@@ -5,6 +5,8 @@ import { TrustStories } from "@/components/TrustStories";
 import { PricingSection } from "@/components/PricingSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { HowItWorksSimple } from "@/components/HowItWorksSimple";
+import { FaqSection } from "@/components/FaqSection";
+import { PhasesStrip } from "@/components/PhasesStrip";
 
 export default function HomePage() {
   return (
@@ -15,6 +17,8 @@ export default function HomePage() {
       <HowItWorksSimple />
       <TrustStories />
       <PricingSection />
+      <FaqSection />
+      <PhasesStrip />
       <FinalCTA />
     </>
   );

@@ -1,36 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Copy, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Copy, Check, LogOut } from "lucide-react";
+import { useApp } from "@/context/AppContext";
+import { isTrialActive } from "@/lib/plans";
+import { uid } from "@/lib/storage";
 
-const messages = [
-  { time: "9:00", text: "Nirav, boot sequence. Aaj ek clear intention — rise starts now.", done: true },
-  { time: "11:00", text: "Nirav, money noise? ₹50 side. Future signal green.", done: true },
-  { time: "13:00", text: "Nirav, body battery check. Lunch + water. Recharge.", done: false },
-  { time: "15:00", text: "Nirav, dip shield on. 2 min stretch. Stay sharp.", done: false },
-  { time: "17:00", text: "Nirav, chhota win likh. Progress compound hota hai.", done: false },
-  { time: "21:00", text: "Nirav, shutdown calm. Proud. Phone side. Rest.", done: false },
+const EMOJIS = [
+  { e: "😔", s: 1 },
+  { e: "😐", s: 2 },
+  { e: "🙂", s: 3 },
+  { e: "😊", s: 4 },
+  { e: "⚡", s: 5 },
 ];
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const { ready, state, markPulse, checkinMood, patchUser, logout, activatePaid } = useApp();
   const [copied, setCopied] = useState(false);
-  const link = "https://rizn.app/r/nirav";
+  const user = state.user;
+
+  useEffect(() => {
+    if (ready && !user) router.replace("/signup");
+  }, [ready, user, router]);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const pulses = useMemo(() => state.pulses.filter((p) => p.date === today), [state.pulses, today]);
+  const readCount = pulses.filter((p) => p.read).length;
+  const trialOk = user ? isTrialActive(user.trialEndsAt) || user.subStatus === "active" : false;
+
+  if (!ready || !user) {
+    return <div className="pt-28 text-center text-muted">Loading dashboard…</div>;
+  }
+
+  const refLink =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/signup?ref=${user.referralCode}`
+      : `https://rizn.app/signup?ref=${user.referralCode}`;
 
   return (
     <div className="pt-24 pb-16 px-4">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-8">
-          <p className="text-sm text-laser-2 mb-1">TODAY</p>
-          <h1 className="font-display text-3xl font-bold">Nirav, rise mode on</h1>
-          <p className="text-sm text-ink-soft mt-1">12 day streak · mood trending up</p>
+        <div className="flex items-start justify-between gap-4 mb-8">
+          <div>
+            <p className="text-sm text-laser-2 mb-1">
+              {user.subStatus === "active" ? "ACTIVE" : trialOk ? "TRIAL" : "TRIAL ENDED"}
+            </p>
+            <h1 className="font-display text-3xl font-bold">{user.name}, rise mode on</h1>
+            <p className="text-sm text-ink-soft mt-1">
+              {user.streak} day streak · best {user.bestStreak} · {user.language}
+            </p>
+          </div>
+          <button type="button" onClick={logout} className="btn-secondary p-2.5 rounded-xl" aria-label="Logout">
+            <LogOut size={16} />
+          </button>
         </div>
+
+        {!trialOk && user.subStatus !== "active" && (
+          <div className="soft-card border border-laser/40 rounded-2xl p-5 mb-6">
+            <p className="font-semibold mb-2">Trial khatam — rise continue?</p>
+            <p className="text-sm text-ink-soft mb-4">Demo me 1-click activate. Production me Razorpay (Phase M).</p>
+            <button type="button" onClick={activatePaid} className="btn-primary px-5 py-2.5 rounded-xl text-sm">
+              Activate {user.plan} (demo pay)
+            </button>
+          </div>
+        )}
 
         <div className="grid sm:grid-cols-3 gap-3 mb-8">
           {[
-            { l: "Pulses read", v: "2/6" },
-            { l: "Streak", v: "12" },
-            { l: "Week actions", v: "9" },
+            { l: "Pulses read", v: `${readCount}/${pulses.length || 6}` },
+            { l: "Streak", v: String(user.streak) },
+            { l: "Actions done", v: String(pulses.filter((p) => p.actionDone).length) },
           ].map((s) => (
             <div key={s.l} className="soft-card rounded-2xl p-4">
               <p className="text-xs text-muted">{s.l}</p>
@@ -39,17 +81,41 @@ export default function DashboardPage() {
           ))}
         </div>
 
+        <div className="flex flex-wrap gap-2 mb-6">
+          <Link href="/family" className="btn-secondary px-4 py-2 rounded-xl text-xs">Family</Link>
+          <Link href="/programs" className="btn-secondary px-4 py-2 rounded-xl text-xs">21-day programs</Link>
+          <Link href="/billing" className="btn-secondary px-4 py-2 rounded-xl text-xs">Billing</Link>
+          <button
+            type="button"
+            onClick={() => patchUser({ softMode: !user.softMode })}
+            className="btn-secondary px-4 py-2 rounded-xl text-xs"
+          >
+            Soft mode: {user.softMode ? "ON" : "OFF"}
+          </button>
+        </div>
+
         <h2 className="font-semibold mb-3">Today&apos;s pulses</h2>
         <div className="space-y-3 mb-8">
-          {messages.map((m) => (
-            <div
-              key={m.time}
-              className={`rounded-2xl p-4 border ${
-                m.done ? "border-white/5 bg-white/[0.02] opacity-60" : "soft-card border-laser/30"
-              }`}
-            >
-              <p className="text-xs font-bold text-laser mb-1">{m.time}</p>
-              <p className="text-sm leading-relaxed">{m.text}</p>
+          {pulses.map((m) => (
+            <div key={m.id} className={`rounded-2xl p-4 border ${m.read ? "border-white/5 bg-white/[0.02] opacity-70" : "soft-card border-laser/30"}`}>
+              <div className="flex justify-between gap-2 mb-1">
+                <p className="text-xs font-bold text-laser">{m.timeLabel}</p>
+                <p className="text-[10px] uppercase text-muted">{m.area}</p>
+              </div>
+              <p className="text-sm leading-relaxed mb-3">{m.text}</p>
+              <p className="text-xs text-laser-2 mb-3">Action: {m.microAction}</p>
+              <div className="flex gap-2">
+                {!m.read && (
+                  <button type="button" onClick={() => markPulse(m.id, { read: true })} className="btn-secondary px-3 py-1.5 rounded-lg text-xs">
+                    Mark read
+                  </button>
+                )}
+                {!m.actionDone && (
+                  <button type="button" onClick={() => markPulse(m.id, { read: true, actionDone: true })} className="btn-primary px-3 py-1.5 rounded-lg text-xs">
+                    Action done
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -57,28 +123,32 @@ export default function DashboardPage() {
         <div className="soft-card rounded-2xl p-5 mb-6">
           <p className="font-semibold text-sm mb-2">Mood now?</p>
           <div className="flex gap-2">
-            {["😔", "😐", "🙂", "😊", "⚡"].map((e) => (
+            {EMOJIS.map((item) => (
               <button
-                key={e}
+                key={item.e}
                 type="button"
+                onClick={() =>
+                  checkinMood({ id: uid("mood"), score: item.s, emoji: item.e, at: new Date().toISOString() })
+                }
                 className="flex-1 text-2xl py-3 rounded-xl bg-white/5 hover:bg-accent-soft transition-colors"
               >
-                {e}
+                {item.e}
               </button>
             ))}
           </div>
+          {state.moods[0] && (
+            <p className="text-xs text-muted mt-3">Last: {state.moods[0].emoji} · score {state.moods[0].score}</p>
+          )}
         </div>
 
         <div className="soft-card rounded-2xl p-5">
-          <p className="font-semibold text-sm mb-1">Invite — both get 1 month free</p>
+          <p className="font-semibold text-sm mb-1">Referral — both get 1 month free (Phase P)</p>
           <div className="flex gap-2 mt-3">
-            <code className="flex-1 text-xs bg-black/50 rounded-lg px-3 py-2.5 truncate border border-white/10">
-              {link}
-            </code>
+            <code className="flex-1 text-xs bg-black/50 rounded-lg px-3 py-2.5 truncate border border-white/10">{refLink}</code>
             <button
               type="button"
               onClick={() => {
-                navigator.clipboard.writeText(link);
+                navigator.clipboard.writeText(refLink);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 1500);
               }}
@@ -88,10 +158,6 @@ export default function DashboardPage() {
             </button>
           </div>
         </div>
-
-        <Link href="/" className="block text-center text-sm text-muted mt-8 hover:text-white">
-          ← Home
-        </Link>
       </div>
     </div>
   );

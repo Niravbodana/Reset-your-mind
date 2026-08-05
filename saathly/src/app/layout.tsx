@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { LaserBackground } from "@/components/LaserBackground";
+import { Providers } from "@/components/Providers";
 
 const body = Space_Grotesk({
   variable: "--font-body",
@@ -32,10 +33,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="hi" className={`${body.variable} ${display.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink">
-        <LaserBackground />
-        <Navbar />
-        <main className="flex-1 relative z-10">{children}</main>
-        <Footer />
+        <Providers>
+          <LaserBackground />
+          <Navbar />
+          <main className="flex-1 relative z-10">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
