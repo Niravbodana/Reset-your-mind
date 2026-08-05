@@ -1,24 +1,72 @@
 import { NextResponse } from "next/server";
+import {
+  getEffectiveRazorpay,
+  readSettings,
+} from "@/lib/site-settings-server";
 
-/** Phase M — Razorpay subscription create (demo fallback if keys missing) */
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
-  const key = process.env.RAZORPAY_KEY_ID;
-  const secret = process.env.RAZORPAY_KEY_SECRET;
+  const settings = await readSettings();
+  const rz = getEffectiveRazorpay(settings);
+  const planId = String(body.planId || "personal");
+  const email = String(body.email || "");
+  const name = String(body.name || "");
 
-  if (!key || !secret) {
+  const amount =
+    planId === "parivaar"
+      ? settings.features.earlyBirdActive
+        ? settings.marketing.earlyBirdPriceParivaar
+        : settings.marketing.launchPriceParivaar
+      : settings.features.earlyBirdActive
+        ? settings.marketing.earlyBirdPricePersonal
+        : settings.marketing.launchPricePersonal;
+
+  if (!settings.features.paymentsEnabled || !rz.keyId || !rz.keySecret) {
     return NextResponse.json({
       demo: true,
-      message:
-        "Razorpay keys missing — demo activate OK. Add RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET in .env.local for live pay.",
-      planId: body.planId,
+      message: "Payments not configured. Add Razorpay keys in Admin → Integrations.",
+      planId,
+      amount,
+      trialDays: settings.marketing.trialDays,
     });
   }
 
-  // Live path placeholder — wire Razorpay Subscriptions API here
-  return NextResponse.json({
-    demo: false,
-    message: "Keys present — implement Razorpay subscription create next.",
-    planId: body.planId,
-  });
+  const auth = Buffer.from(`${rz.keyId}:${rz.keySecret}`).toString("base64");
+  const receipt = `rizn_${planId}_${Date.now()}`;
+
+  try {
+    const res = await fetch("https://api.razorpay.com/v1/orders", {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${auth}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: amount * 100,
+        currency: "INR",
+        receipt,
+        notes: { planId, email, name, trialDays: String(settings.marketing.trialDays) },
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      return NextResponse.json({ error: "Razorpay order failed", detail: err }, { status: 502 });
+    }
+
+    const order = await res.json();
+    return NextResponse.json({
+      demo: false,
+      keyId: rz.keyId,
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      planId,
+      trialDays: settings.marketing.trialDays,
+      name,
+      email,
+    });
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 });
+  }
 }

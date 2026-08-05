@@ -8,8 +8,8 @@ import { useApp } from "@/context/AppContext";
 
 const links = [
   { href: "/#feel", label: "Demo" },
+  { href: "/samples", label: "Samples" },
   { href: "/#notifications", label: "Notifications" },
-  { href: "/#app", label: "App" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
 ];

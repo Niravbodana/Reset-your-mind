@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
-import { Apple, Play, ArrowRight } from "lucide-react";
+import { Apple, Play } from "lucide-react";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 export function AppComingSoon() {
+  const config = useSiteConfig();
+
   return (
     <section id="app" className="py-20 md:py-24 border-y border-white/5 bg-bg-elevated/50">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -9,50 +14,38 @@ export function AppComingSoon() {
           <div>
             <p className="section-label mb-3">Mobile app</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-              Android & iOS — coming soon
+              Android & iOS — jaldi aa raha hai
             </h2>
             <p className="text-ink-soft leading-relaxed mb-6">
-              This website is the first version of RIZN. You can join early access, set up your profile,
-              and preview messages in the browser today. The native app will add lock-screen push
-              notifications, offline reading, and a smoother daily experience.
+              Abhi website preview use karo. App aate hi push notifications — lock screen pe tumhare naam ke saath message.
             </p>
-            <ul className="space-y-2 text-sm text-ink-soft mb-8">
-              <li className="flex gap-2">
-                <span className="text-gold">•</span> Push notifications at your chosen times
-              </li>
-              <li className="flex gap-2">
-                <span className="text-gold">•</span> Same personalized pulses as the web preview
-              </li>
-              <li className="flex gap-2">
-                <span className="text-gold">•</span> Streak, mood, and weekly summary on your phone
-              </li>
-            </ul>
-            <Link href="/signup" className="btn-primary inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm">
-              Join waitlist for app launch
-              <ArrowRight size={16} />
+            <Link href="/signup" className="btn-primary inline-flex px-6 py-3.5 rounded-xl text-sm">
+              Waitlist join karo — pehle notify
             </Link>
           </div>
-
           <div className="flex flex-col items-center gap-4">
-            <div className="flex gap-4 opacity-50 pointer-events-none select-none">
-              <div className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[180px]">
+            {config.marketing.playStoreUrl ? (
+              <a href={config.marketing.playStoreUrl} className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[200px]">
                 <Play size={24} className="text-gold-light" />
-                <div>
-                  <p className="text-[10px] text-muted uppercase tracking-wide">Google Play</p>
-                  <p className="font-semibold text-white text-sm">Coming soon</p>
-                </div>
+                <span className="font-semibold text-white text-sm">Google Play</span>
+              </a>
+            ) : (
+              <div className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 opacity-60">
+                <Play size={24} className="text-gold-light" />
+                <span className="text-sm text-muted">Play Store — coming soon</span>
               </div>
-              <div className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[180px]">
+            )}
+            {config.marketing.appStoreUrl ? (
+              <a href={config.marketing.appStoreUrl} className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[200px]">
                 <Apple size={24} className="text-gold-light" />
-                <div>
-                  <p className="text-[10px] text-muted uppercase tracking-wide">App Store</p>
-                  <p className="font-semibold text-white text-sm">Coming soon</p>
-                </div>
+                <span className="font-semibold text-white text-sm">App Store</span>
+              </a>
+            ) : (
+              <div className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 opacity-60">
+                <Apple size={24} className="text-gold-light" />
+                <span className="text-sm text-muted">App Store — coming soon</span>
               </div>
-            </div>
-            <p className="text-xs text-muted text-center max-w-xs">
-              Join the waitlist — we will email you when the app is ready. No spam.
-            </p>
+            )}
           </div>
         </div>
       </div>

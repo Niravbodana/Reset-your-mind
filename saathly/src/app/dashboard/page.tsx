@@ -7,6 +7,8 @@ import { Copy, Check, LogOut, Smartphone } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { isTrialActive } from "@/lib/plans";
 import { uid } from "@/lib/storage";
+import { FirstPulseModal } from "@/components/FirstPulseModal";
+import { PushNotifyPrompt } from "@/components/PushNotifyPrompt";
 
 const EMOJIS = [
   { e: "😔", s: 1 },
@@ -42,7 +44,15 @@ export default function DashboardPage() {
 
   return (
     <div className="pt-24 pb-16 px-4">
+      {pulses[0] && (
+        <FirstPulseModal
+          name={user.name}
+          message={pulses[0].text}
+          microAction={pulses[0].microAction}
+        />
+      )}
       <div className="mx-auto max-w-3xl">
+        <PushNotifyPrompt />
         <div className="soft-card border border-gold/20 rounded-2xl p-4 mb-6 flex gap-3 items-start">
           <Smartphone size={18} className="text-gold-light shrink-0 mt-0.5" />
           <div className="text-sm">
