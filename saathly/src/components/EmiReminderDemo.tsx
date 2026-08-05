@@ -50,11 +50,11 @@ export function EmiReminderDemo() {
         <ScrollReveal className="text-center max-w-2xl mx-auto mb-14">
           <p className="section-label mb-3">EMI Reminder — included in ₹99 plan</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-            EMI bhool gaye? <span className="text-gold-light">1 din pehle alert.</span>
+            EMI yaad dilana? <span className="text-gold-light">1 din pehle, caring alert.</span>
           </h2>
           <p className="text-ink-soft text-sm md:text-base leading-relaxed">
-            Naam, amount, date, bank/NBFC — 30 second me set. Kal EMI hai to aaj hi notification —
-            late fee se bacho, tension kam karo.
+            Naam, amount, date, bank/NBFC — 30 second me set. Kal EMI hai to aaj supportive
+            notification — tension kam, confidence zyada. Aap capable hain.
           </p>
         </ScrollReveal>
 
@@ -145,7 +145,7 @@ export function EmiReminderDemo() {
                       <div>
                         <p className="text-xs font-bold text-white mb-1">RIZN · EMI Reminder</p>
                         <p className="text-sm text-white/95 leading-relaxed">{notifText}</p>
-                        <p className="text-[10px] text-gold-light mt-2">Kal due · Balance ready rakho</p>
+                        <p className="text-[10px] text-gold-light mt-2">Kal due · Aap capable hain — balance check kijiye</p>
                       </div>
                     </div>
                   </motion.div>
@@ -164,7 +164,7 @@ export function EmiReminderDemo() {
               <div className="mt-6 grid grid-cols-2 gap-2 text-center text-xs">
                 <div className="soft-card rounded-xl p-3">
                   <p className="text-red-300/90 font-medium">Pehle</p>
-                  <p className="text-muted mt-1">Date miss, late fee, stress</p>
+                  <p className="text-muted mt-1">Date miss, stress, guilt</p>
                 </div>
                 <div className="soft-card rounded-xl p-3 border border-gold/20">
                   <p className="text-success font-medium">Ab RIZN ke saath</p>

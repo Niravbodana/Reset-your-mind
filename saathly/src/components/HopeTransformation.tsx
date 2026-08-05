@@ -25,7 +25,7 @@ const STORIES = [
     name: "Rahul ji",
     beforeImg: "/images/animatic-before-emi.jpg",
     afterImg: "/images/animatic-after-emi.jpg",
-    before: "EMI date miss, late fee, bank call — har mahine tension.",
+    before: "EMI date miss, stress, bank call — har mahine tension.",
     after: "1 din pehle alert. Balance ready. Dil shaant.",
     message: formatEmiNotification("Rahul", DEMO_EMI, "hinglish"),
     action: "Aaj balance check karo",

@@ -47,7 +47,7 @@ export function FaqList({ variant = "section" }: Props) {
     ...staticFaqs.slice(0, 3),
     {
       q: "How does EMI reminder work?",
-      a: "Add EMI name, amount, due date (day of month), and bank/NBFC. RIZN sends a notification 1 day before with your name — so you never miss a payment or get a late fee.",
+      a: "Add EMI name, amount, due date (day of month), and bank/NBFC. RIZN sends a caring notification 1 day before with your name — supportive reminder, tension kam, confidence zyada.",
     },
     staticFaqs[3],
     { q: "What will pricing be?", a: pricingAnswer },

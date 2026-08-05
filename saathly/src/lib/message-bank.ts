@@ -1,8 +1,8 @@
 import type { MessageTemplate } from "./message-format";
 import { MESSAGE_BANK_VOLUME } from "./messages/volume";
-import { MESSAGE_BANK_VOLUME_2 } from "./messages/volume-2";
+import { MESSAGE_BANK_GENERATED } from "./messages/generator";
 
-/** Core templates — merged with volume banks for 350+ unique messages. */
+/** Core templates — hand-audited respectful messages. */
 const MESSAGE_BANK_CORE: MessageTemplate[] = [
   // —— MORNING / WAKE ——
   {
@@ -10,8 +10,8 @@ const MESSAGE_BANK_CORE: MessageTemplate[] = [
     area: "daily",
     slot: "morning",
     microAction: "Bed se uthte hi 1 glass paani",
-    hinglish: "{name}, good morning ☀️ Ab uth jao — life me bahut aage badhna hai. Aaj ka pehla step: paani piyo.",
-    hindi: "{name}, सुप्रभात ☀️ उठ जाइए — ज़िंदगी में आगे बढ़ना है। पहला कदम: पानी पीजिए।",
+    hinglish: "{name}, good morning ☀️ Naya din shuru ho raha hai — aaj ka pehla caring step: paani pijiye.",
+    hindi: "{name}, सुप्रभात ☀️ नया दिन शुरू — पहला कदम: पानी पीजिए।",
     english: "{name}, good morning. Time to rise — your day starts with one glass of water.",
   },
   {
@@ -102,7 +102,7 @@ const MESSAGE_BANK_CORE: MessageTemplate[] = [
     area: "finance",
     slot: "midday",
     microAction: "Ek unnecessary spend avoid",
-    hinglish: "{name}, chai se zyada kharcha mat karo aaj. Ek impulse purchase skip — future tumhe thank karega.",
+    hinglish: "{name}, dopahar me ek impulse purchase postpone kar sakte hain — future aapko thank karega.",
     hindi: "{name}, आज एक फालतू खर्च टालिए।",
     english: "{name}, skip one impulse purchase today. Your future self will thank you.",
   },
@@ -263,7 +263,7 @@ const MESSAGE_BANK_CORE: MessageTemplate[] = [
     area: "finance",
     slot: "any",
     microAction: "EMI calendar check",
-    hinglish: "{name}, EMI tension? Panic mat. Calendar me due dates dekho — plan = power.",
+    hinglish: "{name}, EMI tension feel ho rahi hai? Aaram se calendar me due dates dekh lijiye — plan se sab manageable hota hai.",
     hindi: "{name}, EMI तनाव? कैलेंडर देखिए — योजना = शक्ति।",
     english: "{name}, EMI stress? Do not panic. Check due dates — a plan is power.",
   },
@@ -281,7 +281,7 @@ const MESSAGE_BANK_CORE: MessageTemplate[] = [
     area: "career",
     slot: "any",
     microAction: "No after 7pm email",
-    hinglish: "{name}, burnout se bacho. 7pm ke baad email nahi — tum insaan ho, machine nahi.",
+    hinglish: "{name}, burnout se bachne ke liye 7pm ke baad email band rakh sakte hain — aap insaan hain, rest zaroori hai.",
     hindi: "{name}, 7 बजे के बाद ईमेल नहीं।",
     english: "{name}, protect yourself from burnout. No emails after 7 PM — you are human.",
   },
@@ -299,7 +299,7 @@ const MESSAGE_BANK_CORE: MessageTemplate[] = [
     area: "love",
     slot: "any",
     microAction: "Self-love note",
-    hinglish: "{name}, kisi aur ka wait mat karo feel karne ke liye. Aaj apne liye ek note — tu enough hai.",
+    hinglish: "{name}, kisi aur ka wait kiye bina aaj apne liye ek kind note likh sakte hain — aap enough hain.",
     hindi: "{name}, आज अपने लिए एक नोट — आप पर्याप्त हैं।",
     english: "{name}, do not wait for someone else to make you feel valued. Write yourself a note today.",
   },
@@ -444,7 +444,7 @@ const MESSAGE_BANK_CORE: MessageTemplate[] = [
 export const MESSAGE_BANK: MessageTemplate[] = [
   ...MESSAGE_BANK_CORE,
   ...MESSAGE_BANK_VOLUME,
-  ...MESSAGE_BANK_VOLUME_2,
+  ...MESSAGE_BANK_GENERATED,
 ];
 
 export function getMessageBankStats() {

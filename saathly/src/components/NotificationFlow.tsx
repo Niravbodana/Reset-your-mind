@@ -23,7 +23,7 @@ const channels = [
     title: "EMI Reminder",
     status: "1 day before",
     statusColor: "text-gold-light",
-    desc: "Amount, date, bank/NBFC — naam ke saath alert. Late fee se bacho, tension kam.",
+    desc: "Amount, date, bank/NBFC — naam ke saath caring alert. Tension kam, confidence zyada.",
   },
 ];
 

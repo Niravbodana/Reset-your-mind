@@ -36,7 +36,7 @@ export default function SamplesPage() {
       <div className="max-w-3xl mx-auto mb-10">
         <h1 className="font-display text-4xl font-bold mb-2">Message samples</h1>
         <p className="text-ink-soft text-sm mb-2">
-          <strong className="text-gold-light">{TOTAL}+</strong> unique messages — har din naya, naam ke
+          <strong className="text-gold-light">{TOTAL.toLocaleString('en-IN')}+</strong> respectful unique messages — har din naya, naam ke
           saath respect (Priya ji, Rahul ji).
         </p>
         <p className="text-xs text-muted mb-6">

@@ -34,7 +34,7 @@ const problems = [
   {
     icon: CreditCard,
     who: "EMI miss ho jati hai",
-    pain: "Date bhool jao, late fee lag jaye, credit score down.",
+    pain: "Date miss ho jaye, stress badhe, confidence kam ho.",
     help: "1 din pehle alert — naam, amount, bank sab clear. ₹99 plan me included.",
   },
 ];

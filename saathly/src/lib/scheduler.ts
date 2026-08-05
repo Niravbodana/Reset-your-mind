@@ -1,6 +1,7 @@
 import type { Language, LifeArea, Pulse, UserProfile } from "./types";
 import { renderMessage, pickTemplatesForSlots } from "./templates";
 import { todayKey, uid } from "./storage";
+import { formatEmiNotification, getEmiRemindersDueTomorrow } from "./emi-messages";
 import {
   type PulseIntervalMinutes,
   type ScheduleAnchors,
@@ -126,6 +127,25 @@ export function generateDayPulses(
       date,
     };
   });
+
+  // EMI reminders due tomorrow — respectful morning notification (1 day before)
+  const emiDue = getEmiRemindersDueTomorrow(u.emiReminders);
+  const lang = (u.language ?? "hinglish") as Language;
+  const morningHour = hours[0] ?? 9;
+  for (const emi of emiDue) {
+    pulses.unshift({
+      id: uid("emi"),
+      templateId: `emi-${emi.id}`,
+      timeLabel: formatTimeLabel(times[0] ?? u.wakeTime ?? "09:00"),
+      hour: morningHour,
+      area: "finance",
+      text: formatEmiNotification(u.name, emi, lang),
+      microAction: "EMI balance check — aaram se",
+      read: false,
+      actionDone: false,
+      date,
+    });
+  }
 
   return {
     pulses,
