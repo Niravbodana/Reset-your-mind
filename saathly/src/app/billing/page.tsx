@@ -75,6 +75,19 @@ export default function BillingPage() {
     return <div className="page-top text-center text-muted px-4">Loading…</div>;
   }
 
+  if (!user) {
+    return (
+      <div className="page-top text-center px-4">
+        <p className="text-muted text-sm mb-4">
+          {preferEnglish ? "Sign in to continue…" : "Continue ke liye sign in karo…"}
+        </p>
+        <Link href="/signup" className="text-gold-light text-sm font-semibold underline">
+          {preferEnglish ? "Create account" : "Account banao"}
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="page-top pb-20 px-4">
       <div className="max-w-lg mx-auto">

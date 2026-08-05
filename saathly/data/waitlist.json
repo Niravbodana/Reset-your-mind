@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "wl_msglw41l",
+    "name": "Nirav",
+    "email": "niravb68@gmail.com",
+    "plan": "personal",
+    "areas": [
+      "finance",
+      "mind"
+    ],
+    "language": "english",
+    "createdAt": "2026-08-05T21:35:44.505Z"
+  }
+]

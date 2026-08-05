@@ -138,7 +138,6 @@ function SignupForm() {
       trackEvent("waitlist_signup", opts.provider);
       localStorage.removeItem("rizn_onboarding_done");
       setDone(true);
-      setTimeout(() => router.push("/billing?trial=1&welcome=1"), 1400);
     },
     [
       selected,
@@ -146,11 +145,27 @@ function SignupForm() {
       config.marketing.trialDays,
       login,
       trackEvent,
-      router,
       searchParams,
       setRegionLocked,
     ]
   );
+
+  // Reliable redirect after success (setTimeout-only was getting stuck on mobile)
+  useEffect(() => {
+    if (!done) return;
+    const soft = window.setTimeout(() => {
+      router.replace("/billing?trial=1&welcome=1");
+    }, 600);
+    const hard = window.setTimeout(() => {
+      if (window.location.pathname.startsWith("/signup")) {
+        window.location.assign("/billing?trial=1&welcome=1");
+      }
+    }, 2000);
+    return () => {
+      window.clearTimeout(soft);
+      window.clearTimeout(hard);
+    };
+  }, [done, router]);
 
   const onGoogle = useCallback((g: { name: string; email: string }) => {
     setName(g.name);
@@ -200,6 +215,13 @@ function SignupForm() {
             </svg>
             {t("signup.settingUp")}
           </div>
+          <Link
+            href="/billing?trial=1&welcome=1"
+            className="btn-primary mt-8 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold min-h-[48px] w-full max-w-xs"
+          >
+            {preferEnglish ? "Continue" : "Aage badho"}
+            <ArrowRight size={16} />
+          </Link>
         </div>
       </AuthShell>
     );

@@ -99,7 +99,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setStoredMessageBankVersion(MESSAGE_BANK_VERSION);
     const migrated = migrateUserSchedule(user);
     const gen = ensureTodayPulses(migrated, []);
-    setState(applyPulseGen({ ...emptyState(), pulses: [] }, migrated, gen));
+    const next = applyPulseGen({ ...emptyState(), pulses: [] }, migrated, gen);
+    saveState(next);
+    setState(next);
   }, []);
 
   const restoreSession = useCallback(() => {

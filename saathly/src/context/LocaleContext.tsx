@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -136,53 +137,80 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     return next;
   };
 
-  const setRegionLocked = (locked: boolean) => {
+  const setRegionLocked = useCallback((locked: boolean) => {
     setRegionLockedState(locked);
     setProfile((p) => {
-      persist(p, locked);
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...p, regionLocked: locked })
+      );
       return p;
     });
-  };
+  }, []);
 
-  const setRegion = (region: Region) => {
-    if (regionLocked) return;
+  const setRegion = useCallback((region: Region) => {
     setProfile((p) => {
+      // Read lock from storage to avoid stale closure
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw && (JSON.parse(raw) as Stored).regionLocked) return p;
+      } catch {
+        /* ignore */
+      }
       const defaults = defaultsForRegion(region);
-      return persist({
+      const next = {
         ...p,
         region,
-        currency: region === "IN" ? "INR" : "USD",
+        currency: (region === "IN" ? "INR" : "USD") as DisplayCurrency,
         marketLabel: region === "IN" ? "India" : "Worldwide",
         uiLang: defaults.uiLang,
         language: defaults.language,
-      });
+      };
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...next, regionLocked: false })
+      );
+      return next;
     });
-  };
+  }, []);
 
-  const setCurrency = (currency: DisplayCurrency) => {
-    // Currency always follows region — ignore mismatches
-    setProfile((p) =>
-      persist({
-        ...p,
-        currency: p.region === "IN" ? "INR" : "USD",
-      })
-    );
-    void currency;
-  };
+  const setCurrency = useCallback((currency: DisplayCurrency) => {
+    setProfile((p) => {
+      const next = { ...p, currency: p.region === "IN" ? ("INR" as const) : ("USD" as const) };
+      void currency;
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...next, regionLocked })
+      );
+      return next;
+    });
+  }, [regionLocked]);
 
-  const setUiLang = (uiLang: UiLang) => {
-    setProfile((p) =>
-      persist({
+  const setUiLang = useCallback((uiLang: UiLang) => {
+    setProfile((p) => {
+      const next = {
         ...p,
         uiLang,
         language: messageLanguageFor(p.region, uiLang),
-      })
-    );
-  };
+      };
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...next, regionLocked })
+      );
+      return next;
+    });
+  }, [regionLocked]);
 
-  const setLanguage = (language: Language) => {
-    setProfile((p) => persist({ ...p, language }));
-  };
+  const setLanguage = useCallback((language: Language) => {
+    setProfile((p) => {
+      const next = { ...p, language };
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...next, regionLocked })
+      );
+      return next;
+    });
+  }, [regionLocked]);
 
   const t = (key: string) => translate(profile.uiLang, key);
 
