@@ -6,18 +6,19 @@ import Link from "next/link";
 import { ArrowRight, Heart, Shield, Zap } from "lucide-react";
 import { DEMO_NAME } from "@/lib/constants";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { MESSAGE_BANK } from "@/lib/message-bank";
+import { MESSAGE_BANK, getMessageBankStats } from "@/lib/message-bank";
 import { formatCustomerName } from "@/lib/message-format";
 import { IPhoneNotificationDemo } from "./IPhoneNotificationDemo";
 import { OfferBanner, OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
 
-const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any").slice(0, 12);
+const MESSAGE_COUNT = getMessageBankStats().total;
+const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any");
 
 const TRUST = [
   { icon: Heart, text: "Naam ke saath daily care" },
   { icon: Shield, text: "EMI 1 din pehle alert" },
-  { icon: Zap, text: "50+ unique messages" },
+  { icon: Zap, text: `${MESSAGE_COUNT}+ unique messages` },
 ];
 
 export function Hero() {

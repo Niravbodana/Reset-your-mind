@@ -3,11 +3,14 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { getMessageBankStats } from "@/lib/message-bank";
 import { OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
 
+const MESSAGE_COUNT = getMessageBankStats().total;
+
 const features = [
-  "Daily personalized messages — naam ke saath, kabhi repeat nahi",
+  `${MESSAGE_COUNT}+ unique messages — naam ke saath, kabhi repeat nahi`,
   "EMI reminder 1 din pehle — amount, date, bank/NBFC",
   "Schedule control: 30 min to 4 hour interval",
   "Wake, sleep, lunch, gym, medicine, dinner anchors",

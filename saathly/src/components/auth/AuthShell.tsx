@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { BrandLockup } from "@/components/Logo";
+import { getMessageBankStats } from "@/lib/message-bank";
 
 const BENEFITS = [
-  "Roz 3 personalized messages — aapke naam ke saath",
+  `${getMessageBankStats().total}+ unique messages — aapke naam ke saath`,
   "EMI reminders — 1 din pehle, bank/NBFC naam ke saath",
   "Dashboard se sab control — pause, edit, delete",
 ];

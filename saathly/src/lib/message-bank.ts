@@ -1,7 +1,9 @@
 import type { MessageTemplate } from "./message-format";
+import { MESSAGE_BANK_VOLUME } from "./messages/volume";
+import { MESSAGE_BANK_VOLUME_2 } from "./messages/volume-2";
 
-/** Large message bank — every id unique; never repeat until customer has seen all matching pool. */
-export const MESSAGE_BANK: MessageTemplate[] = [
+/** Core templates — merged with volume banks for 350+ unique messages. */
+const MESSAGE_BANK_CORE: MessageTemplate[] = [
   // —— MORNING / WAKE ——
   {
     id: "m01",
@@ -437,3 +439,20 @@ export const MESSAGE_BANK: MessageTemplate[] = [
     english: "{name}, call your parents? Two minutes — it makes their day and yours.",
   },
 ];
+
+/** Every id unique — never repeat until customer has seen all matching pool. */
+export const MESSAGE_BANK: MessageTemplate[] = [
+  ...MESSAGE_BANK_CORE,
+  ...MESSAGE_BANK_VOLUME,
+  ...MESSAGE_BANK_VOLUME_2,
+];
+
+export function getMessageBankStats() {
+  const byArea: Record<string, number> = {};
+  const bySlot: Record<string, number> = {};
+  for (const m of MESSAGE_BANK) {
+    byArea[m.area] = (byArea[m.area] ?? 0) + 1;
+    bySlot[m.slot] = (bySlot[m.slot] ?? 0) + 1;
+  }
+  return { total: MESSAGE_BANK.length, byArea, bySlot };
+}

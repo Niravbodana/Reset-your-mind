@@ -1,4 +1,7 @@
 import { Bell, Globe, CreditCard } from "lucide-react";
+import { getMessageBankStats } from "@/lib/message-bank";
+
+const MESSAGE_COUNT = getMessageBankStats().total;
 
 const channels = [
   {
@@ -6,7 +9,7 @@ const channels = [
     title: "Daily alerts",
     status: "Your habit",
     statusColor: "text-success",
-    desc: "Har din naam ke saath messages — motivation, health, money, dil. Kabhi wahi repeat nahi.",
+    desc: `${MESSAGE_COUNT}+ unique messages — motivation, health, money, dil. Kabhi wahi repeat nahi jab tak pool complete na ho.`,
   },
   {
     icon: Globe,
