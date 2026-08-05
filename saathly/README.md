@@ -5,4 +5,5 @@ npm install
 npm run dev
 ```
 
-Architecture: see `ARCHITECTURE.md`
+- Phases A→Z: [`PHASES.md`](./PHASES.md)
+- Architecture index: [`ARCHITECTURE.md`](./ARCHITECTURE.md)

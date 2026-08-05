@@ -30,4 +30,7 @@ docker compose up --build
 
 ## Docs
 
-Full architecture, legal name check, A→Z phases: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+| Doc | What |
+|-----|------|
+| [`saathly/PHASES.md`](./saathly/PHASES.md) | **A → Z** start-to-end phases (full checklist) |
+| [`saathly/ARCHITECTURE.md`](./saathly/ARCHITECTURE.md) | Legal, stack, architecture index |
