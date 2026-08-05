@@ -28,20 +28,37 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "RIZN — aapki life change ka reason",
+  title: {
+    default: "RIZN — aapki life change ka reason",
+    template: "%s | RIZN",
+  },
   description:
     "₹99/month — daily personalized messages + EMI reminder 1 day before. Aapki life change ka reason.",
+  applicationName: "RIZN",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "RIZN",
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: "RIZN — aapki life change ka reason",
     description: "Daily motivation + EMI alerts. ₹99 limited offer. Start free today.",
     type: "website",
     images: ["/images/animatic-after-hope.jpg"],
   },
+  keywords: [
+    "daily motivation",
+    "EMI reminder",
+    "Hinglish motivation",
+    "habit app India",
+    "RIZN",
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${body.variable} ${display.variable} h-full antialiased`}>
+    <html lang="hi-IN" className={`${body.variable} ${display.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink font-sans">
         <Providers>
           <LaserBackground />

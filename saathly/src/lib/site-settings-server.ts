@@ -29,7 +29,14 @@ export async function readSettings(): Promise<SiteSettings> {
   try {
     await ensureDataDir();
     const raw = await fs.readFile(SETTINGS_FILE, "utf-8");
-    return resolveAdminPassword({ ...DEFAULT_SETTINGS, ...JSON.parse(raw) });
+    const parsed = JSON.parse(raw) as Partial<SiteSettings>;
+    return resolveAdminPassword({
+      ...DEFAULT_SETTINGS,
+      ...parsed,
+      integrations: { ...DEFAULT_SETTINGS.integrations, ...parsed.integrations },
+      marketing: { ...DEFAULT_SETTINGS.marketing, ...parsed.marketing },
+      features: { ...DEFAULT_SETTINGS.features, ...parsed.features },
+    });
   } catch {
     return resolveAdminPassword({ ...DEFAULT_SETTINGS });
   }

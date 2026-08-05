@@ -6,6 +6,9 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 import { getMessageBankStats } from "@/lib/message-bank";
 import { OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
+import { UpiPayPreview } from "./UpiPayPreview";
+import { WhatsAppCTA } from "./WhatsAppCTA";
+import { NoSpamPromise } from "./NoSpamPromise";
 
 const MESSAGE_COUNT = getMessageBankStats().total;
 
@@ -62,9 +65,18 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
             >
               Abhi join karo — ₹99
             </Link>
+            <div className="mt-3">
+              <WhatsAppCTA variant="bar" />
+            </div>
             <p className="text-xs text-center text-muted mt-3">
               No payment today · {config.marketing.trialDays} din trial when billing opens
             </p>
+          </div>
+          <div className="mt-6">
+            <UpiPayPreview />
+          </div>
+          <div className="mt-4">
+            <NoSpamPromise />
           </div>
         </ScrollReveal>
       </div>

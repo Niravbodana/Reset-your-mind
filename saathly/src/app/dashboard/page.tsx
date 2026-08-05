@@ -8,6 +8,11 @@ import { Bell, Check, Flame, LogOut, Settings } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { formatCustomerName, greetForHour } from "@/lib/message-format";
 import { FirstPulseModal } from "@/components/FirstPulseModal";
+import { OnboardingWizard } from "@/components/OnboardingWizard";
+import { ReferralCard } from "@/components/ReferralCard";
+import { ShareMessageCard } from "@/components/ShareMessageCard";
+import { DashboardSkeleton } from "@/components/Skeleton";
+import { NoSpamPromise } from "@/components/NoSpamPromise";
 
 const EMOJIS = [
   { e: "😔", s: 1 },
@@ -41,7 +46,7 @@ export default function DashboardPage() {
   const doneCount = pulses.filter((p) => p.actionDone).length;
 
   if (!ready || !user) {
-    return <div className="page-top text-center text-muted px-4">Loading…</div>;
+    return <DashboardSkeleton />;
   }
 
   const displayName = formatCustomerName(user.name, user.language);
@@ -49,6 +54,7 @@ export default function DashboardPage() {
 
   return (
     <div className="page-top pb-20 min-h-screen">
+      <OnboardingWizard />
       {pulses[0] && (
         <FirstPulseModal
           name={user.name}
@@ -148,15 +154,21 @@ export default function DashboardPage() {
         </div>
 
         {pulses.length === 0 && (
-          <div className="soft-card rounded-2xl p-6 mb-6 text-center">
-            <p className="text-sm text-white mb-3">Aaj ke messages abhi load nahi hue</p>
+          <div className="soft-card rounded-2xl p-6 mb-6 text-center border border-gold/20">
+            <p className="font-display text-lg font-bold text-white mb-2">Aaj ke messages ready nahi</p>
+            <p className="text-sm text-ink-soft mb-4 leading-relaxed">
+              Tension mat lo — ek tap pe load. Har message tumhare naam pe, naya value ke saath.
+            </p>
             <button
               type="button"
               onClick={refreshPulses}
-              className="btn-primary px-5 py-3 rounded-xl text-sm min-h-[48px]"
+              className="btn-primary px-5 py-3 rounded-xl text-sm min-h-[48px] w-full sm:w-auto"
             >
               Messages load karo
             </button>
+            <Link href="/settings" className="block mt-3 text-xs text-gold-light hover:underline">
+              Ya pehle schedule set karo →
+            </Link>
           </div>
         )}
 
@@ -202,11 +214,15 @@ export default function DashboardPage() {
                       <Check size={14} /> Aaj ka step done — proud!
                     </span>
                   )}
+                  <ShareMessageCard name={displayName} message={m.text} className="!min-h-[44px]" />
                 </div>
               </div>
             </div>
           ))}
         </div>
+
+        <ReferralCard code={user.referralCode} />
+        <NoSpamPromise className="mb-6" />
 
         <div className="soft-card rounded-2xl p-5 mb-6">
           <p className="font-semibold text-sm mb-3 text-white">Aaj mood kaisa hai?</p>

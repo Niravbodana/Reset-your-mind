@@ -229,6 +229,11 @@ export function AdminPanel() {
             setSettings({ ...settings, marketing: { ...settings.marketing, crisisHelpline: v } })
           )}
           {field(
+            "WhatsApp join number (91…)",
+            settings.marketing.whatsappJoinNumber,
+            (v) => setSettings({ ...settings, marketing: { ...settings.marketing, whatsappJoinNumber: v } })
+          )}
+          {field(
             "Instagram URL",
             settings.marketing.instagramUrl,
             (v) => setSettings({ ...settings, marketing: { ...settings.marketing, instagramUrl: v } }),

@@ -3,17 +3,25 @@ import { appendWaitlist, readSettings } from "@/lib/site-settings-server";
 import type { WaitlistEntry } from "@/lib/site-settings-types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[6-9]\d{9}$/;
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const name = String(body.name || "").trim();
   const email = String(body.email || "").trim().toLowerCase();
+  const phoneRaw = String(body.phone || "").replace(/\D/g, "");
+  const phone = phoneRaw.startsWith("91") && phoneRaw.length === 12 ? phoneRaw.slice(2) : phoneRaw;
   const plan = String(body.plan || "personal");
   const areas = Array.isArray(body.areas) ? body.areas.map(String) : [];
   const language = String(body.language || "hinglish");
+  const referredBy = body.referredBy ? String(body.referredBy).trim() : undefined;
 
   if (!name || name.length < 2 || !EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Valid name and email required" }, { status: 400 });
+  }
+
+  if (phone && !PHONE_RE.test(phone)) {
+    return NextResponse.json({ error: "Valid 10-digit Indian mobile required" }, { status: 400 });
   }
 
   const settings = await readSettings();
@@ -21,9 +29,11 @@ export async function POST(req: Request) {
     id: `wl_${Date.now().toString(36)}`,
     name,
     email,
+    phone: phone || undefined,
     plan,
     areas,
     language,
+    referredBy,
     createdAt: new Date().toISOString(),
   };
 

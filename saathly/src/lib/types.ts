@@ -11,6 +11,8 @@ export type UserProfile = {
   id: string;
   name: string;
   email: string;
+  /** Optional — India mobile for WhatsApp / SMS alerts */
+  phone?: string;
   plan: PlanId;
   areas: LifeArea[];
   language: Language;

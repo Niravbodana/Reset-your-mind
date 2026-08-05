@@ -45,7 +45,7 @@ export function Hero() {
           alt=""
           fill
           priority
-          className="object-cover object-[center_30%] sm:object-center scale-105 hero-kenburns"
+          className="object-cover object-[center_30%] sm:object-center scale-[1.02] sm:scale-105 motion-safe:hero-kenburns"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-[#030306]" />

@@ -123,7 +123,7 @@ h1, h2, h3 {
   color: #0a0a0f;
   font-weight: 700;
   box-shadow: 0 4px 24px rgba(201, 162, 39, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary:hover {
@@ -131,17 +131,45 @@ h1, h2, h3 {
   box-shadow: 0 8px 40px rgba(201, 162, 39, 0.5);
 }
 
+.btn-primary:active,
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
 .btn-secondary {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #fff;
   font-weight: 600;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
 }
 
 .btn-secondary:hover {
   border-color: rgba(201, 162, 39, 0.5);
   background: rgba(201, 162, 39, 0.08);
+}
+
+/* Battery / motion friendly */
+@media (prefers-reduced-motion: reduce) {
+  .hero-kenburns,
+  .animatic-orb,
+  .animatic-mesh,
+  .animatic-noise,
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-marquee {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-kenburns {
+    animation-duration: 40s;
+  }
+  .animatic-orb {
+    filter: blur(70px);
+    opacity: 0.7;
+  }
 }
 
 .premium-card {

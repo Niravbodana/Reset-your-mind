@@ -23,8 +23,13 @@ export function Footer() {
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Product</p>
             <ul className="space-y-1 text-sm text-ink-soft">
               <li>
-                <Link href="/#emi-reminder" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
+                <Link href="/emi-reminder" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
                   EMI Reminder
+                </Link>
+              </li>
+              <li>
+                <Link href="/daily-motivation" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
+                  Daily Motivation
                 </Link>
               </li>
               <li>

@@ -10,6 +10,7 @@ import { useRequireAuth } from "@/hooks/useRequireAuth";
 import type { EmiReminder } from "@/lib/emi-reminder";
 import { formatEmiNotification } from "@/lib/emi-reminder";
 import { uid } from "@/lib/storage";
+import { OnboardingWizard } from "@/components/OnboardingWizard";
 
 const inputClass =
   "mt-1.5 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3.5 text-base text-white placeholder:text-muted focus:outline-none focus:border-gold/50 min-h-[48px]";
@@ -83,6 +84,7 @@ function EmiRemindersContent() {
 
   return (
     <div className="page-top pb-24 px-4">
+      {welcome && <OnboardingWizard />}
       <div className="max-w-lg mx-auto">
         <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2 text-white">EMI Reminders</h1>
         {welcome && (

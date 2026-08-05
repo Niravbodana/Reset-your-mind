@@ -27,6 +27,8 @@ export type SiteSettings = {
     siteUrl: string;
     supportEmail: string;
     crisisHelpline: string;
+    /** India WhatsApp number digits only, e.g. 9198XXXXXXXX — join / support CTA */
+    whatsappJoinNumber: string;
     instagramUrl: string;
     playStoreUrl: string;
     appStoreUrl: string;
@@ -55,9 +57,11 @@ export type WaitlistEntry = {
   id: string;
   name: string;
   email: string;
+  phone?: string;
   plan: string;
   areas: string[];
   language: string;
+  referredBy?: string;
   createdAt: string;
   pushSubscribed?: boolean;
 };
@@ -91,6 +95,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     siteUrl: "http://localhost:3000",
     supportEmail: "hello@rizn.app",
     crisisHelpline: "9152987821",
+    whatsappJoinNumber: "",
     instagramUrl: "",
     playStoreUrl: "",
     appStoreUrl: "",
