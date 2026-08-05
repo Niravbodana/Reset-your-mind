@@ -233,7 +233,7 @@ function SettingsContent() {
         </section>
 
         <div className="soft-card rounded-xl p-4 mb-5 border border-gold/20 text-sm">
-          <p className="text-white font-medium">Today&apos;s preview</p>
+          <p className="text-white font-medium">Aaj ke messages</p>
           <p className="text-xs text-ink-soft mt-1">
             ~<strong className="text-gold-light">{previewCount}</strong> messages between {wakeTime} and{" "}
             {sleepTime}

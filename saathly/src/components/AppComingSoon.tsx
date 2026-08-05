@@ -14,36 +14,36 @@ export function AppComingSoon() {
           <div>
             <p className="section-label mb-3">Mobile app</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-              Android & iOS — jaldi aa raha hai
+              Android & iOS — launching soon
             </h2>
             <p className="text-ink-soft leading-relaxed mb-6">
-              Abhi website preview use karo. App aate hi push notifications — lock screen pe tumhare naam ke saath message.
+              Abhi web pe shuru karo. App aate hi push notifications — lock screen pe tumhare naam ke saath message.
             </p>
-            <Link href="/signup" className="btn-primary inline-flex px-6 py-3.5 rounded-xl text-sm">
-              Waitlist join karo — pehle notify
+            <Link href="/signup" className="btn-primary inline-flex px-6 py-3.5 rounded-xl text-sm font-semibold">
+              Start free — pehle access pao
             </Link>
           </div>
           <div className="flex flex-col items-center gap-4">
             {config.marketing.playStoreUrl ? (
-              <a href={config.marketing.playStoreUrl} className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[200px]">
+              <a href={config.marketing.playStoreUrl} className="premium-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[200px]">
                 <Play size={24} className="text-gold-light" />
                 <span className="font-semibold text-white text-sm">Google Play</span>
               </a>
             ) : (
-              <div className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 opacity-60">
+              <div className="premium-card rounded-2xl px-6 py-4 flex items-center gap-3 opacity-70">
                 <Play size={24} className="text-gold-light" />
-                <span className="text-sm text-muted">Play Store — coming soon</span>
+                <span className="text-sm text-ink-soft">Google Play — soon</span>
               </div>
             )}
             {config.marketing.appStoreUrl ? (
-              <a href={config.marketing.appStoreUrl} className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[200px]">
+              <a href={config.marketing.appStoreUrl} className="premium-card rounded-2xl px-6 py-4 flex items-center gap-3 min-w-[200px]">
                 <Apple size={24} className="text-gold-light" />
                 <span className="font-semibold text-white text-sm">App Store</span>
               </a>
             ) : (
-              <div className="soft-card rounded-2xl px-6 py-4 flex items-center gap-3 opacity-60">
+              <div className="premium-card rounded-2xl px-6 py-4 flex items-center gap-3 opacity-70">
                 <Apple size={24} className="text-gold-light" />
-                <span className="text-sm text-muted">App Store — coming soon</span>
+                <span className="text-sm text-ink-soft">App Store — soon</span>
               </div>
             )}
           </div>

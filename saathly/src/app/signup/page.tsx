@@ -60,7 +60,7 @@ function QuickSignup() {
     });
     if (!wl.ok) {
       setLoading(false);
-      alert("Waitlist save failed — check connection and try again.");
+      alert("Signup failed — check connection and try again.");
       return;
     }
 

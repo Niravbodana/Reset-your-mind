@@ -24,10 +24,10 @@ const display = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "RIZN — aapki life change ka reason",
   description:
-    "₹99/month — daily personalized messages + EMI reminder 1 day before. Your name, your schedule. Join free preview.",
+    "₹99/month — daily personalized messages + EMI reminder 1 day before. Aapki life change ka reason.",
   openGraph: {
     title: "RIZN — aapki life change ka reason",
-    description: "Daily motivation + EMI alerts. ₹99 limited offer. Free web preview.",
+    description: "Daily motivation + EMI alerts. ₹99 limited offer. Start free today.",
     type: "website",
     images: ["/images/transform-premium.jpg"],
   },

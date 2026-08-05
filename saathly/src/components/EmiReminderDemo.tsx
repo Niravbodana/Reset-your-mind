@@ -8,7 +8,7 @@ import { formatEmiNotification, DEMO_EMI } from "@/lib/emi-reminder";
 import { ScrollReveal } from "./ScrollReveal";
 
 const STEPS = [
-  { icon: User, label: "Naam", value: "Anand" },
+  { icon: User, label: "Naam", value: "Rahul" },
   { icon: IndianRupee, label: "Amount", value: "₹12,500" },
   { icon: Calendar, label: "EMI date", value: "5 har mahine" },
   { icon: Building2, label: "Bank / NBFC", value: "HDFC Bank" },
@@ -41,7 +41,7 @@ export function EmiReminderDemo() {
     return () => clearInterval(t);
   }, [showNotif]);
 
-  const notifText = formatEmiNotification("Anand", DEMO_EMI, "hinglish");
+  const notifText = formatEmiNotification("Rahul", DEMO_EMI, "hinglish");
 
   return (
     <section id="emi-reminder" className="py-20 md:py-28 border-y border-white/5 bg-bg-elevated/40">

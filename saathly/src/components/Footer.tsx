@@ -16,7 +16,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <BrandLockup />
             <p className="text-sm text-ink-soft leading-relaxed mt-4">
-              RIZN — aapki life change ka reason. Daily motivation + EMI reminders, India ke liye.
+              Daily motivation + EMI reminders for busy lives in India.
             </p>
           </div>
           <div>

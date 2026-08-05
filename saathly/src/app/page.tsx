@@ -11,7 +11,7 @@ import { FaqSection } from "@/components/FaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { IPhoneNotificationDemo } from "@/components/IPhoneNotificationDemo";
-import { ScrollReveal } from "@/components/ScrollReveal";
+import { AppComingSoon } from "@/components/AppComingSoon";
 
 export default function HomePage() {
   return (

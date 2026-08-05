@@ -7,9 +7,9 @@ import { BrandLockup } from "./Logo";
 import { useApp } from "@/context/AppContext";
 
 const links = [
-  { href: "/#feel", label: "Demo" },
+  { href: "/#feel", label: "Try it" },
   { href: "/#emi-reminder", label: "EMI" },
-  { href: "/samples", label: "Samples" },
+  { href: "/samples", label: "Messages" },
   { href: "/pricing", label: "₹99 Plan" },
   { href: "/faq", label: "FAQ" },
 ];
@@ -33,7 +33,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
         <Link href="/" className="flex items-center">
-          <BrandLockup compact />
+          <BrandLockup size="sm" />
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
@@ -89,7 +89,7 @@ export function Navbar() {
             className="btn-primary text-center py-3 rounded-xl text-sm"
             onClick={() => setOpen(false)}
           >
-            {state.user ? "Dashboard" : "Join waitlist"}
+            {state.user ? "Dashboard" : "Start free"}
           </Link>
         </div>
       )}

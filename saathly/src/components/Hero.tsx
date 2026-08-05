@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { DEMO_NAME } from "@/lib/constants";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { MESSAGE_BANK } from "@/lib/message-bank";
@@ -45,13 +45,12 @@ export function Hero() {
           <ScrollReveal>
             <div className="flex flex-wrap items-center gap-3 mb-5">
               <OfferBanner />
-              <span className="inline-flex items-center gap-1 text-xs text-gold-light bg-gold/10 px-3 py-1 rounded-full border border-gold/20">
-                <Sparkles size={12} />
-                aapki life change ka reason
-              </span>
+              {config.waitlistCount > 0 && (
+                <span className="text-xs text-ink-soft">{config.waitlistCount}+ members joined</span>
+              )}
             </div>
             <h1 className="font-display text-[2.1rem] sm:text-[2.85rem] lg:text-[3.25rem] font-bold leading-[1.12] tracking-[-0.03em] mb-5 text-white">
-              RIZN — tumhari life
+              Tumhari life
               <span className="text-gold-light"> better banane</span> ka ek rasta.
             </h1>
             <p className="text-base md:text-lg text-ink-soft max-w-lg leading-[1.7] mb-6">

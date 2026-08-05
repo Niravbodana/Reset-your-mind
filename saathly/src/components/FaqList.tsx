@@ -9,16 +9,16 @@ const staticFaqs = [
     a: "RIZN uses your name, your chosen focus areas, and the time of day. Each message includes a small action — not a generic motivational quote.",
   },
   {
-    q: "How do notifications work right now?",
-    a: "On the website preview, open your dashboard to read today's pulses. In Settings you choose the interval (30 min to 4 hours) and optional times for lunch, gym, medicine, etc. Push notifications ship with the mobile app.",
+    q: "How do notifications work?",
+    a: "Open your dashboard for today's personalized messages. In Settings, choose your interval (30 min to 4 hours) and optional times for lunch, gym, medicine, and more. Phone push notifications arrive with the mobile app.",
   },
   {
     q: "Can I change my message schedule?",
-    a: "Yes. After signup, go to Settings to set wake/sleep times, message frequency (30 min, 1h, 2h, 3h, or 4h), and optional anchors like lunch, dinner, gym, yoga, and medicine.",
+    a: "Yes. Go to Settings to set wake/sleep times, message frequency, and optional anchors like lunch, dinner, gym, yoga, and medicine.",
   },
   {
     q: "Is the mobile app available?",
-    a: "Not yet. Android and iOS apps are in development. Join the waitlist to get an email when they are ready.",
+    a: "Android and iOS apps are launching soon. Sign up now to get early access and be first to receive push notifications on your phone.",
   },
   {
     q: "Is RIZN a therapy or medical service?",
@@ -26,7 +26,7 @@ const staticFaqs = [
   },
   {
     q: "Where is my data stored?",
-    a: "Your waitlist signup (name, email, plan) is stored on our server so we can notify you at launch. Preview activity (messages read, mood, streak) stays in this browser until cloud accounts ship.",
+    a: "Your account details are stored securely. Message history, mood, and streak sync to your profile. We never sell your data.",
   },
 ];
 
@@ -40,8 +40,8 @@ export function FaqList({ variant = "section" }: Props) {
   const launchPersonal = config.marketing.launchPricePersonal;
 
   const pricingAnswer = config.features.earlyBirdActive
-    ? `RIZN Personal ₹${personal}/month (launch ₹${launchPersonal}) — daily messages + EMI reminders included. Web preview free — no payment today.`
-    : `RIZN Personal ₹${personal}/month — messages and EMI reminders. Web preview free during early access.`;
+    ? `RIZN Personal ₹${personal}/month (regular ₹${launchPersonal}) — daily messages + EMI reminders included. Start free today — no payment required.`
+    : `RIZN Personal ₹${personal}/month — messages and EMI reminders included.`;
 
   const faqs = [
     ...staticFaqs.slice(0, 3),

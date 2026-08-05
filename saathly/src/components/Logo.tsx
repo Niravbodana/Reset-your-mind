@@ -38,24 +38,28 @@ export function Logo({ className = "w-10 h-10" }: { className?: string }) {
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`font-display text-[1.6rem] font-extrabold tracking-[0.14em] text-white ${className}`}
+      className={`font-display font-extrabold tracking-[0.14em] text-white ${className}`}
     >
       RIZN
     </span>
   );
 }
 
-export function BrandLockup({ compact = false }: { compact?: boolean }) {
+/** Tagline always directly under RIZN */
+export function BrandLockup({ size = "default" }: { size?: "default" | "sm" }) {
+  const sm = size === "sm";
   return (
     <div className="flex items-center gap-2.5">
-      <Logo className={compact ? "w-8 h-8" : "w-10 h-10"} />
-      <div className="flex flex-col leading-none">
-        <Wordmark className={compact ? "text-[1.25rem]" : ""} />
-        {!compact && (
-          <span className="text-[9px] sm:text-[10px] font-medium text-gold-light/90 tracking-wide mt-0.5 max-w-[140px] leading-tight">
-            aapki life change ka reason
-          </span>
-        )}
+      <Logo className={sm ? "w-9 h-9" : "w-10 h-10"} />
+      <div className="flex flex-col leading-none gap-0.5">
+        <Wordmark className={sm ? "text-[1.15rem]" : "text-[1.45rem]"} />
+        <span
+          className={`font-medium text-gold-light/95 tracking-wide leading-tight ${
+            sm ? "text-[8px] sm:text-[9px]" : "text-[9px] sm:text-[10px]"
+          }`}
+        >
+          Aapki life change ka reason
+        </span>
       </div>
     </div>
   );

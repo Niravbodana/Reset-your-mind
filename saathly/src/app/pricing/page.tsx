@@ -8,12 +8,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const personal = settings.features.earlyBirdActive
     ? settings.marketing.earlyBirdPricePersonal
     : settings.marketing.launchPricePersonal;
-  const parivaar = settings.features.earlyBirdActive
-    ? settings.marketing.earlyBirdPriceParivaar
-    : settings.marketing.launchPriceParivaar;
   return {
-    title: "Pricing — RIZN",
-    description: `Planned pricing: Personal ₹${personal}/month, Parivaar ₹${parivaar}/month. Early access web preview is free.`,
+    title: "₹99 Plan — RIZN",
+    description: `RIZN Personal ₹${personal}/month — daily messages + EMI reminders. Free web preview.`,
   };
 }
 
@@ -21,9 +18,9 @@ export default function PricingPage() {
   return (
     <div className="pt-24 pb-20 md:pb-0">
       <div className="text-center px-4 mb-2 max-w-xl mx-auto">
-        <h1 className="font-display text-4xl md:text-5xl font-bold text-white mb-3">Pricing</h1>
+        <h1 className="font-display text-4xl md:text-5xl font-bold text-white mb-3">₹99 Life Change Plan</h1>
         <p className="text-ink-soft">
-          Planned rates for when subscriptions launch. Join the waitlist to preview on web at no cost.
+          Messages + EMI reminders — sab included. Start free, no payment.
         </p>
       </div>
       <PricingSection showTitle={false} />

@@ -23,9 +23,9 @@ const rows = [
     rizn: false,
   },
   {
-    item: "RIZN Personal (planned)",
+    item: "RIZN Personal",
     cost: "",
-    note: "Up to 6 naam-wale messages + actions roz (web preview now)",
+    note: "Daily messages + EMI reminders + your schedule — naam ke saath",
     rizn: true,
   },
 ];
@@ -41,24 +41,23 @@ export function ValueComparison() {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <p className="section-label mb-3">Value</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
-            ₹{price}/month planned — kya milega?
+            Sirf ₹{price}/month — kya milega?
           </h2>
           <p className="text-ink-soft text-sm">
             {config.features.earlyBirdActive && launch > price && (
               <span className="text-gold-light font-semibold">
-                Early bird ₹{price} · Launch target ₹{launch} &nbsp;·&nbsp;
+                Limited offer ₹{price} · Regular ₹{launch} &nbsp;·&nbsp;
               </span>
             )}
             Daily habit nudges — chai se sasta, quotes se zyada personal
           </p>
         </div>
 
-        {/* Mobile: cards */}
         <div className="md:hidden space-y-3">
           {rows.map((r) => (
             <div
               key={r.item}
-              className={`rounded-2xl p-4 border ${r.rizn ? "border-gold/30 bg-gold/5" : "border-white/10 soft-card"}`}
+              className={`rounded-2xl p-4 border ${r.rizn ? "border-gold/30 bg-gold/5 premium-card" : "border-white/10 soft-card"}`}
             >
               <p className="font-semibold text-white text-sm">{r.item}</p>
               <p className="text-ink-soft text-sm mt-1">{r.rizn ? `₹${price}/mo` : r.cost}</p>
@@ -67,25 +66,24 @@ export function ValueComparison() {
           ))}
         </div>
 
-        {/* Desktop: table */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto premium-card rounded-2xl">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10 text-left text-muted">
-                <th className="pb-3 font-semibold">Option</th>
-                <th className="pb-3 font-semibold">Cost</th>
-                <th className="pb-3 font-semibold">RIZN jaisa?</th>
+                <th className="pb-3 px-4 pt-4 font-semibold">Option</th>
+                <th className="pb-3 px-4 pt-4 font-semibold">Cost</th>
+                <th className="pb-3 px-4 pt-4 font-semibold">RIZN jaisa?</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((r) => (
                 <tr
                   key={r.item}
-                  className={`border-b border-white/5 ${r.rizn ? "bg-gold/5" : ""}`}
+                  className={`border-b border-white/5 last:border-0 ${r.rizn ? "bg-gold/5" : ""}`}
                 >
-                  <td className="py-4 pr-4 text-white font-medium">{r.item}</td>
-                  <td className="py-4 pr-4 text-ink-soft">{r.rizn ? `₹${price}/mo` : r.cost}</td>
-                  <td className="py-4 text-ink-soft">{r.note}</td>
+                  <td className="py-4 px-4 text-white font-medium">{r.item}</td>
+                  <td className="py-4 px-4 text-ink-soft">{r.rizn ? `₹${price}/mo` : r.cost}</td>
+                  <td className="py-4 px-4 text-ink-soft">{r.note}</td>
                 </tr>
               ))}
             </tbody>
