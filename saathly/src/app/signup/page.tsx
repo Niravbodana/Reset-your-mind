@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Check, CreditCard } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Mail, User, Sparkles } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { AREA_LABELS } from "@/lib/templates";
 import type { Language, LifeArea } from "@/lib/types";
@@ -13,21 +13,24 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 import { personalMonthlyPrice } from "@/lib/pricing";
 import { DEFAULT_INTERVAL, DEFAULT_SLEEP, DEFAULT_WAKE, defaultAnchors } from "@/lib/schedule-config";
 import { OfferPrice } from "@/components/OfferPrice";
+import { AuthShell } from "@/components/auth/AuthShell";
+import { AuthButton, AuthField, StepIndicator } from "@/components/auth/AuthField";
 
 const areaIds = Object.keys(AREA_LABELS) as LifeArea[];
 
-const languages: { id: Language; label: string }[] = [
-  { id: "hinglish", label: "Hinglish" },
-  { id: "hindi", label: "Hindi" },
-  { id: "english", label: "English" },
+const languages: { id: Language; label: string; sub: string }[] = [
+  { id: "hinglish", label: "Hinglish", sub: "Most popular" },
+  { id: "hindi", label: "Hindi", sub: "Pure Hindi" },
+  { id: "english", label: "English", sub: "Professional" },
 ];
 
-function QuickSignup() {
+function SignupForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { login, trackEvent } = useApp();
   const config = useSiteConfig();
 
+  const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selected, setSelected] = useState<LifeArea[]>(["finance", "mind"]);
@@ -35,6 +38,7 @@ function QuickSignup() {
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState("");
 
   const toggle = (id: LifeArea) => {
     setSelected((prev) =>
@@ -42,10 +46,12 @@ function QuickSignup() {
     );
   };
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (name.trim().length < 2 || !email.includes("@") || selected.length < 1 || !consent) return;
+  const canProceedStep1 = name.trim().length >= 2 && email.includes("@");
+
+  const submit = async () => {
+    if (!consent || selected.length < 1) return;
     setLoading(true);
+    setError("");
 
     const wl = await fetch("/api/waitlist", {
       method: "POST",
@@ -58,9 +64,10 @@ function QuickSignup() {
         language,
       }),
     });
+
     if (!wl.ok) {
       setLoading(false);
-      alert("Signup failed — check connection and try again.");
+      setError("Connection issue — please check internet and try again.");
       return;
     }
 
@@ -91,134 +98,242 @@ function QuickSignup() {
       sentHistory: [],
       emiReminders: [],
     };
+
     login(user);
     trackEvent("waitlist_signup", "personal");
     setDone(true);
-    setTimeout(() => router.push("/emi-reminders?welcome=1"), 800);
+    setTimeout(() => router.push("/emi-reminders?welcome=1"), 1400);
   };
 
   if (done) {
     return (
-      <div className="soft-card rounded-2xl p-8 text-center max-w-md mx-auto">
-        <Check size={32} className="text-success mx-auto mb-4" />
-        <h2 className="font-display text-2xl font-bold mb-2">Welcome, {name}!</h2>
-        <p className="text-ink-soft text-sm">Ab EMI reminder set karo — phir dashboard pe messages.</p>
-      </div>
+      <AuthShell
+        title=""
+        subtitle=""
+        footer={
+          <p className="text-center text-xs text-white/45">
+            Already have an account?{" "}
+            <Link href="/login" className="font-medium text-gold hover:text-gold-light">
+              Sign in
+            </Link>
+          </p>
+        }
+      >
+        <div className="py-8 text-center">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-gold/30 to-gold/10 ring-1 ring-gold/30">
+            <Check className="h-10 w-10 text-gold" strokeWidth={2.5} />
+          </div>
+          <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+            Welcome, {name.split(" ")[0]}!
+          </h2>
+          <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-white/60">
+            Account ready. Ab EMI reminder set karo — phir roz messages tumhare naam pe aayenge.
+          </p>
+          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-white/40">
+            <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              />
+            </svg>
+            Redirecting to setup...
+          </div>
+        </div>
+      </AuthShell>
     );
   }
 
   return (
-    <form onSubmit={submit} className="max-w-md mx-auto soft-card rounded-2xl p-6 md:p-8 space-y-4 border border-gold/20">
-      <div className="text-center pb-2 border-b border-white/10 mb-2">
-        <p className="text-xs text-gold-light font-semibold uppercase mb-2">RIZN Personal Plan</p>
-        <OfferPrice plan="personal" />
-        <p className="text-[11px] text-muted mt-2">Messages + EMI reminders included</p>
-      </div>
-      <div>
-        <label className="text-xs text-muted block mb-1">Naam</label>
-        <input
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3"
-          placeholder="Tumhara naam — notifications me aayega"
-        />
-      </div>
-      <div>
-        <label className="text-xs text-muted block mb-1">Email</label>
-        <input
-          required
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3"
-          placeholder="you@email.com"
-        />
-      </div>
-      <div className="rounded-xl border border-gold/20 bg-gold/5 p-3 flex gap-3 items-start">
-        <CreditCard size={18} className="text-gold-light shrink-0 mt-0.5" />
-        <p className="text-xs text-ink-soft">
-          Signup ke baad <strong className="text-white">EMI reminder</strong> set karo — amount, date,
-          bank name. 1 din pehle alert tumhare naam pe.
-        </p>
-      </div>
-      <div>
-        <p className="text-xs text-muted mb-2">Message language</p>
-        <div className="flex flex-wrap gap-2">
-          {languages.map((lang) => (
-            <button
-              key={lang.id}
-              type="button"
-              onClick={() => setLanguage(lang.id)}
-              className={`px-3 py-1.5 rounded-full text-xs ${language === lang.id ? "bg-gold text-black" : "bg-white/5 text-muted"}`}
-            >
-              {lang.label}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div>
-        <p className="text-xs text-muted mb-2">Focus (max 3)</p>
-        <div className="flex flex-wrap gap-2">
-          {areaIds.map((id) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => toggle(id)}
-              className={`px-3 py-1.5 rounded-full text-xs ${selected.includes(id) ? "bg-gold text-black" : "bg-white/5 text-muted"}`}
-            >
-              {AREA_LABELS[id]}
-            </button>
-          ))}
-        </div>
-      </div>
-      <label className="flex gap-3 items-start text-xs text-ink-soft cursor-pointer">
-        <input
-          type="checkbox"
-          checked={consent}
-          onChange={(e) => setConsent(e.target.checked)}
-          className="mt-1 rounded border-white/20"
-          required
-        />
-        <span>
-          I agree to the{" "}
-          <Link href="/privacy" className="text-gold-light underline" target="_blank">
-            Privacy Policy
-          </Link>{" "}
-          and{" "}
-          <Link href="/terms" className="text-gold-light underline" target="_blank">
-            Terms
+    <AuthShell
+      title={step === 1 ? "Create your account" : "Personalize your experience"}
+      subtitle={
+        step === 1
+          ? "Naam aur email — notifications isi pe aayenge."
+          : "Language aur focus choose karo. Bad me dashboard se change kar sakte ho."
+      }
+      footer={
+        <p className="text-center text-xs text-white/45">
+          Already have an account?{" "}
+          <Link href="/login" className="font-medium text-gold hover:text-gold-light">
+            Sign in
           </Link>
-          .
-        </span>
-      </label>
-      <button
-        type="submit"
-        disabled={loading || !consent}
-        className="btn-primary w-full py-4 rounded-xl text-sm font-bold inline-flex items-center justify-center gap-2 disabled:opacity-50"
-      >
-        {loading ? "…" : `Join — ₹${personalMonthlyPrice(config)}/month`}
-        <ArrowRight size={16} />
-      </button>
-    </form>
+        </p>
+      }
+    >
+      <StepIndicator step={step} total={2} />
+
+      {step === 1 && (
+        <div className="space-y-5">
+          <AuthField
+            label="Full name"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. Priya Sharma"
+            hint="Yeh naam aapke daily messages me aayega"
+            icon={<User size={18} />}
+            autoComplete="name"
+            required
+          />
+          <AuthField
+            label="Email address"
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@email.com"
+            hint="Account recovery aur updates ke liye"
+            icon={<Mail size={18} />}
+            autoComplete="email"
+            required
+          />
+
+          <div className="rounded-xl border border-gold/20 bg-gold/5 p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold/15">
+                <Sparkles size={18} className="text-gold" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">RIZN Personal — ₹99/month</p>
+                <p className="text-xs text-white/55">
+                  {config.marketing.trialDays}-day free trial · Cancel anytime
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <AuthButton
+            type="button"
+            disabled={!canProceedStep1}
+            onClick={() => setStep(2)}
+          >
+            Continue
+            <ArrowRight size={16} />
+          </AuthButton>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="space-y-6">
+          <div>
+            <p className="mb-3 text-sm font-medium text-white/90">Message language</p>
+            <div className="grid grid-cols-3 gap-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.id}
+                  type="button"
+                  onClick={() => setLanguage(lang.id)}
+                  className={`rounded-xl border px-3 py-3 text-left transition-all ${
+                    language === lang.id
+                      ? "border-gold/50 bg-gold/10 ring-1 ring-gold/30"
+                      : "border-white/10 bg-white/[0.03] hover:border-white/20"
+                  }`}
+                >
+                  <p
+                    className={`text-sm font-semibold ${language === lang.id ? "text-gold" : "text-white"}`}
+                  >
+                    {lang.label}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-white/45">{lang.sub}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-1 text-sm font-medium text-white/90">Focus areas</p>
+            <p className="mb-3 text-xs text-white/45">Max 3 select karo — messages in topics pe aayenge</p>
+            <div className="flex flex-wrap gap-2">
+              {areaIds.map((id) => {
+                const active = selected.includes(id);
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => toggle(id)}
+                    className={`rounded-full px-4 py-2 text-xs font-medium transition-all ${
+                      active
+                        ? "bg-gold text-black shadow-md shadow-gold/20"
+                        : "border border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20"
+                    }`}
+                  >
+                    {AREA_LABELS[id]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="flex items-baseline justify-between">
+              <span className="text-sm text-white/70">Monthly plan</span>
+              <OfferPrice plan="personal" />
+            </div>
+            <p className="mt-2 text-xs text-white/45">
+              Includes daily messages + EMI reminders · ₹{personalMonthlyPrice(config)}/month after trial
+            </p>
+          </div>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-white/15">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(e) => setConsent(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-white/20 bg-transparent accent-gold"
+              required
+            />
+            <span className="text-xs leading-relaxed text-white/65">
+              I agree to the{" "}
+              <Link href="/privacy" className="text-gold underline-offset-2 hover:underline" target="_blank">
+                Privacy Policy
+              </Link>{" "}
+              and{" "}
+              <Link href="/terms" className="text-gold underline-offset-2 hover:underline" target="_blank">
+                Terms of Service
+              </Link>
+              .
+            </span>
+          </label>
+
+          {error && (
+            <div className="rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+              {error}
+            </div>
+          )}
+
+          <div className="flex gap-3">
+            <AuthButton type="button" variant="secondary" onClick={() => setStep(1)}>
+              <ArrowLeft size={16} />
+              Back
+            </AuthButton>
+            <AuthButton
+              type="button"
+              loading={loading}
+              disabled={!consent || selected.length < 1}
+              onClick={submit}
+            >
+              Start free trial
+              <ArrowRight size={16} />
+            </AuthButton>
+          </div>
+        </div>
+      )}
+    </AuthShell>
   );
 }
 
 export default function SignupPage() {
   return (
-    <div className="pt-28 pb-24 px-4">
-      <div className="text-center mb-8 max-w-lg mx-auto">
-        <h1 className="font-display text-3xl font-bold mb-2">Life change shuru karo</h1>
-        <p className="text-sm text-ink-soft">
-          1 minute signup — phir EMI reminder + daily messages tumhare naam pe.
-        </p>
-      </div>
-      <Suspense fallback={<p className="text-center text-muted">Loading…</p>}>
-        <QuickSignup />
-      </Suspense>
-      <p className="text-center text-xs text-muted mt-4">
-        Account hai? <Link href="/login" className="text-gold-light">Sign in</Link>
-      </p>
-    </div>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gold/30 border-t-gold" />
+        </div>
+      }
+    >
+      <SignupForm />
+    </Suspense>
   );
 }

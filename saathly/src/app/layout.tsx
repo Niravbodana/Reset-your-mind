@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { AppChrome } from "@/components/AppChrome";
 import { LaserBackground } from "@/components/LaserBackground";
 import { Providers } from "@/components/Providers";
 
@@ -38,9 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-bg text-ink font-sans">
         <Providers>
           <LaserBackground />
-          <Navbar />
-          <main className="flex-1 relative z-10">{children}</main>
-          <Footer />
+          <AppChrome>{children}</AppChrome>
         </Providers>
       </body>
     </html>
