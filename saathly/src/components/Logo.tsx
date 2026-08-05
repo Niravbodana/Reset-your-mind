@@ -54,10 +54,7 @@ const DEFAULT_TAGLINE = "aapki life change hone ka reason";
 export function BrandLockup({ size = "default" }: { size?: "default" | "sm" }) {
   const sm = size === "sm";
   const config = useSiteConfig();
-  const { region } = useLocale();
-  const tagline =
-    (region === "IN" ? config.marketing.indiaTagline : config.marketing.globalTagline) ||
-    DEFAULT_TAGLINE;
+  const tagline = config.marketing.indiaTagline || DEFAULT_TAGLINE;
 
   return (
     <div className="flex items-center gap-2.5 min-w-0">

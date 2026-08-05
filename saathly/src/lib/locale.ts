@@ -1,4 +1,5 @@
 import type { Language } from "./types";
+import { INDIA_ONLY } from "./market";
 
 export type Region = "IN" | "GLOBAL";
 export type DisplayCurrency = "INR" | "USD";
@@ -11,8 +12,9 @@ export type LocaleProfile = {
   marketLabel: string;
 };
 
-/** Detect region from browser (timezone + language). Server defaults GLOBAL. */
+/** Detect region from browser. India-only launch always returns IN. */
 export function detectRegion(): Region {
+  if (INDIA_ONLY) return "IN";
   if (typeof navigator === "undefined") return "GLOBAL";
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";

@@ -86,7 +86,7 @@ export function Hero() {
         <div className="mb-5 flex flex-wrap items-center gap-3">
           <RegionSwitch />
           <span className="text-[11px] text-white/45 uppercase tracking-wider">
-            Available worldwide
+            India ke liye · ₹99/-
           </span>
         </div>
 

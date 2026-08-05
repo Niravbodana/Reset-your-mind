@@ -9,12 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import {
-  buildLocaleProfile,
-  type DisplayCurrency,
-  type LocaleProfile,
-  type Region,
-} from "@/lib/locale";
+import type { DisplayCurrency, LocaleProfile, Region } from "@/lib/locale";
 import type { Language } from "@/lib/types";
 import {
   defaultsForRegion,
@@ -23,6 +18,7 @@ import {
   type UiLang,
   isRtl,
 } from "@/lib/i18n";
+import { INDIA_ONLY } from "@/lib/market";
 
 type LocaleCtx = LocaleProfile & {
   uiLang: UiLang;
@@ -30,11 +26,9 @@ type LocaleCtx = LocaleProfile & {
   setCurrency: (c: DisplayCurrency) => void;
   setUiLang: (l: UiLang) => void;
   setLanguage: (l: Language) => void;
-  /** After login — region cannot switch to the other market */
   regionLocked: boolean;
   setRegionLocked: (locked: boolean) => void;
   t: (key: string) => string;
-  /** False → India Hinglish marketing; True → English */
   preferEnglish: boolean;
   ready: boolean;
 };
@@ -45,76 +39,88 @@ const STORAGE_KEY = "rizn_locale_pref";
 
 type Stored = Partial<LocaleProfile> & { uiLang?: UiLang; regionLocked?: boolean };
 
+const INDIA_PROFILE: LocaleProfile & { uiLang: UiLang } = {
+  region: "IN",
+  currency: "INR",
+  language: "hinglish",
+  marketLabel: "India",
+  uiLang: "hinglish",
+};
+
+function forceIndia(
+  profile: LocaleProfile & { uiLang: UiLang }
+): LocaleProfile & { uiLang: UiLang } {
+  if (!INDIA_ONLY) return profile;
+  return {
+    ...profile,
+    region: "IN",
+    currency: "INR",
+    marketLabel: "India",
+    // Keep explicit English if user picked it; otherwise Hinglish
+    uiLang:
+      profile.uiLang === "en" || profile.uiLang === "hi" || profile.uiLang === "hinglish"
+        ? profile.uiLang === "en"
+          ? "en"
+          : profile.uiLang === "hi"
+            ? "hi"
+            : "hinglish"
+        : "hinglish",
+    language:
+      profile.language === "english" || profile.language === "hindi"
+        ? profile.language
+        : "hinglish",
+  };
+}
+
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
-  const [regionLocked, setRegionLockedState] = useState(false);
-  const [profile, setProfile] = useState<LocaleProfile & { uiLang: UiLang }>({
-    region: "GLOBAL",
-    currency: "USD",
-    language: "english",
-    marketLabel: "Worldwide",
-    uiLang: "en",
-  });
+  const [regionLocked, setRegionLockedState] = useState(INDIA_ONLY);
+  const [profile, setProfile] = useState<LocaleProfile & { uiLang: UiLang }>(INDIA_PROFILE);
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as Stored;
-        const base = buildLocaleProfile();
-        const region = parsed.region || base.region;
-        const defaults = defaultsForRegion(region);
+        let uiLang: UiLang = parsed.uiLang || "hinglish";
+        let language = (parsed.language as Language) || "hinglish";
 
-        let uiLang: UiLang = parsed.uiLang || defaults.uiLang;
-        let language = (parsed.language as Language) || defaults.language;
-
-        // Migrate old India default (uiLang=hi meant Hinglish, but showed Devanagari)
-        if (region === "IN" && uiLang === "hi" && language === "hinglish") {
-          uiLang = "hinglish";
+        // Migrate old defaults
+        if (uiLang === "hi" && language === "hinglish") uiLang = "hinglish";
+        if (INDIA_ONLY) {
+          if (uiLang === "en" && !parsed.uiLang) uiLang = "hinglish";
+          if (language === "english" && !parsed.language) language = "hinglish";
         }
 
-        if (region === "GLOBAL") {
-          if (!parsed.uiLang || language === "hinglish" || uiLang === "hinglish") {
-            uiLang = "en";
-            language = "english";
-          } else {
-            language = messageLanguageFor("GLOBAL", uiLang);
-          }
-        } else {
-          if (!parsed.uiLang || uiLang === "hi" && language === "hinglish") {
-            uiLang = "hinglish";
-            language = "hinglish";
-          } else if (!parsed.language) {
-            language = messageLanguageFor("IN", uiLang);
-          }
-        }
-
-        setRegionLockedState(Boolean(parsed.regionLocked));
-        setProfile({
-          region,
-          currency: region === "IN" ? "INR" : "USD",
+        const next = forceIndia({
+          region: "IN",
+          currency: "INR",
           language,
-          marketLabel: region === "IN" ? "India" : "Worldwide",
-          uiLang,
+          marketLabel: "India",
+          uiLang: uiLang === "hinglish" || uiLang === "hi" || uiLang === "en" ? uiLang : "hinglish",
         });
+
+        // Fresh India launch: if stored was Worldwide, reset to Hinglish
+        if (parsed.region === "GLOBAL" || parsed.currency === "USD") {
+          next.uiLang = "hinglish";
+          next.language = "hinglish";
+        }
+
+        setRegionLockedState(INDIA_ONLY || Boolean(parsed.regionLocked));
+        setProfile(next);
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ ...next, regionLocked: INDIA_ONLY || Boolean(parsed.regionLocked) })
+        );
       } else {
-        const base = buildLocaleProfile();
-        const defaults = defaultsForRegion(base.region);
-        setProfile({
-          ...base,
-          currency: base.region === "IN" ? "INR" : "USD",
-          language: defaults.language,
-          uiLang: defaults.uiLang,
-        });
+        setProfile(INDIA_PROFILE);
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ ...INDIA_PROFILE, regionLocked: true })
+        );
       }
     } catch {
-      setProfile({
-        region: "GLOBAL",
-        currency: "USD",
-        language: "english",
-        marketLabel: "Worldwide",
-        uiLang: "en",
-      });
+      setProfile(INDIA_PROFILE);
     }
     setReady(true);
   }, []);
@@ -126,98 +132,72 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     document.documentElement.dir = isRtl(profile.uiLang) ? "rtl" : "ltr";
   }, [profile.uiLang, ready]);
 
-  const persist = (
-    next: LocaleProfile & { uiLang: UiLang },
-    locked = regionLocked
-  ) => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ ...next, regionLocked: locked })
-    );
-    return next;
-  };
+  const persist = useCallback(
+    (next: LocaleProfile & { uiLang: UiLang }, locked = regionLocked) => {
+      const forced = forceIndia(next);
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...forced, regionLocked: INDIA_ONLY || locked })
+      );
+      return forced;
+    },
+    [regionLocked]
+  );
 
   const setRegionLocked = useCallback((locked: boolean) => {
-    setRegionLockedState(locked);
-    setProfile((p) => {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ...p, regionLocked: locked })
-      );
-      return p;
-    });
-  }, []);
+    setRegionLockedState(INDIA_ONLY || locked);
+    setProfile((p) => persist(p, INDIA_ONLY || locked));
+  }, [persist]);
 
-  const setRegion = useCallback((region: Region) => {
-    setProfile((p) => {
-      // Read lock from storage to avoid stale closure
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw && (JSON.parse(raw) as Stored).regionLocked) return p;
-      } catch {
-        /* ignore */
+  const setRegion = useCallback(
+    (region: Region) => {
+      if (INDIA_ONLY) {
+        setProfile((p) => persist({ ...p, ...defaultsForRegion("IN"), region: "IN", currency: "INR", marketLabel: "India" }));
+        return;
       }
-      const defaults = defaultsForRegion(region);
-      const next = {
-        ...p,
-        region,
-        currency: (region === "IN" ? "INR" : "USD") as DisplayCurrency,
-        marketLabel: region === "IN" ? "India" : "Worldwide",
-        uiLang: defaults.uiLang,
-        language: defaults.language,
-      };
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ...next, regionLocked: false })
-      );
-      return next;
-    });
-  }, []);
+      setProfile((p) => {
+        const defaults = defaultsForRegion(region);
+        return persist({
+          ...p,
+          region,
+          currency: region === "IN" ? "INR" : "USD",
+          marketLabel: region === "IN" ? "India" : "Worldwide",
+          uiLang: defaults.uiLang,
+          language: defaults.language,
+        });
+      });
+    },
+    [persist]
+  );
 
-  const setCurrency = useCallback((currency: DisplayCurrency) => {
-    setProfile((p) => {
-      const next = { ...p, currency: p.region === "IN" ? ("INR" as const) : ("USD" as const) };
-      void currency;
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ...next, regionLocked })
-      );
-      return next;
-    });
-  }, [regionLocked]);
+  const setCurrency = useCallback(() => {
+    setProfile((p) => persist({ ...p, currency: "INR" }));
+  }, [persist]);
 
-  const setUiLang = useCallback((uiLang: UiLang) => {
-    setProfile((p) => {
-      const next = {
-        ...p,
-        uiLang,
-        language: messageLanguageFor(p.region, uiLang),
-      };
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ...next, regionLocked })
+  const setUiLang = useCallback(
+    (uiLang: UiLang) => {
+      setProfile((p) =>
+        persist({
+          ...p,
+          uiLang,
+          language: messageLanguageFor("IN", uiLang),
+        })
       );
-      return next;
-    });
-  }, [regionLocked]);
+    },
+    [persist]
+  );
 
-  const setLanguage = useCallback((language: Language) => {
-    setProfile((p) => {
-      const next = { ...p, language };
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ...next, regionLocked })
-      );
-      return next;
-    });
-  }, [regionLocked]);
+  const setLanguage = useCallback(
+    (language: Language) => {
+      setProfile((p) => persist({ ...p, language }));
+    },
+    [persist]
+  );
 
   const t = (key: string) => translate(profile.uiLang, key);
 
-  const preferEnglish =
-    profile.region === "GLOBAL"
-      ? profile.uiLang !== "hi" && profile.uiLang !== "hinglish"
-      : profile.uiLang === "en" || profile.language === "english";
+  // India launch: Hinglish marketing unless user explicitly picks English UI
+  const preferEnglish = profile.uiLang === "en" || profile.language === "english";
 
   const value = useMemo(
     () => ({
@@ -226,13 +206,13 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       setCurrency,
       setUiLang,
       setLanguage,
-      regionLocked,
+      regionLocked: INDIA_ONLY || regionLocked,
       setRegionLocked,
       t,
       preferEnglish,
       ready,
     }),
-    [profile, ready, regionLocked]
+    [profile, ready, regionLocked, setRegion, setCurrency, setUiLang, setLanguage, setRegionLocked]
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
@@ -242,19 +222,19 @@ export function useLocale() {
   const ctx = useContext(Ctx);
   if (!ctx) {
     return {
-      region: "GLOBAL" as Region,
-      currency: "USD" as DisplayCurrency,
-      language: "english" as Language,
-      marketLabel: "Worldwide",
-      uiLang: "en" as UiLang,
+      region: "IN" as Region,
+      currency: "INR" as DisplayCurrency,
+      language: "hinglish" as Language,
+      marketLabel: "India",
+      uiLang: "hinglish" as UiLang,
       setRegion: () => {},
       setCurrency: () => {},
       setUiLang: () => {},
       setLanguage: () => {},
-      regionLocked: false,
+      regionLocked: true,
       setRegionLocked: () => {},
-      t: (key: string) => translate("en", key),
-      preferEnglish: true,
+      t: (key: string) => translate("hinglish", key),
+      preferEnglish: false,
       ready: false,
     };
   }

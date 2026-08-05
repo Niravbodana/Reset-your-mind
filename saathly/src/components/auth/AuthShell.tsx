@@ -33,7 +33,7 @@ export function AuthShell({
   const { region, preferEnglish } = useLocale();
   const config = useSiteConfig();
   const priceLabel = regionPersonalPriceLabel(config, region);
-  const benefits = region === "IN" && !preferEnglish ? BENEFITS_IN : BENEFITS_GLOBAL;
+  const benefits = !preferEnglish ? BENEFITS_IN : BENEFITS_GLOBAL;
 
   return (
     <div className="min-h-[100dvh]">

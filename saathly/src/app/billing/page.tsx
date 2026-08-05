@@ -221,7 +221,7 @@ export default function BillingPage() {
               <CreditCard size={14} className="shrink-0 mt-0.5" />
               {isIN
                 ? 'Razorpay abhi demo/local mode me hai. Admin me keys + "Payments enabled" on karo — tab real UPI/card mandate open hoga.'
-                : "Payments are in demo mode. Add Razorpay International (or Stripe) keys in Admin to go live worldwide."}
+                : "Payments demo mode me hain. Admin me Razorpay keys + Payments enabled on karo — tab real UPI/card."}
             </p>
           )}
 

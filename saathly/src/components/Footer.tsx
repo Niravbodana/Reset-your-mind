@@ -2,33 +2,25 @@
 
 import Link from "next/link";
 import { BrandLockup } from "./Logo";
-import { RegionSwitch } from "./RegionSwitch";
 import { useSiteConfig } from "@/context/SiteConfigContext";
-import { useLocale } from "@/context/LocaleContext";
 import { crisisResources } from "@/lib/locale";
 
 export function Footer() {
   const config = useSiteConfig();
-  const { region, preferEnglish } = useLocale();
-  const isIN = region === "IN" && !preferEnglish;
   const email = config.marketing.supportEmail || "hello@rizn.app";
-  const crisis = crisisResources(region);
+  const crisis = crisisResources("IN");
 
   return (
     <footer className="border-t border-white/10 relative z-10 bg-black/60">
       <div className="mx-auto max-w-6xl px-4 py-12 md:px-6">
-        <div className="mb-8">
-          <RegionSwitch />
-        </div>
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
           <div className="md:col-span-1">
             <BrandLockup />
             <p className="text-sm text-ink-soft leading-relaxed mt-4">
-              {isIN
-                ? "Daily motivation + bill/EMI reminders — India se lekar duniya tak."
-                : "Daily motivation + bill reminders for busy lives — available worldwide."}
+              Daily motivation + EMI/bill reminders — aapki life change hone ka reason. Abhi India ke
+              liye.
             </p>
-            <p className="text-xs text-gold-light mt-2">🇮🇳 India · 🌍 Worldwide</p>
+            <p className="text-xs text-gold-light mt-2">🇮🇳 Made for India · ₹99/- se</p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Product</p>
@@ -55,7 +47,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/signup" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  Start free trial
+                  Free trial shuru karo
                 </Link>
               </li>
             </ul>
@@ -111,12 +103,14 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted">
-          <p>
-            © {new Date().getFullYear()} RIZN —{" "}
-            aapki life change hone ka reason
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col items-center gap-3 text-xs text-muted">
+          <p className="text-center text-sm text-white/80">
+            Made in India with <span className="text-rose-400">❤️</span>
           </p>
-          <p>Not a medical or therapy service · Worldwide</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 text-center">
+            <p>© {new Date().getFullYear()} RIZN — aapki life change hone ka reason</p>
+            <p>Not a medical or therapy service</p>
+          </div>
         </div>
       </div>
     </footer>

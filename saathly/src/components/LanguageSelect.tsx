@@ -3,27 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Languages } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
-import { UI_LANGUAGES, type UiLang } from "@/lib/i18n";
+import type { UiLang } from "@/lib/i18n";
 
-/** World language picker — India defaults to Hinglish (Roman), not Devanagari */
+/** India launch languages — Hinglish default */
+const INDIA_LANGS: { code: UiLang; native: string; label: string }[] = [
+  { code: "hinglish", native: "Hinglish", label: "Default" },
+  { code: "hi", native: "हिन्दी", label: "Hindi" },
+  { code: "en", native: "English", label: "English" },
+];
+
 export function LanguageSelect({ compact = false }: { compact?: boolean }) {
-  const { uiLang, setUiLang, t, region } = useLocale();
+  const { uiLang, setUiLang, t } = useLocale();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
-  // India: put Hinglish first; Worldwide: English first, hide Hinglish option
-  const options =
-    region === "IN"
-      ? [
-          ...UI_LANGUAGES.filter((l) => l.code === "hinglish"),
-          ...UI_LANGUAGES.filter((l) => l.code !== "hinglish"),
-        ]
-      : UI_LANGUAGES.filter((l) => l.code !== "hinglish");
-
-  const current =
-    options.find((l) => l.code === uiLang) ||
-    UI_LANGUAGES.find((l) => l.code === uiLang) ||
-    options[0];
+  const current = INDIA_LANGS.find((l) => l.code === uiLang) || INDIA_LANGS[0];
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -49,16 +42,16 @@ export function LanguageSelect({ compact = false }: { compact?: boolean }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 z-[80] w-[min(18rem,calc(100vw-2rem))] max-h-[60vh] overflow-y-auto rounded-2xl border border-white/15 bg-[#0c0c12]/98 backdrop-blur-xl shadow-2xl p-2">
+        <div className="absolute right-0 top-full mt-2 z-[80] w-[min(16rem,calc(100vw-2rem))] max-h-[60vh] overflow-y-auto rounded-2xl border border-white/15 bg-[#0c0c12]/98 backdrop-blur-xl shadow-2xl p-2">
           <p className="px-2 py-1.5 text-[10px] uppercase tracking-wider text-muted font-semibold">
-            {t("nav.language")}
+            Language
           </p>
-          {options.map((l) => (
+          {INDIA_LANGS.map((l) => (
             <button
               key={l.code}
               type="button"
               onClick={() => {
-                setUiLang(l.code as UiLang);
+                setUiLang(l.code);
                 setOpen(false);
               }}
               className={`w-full flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm min-h-[44px] ${
@@ -68,9 +61,7 @@ export function LanguageSelect({ compact = false }: { compact?: boolean }) {
               }`}
             >
               <span className="font-medium">{l.native}</span>
-              <span className="text-[11px] text-muted">
-                {l.code === "hinglish" ? "India default" : l.label}
-              </span>
+              <span className="text-[11px] text-muted">{l.label}</span>
             </button>
           ))}
         </div>

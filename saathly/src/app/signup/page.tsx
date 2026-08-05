@@ -179,17 +179,11 @@ function SignupForm() {
     await finishSignup({ name, email, provider: authProvider });
   };
 
-  const msgLanguages: { id: Language; label: string; sub: string }[] = preferEnglish
-    ? [
-        { id: "english", label: "English", sub: "Worldwide default" },
-        { id: "hindi", label: "Hindi", sub: "Optional" },
-        { id: "hinglish", label: "Hinglish", sub: "India mix" },
-      ]
-    : [
-        { id: "hinglish", label: "Hinglish", sub: "Most popular" },
-        { id: "hindi", label: "Hindi", sub: "Pure Hindi" },
-        { id: "english", label: "English", sub: "Worldwide" },
-      ];
+  const msgLanguages: { id: Language; label: string; sub: string }[] = [
+    { id: "hinglish", label: "Hinglish", sub: "India default" },
+    { id: "hindi", label: "Hindi", sub: "Shuddh Hindi" },
+    { id: "english", label: "English", sub: "Optional" },
+  ];
 
   if (done) {
     return (

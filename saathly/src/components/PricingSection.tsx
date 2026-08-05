@@ -63,7 +63,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
                 </>
               ) : (
                 <>
-                  From <span className="text-gold-light">{priceLabel}</span> — worldwide
+                  Sirf <span className="text-gold-light">{priceLabel}</span> — India
                 </>
               )}
             </h2>
