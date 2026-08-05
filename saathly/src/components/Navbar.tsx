@@ -7,7 +7,7 @@ import { BrandLockup } from "./Logo";
 import { useApp } from "@/context/AppContext";
 
 const links = [
-  { href: "/#feel", label: "Try it" },
+  { href: "/#hero", label: "Try it" },
   { href: "/#emi-reminder", label: "EMI" },
   { href: "/samples", label: "Messages" },
   { href: "/pricing", label: "₹99 Plan" },

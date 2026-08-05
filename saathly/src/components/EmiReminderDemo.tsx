@@ -47,7 +47,7 @@ export function EmiReminderDemo() {
   return (
     <section id="emi-reminder" className="py-14 sm:py-20 md:py-28 border-y border-white/5 bg-bg-elevated/40">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <ScrollReveal className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
+        <ScrollReveal immediate className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
           <p className="section-label mb-3">EMI Reminder — included in ₹99 plan</p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
             EMI yaad dilana? <span className="text-gold-light">1 din pehle, caring alert.</span>

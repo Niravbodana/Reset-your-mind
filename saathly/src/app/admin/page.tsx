@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AdminPage() {
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <div className="max-w-4xl mx-auto mb-8">
         <h1 className="font-display text-3xl font-bold mb-2">Admin</h1>
         <p className="text-sm text-ink-soft">

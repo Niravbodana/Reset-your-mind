@@ -53,7 +53,7 @@ function SettingsContent() {
   });
 
   if (!ready || !user) {
-    return <div className="pt-28 text-center text-muted">Loading…</div>;
+    return <div className="page-top text-center text-muted">Loading…</div>;
   }
 
   const previewCount = countTodaysPulses({
@@ -90,7 +90,7 @@ function SettingsContent() {
   };
 
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <div className="max-w-lg mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <Settings size={22} className="text-gold-light" />
@@ -271,7 +271,7 @@ function buildAnchors(anchors: ScheduleAnchors, enabled: Record<string, boolean>
 
 export default function SettingsPage() {
   return (
-    <Suspense fallback={<div className="pt-28 text-center text-muted">Loading…</div>}>
+    <Suspense fallback={<div className="page-top text-center text-muted">Loading…</div>}>
       <SettingsContent />
     </Suspense>
   );

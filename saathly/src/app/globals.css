@@ -71,7 +71,18 @@ body {
 }
 
 .page-top {
-  padding-top: calc(5.5rem + env(safe-area-inset-top, 0));
+  padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+}
+
+@media (min-width: 640px) {
+  .page-top {
+    padding-top: calc(5.5rem + env(safe-area-inset-top, 0px));
+  }
+}
+
+.page-pad {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
 }
 
 /* Pages with sticky mobile CTA bar */

@@ -18,10 +18,10 @@ const steps = [
 
 export function HowItWorksSimple() {
   return (
-    <section id="how" className="py-16 md:py-20 border-y border-white/10">
+    <section id="how" className="py-14 sm:py-16 md:py-20 border-y border-white/10">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <p className="section-label mb-3 text-center">How it works</p>
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-white mb-4">
+        <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-4">
           Teen steps — life change shuru
         </h2>
         <p className="text-center text-ink-soft mb-12 max-w-lg mx-auto">

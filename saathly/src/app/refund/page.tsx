@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Refund Policy — RIZN" };
 
 export default function RefundPage() {
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <article className="max-w-2xl mx-auto">
         <h1 className="font-display text-4xl font-bold mb-6">Refund & Cancellation</h1>
         <div className="space-y-4 text-ink-soft leading-relaxed text-[15px]">

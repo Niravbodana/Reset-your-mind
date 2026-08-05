@@ -32,7 +32,7 @@ export default function SamplesPage() {
   const shown = filtered.slice(0, visible);
 
   return (
-    <div className="pt-28 pb-24 px-4">
+    <div className="page-top pb-24 px-4">
       <div className="max-w-3xl mx-auto mb-10">
         <h1 className="font-display text-4xl font-bold mb-2">Message samples</h1>
         <p className="text-ink-soft text-sm mb-2">

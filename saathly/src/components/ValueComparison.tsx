@@ -36,11 +36,11 @@ export function ValueComparison() {
   const launch = config.marketing.launchPricePersonal;
 
   return (
-    <section className="py-16 md:py-20 border-y border-white/5 bg-bg-elevated/40">
+    <section className="py-14 sm:py-16 md:py-20 border-y border-white/5 bg-bg-elevated/40">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <p className="section-label mb-3">Value</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
             Sirf ₹{price}/month — kya milega?
           </h2>
           <p className="text-ink-soft text-sm">

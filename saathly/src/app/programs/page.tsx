@@ -32,11 +32,11 @@ export default function ProgramsPage() {
   };
 
   if (!ready) {
-    return <div className="pt-28 text-center text-muted">Loading…</div>;
+    return <div className="page-top text-center text-muted">Loading…</div>;
   }
 
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <div className="max-w-3xl mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">Programs</h1>
         <p className="text-ink-soft text-sm mb-8">

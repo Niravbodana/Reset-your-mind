@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function WorkPage() {
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <div className="max-w-3xl mx-auto">
         <p className="section-label mb-3">For teams</p>
         <h1 className="font-display text-4xl font-bold mb-4">RIZN Work</h1>

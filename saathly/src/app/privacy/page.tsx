@@ -40,7 +40,7 @@ export default function PrivacyPage() {
 
 function LegalShell({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <article className="max-w-2xl mx-auto">
         <h1 className="font-display text-4xl font-bold mb-6">{title}</h1>
         <div className="space-y-4 text-ink-soft leading-relaxed text-[15px]">{children}</div>

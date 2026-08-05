@@ -31,11 +31,11 @@ export default function FamilyPage() {
   };
 
   if (!ready) {
-    return <div className="pt-28 text-center text-muted">Loading…</div>;
+    return <div className="page-top text-center text-muted">Loading…</div>;
   }
 
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <div className="max-w-lg mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">Parivaar</h1>
         <p className="text-sm text-ink-soft mb-4">

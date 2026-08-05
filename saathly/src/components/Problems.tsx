@@ -41,11 +41,11 @@ const problems = [
 
 export function Problems() {
   return (
-    <section id="problems" className="py-20 md:py-28 border-t border-white/5">
+    <section id="problems" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="max-w-2xl mb-12">
           <p className="section-label mb-3">What we help with</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
             Messages matched to your situation
           </h2>
           <p className="text-ink-soft leading-relaxed">

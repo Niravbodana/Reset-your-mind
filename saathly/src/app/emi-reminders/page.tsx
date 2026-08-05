@@ -13,7 +13,7 @@ import { uid } from "@/lib/storage";
 
 export default function EmiRemindersPage() {
   return (
-    <Suspense fallback={<div className="pt-28 text-center text-muted">Loading…</div>}>
+    <Suspense fallback={<div className="page-top text-center text-muted">Loading…</div>}>
       <EmiRemindersContent />
     </Suspense>
   );
@@ -34,7 +34,7 @@ function EmiRemindersContent() {
   const [saved, setSaved] = useState(false);
 
   if (!ready || !user) {
-    return <div className="pt-28 text-center text-muted">Loading…</div>;
+    return <div className="page-top text-center text-muted">Loading…</div>;
   }
 
   const add = () => {
@@ -79,7 +79,7 @@ function EmiRemindersContent() {
       );
 
   return (
-    <div className="pt-28 pb-20 px-4">
+    <div className="page-top pb-20 px-4">
       <div className="max-w-lg mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">EMI Reminders</h1>
         {welcome && (

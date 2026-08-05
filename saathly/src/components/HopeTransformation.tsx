@@ -48,7 +48,7 @@ export function HopeTransformation() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.03] to-transparent pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 md:px-6 relative">
-        <ScrollReveal className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+        <ScrollReveal immediate className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
           <p className="section-label mb-3">Pehle vs Ab</p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
             Judoge to life <span className="text-gold-light">better ho sakti hai.</span>
