@@ -36,8 +36,8 @@ export function Hero() {
           className="object-cover object-center scale-105"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/88 to-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/40 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/92 via-black/85 to-black/72" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg/95 via-transparent to-black/40" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 md:px-6 pt-28 pb-24 w-full">

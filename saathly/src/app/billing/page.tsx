@@ -32,24 +32,24 @@ export default function BillingPage() {
         <h1 className="font-display text-3xl font-bold mb-2">Billing</h1>
         <p className="text-ink-soft text-sm mb-8">
           {paymentsLive
-            ? `Pay securely with Razorpay. ${config.marketing.trialDays}-day trial applies on first charge when billing is fully live.`
-            : "Paid subscriptions are not open yet. You are on the free web preview and waitlist — we will email you before any charge."}
+            ? `Secure payment via Razorpay. ${config.marketing.trialDays}-day trial on first charge.`
+            : "You're on the free plan — no charge until billing opens. We'll email you before any payment."}
         </p>
 
-        <div className="soft-card rounded-2xl p-7 mb-6">
-          <p className="text-xs text-muted mb-2 uppercase tracking-wide">Planned plan</p>
+        <div className="premium-card rounded-2xl p-7 mb-6">
+          <p className="text-xs text-muted mb-2 uppercase tracking-wide">Your plan</p>
           <p className="font-display text-2xl font-bold">{plan.name}</p>
           <p className="text-3xl font-bold mt-2">
             ₹{displayPrice}
-            <span className="text-sm text-muted font-normal">/mo target</span>
+            <span className="text-sm text-muted font-normal">/month</span>
           </p>
           {user && (
             <p className="text-sm text-ink-soft mt-4">
               {user.email} ·{" "}
               {user.subStatus === "active"
-                ? "Paid (this device)"
+                ? "Active"
                 : user.subStatus === "trial"
-                  ? "Free preview / waitlist"
+                  ? "Free access"
                   : user.subStatus}
             </p>
           )}
@@ -66,10 +66,10 @@ export default function BillingPage() {
             </RazorpayCheckout>
           ) : (
             <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4 text-sm text-ink-soft">
-              <p className="font-semibold text-white mb-1">Billing coming soon</p>
+              <p className="font-semibold text-white mb-1">Billing opens soon</p>
               <p className="text-xs leading-relaxed">
-                No card required during preview. When we open payments, you will get an email at{" "}
-                {user?.email || "your signup address"} with clear trial terms.
+                No card required now. When payments go live, we&apos;ll email{" "}
+                {user?.email || "you"} with clear trial terms before any charge.
               </p>
             </div>
           )}
@@ -88,7 +88,7 @@ export default function BillingPage() {
 
         {!user && (
           <Link href="/signup" className="btn-primary block text-center mt-6 py-3 rounded-xl text-sm">
-            Join waitlist first
+            Start free — create account
           </Link>
         )}
       </div>

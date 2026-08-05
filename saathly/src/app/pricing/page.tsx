@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     : settings.marketing.launchPricePersonal;
   return {
     title: "₹99 Plan — RIZN",
-    description: `RIZN Personal ₹${personal}/month — daily messages + EMI reminders. Free web preview.`,
+    description: `RIZN Personal ₹${personal}/month — daily messages + EMI reminders. Start free today.`,
   };
 }
 

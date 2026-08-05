@@ -60,7 +60,7 @@ export function NotificationPhone({ name = DEMO_NAME }: { name?: string }) {
         <div className="bg-[#0a0a0f] rounded-[1.6rem] overflow-hidden">
           <div className="px-4 pt-3 pb-2 flex justify-between items-center border-b border-white/10">
             <span className="text-sm font-semibold text-white">RIZN</span>
-            <span className="text-[10px] text-muted uppercase tracking-wide">Preview</span>
+            <span className="text-[10px] text-muted uppercase tracking-wide">RIZN</span>
           </div>
 
           <div className="px-3 pb-5 min-h-[280px]">

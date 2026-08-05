@@ -143,7 +143,7 @@ function EmiRemindersContent() {
         </div>
 
         <div className="soft-card rounded-2xl p-5 mb-6 bg-black/40">
-          <p className="text-[10px] uppercase text-muted mb-2">Preview — 1 din pehle</p>
+          <p className="text-[10px] uppercase text-muted mb-2">Aisa notification — 1 din pehle</p>
           <p className="text-sm text-white leading-relaxed">{preview}</p>
         </div>
 
