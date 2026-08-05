@@ -2,6 +2,7 @@ import type { AppState, UserProfile, Pulse, MoodCheckin, FamilyMember } from "./
 
 const KEY = "rizn_app_v1";
 const LOGGED_OUT_KEY = "rizn_logged_out";
+const BANK_VERSION_KEY = "rizn_message_bank_version";
 
 export function emptyState(): AppState {
   return { user: null, pulses: [], moods: [], family: [], analytics: { events: [] } };
@@ -63,6 +64,16 @@ export function uid(prefix = "id") {
 
 export function todayKey() {
   return new Date().toISOString().slice(0, 10);
+}
+
+export function getStoredMessageBankVersion(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(BANK_VERSION_KEY);
+}
+
+export function setStoredMessageBankVersion(version: string) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(BANK_VERSION_KEY, version);
 }
 
 export function upsertUser(state: AppState, user: UserProfile): AppState {

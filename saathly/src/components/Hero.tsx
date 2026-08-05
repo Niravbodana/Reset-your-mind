@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Heart, Shield, Zap } from "lucide-react";
@@ -31,6 +31,11 @@ export function Hero() {
     const n = formatCustomerName(displayName, "hinglish");
     return tpl.hinglish.replaceAll("{name}", n);
   }, [displayName, tick]);
+
+  useEffect(() => {
+    const t = setInterval(() => setTick((v) => v + 1), 4500);
+    return () => clearInterval(t);
+  }, []);
 
   return (
     <section className="relative min-h-[92vh] md:min-h-[96vh] flex items-center overflow-hidden">

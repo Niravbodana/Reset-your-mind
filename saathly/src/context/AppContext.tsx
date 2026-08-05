@@ -14,16 +14,19 @@ import {
   addMood,
   clearPreviewData,
   emptyState,
+  getStoredMessageBankVersion,
   loadState,
   peekState,
   saveState,
   setFamily,
   setPulses,
   setSessionLoggedOut,
+  setStoredMessageBankVersion,
   softLogout,
   track,
   upsertUser,
 } from "@/lib/storage";
+import { MESSAGE_BANK_VERSION } from "@/lib/message-bank";
 import {
   ensureTodayPulses,
   migrateUserSchedule,
@@ -57,6 +60,16 @@ function applyPulseGen(
   return setPulses(upsertUser(prev, gen.user), gen.pulses);
 }
 
+function syncMessageBankIfNeeded(s: AppState): AppState {
+  if (!s.user) return s;
+  const stored = getStoredMessageBankVersion();
+  if (stored === MESSAGE_BANK_VERSION) return s;
+  const user = migrateUserSchedule(s.user);
+  const gen = regenerateTodayPulses(user, s.pulses);
+  setStoredMessageBankVersion(MESSAGE_BANK_VERSION);
+  return applyPulseGen(s, user, gen);
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [state, setState] = useState<AppState>(emptyState());
@@ -66,8 +79,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (s.user) {
       const migrated = migrateUserSchedule(s.user);
       const user = updateStreak(migrated);
-      const gen = ensureTodayPulses(user, s.pulses);
+      let gen = ensureTodayPulses(user, s.pulses);
       s = applyPulseGen(s, user, gen);
+      s = syncMessageBankIfNeeded(s);
     }
     setState(s);
     setReady(true);
@@ -75,6 +89,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback((user: UserProfile) => {
     setSessionLoggedOut(false);
+    setStoredMessageBankVersion(MESSAGE_BANK_VERSION);
     const migrated = migrateUserSchedule(user);
     const gen = ensureTodayPulses(migrated, []);
     setState(applyPulseGen({ ...emptyState(), pulses: [] }, migrated, gen));
@@ -108,6 +123,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (!prev.user) return prev;
       const user = migrateUserSchedule(prev.user);
       const gen = regenerateTodayPulses(user, prev.pulses);
+      setStoredMessageBankVersion(MESSAGE_BANK_VERSION);
       return applyPulseGen(prev, user, gen);
     });
   }, []);
@@ -126,7 +142,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         partial.wakeTime !== undefined ||
         partial.sleepTime !== undefined ||
         partial.pulseIntervalMinutes !== undefined ||
-        partial.scheduleAnchors !== undefined
+        partial.scheduleAnchors !== undefined ||
+        partial.emiReminders !== undefined
       ) {
         const gen = regenerateTodayPulses(user, prev.pulses);
         next = applyPulseGen(next, user, gen);

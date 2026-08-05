@@ -74,6 +74,41 @@ export function buildPulseSchedule(
   return times;
 }
 
+function buildEmiPulses(
+  user: UserProfile,
+  date: string,
+  timeLabel: string,
+  hour: number
+): Pulse[] {
+  const emiDue = getEmiRemindersDueTomorrow(user.emiReminders);
+  const lang = (user.language ?? "hinglish") as Language;
+  return emiDue.map((emi) => ({
+    id: uid("emi"),
+    templateId: `emi-${emi.id}`,
+    timeLabel,
+    hour,
+    area: "finance" as const,
+    text: formatEmiNotification(user.name, emi, lang),
+    microAction: "EMI balance check — aaram se",
+    read: false,
+    actionDone: false,
+    date,
+  }));
+}
+
+function mergeEmiPulses(user: UserProfile, pulses: Pulse[], date: string): Pulse[] {
+  const timeLabel = pulses[0]?.timeLabel ?? formatTimeLabel(user.wakeTime ?? "09:00");
+  const hour = pulses[0]?.hour ?? 9;
+  const existing = new Set(
+    pulses.filter((p) => p.templateId?.startsWith("emi-")).map((p) => p.templateId)
+  );
+  const fresh = buildEmiPulses(user, date, timeLabel, hour).filter(
+    (p) => !existing.has(p.templateId)
+  );
+  if (!fresh.length) return pulses;
+  return [...fresh, ...pulses];
+}
+
 export function generateDayPulses(
   user: UserProfile,
   date = todayKey()
@@ -129,22 +164,14 @@ export function generateDayPulses(
   });
 
   // EMI reminders due tomorrow — respectful morning notification (1 day before)
-  const emiDue = getEmiRemindersDueTomorrow(u.emiReminders);
-  const lang = (u.language ?? "hinglish") as Language;
-  const morningHour = hours[0] ?? 9;
-  for (const emi of emiDue) {
-    pulses.unshift({
-      id: uid("emi"),
-      templateId: `emi-${emi.id}`,
-      timeLabel: formatTimeLabel(times[0] ?? u.wakeTime ?? "09:00"),
-      hour: morningHour,
-      area: "finance",
-      text: formatEmiNotification(u.name, emi, lang),
-      microAction: "EMI balance check — aaram se",
-      read: false,
-      actionDone: false,
-      date,
-    });
+  const emiPulses = buildEmiPulses(
+    u,
+    date,
+    formatTimeLabel(times[0] ?? u.wakeTime ?? "09:00"),
+    hours[0] ?? 9
+  );
+  for (const emiPulse of emiPulses) {
+    pulses.unshift(emiPulse);
   }
 
   return {
@@ -155,10 +182,20 @@ export function generateDayPulses(
 
 export function ensureTodayPulses(user: UserProfile, existing: Pulse[]): { pulses: Pulse[]; user: UserProfile } {
   const today = todayKey();
+  const u = migrateUserSchedule(user);
   const todays = existing.filter((p) => p.date === today);
-  if (todays.length) return { pulses: existing, user: migrateUserSchedule(user) };
-  const { pulses: newPulses, user: updated } = generateDayPulses(user, today);
-  return { pulses: [...newPulses, ...existing].slice(0, 120), user: updated };
+
+  if (!todays.length) {
+    const { pulses: newPulses, user: updated } = generateDayPulses(u, today);
+    return { pulses: [...newPulses, ...existing].slice(0, 120), user: updated };
+  }
+
+  const withEmi = mergeEmiPulses(u, existing, today);
+  if (withEmi.length !== existing.length) {
+    return { pulses: withEmi.slice(0, 120), user: u };
+  }
+
+  return { pulses: existing, user: u };
 }
 
 export function regenerateTodayPulses(

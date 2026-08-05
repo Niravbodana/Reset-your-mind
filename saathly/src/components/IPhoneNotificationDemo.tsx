@@ -16,9 +16,13 @@ type Notif = {
   time: string;
 };
 
-function buildNotifications(name: string): Notif[] {
+function buildNotifications(name: string, seed: number): Notif[] {
   const n = formatCustomerName(name, "hinglish");
-  const morning = MESSAGE_BANK[0].hinglish.replace("{name}", n);
+  const pool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any" || t.area === "finance");
+  const pick = (offset: number) => {
+    const tpl = pool[(seed + offset) % pool.length];
+    return tpl.hinglish.replaceAll("{name}", n);
+  };
   const emi = formatEmiNotification(name, DEMO_EMI, "hinglish");
 
   return [
@@ -33,21 +37,21 @@ function buildNotifications(name: string): Notif[] {
       id: "morning",
       icon: Sunrise,
       title: "RIZN",
-      body: morning,
+      body: pick(1),
       time: "7:15 AM",
     },
     {
       id: "money",
       icon: Wallet,
       title: "RIZN",
-      body: `${n}, aaj ₹50 side rakho — chhota step, EMI pressure kam feel hoga.`,
+      body: pick(2),
       time: "11:00 AM",
     },
     {
       id: "evening",
       icon: Bell,
       title: "RIZN",
-      body: `${n}, aaj ka din khatam — proud raho. Kal naya chance hai.`,
+      body: pick(3),
       time: "9:00 PM",
     },
   ];
@@ -70,11 +74,18 @@ function StatusBar() {
 }
 
 export function IPhoneNotificationDemo({ name = DEMO_NAME }: { name?: string }) {
-  const notifications = useMemo(() => buildNotifications(name), [name]);
+  const [seed, setSeed] = useState(0);
+  const notifications = useMemo(() => buildNotifications(name, seed), [name, seed]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setIndex((i) => (i + 1) % notifications.length), 3800);
+    const t = setInterval(() => {
+      setIndex((i) => {
+        const next = (i + 1) % notifications.length;
+        if (next === 0) setSeed((s) => s + 1);
+        return next;
+      });
+    }, 3800);
     return () => clearInterval(t);
   }, [notifications.length]);
 

@@ -456,3 +456,6 @@ export function getMessageBankStats() {
   }
   return { total: MESSAGE_BANK.length, byArea, bySlot };
 }
+
+/** Bump when message content changes — triggers fresh daily pulses for existing users. */
+export const MESSAGE_BANK_VERSION = String(getMessageBankStats().total);

@@ -19,7 +19,7 @@ const EMOJIS = [
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { ready, state, markPulse, checkinMood, logout } = useApp();
+  const { ready, state, markPulse, checkinMood, logout, refreshPulses } = useApp();
   const user = state.user;
   const hour = new Date().getHours();
 
@@ -28,10 +28,15 @@ export default function DashboardPage() {
   }, [ready, user, router]);
 
   const today = new Date().toISOString().slice(0, 10);
-  const pulses = useMemo(
-    () => state.pulses.filter((p) => p.date === today),
-    [state.pulses, today]
-  );
+  const pulses = useMemo(() => {
+    const todayList = state.pulses.filter((p) => p.date === today);
+    return [...todayList].sort((a, b) => {
+      const emiA = a.templateId?.startsWith("emi-") ? 0 : 1;
+      const emiB = b.templateId?.startsWith("emi-") ? 0 : 1;
+      if (emiA !== emiB) return emiA - emiB;
+      return a.hour - b.hour || a.timeLabel.localeCompare(b.timeLabel);
+    });
+  }, [state.pulses, today]);
   const readCount = pulses.filter((p) => p.read).length;
   const doneCount = pulses.filter((p) => p.actionDone).length;
 
@@ -126,7 +131,25 @@ export default function DashboardPage() {
           <Bell size={16} className="text-gold-light" />
           Aaj ke alerts
         </h2>
-        <p className="text-xs text-muted mb-4">Phone pe bhi aise hi dikhenge — naam ke saath, value ke saath</p>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <p className="text-xs text-muted">Latest messages — naam ke saath, value ke saath</p>
+          <button
+            type="button"
+            onClick={refreshPulses}
+            className="text-xs font-medium text-gold-light hover:text-gold shrink-0"
+          >
+            Naye messages load karo
+          </button>
+        </div>
+
+        {pulses.length === 0 && (
+          <div className="soft-card rounded-2xl p-6 mb-6 text-center">
+            <p className="text-sm text-white mb-2">Aaj ke messages abhi load nahi hue</p>
+            <button type="button" onClick={refreshPulses} className="btn-primary px-5 py-2 rounded-xl text-sm">
+              Messages load karo
+            </button>
+          </div>
+        )}
 
         <div className="space-y-3 mb-10">
           {pulses.map((m) => (
