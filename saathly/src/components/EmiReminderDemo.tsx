@@ -45,11 +45,11 @@ export function EmiReminderDemo() {
   const notifText = formatEmiNotification("Rahul", DEMO_EMI, "hinglish");
 
   return (
-    <section id="emi-reminder" className="py-20 md:py-28 border-y border-white/5 bg-bg-elevated/40">
+    <section id="emi-reminder" className="py-14 sm:py-20 md:py-28 border-y border-white/5 bg-bg-elevated/40">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <ScrollReveal className="text-center max-w-2xl mx-auto mb-14">
+        <ScrollReveal className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
           <p className="section-label mb-3">EMI Reminder — included in ₹99 plan</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
             EMI yaad dilana? <span className="text-gold-light">1 din pehle, caring alert.</span>
           </h2>
           <p className="text-ink-soft text-sm md:text-base leading-relaxed">
@@ -58,9 +58,9 @@ export function EmiReminderDemo() {
           </p>
         </ScrollReveal>
 
-        <div className="grid lg:grid-cols-2 gap-10 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 items-center">
           <ScrollReveal delay={0.1}>
-            <div className="premium-card rounded-2xl p-6 border border-gold/20">
+            <div className="premium-card rounded-2xl p-4 sm:p-6 border border-gold/20">
               <p className="text-xs font-semibold uppercase tracking-wider text-gold-light mb-4">
                 Easy setup — 4 fields
               </p>
@@ -77,7 +77,7 @@ export function EmiReminderDemo() {
                   >
                     <s.icon size={18} className="text-gold-light shrink-0" />
                     <div className="flex-1">
-                      <p className="text-[10px] text-muted uppercase">{s.label}</p>
+                      <p className="text-[11px] sm:text-xs text-muted uppercase">{s.label}</p>
                       <p className="text-sm text-white font-medium">{s.value}</p>
                     </div>
                     {i <= step && (
@@ -108,7 +108,7 @@ export function EmiReminderDemo() {
                     sizes="200px"
                   />
                   <div className="absolute inset-0 bg-red-950/30" />
-                  <span className="absolute top-2 left-2 text-[8px] font-bold uppercase text-red-200 bg-black/50 px-2 py-1 rounded-full">
+                  <span className="absolute top-2 left-2 text-[10px] sm:text-[11px] font-bold uppercase text-red-200 bg-black/50 px-2 py-1 rounded-full">
                     Pehle
                   </span>
                 </div>
@@ -121,7 +121,7 @@ export function EmiReminderDemo() {
                     sizes="200px"
                   />
                   <div className="absolute inset-0 bg-gold/10" />
-                  <span className="absolute top-2 left-2 text-[8px] font-bold uppercase text-gold-light bg-black/50 px-2 py-1 rounded-full">
+                  <span className="absolute top-2 left-2 text-[10px] sm:text-[11px] font-bold uppercase text-gold-light bg-black/50 px-2 py-1 rounded-full">
                     Ab
                   </span>
                 </div>
@@ -144,8 +144,8 @@ export function EmiReminderDemo() {
                       </div>
                       <div>
                         <p className="text-xs font-bold text-white mb-1">RIZN · EMI Reminder</p>
-                        <p className="text-sm text-white/95 leading-relaxed">{notifText}</p>
-                        <p className="text-[10px] text-gold-light mt-2">Kal due · Aap capable hain — balance check kijiye</p>
+                        <p className="text-sm text-white/95 leading-relaxed break-words">{notifText}</p>
+                        <p className="text-[11px] sm:text-xs text-gold-light mt-2">Kal due · Aap capable hain — balance check kijiye</p>
                       </div>
                     </div>
                   </motion.div>

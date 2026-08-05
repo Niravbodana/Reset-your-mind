@@ -219,13 +219,13 @@ function SignupForm() {
         <div className="space-y-6">
           <div>
             <p className="mb-3 text-sm font-medium text-white/90">Message language</p>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               {languages.map((lang) => (
                 <button
                   key={lang.id}
                   type="button"
                   onClick={() => setLanguage(lang.id)}
-                  className={`rounded-xl border px-3 py-3 text-left transition-all ${
+                  className={`min-h-[48px] rounded-xl border px-3 py-3 text-left transition-all ${
                     language === lang.id
                       ? "border-gold/50 bg-gold/10 ring-1 ring-gold/30"
                       : "border-white/10 bg-white/[0.03] hover:border-white/20"
@@ -303,8 +303,13 @@ function SignupForm() {
             </div>
           )}
 
-          <div className="flex gap-3">
-            <AuthButton type="button" variant="secondary" onClick={() => setStep(1)}>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <AuthButton
+              type="button"
+              variant="secondary"
+              className="sm:flex-1 sm:max-w-[140px]"
+              onClick={() => setStep(1)}
+            >
               <ArrowLeft size={16} />
               Back
             </AuthButton>
@@ -312,6 +317,7 @@ function SignupForm() {
               type="button"
               loading={loading}
               disabled={!consent || selected.length < 1}
+              className="sm:flex-1"
               onClick={submit}
             >
               Start free trial

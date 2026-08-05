@@ -41,14 +41,14 @@ export default function DashboardPage() {
   const doneCount = pulses.filter((p) => p.actionDone).length;
 
   if (!ready || !user) {
-    return <div className="pt-28 text-center text-muted">Loading…</div>;
+    return <div className="page-top text-center text-muted">Loading…</div>;
   }
 
   const displayName = formatCustomerName(user.name, user.language);
   const greeting = greetForHour(hour, user.language, user.name);
 
   return (
-    <div className="pt-20 pb-16 min-h-screen">
+    <div className="page-top pb-16 min-h-screen">
       {pulses[0] && (
         <FirstPulseModal
           name={user.name}
@@ -70,12 +70,12 @@ export default function DashboardPage() {
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/50 to-black/30" />
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-6 max-w-3xl mx-auto w-full">
-          <div className="flex items-end justify-between gap-4">
-            <div>
+        <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 sm:pb-6 max-w-3xl mx-auto w-full">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="min-w-0 flex-1">
               <p className="text-sm text-gold-light font-medium mb-1">{greeting}</p>
-              <h1 className="font-display text-2xl md:text-3xl font-bold text-white">{displayName}</h1>
-              <p className="text-xs text-ink-soft mt-2 flex items-center gap-3">
+              <h1 className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-white truncate">{displayName}</h1>
+              <p className="text-xs text-ink-soft mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span className="inline-flex items-center gap-1">
                   <Flame size={14} className="text-gold-light" />
                   {user.streak} din ki habit
@@ -84,8 +84,8 @@ export default function DashboardPage() {
                 <span>{doneCount} actions done aaj</span>
               </p>
             </div>
-            <div className="flex gap-2">
-              <Link href="/settings" className="btn-secondary p-2.5 rounded-xl" aria-label="Settings">
+            <div className="flex gap-2 shrink-0 self-end sm:self-auto">
+              <Link href="/settings" className="btn-secondary p-2.5 rounded-xl min-h-11 min-w-11 flex items-center justify-center" aria-label="Settings">
                 <Settings size={18} />
               </Link>
               <button
@@ -94,7 +94,7 @@ export default function DashboardPage() {
                   logout();
                   router.push("/");
                 }}
-                className="btn-secondary p-2.5 rounded-xl"
+                className="btn-secondary p-2.5 rounded-xl min-h-11 min-w-11 flex items-center justify-center"
                 aria-label="Sign out"
               >
                 <LogOut size={18} />
@@ -131,12 +131,12 @@ export default function DashboardPage() {
           <Bell size={16} className="text-gold-light" />
           Aaj ke alerts
         </h2>
-        <div className="flex items-center justify-between gap-3 mb-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
           <p className="text-xs text-muted">Latest messages — naam ke saath, value ke saath</p>
           <button
             type="button"
             onClick={refreshPulses}
-            className="text-xs font-medium text-gold-light hover:text-gold shrink-0"
+            className="text-xs font-medium text-gold-light hover:text-gold shrink-0 self-start sm:self-auto min-h-[44px] sm:min-h-0 flex items-center"
           >
             Naye messages load karo
           </button>
@@ -169,7 +169,7 @@ export default function DashboardPage() {
               <div className="p-4 bg-black/40">
                 <p className="text-[15px] leading-relaxed text-white/95 mb-3">{m.text}</p>
                 <p className="text-xs text-gold-light mb-3">Aaj ka step: {m.microAction}</p>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {!m.read && (
                     <button
                       type="button"

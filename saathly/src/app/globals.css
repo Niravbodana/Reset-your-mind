@@ -46,6 +46,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -53,8 +55,34 @@ body {
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
   overflow-x: hidden;
+  max-width: 100%;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
   padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-area-pt {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.safe-area-px {
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+.page-top {
+  padding-top: calc(5.5rem + env(safe-area-inset-top, 0));
+}
+
+/* Pages with sticky mobile CTA bar */
+.has-mobile-cta {
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0));
+}
+
+@media (min-width: 768px) {
+  .has-mobile-cta {
+    padding-bottom: 0;
+  }
 }
 
 .font-display {
@@ -125,11 +153,18 @@ h1, h2, h3 {
 }
 
 .section-label {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold-light);
+}
+
+@media (min-width: 768px) {
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
 }
 
 .section-divider {
@@ -345,10 +380,4 @@ h1, h2, h3 {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   animation: noise-shift 12s ease-in-out infinite;
   pointer-events: none;
-}
-
-@media (max-width: 767px) {
-  main {
-    padding-bottom: 5rem;
-  }
 }

@@ -49,6 +49,7 @@ export function AuthButton({
   type = "submit",
   variant = "primary",
   onClick,
+  className = "",
 }: {
   children: React.ReactNode;
   loading?: boolean;
@@ -56,9 +57,10 @@ export function AuthButton({
   type?: "submit" | "button";
   variant?: "primary" | "secondary";
   onClick?: () => void;
+  className?: string;
 }) {
   const base =
-    "relative flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50";
+    "relative flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50 min-h-[48px]";
   const styles =
     variant === "primary"
       ? "bg-gold text-black hover:bg-gold-light hover:shadow-lg hover:shadow-gold/20"
@@ -69,7 +71,7 @@ export function AuthButton({
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
-      className={`${base} ${styles}`}
+      className={`${base} ${styles} ${className}`}
     >
       {loading ? (
         <>

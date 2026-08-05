@@ -24,7 +24,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   const config = useSiteConfig();
 
   return (
-    <section id="pricing" className="py-20 md:py-28 border-t border-white/5">
+    <section id="pricing" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {showTitle && (
           <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
@@ -39,7 +39,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
         )}
 
         <ScrollReveal delay={0.1} className="max-w-xl mx-auto">
-          <div className="rounded-2xl p-8 md:p-10 relative bg-bg-card border border-gold/35 shadow-xl shadow-gold/5">
+          <div className="rounded-2xl p-5 sm:p-8 md:p-10 relative bg-bg-card border border-gold/35 shadow-xl shadow-gold/5">
             <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-black text-[11px] font-bold px-4 py-1 rounded-full">
               Life change plan
             </span>

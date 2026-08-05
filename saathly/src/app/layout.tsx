@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AppChrome } from "@/components/AppChrome";
@@ -18,6 +18,14 @@ const display = Plus_Jakarta_Sans({
   weight: ["500", "600", "700", "800"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#050508",
+};
 
 export const metadata: Metadata = {
   title: "RIZN — aapki life change ka reason",

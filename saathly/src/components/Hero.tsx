@@ -38,7 +38,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[92vh] md:min-h-[96vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[100dvh] flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src="/images/animatic-after-hope.jpg"
@@ -52,7 +52,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-black/50" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 md:px-6 pt-28 pb-20 w-full">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-5 md:px-6 pt-24 sm:pt-28 pb-16 sm:pb-20 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <ScrollReveal>
             <OfferBanner />
@@ -61,35 +61,35 @@ export function Hero() {
                 {config.waitlistCount}+ logon ne apni life better banani shuru ki
               </p>
             )}
-            <h1 className="font-display text-[2.2rem] sm:text-[3rem] lg:text-[3.5rem] font-bold leading-[1.08] tracking-[-0.03em] mb-5 text-white mt-4">
+            <h1 className="font-display text-[1.75rem] sm:text-[2.2rem] md:text-[3rem] lg:text-[3.5rem] font-bold leading-[1.1] tracking-[-0.03em] mb-4 sm:mb-5 text-white mt-2 sm:mt-4">
               Humse judo —
               <span className="text-gold-light"> life better</span> ho sakti hai.
             </h1>
-            <p className="text-base md:text-xl text-ink-soft max-w-lg leading-[1.65] mb-8">
+            <p className="text-[15px] sm:text-base md:text-xl text-ink-soft max-w-lg leading-[1.65] mb-6 sm:mb-8">
               Roz tumhare naam pe messages. EMI 1 din pehle. ₹99 me poora plan — hope, habit, control
               wapas.
             </p>
 
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap mb-5 sm:mb-8">
               {TRUST.map((t) => (
-                <div key={t.text} className="flex items-center gap-2 text-xs text-ink-soft">
+                <div key={t.text} className="flex items-center gap-2 text-xs sm:text-sm text-ink-soft">
                   <t.icon size={14} className="text-gold-light shrink-0" />
                   {t.text}
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 mb-5">
+            <div className="flex flex-col gap-3 w-full">
               <Link
                 href="/signup"
-                className="btn-primary inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-gold/30"
+                className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-bold shadow-lg shadow-gold/30 w-full sm:w-auto"
               >
                 ₹99 plan — abhi shuru karo
                 <ArrowRight size={18} />
               </Link>
               <Link
                 href="/#transform"
-                className="btn-secondary inline-flex items-center justify-center px-7 py-4 rounded-xl text-[15px] font-medium"
+                className="btn-secondary inline-flex items-center justify-center px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl text-sm sm:text-[15px] font-medium w-full sm:w-auto"
               >
                 Pehle vs Ab dekho
               </Link>
@@ -103,21 +103,21 @@ export function Hero() {
                 <div className="absolute -inset-4 bg-gold/10 blur-3xl rounded-full opacity-60" />
                 <IPhoneNotificationDemo name={displayName} />
               </div>
-              <div className="mt-6 premium-card rounded-2xl p-5 max-w-sm mx-auto">
+              <div className="mt-6 premium-card rounded-2xl p-4 sm:p-5 w-full max-w-sm mx-auto">
                 <p className="text-sm font-medium text-white mb-2">Apna naam likho — message feel karo</p>
-                <div className="flex gap-2 mb-3">
+                <div className="flex flex-col sm:flex-row gap-2 mb-3">
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Priya, Rahul, Amit..."
                     maxLength={20}
-                    className="flex-1 rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-sm text-white placeholder:text-muted focus:outline-none focus:border-gold/60"
+                    className="w-full min-w-0 flex-1 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-sm text-white placeholder:text-muted focus:outline-none focus:border-gold/60"
                   />
                   <button
                     type="button"
                     onClick={() => setTick((t) => t + 1)}
-                    className="btn-secondary rounded-xl px-4 text-sm font-medium"
+                    className="btn-secondary rounded-xl px-5 py-3 text-sm font-medium w-full sm:w-auto shrink-0 min-h-[44px]"
                   >
                     Agla
                   </button>

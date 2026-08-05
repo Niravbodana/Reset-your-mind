@@ -93,13 +93,13 @@ export function IPhoneNotificationDemo({ name = DEMO_NAME }: { name?: string }) 
   const Icon = current.icon;
 
   return (
-    <div className="relative w-[280px] md:w-[300px] mx-auto">
+    <div className="relative w-full max-w-[min(300px,92vw)] mx-auto">
       <div className="absolute -inset-4 bg-gold/10 blur-3xl rounded-full opacity-60" />
       <div className="relative rounded-[2.6rem] p-[3px] bg-gradient-to-b from-white/25 to-white/5 shadow-2xl shadow-black/50">
         <div className="rounded-[2.45rem] bg-[#0c0c10] overflow-hidden border border-white/10">
           <StatusBar />
 
-          <div className="relative min-h-[420px] bg-gradient-to-b from-[#1a1a24] to-[#0a0a0f] px-3 pb-6">
+          <div className="relative min-h-[360px] sm:min-h-[420px] bg-gradient-to-b from-[#1a1a24] to-[#0a0a0f] px-3 pb-6">
             <div className="text-center pt-8 pb-4">
               <p className="text-4xl font-light text-white tracking-tight">9:41</p>
               <p className="text-xs text-muted mt-1">Wednesday, 5 Aug</p>

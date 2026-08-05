@@ -78,8 +78,8 @@ export function AuthShell({
         </aside>
 
         {/* Form panel */}
-        <main className="flex flex-col justify-center px-5 py-12 sm:px-10 lg:px-14 xl:px-16">
-          <div className="mb-8 lg:hidden">
+        <main className="flex flex-col justify-center px-4 py-10 safe-area-pt safe-area-px sm:px-10 sm:py-12 lg:px-14 xl:px-16">
+          <div className="mb-6 sm:mb-8 lg:hidden">
             <Link href="/">
               <BrandLockup size="sm" />
             </Link>

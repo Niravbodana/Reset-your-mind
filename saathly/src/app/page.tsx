@@ -12,7 +12,7 @@ import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 
 export default function HomePage() {
   return (
-    <div className="pb-20 md:pb-0">
+    <div className="has-mobile-cta">
       <Hero />
       <HopeTransformation />
       <EmiReminderDemo />
