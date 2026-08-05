@@ -17,7 +17,7 @@ export default function ProgramsPage() {
     <div className="pt-28 pb-20 px-4">
       <div className="max-w-3xl mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">Programs</h1>
-        <p className="text-ink-soft text-sm mb-8">Phase O — retention loops (21-day journeys).</p>
+        <p className="text-ink-soft text-sm mb-8">Guided 7–21 day journeys — available after app launch.</p>
         <div className="grid md:grid-cols-2 gap-4">
           {programs.map((p) => (
             <div key={p.id} className="soft-card rounded-2xl p-6">

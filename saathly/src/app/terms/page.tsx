@@ -6,7 +6,6 @@ export default function TermsPage() {
   return (
     <div className="pt-28 pb-20 px-4">
       <article className="max-w-2xl mx-auto">
-        <p className="section-label mb-3">Phase U</p>
         <h1 className="font-display text-4xl font-bold mb-6">Terms of Service</h1>
         <div className="space-y-4 text-ink-soft leading-relaxed text-[15px]">
           <p>RIZN provides personalized motivational messages and tools. It is <strong className="text-white">not medical care or therapy</strong>.</p>

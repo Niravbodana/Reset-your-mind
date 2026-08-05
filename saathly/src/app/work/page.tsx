@@ -2,17 +2,17 @@ import Link from "next/link";
 
 export const metadata = {
   title: "RIZN Work — Corporate wellness",
-  description: "B2B mental stability pulses for teams. Phase Y.",
+  description: "Corporate wellness and team motivation — coming soon.",
 };
 
 export default function WorkPage() {
   return (
     <div className="pt-28 pb-20 px-4">
       <div className="max-w-3xl mx-auto">
-        <p className="section-label mb-3">Phase Y · B2B</p>
+        <p className="section-label mb-3">For teams</p>
         <h1 className="font-display text-4xl font-bold mb-4">RIZN Work</h1>
         <p className="text-ink-soft text-lg mb-8 leading-relaxed">
-          Companies ke liye daily name-based pulses — burnout kam, focus zyada. ₹99–149 / seat / month.
+          Daily personalized pulses for employees — reduce burnout and improve focus. Pilot program opening soon.
         </p>
         <div className="grid md:grid-cols-3 gap-4 mb-10">
           {[

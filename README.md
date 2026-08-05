@@ -1,14 +1,8 @@
 # RIZN
 
-**Your name. Your nudge. Your rise.**
+Personalized daily motivation — web preview now, mobile app coming soon.
 
-Premium personalized daily motivation — finance, health, love, career.
-
-> ⚠️ **Screenshot me "Humsafar" (cream/orange) dikh raha hai?** Purana code hai.  
-> Latest pull karo: `git checkout cursor/saathly-website-9e8a && git pull`  
-> Full steps: [`saathly/UPDATE.md`](./saathly/UPDATE.md)
-
-## Run
+## Quick start
 
 ```bash
 cd saathly
@@ -16,16 +10,24 @@ npm install
 npm run dev
 ```
 
-Docker:
+Open http://localhost:3000
 
+If git pull fails due to local changes:
 ```bash
-cd saathly
-docker compose up --build
+git reset --hard origin/cursor/saathly-website-9e8a
 ```
 
-→ http://localhost:3000
+## Product status
 
-## Plans
+| Feature | Status |
+|---------|--------|
+| Website & early access | Live (preview) |
+| Web dashboard | Live (preview) |
+| Android / iOS app | Coming soon |
+| Push notifications | With mobile app |
+| Paid subscriptions | At launch |
+
+## Plans (at launch)
 
 | Plan | Price |
 |------|-------|
@@ -34,8 +36,5 @@ docker compose up --build
 
 ## Docs
 
-| Doc | What |
-|-----|------|
-| [`saathly/PHASES.md`](./saathly/PHASES.md) | **A → Z** start-to-end phases (full checklist) |
-| [`saathly/PHASES_STATUS.md`](./saathly/PHASES_STATUS.md) | What’s coded vs needs API keys |
-| [`saathly/ARCHITECTURE.md`](./saathly/ARCHITECTURE.md) | Legal, stack, architecture index |
+- [`saathly/UPDATE.md`](./saathly/UPDATE.md) — fix local setup issues
+- [`saathly/ARCHITECTURE.md`](./saathly/ARCHITECTURE.md) — technical overview

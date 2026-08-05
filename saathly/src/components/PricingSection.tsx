@@ -5,33 +5,32 @@ const plans = [
   {
     name: "Personal",
     price: "99",
-    desc: "Sirf tumhare liye",
+    desc: "One person, full access",
     popular: true,
-    href: "/signup?plan=individual",
+    href: "/signup?plan=personal",
     features: [
-      "Roz 6 personalized messages",
-      "Naam + situation targeting",
-      "Paisa · health · pyaar · career · mind",
-      "Mood + streak tracking",
-      "Weekly progress report",
-      "Heavy din pe soft mode",
-      "Hinglish / Hindi / English",
+      "6 personalized messages per day",
+      "Name and focus-area targeting",
+      "Money, health, love, career, mind",
+      "Mood and streak tracking",
+      "Weekly summary",
+      "Soft mode on difficult days",
+      "Hinglish, Hindi, or English",
     ],
   },
   {
     name: "Parivaar",
     price: "249",
-    desc: "4 members tak",
+    desc: "Up to 4 family members",
     popular: false,
-    href: "/signup?plan=family",
+    href: "/signup?plan=parivaar",
     features: [
-      "Personal me sab kuch",
-      "4 profiles & goals",
-      "Family dashboard",
-      "Parents / partner / siblings",
-      "~₹62 per person",
-      "Ghar me positive culture",
-      "Priority support",
+      "Everything in Personal",
+      "4 profiles with separate goals",
+      "Shared family dashboard",
+      "For parents, partner, or siblings",
+      "About ₹62 per person",
+      "Priority support at launch",
     ],
   },
 ];
@@ -42,11 +41,14 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {showTitle && (
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="section-label mb-3">Plans</p>
+            <p className="section-label mb-3">Pricing</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
-              Ek coffee se kam — <span className="gradient-gold">poori life ka support</span>
+              Simple plans at launch
             </h2>
-            <p className="text-ink-soft">2 plans. 7 din free. Koi hidden charge nahi.</p>
+            <p className="text-ink-soft">
+              Pricing below is planned for when subscriptions go live. Join the waitlist to preview
+              on web at no cost today.
+            </p>
           </div>
         )}
 
@@ -54,15 +56,15 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`rounded-3xl p-7 md:p-8 relative ${
+              className={`rounded-2xl p-7 md:p-8 relative ${
                 plan.popular
-                  ? "bg-gradient-to-b from-[#1a1508] to-bg-card border border-gold/40 shadow-[0_0_40px_rgba(201,162,39,0.15)]"
+                  ? "bg-bg-card border border-gold/30"
                   : "soft-card"
               }`}
             >
               {plan.popular && (
-                <span className="absolute -top-3 left-6 bg-gold text-black text-[11px] font-bold px-3 py-1 rounded-full shadow-[0_0_16px_rgba(201,162,39,0.5)]">
-                  SABSE POPULAR
+                <span className="absolute -top-3 left-6 bg-gold text-black text-[11px] font-semibold px-3 py-1 rounded-full">
+                  Most popular
                 </span>
               )}
               <h3 className="font-display text-2xl font-bold text-white mb-1">{plan.name}</h3>
@@ -83,7 +85,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
                 href={plan.href}
                 className="btn-primary block text-center py-3.5 rounded-xl text-sm"
               >
-                7 din free try karo
+                Join waitlist
               </Link>
             </div>
           ))}

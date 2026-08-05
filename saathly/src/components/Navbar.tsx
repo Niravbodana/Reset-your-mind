@@ -8,9 +8,9 @@ import { useApp } from "@/context/AppContext";
 
 const links = [
   { href: "/#feel", label: "Demo" },
-  { href: "/#transform", label: "Badlav" },
-  { href: "/#how", label: "Kaise" },
-  { href: "/pricing", label: "Plans" },
+  { href: "/#notifications", label: "Notifications" },
+  { href: "/#app", label: "App" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -28,7 +28,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/80 backdrop-blur-xl border-b border-gold/10" : "bg-transparent"
+        scrolled ? "bg-black/85 backdrop-blur-xl border-b border-white/10" : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 md:px-6">
@@ -39,7 +39,11 @@ export function Navbar() {
 
         <div className="hidden md:flex items-center gap-6">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-medium text-ink-soft hover:text-gold-light transition-colors">
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-ink-soft hover:text-white transition-colors"
+            >
               {link.label}
             </Link>
           ))}
@@ -49,7 +53,7 @@ export function Navbar() {
             </Link>
           ) : (
             <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-              7 din free
+              Join waitlist
             </Link>
           )}
         </div>
@@ -71,7 +75,7 @@ export function Navbar() {
             className="btn-primary text-center py-3 rounded-xl text-sm"
             onClick={() => setOpen(false)}
           >
-            {state.user ? "Dashboard" : "7 din free"}
+            {state.user ? "Dashboard" : "Join waitlist"}
           </Link>
         </div>
       )}

@@ -29,7 +29,7 @@ export default function FamilyPage() {
     <div className="pt-28 pb-20 px-4">
       <div className="max-w-lg mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">Parivaar</h1>
-        <p className="text-sm text-ink-soft mb-8">Phase N — up to 4 members on Parivaar plan.</p>
+        <p className="text-sm text-ink-soft mb-8">Add up to four family members on the Parivaar plan (at launch).</p>
 
         <form onSubmit={add} className="soft-card rounded-2xl p-5 space-y-3 mb-6">
           <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Member name" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3" />

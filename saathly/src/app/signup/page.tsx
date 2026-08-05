@@ -16,10 +16,9 @@ function SignupForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { login, trackEvent } = useApp();
+  const planParam = searchParams.get("plan");
   const initialPlan: PlanId =
-    searchParams.get("plan") === "family" || searchParams.get("plan") === "parivaar"
-      ? "parivaar"
-      : "personal";
+    planParam === "family" || planParam === "parivaar" ? "parivaar" : "personal";
 
   const [step, setStep] = useState(1);
   const [plan, setPlan] = useState<PlanId>(initialPlan);
@@ -57,19 +56,19 @@ function SignupForm() {
       lastActiveDate: new Date().toISOString().slice(0, 10),
     };
     login(user);
-    trackEvent("signup_complete", plan);
+    trackEvent("waitlist_signup", plan);
     setDone(true);
     setTimeout(() => router.push("/dashboard"), 900);
   };
 
   if (done) {
     return (
-      <div className="soft-card rounded-3xl p-8 text-center max-w-md mx-auto">
+      <div className="soft-card rounded-2xl p-8 text-center max-w-md mx-auto">
         <div className="w-14 h-14 rounded-full bg-success/15 flex items-center justify-center mx-auto mb-5">
           <Check size={28} className="text-success" />
         </div>
-        <h2 className="font-display text-3xl font-bold mb-2">Welcome, {name}</h2>
-        <p className="text-ink-soft">Trial live. Dashboard khol rahe hain…</p>
+        <h2 className="font-display text-2xl font-bold mb-2">You are on the list, {name}</h2>
+        <p className="text-ink-soft text-sm">Opening your web preview dashboard…</p>
       </div>
     );
   }
@@ -78,25 +77,44 @@ function SignupForm() {
     <div className="max-w-md mx-auto">
       <div className="flex gap-2 mb-6">
         {[1, 2, 3].map((s) => (
-          <div key={s} className={`h-1.5 flex-1 rounded-full ${s <= step ? "bg-laser" : "bg-white/10"}`} />
+          <div key={s} className={`h-1 flex-1 rounded-full ${s <= step ? "bg-gold" : "bg-white/10"}`} />
         ))}
       </div>
-      <div className="soft-card rounded-3xl p-6 md:p-8">
+      <div className="soft-card rounded-2xl p-6 md:p-8">
         {step === 1 && (
           <>
-            <h2 className="font-display text-2xl font-bold mb-1">Pehle naam</h2>
-            <p className="text-sm text-ink-soft mb-6">Har pulse isi naam se aayega.</p>
+            <h2 className="font-display text-2xl font-bold mb-1">Your details</h2>
+            <p className="text-sm text-ink-soft mb-6">We will use your name in every message.</p>
             <div className="space-y-4">
-              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Naam" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 focus:outline-none focus:border-laser" />
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 focus:outline-none focus:border-laser" />
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Full name"
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 focus:outline-none focus:border-gold"
+              />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 focus:outline-none focus:border-gold"
+              />
               <div className="grid grid-cols-2 gap-3">
-                <button type="button" onClick={() => setPlan("personal")} className={`rounded-xl border p-4 text-left ${plan === "personal" ? "border-laser bg-accent-soft" : "border-white/10"}`}>
+                <button
+                  type="button"
+                  onClick={() => setPlan("personal")}
+                  className={`rounded-xl border p-4 text-left ${plan === "personal" ? "border-gold bg-accent-soft" : "border-white/10"}`}
+                >
                   <p className="font-semibold text-sm">Personal</p>
-                  <p className="text-xs text-muted">₹99/mo</p>
+                  <p className="text-xs text-muted">₹99/mo at launch</p>
                 </button>
-                <button type="button" onClick={() => setPlan("parivaar")} className={`rounded-xl border p-4 text-left ${plan === "parivaar" ? "border-laser bg-accent-soft" : "border-white/10"}`}>
+                <button
+                  type="button"
+                  onClick={() => setPlan("parivaar")}
+                  className={`rounded-xl border p-4 text-left ${plan === "parivaar" ? "border-gold bg-accent-soft" : "border-white/10"}`}
+                >
                   <p className="font-semibold text-sm">Parivaar</p>
-                  <p className="text-xs text-muted">₹249/mo</p>
+                  <p className="text-xs text-muted">₹249/mo at launch</p>
                 </button>
               </div>
             </div>
@@ -104,11 +122,16 @@ function SignupForm() {
         )}
         {step === 2 && (
           <>
-            <h2 className="font-display text-2xl font-bold mb-1">Kya heavy hai?</h2>
-            <p className="text-sm text-ink-soft mb-6">Max 3 areas.</p>
+            <h2 className="font-display text-2xl font-bold mb-1">Focus areas</h2>
+            <p className="text-sm text-ink-soft mb-6">Select up to three.</p>
             <div className="grid gap-2">
               {areaIds.map((id) => (
-                <button key={id} type="button" onClick={() => toggle(id)} className={`rounded-xl border px-4 py-3.5 text-left text-sm font-medium ${selected.includes(id) ? "border-laser bg-accent-soft" : "border-white/10"}`}>
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => toggle(id)}
+                  className={`rounded-xl border px-4 py-3.5 text-left text-sm font-medium ${selected.includes(id) ? "border-gold bg-accent-soft" : "border-white/10"}`}
+                >
                   {AREA_LABELS[id]}
                 </button>
               ))}
@@ -117,7 +140,12 @@ function SignupForm() {
               <p className="text-xs text-muted mb-2">Language</p>
               <div className="grid grid-cols-3 gap-2">
                 {(["hinglish", "hindi", "english"] as Language[]).map((l) => (
-                  <button key={l} type="button" onClick={() => setLanguage(l)} className={`py-2 rounded-xl border text-xs font-semibold capitalize ${language === l ? "border-laser text-laser" : "border-white/10 text-muted"}`}>
+                  <button
+                    key={l}
+                    type="button"
+                    onClick={() => setLanguage(l)}
+                    className={`py-2 rounded-xl border text-xs font-semibold capitalize ${language === l ? "border-gold text-gold-light" : "border-white/10 text-muted"}`}
+                  >
                     {l}
                   </button>
                 ))}
@@ -128,18 +156,33 @@ function SignupForm() {
         {step === 3 && (
           <>
             <h2 className="font-display text-2xl font-bold mb-1">Confirm</h2>
-            <p className="text-sm text-ink-soft mb-6">7 din free · local demo mode (no card)</p>
+            <p className="text-sm text-ink-soft mb-6">
+              Free web preview. We will email you when the mobile app and paid plans go live.
+            </p>
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between py-2 border-b border-white/10"><span className="text-muted">Naam</span><span>{name}</span></div>
-              <div className="flex justify-between py-2 border-b border-white/10"><span className="text-muted">Plan</span><span>{plan}</span></div>
-              <div className="flex justify-between py-2"><span className="text-muted">Focus</span><span className="text-right max-w-[60%]">{selected.map((a) => AREA_LABELS[a]).join(", ")}</span></div>
+              <div className="flex justify-between py-2 border-b border-white/10">
+                <span className="text-muted">Name</span>
+                <span>{name}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-white/10">
+                <span className="text-muted">Plan interest</span>
+                <span className="capitalize">{plan}</span>
+              </div>
+              <div className="flex justify-between py-2">
+                <span className="text-muted">Focus</span>
+                <span className="text-right max-w-[60%]">{selected.map((a) => AREA_LABELS[a]).join(", ")}</span>
+              </div>
             </div>
           </>
         )}
         <div className="flex justify-between mt-8">
           {step > 1 ? (
-            <button type="button" onClick={() => setStep(step - 1)} className="flex items-center gap-1 text-sm text-ink-soft"><ArrowLeft size={16} /> Back</button>
-          ) : <span />}
+            <button type="button" onClick={() => setStep(step - 1)} className="flex items-center gap-1 text-sm text-ink-soft">
+              <ArrowLeft size={16} /> Back
+            </button>
+          ) : (
+            <span />
+          )}
           {step < 3 ? (
             <button
               type="button"
@@ -147,17 +190,17 @@ function SignupForm() {
               onClick={() => setStep(step + 1)}
               className="btn-primary px-5 py-2.5 rounded-xl text-sm disabled:opacity-40"
             >
-              Next
+              Continue
             </button>
           ) : (
             <button type="button" onClick={finish} className="btn-primary px-5 py-2.5 rounded-xl text-sm inline-flex items-center gap-2">
-              Start free <ArrowRight size={16} />
+              Open preview <ArrowRight size={16} />
             </button>
           )}
         </div>
       </div>
       <p className="text-center text-xs text-muted mt-4">
-        Already have account? <Link href="/login" className="text-laser-2">Login</Link>
+        Already joined? <Link href="/login" className="text-gold-light">Sign in</Link>
       </p>
     </div>
   );
@@ -166,11 +209,13 @@ function SignupForm() {
 export default function SignupPage() {
   return (
     <div className="pt-28 pb-20 px-4">
-      <div className="text-center mb-8">
-        <h1 className="font-display text-3xl font-bold mb-2">Start your RIZN</h1>
-        <p className="text-sm text-ink-soft">Phases F–G · Auth + Onboarding</p>
+      <div className="text-center mb-8 max-w-lg mx-auto">
+        <h1 className="font-display text-3xl font-bold mb-2">Join early access</h1>
+        <p className="text-sm text-ink-soft">
+          Preview RIZN on the web today. Get notified when the mobile app and subscriptions launch.
+        </p>
       </div>
-      <Suspense fallback={<p className="text-center text-muted">Loading...</p>}>
+      <Suspense fallback={<p className="text-center text-muted">Loading…</p>}>
         <SignupForm />
       </Suspense>
     </div>

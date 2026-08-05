@@ -9,7 +9,7 @@ const areas = [
     icon: Wallet,
     title: "Financial Strength",
     desc: "EMI stress, savings, side income — har din chhota step, bada future.",
-    example: '"Nirav, aaj ₹100 bachaa — ye teri freedom ki shuruaat hai."',
+    example: '"Priya, move ₹100 to savings today — one step toward stability."',
     gradient: "from-emerald-600/20 to-teal-900/10",
   },
   {

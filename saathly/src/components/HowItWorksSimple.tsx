@@ -1,24 +1,36 @@
 const steps = [
-  { n: "01", title: "Naam + situation", desc: "2 minute. Paisa, health, pyaar, career — jo heavy hai batao." },
-  { n: "02", title: "Apna time set karo", desc: "Subah se raat — messages usi window me aayenge." },
-  { n: "03", title: "Roz rise karo", desc: "Actions, mood, streak — weekly report se khud dekho badlav." },
+  {
+    n: "01",
+    title: "Create your profile",
+    desc: "Name, email, focus areas, and language. Takes about two minutes.",
+  },
+  {
+    n: "02",
+    title: "Set your active hours",
+    desc: "Choose when you want messages — typically 9 AM to 9 PM, every two hours.",
+  },
+  {
+    n: "03",
+    title: "Receive and respond",
+    desc: "Read pulses on the web today; get push notifications when the app ships.",
+  },
 ];
 
 export function HowItWorksSimple() {
   return (
     <section id="how" className="py-16 md:py-20 border-y border-white/10">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <p className="section-label mb-3 text-center">Kaise kaam karta hai</p>
+        <p className="section-label mb-3 text-center">How it works</p>
         <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-white mb-4">
-          3 step — bas itna simple
+          Three steps to get started
         </h2>
         <p className="text-center text-ink-soft mb-12 max-w-lg mx-auto">
-          Koi complicated app nahi. Naam likho, problem batao, messages shuru.
+          No complicated setup. Join early access, configure once, and preview your daily flow.
         </p>
         <div className="grid md:grid-cols-3 gap-6">
           {steps.map((s) => (
-            <div key={s.n} className="glass-gold rounded-2xl p-6 text-center md:text-left">
-              <p className="font-display text-3xl font-bold gradient-gold mb-3">{s.n}</p>
+            <div key={s.n} className="soft-card rounded-2xl p-6">
+              <p className="text-sm font-semibold text-gold-light mb-3">{s.n}</p>
               <h3 className="font-semibold text-lg text-white mb-2">{s.title}</h3>
               <p className="text-sm text-ink-soft leading-relaxed">{s.desc}</p>
             </div>

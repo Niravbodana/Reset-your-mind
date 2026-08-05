@@ -3,6 +3,7 @@ import { Space_Grotesk, Syne } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { PreviewBanner } from "@/components/PreviewBanner";
 import { LaserBackground } from "@/components/LaserBackground";
 import { Providers } from "@/components/Providers";
 
@@ -19,12 +20,12 @@ const display = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "RIZN — Har 2 ghante tumhare naam pe ek message",
+  title: "RIZN — Personalized daily motivation",
   description:
-    "47,000+ Indians trust RIZN. Personalized daily motivation for paisa, health, pyaar, career. 7 din free. Sirf ₹99/month.",
+    "Short, name-personalized messages for money, health, relationships, and career — every two hours. Website preview available; mobile app coming soon.",
   openGraph: {
     title: "RIZN — Your name. Your nudge. Your rise.",
-    description: "Premium personalized motivation — roz 6 messages jo sach me kaam karein.",
+    description: "Personalized daily motivation. Web preview now; Android & iOS app coming soon.",
     type: "website",
     images: ["/images/hero-premium.jpg"],
   },
@@ -32,10 +33,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="hi" className={`${body.variable} ${display.variable} h-full antialiased`}>
+    <html lang="en" className={`${body.variable} ${display.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink">
         <Providers>
           <LaserBackground />
+          <PreviewBanner />
           <Navbar />
           <main className="flex-1 relative z-10">{children}</main>
           <Footer />

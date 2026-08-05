@@ -1,4 +1,4 @@
-# Humsafar — Next.js (React) + Node Docker image
+# RIZN — Next.js production Docker image
 # Multi-stage: deps → build → slim production runner
 
 FROM node:20-alpine AS deps

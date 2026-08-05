@@ -104,13 +104,12 @@ body {
 }
 
 .laser-text,
+.text-accent {
+  color: var(--gold-light);
+}
+
 .gradient-gold {
-  background: linear-gradient(90deg, #c9a227, #e8c547, #f0d878, #c9a227);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gold-shift 5s linear infinite;
+  color: var(--gold-light);
 }
 
 .section-label {

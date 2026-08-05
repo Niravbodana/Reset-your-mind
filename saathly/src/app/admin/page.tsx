@@ -11,7 +11,7 @@ export default function AdminPage() {
     <div className="pt-28 pb-20 px-4">
       <div className="max-w-3xl mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">Admin</h1>
-        <p className="text-sm text-ink-soft mb-8">Phase S + T — local CMS/analytics view (demo).</p>
+        <p className="text-sm text-ink-soft mb-8">Internal preview — analytics from your browser session.</p>
 
         <div className="grid sm:grid-cols-3 gap-3 mb-8">
           <div className="soft-card rounded-2xl p-4">

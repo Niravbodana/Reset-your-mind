@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Copy, Check, LogOut } from "lucide-react";
+import { Copy, Check, LogOut, Smartphone } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { isTrialActive } from "@/lib/plans";
 import { uid } from "@/lib/storage";
@@ -18,7 +18,7 @@ const EMOJIS = [
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { ready, state, markPulse, checkinMood, patchUser, logout, activatePaid } = useApp();
+  const { ready, state, markPulse, checkinMood, patchUser, logout } = useApp();
   const [copied, setCopied] = useState(false);
   const user = state.user;
 
@@ -32,7 +32,7 @@ export default function DashboardPage() {
   const trialOk = user ? isTrialActive(user.trialEndsAt) || user.subStatus === "active" : false;
 
   if (!ready || !user) {
-    return <div className="pt-28 text-center text-muted">Loading dashboard…</div>;
+    return <div className="pt-28 text-center text-muted">Loading…</div>;
   }
 
   const refLink =
@@ -43,67 +43,91 @@ export default function DashboardPage() {
   return (
     <div className="pt-24 pb-16 px-4">
       <div className="mx-auto max-w-3xl">
+        <div className="soft-card border border-gold/20 rounded-2xl p-4 mb-6 flex gap-3 items-start">
+          <Smartphone size={18} className="text-gold-light shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <p className="font-semibold text-white">Web preview</p>
+            <p className="text-ink-soft mt-1">
+              You are viewing today&apos;s pulses in the browser. Push notifications will arrive with
+              the{" "}
+              <Link href="/#app" className="text-gold-light underline">
+                mobile app
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+
         <div className="flex items-start justify-between gap-4 mb-8">
           <div>
-            <p className="text-sm text-laser-2 mb-1">
-              {user.subStatus === "active" ? "ACTIVE" : trialOk ? "TRIAL" : "TRIAL ENDED"}
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-1">
+              {user.subStatus === "active" ? "Active" : trialOk ? "Early access" : "Preview ended"}
             </p>
-            <h1 className="font-display text-3xl font-bold">{user.name}, rise mode on</h1>
+            <h1 className="font-display text-3xl font-bold">Hello, {user.name}</h1>
             <p className="text-sm text-ink-soft mt-1">
               {user.streak} day streak · best {user.bestStreak} · {user.language}
             </p>
           </div>
-          <button type="button" onClick={logout} className="btn-secondary p-2.5 rounded-xl" aria-label="Logout">
+          <button type="button" onClick={logout} className="btn-secondary p-2.5 rounded-xl" aria-label="Sign out">
             <LogOut size={16} />
           </button>
         </div>
 
         {!trialOk && user.subStatus !== "active" && (
-          <div className="soft-card border border-laser/40 rounded-2xl p-5 mb-6">
-            <p className="font-semibold mb-2">Trial khatam — rise continue?</p>
-            <p className="text-sm text-ink-soft mb-4">Demo me 1-click activate. Production me Razorpay (Phase M).</p>
-            <button type="button" onClick={activatePaid} className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-              Activate {user.plan} (demo pay)
-            </button>
+          <div className="soft-card border border-gold/30 rounded-2xl p-5 mb-6">
+            <p className="font-semibold mb-2">Preview period ended</p>
+            <p className="text-sm text-ink-soft mb-4">
+              Paid subscriptions are not live yet. You are on the waitlist — we will email you at{" "}
+              {user.email} when billing opens.
+            </p>
+            <Link href="/pricing" className="btn-secondary inline-block px-5 py-2.5 rounded-xl text-sm">
+              View planned pricing
+            </Link>
           </div>
         )}
 
         <div className="grid sm:grid-cols-3 gap-3 mb-8">
           {[
-            { l: "Pulses read", v: `${readCount}/${pulses.length || 6}` },
+            { l: "Read today", v: `${readCount}/${pulses.length || 6}` },
             { l: "Streak", v: String(user.streak) },
             { l: "Actions done", v: String(pulses.filter((p) => p.actionDone).length) },
           ].map((s) => (
             <div key={s.l} className="soft-card rounded-2xl p-4">
               <p className="text-xs text-muted">{s.l}</p>
-              <p className="font-display text-2xl font-bold mt-1 laser-text">{s.v}</p>
+              <p className="font-display text-2xl font-bold mt-1 text-white">{s.v}</p>
             </div>
           ))}
         </div>
 
         <div className="flex flex-wrap gap-2 mb-6">
           <Link href="/family" className="btn-secondary px-4 py-2 rounded-xl text-xs">Family</Link>
-          <Link href="/programs" className="btn-secondary px-4 py-2 rounded-xl text-xs">21-day programs</Link>
+          <Link href="/programs" className="btn-secondary px-4 py-2 rounded-xl text-xs">Programs</Link>
           <Link href="/billing" className="btn-secondary px-4 py-2 rounded-xl text-xs">Billing</Link>
           <button
             type="button"
             onClick={() => patchUser({ softMode: !user.softMode })}
             className="btn-secondary px-4 py-2 rounded-xl text-xs"
           >
-            Soft mode: {user.softMode ? "ON" : "OFF"}
+            Soft mode: {user.softMode ? "On" : "Off"}
           </button>
         </div>
 
-        <h2 className="font-semibold mb-3">Today&apos;s pulses</h2>
+        <h2 className="font-semibold mb-3">Today&apos;s messages</h2>
+        <p className="text-xs text-muted mb-4">
+          On the app, these will appear as push notifications. For now, read them here.
+        </p>
         <div className="space-y-3 mb-8">
           {pulses.map((m) => (
-            <div key={m.id} className={`rounded-2xl p-4 border ${m.read ? "border-white/5 bg-white/[0.02] opacity-70" : "soft-card border-laser/30"}`}>
+            <div
+              key={m.id}
+              className={`rounded-2xl p-4 border ${m.read ? "border-white/5 bg-white/[0.02] opacity-75" : "soft-card border-gold/20"}`}
+            >
               <div className="flex justify-between gap-2 mb-1">
-                <p className="text-xs font-bold text-laser">{m.timeLabel}</p>
+                <p className="text-xs font-semibold text-gold-light">{m.timeLabel}</p>
                 <p className="text-[10px] uppercase text-muted">{m.area}</p>
               </div>
               <p className="text-sm leading-relaxed mb-3">{m.text}</p>
-              <p className="text-xs text-laser-2 mb-3">Action: {m.microAction}</p>
+              <p className="text-xs text-muted mb-3">Suggested action: {m.microAction}</p>
               <div className="flex gap-2">
                 {!m.read && (
                   <button type="button" onClick={() => markPulse(m.id, { read: true })} className="btn-secondary px-3 py-1.5 rounded-lg text-xs">
@@ -111,8 +135,12 @@ export default function DashboardPage() {
                   </button>
                 )}
                 {!m.actionDone && (
-                  <button type="button" onClick={() => markPulse(m.id, { read: true, actionDone: true })} className="btn-primary px-3 py-1.5 rounded-lg text-xs">
-                    Action done
+                  <button
+                    type="button"
+                    onClick={() => markPulse(m.id, { read: true, actionDone: true })}
+                    className="btn-primary px-3 py-1.5 rounded-lg text-xs"
+                  >
+                    Done
                   </button>
                 )}
               </div>
@@ -121,7 +149,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="soft-card rounded-2xl p-5 mb-6">
-          <p className="font-semibold text-sm mb-2">Mood now?</p>
+          <p className="font-semibold text-sm mb-2">How are you feeling?</p>
           <div className="flex gap-2">
             {EMOJIS.map((item) => (
               <button
@@ -137,13 +165,14 @@ export default function DashboardPage() {
             ))}
           </div>
           {state.moods[0] && (
-            <p className="text-xs text-muted mt-3">Last: {state.moods[0].emoji} · score {state.moods[0].score}</p>
+            <p className="text-xs text-muted mt-3">Last check-in: {state.moods[0].emoji}</p>
           )}
         </div>
 
         <div className="soft-card rounded-2xl p-5">
-          <p className="font-semibold text-sm mb-1">Referral — both get 1 month free (Phase P)</p>
-          <div className="flex gap-2 mt-3">
+          <p className="font-semibold text-sm mb-1">Invite someone</p>
+          <p className="text-xs text-muted mb-3">Share your link — referral rewards when we launch billing.</p>
+          <div className="flex gap-2">
             <code className="flex-1 text-xs bg-black/50 rounded-lg px-3 py-2.5 truncate border border-white/10">{refLink}</code>
             <button
               type="button"
