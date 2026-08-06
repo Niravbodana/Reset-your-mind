@@ -5,11 +5,11 @@ import { Languages } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
 import type { UiLang } from "@/lib/i18n";
 
-/** India launch languages — Hinglish default */
+/** India launch languages — English default */
 const INDIA_LANGS: { code: UiLang; native: string; label: string }[] = [
-  { code: "hinglish", native: "Hinglish", label: "Default" },
+  { code: "en", native: "English", label: "Default" },
+  { code: "hinglish", native: "Hinglish", label: "Hinglish" },
   { code: "hi", native: "हिन्दी", label: "Hindi" },
-  { code: "en", native: "English", label: "English" },
 ];
 
 export function LanguageSelect({ compact = false }: { compact?: boolean }) {

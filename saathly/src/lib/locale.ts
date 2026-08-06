@@ -31,14 +31,12 @@ export function detectRegion(): Region {
 
 export function detectPreferredLanguage(region?: Region): Language {
   const r = region ?? detectRegion();
-  if (typeof navigator === "undefined") return r === "IN" ? "hinglish" : "english";
+  if (typeof navigator === "undefined") return "english";
   const langs = (navigator.languages?.length ? navigator.languages : [navigator.language]).map((l) =>
     l.toLowerCase()
   );
   if (langs.some((l) => l.startsWith("hi"))) return "hinglish";
-  if (r === "IN" && langs.some((l) => l.startsWith("en-in"))) return "hinglish";
-  if (langs.some((l) => l.startsWith("en"))) return "english";
-  return r === "IN" ? "hinglish" : "english";
+  return "english";
 }
 
 export function buildLocaleProfile(): LocaleProfile {

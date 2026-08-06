@@ -42,9 +42,9 @@ type Stored = Partial<LocaleProfile> & { uiLang?: UiLang; regionLocked?: boolean
 const INDIA_PROFILE: LocaleProfile & { uiLang: UiLang } = {
   region: "IN",
   currency: "INR",
-  language: "hinglish",
+  language: "english",
   marketLabel: "India",
-  uiLang: "hinglish",
+  uiLang: "en",
 };
 
 function forceIndia(
@@ -59,16 +59,12 @@ function forceIndia(
     // Keep explicit English if user picked it; otherwise Hinglish
     uiLang:
       profile.uiLang === "en" || profile.uiLang === "hi" || profile.uiLang === "hinglish"
-        ? profile.uiLang === "en"
-          ? "en"
-          : profile.uiLang === "hi"
-            ? "hi"
-            : "hinglish"
-        : "hinglish",
+        ? profile.uiLang
+        : "en",
     language:
-      profile.language === "english" || profile.language === "hindi"
+      profile.language === "english" || profile.language === "hindi" || profile.language === "hinglish"
         ? profile.language
-        : "hinglish",
+        : "english",
   };
 }
 
@@ -82,15 +78,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as Stored;
-        let uiLang: UiLang = parsed.uiLang || "hinglish";
-        let language = (parsed.language as Language) || "hinglish";
+        let uiLang: UiLang = parsed.uiLang || "en";
+        let language = (parsed.language as Language) || "english";
 
-        // Migrate old defaults
         if (uiLang === "hi" && language === "hinglish") uiLang = "hinglish";
-        if (INDIA_ONLY) {
-          if (uiLang === "en" && !parsed.uiLang) uiLang = "hinglish";
-          if (language === "english" && !parsed.language) language = "hinglish";
-        }
 
         const next = forceIndia({
           region: "IN",
@@ -100,10 +91,9 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
           uiLang: uiLang === "hinglish" || uiLang === "hi" || uiLang === "en" ? uiLang : "hinglish",
         });
 
-        // Fresh India launch: if stored was Worldwide, reset to Hinglish
         if (parsed.region === "GLOBAL" || parsed.currency === "USD") {
-          next.uiLang = "hinglish";
-          next.language = "hinglish";
+          next.uiLang = "en";
+          next.language = "english";
         }
 
         setRegionLockedState(INDIA_ONLY || Boolean(parsed.regionLocked));
@@ -196,7 +186,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   const t = (key: string) => translate(profile.uiLang, key);
 
-  // India launch: Hinglish marketing unless user explicitly picks English UI
+  // India launch: English UI default; Hinglish/Hindi when user picks them
   const preferEnglish = profile.uiLang === "en" || profile.language === "english";
 
   const value = useMemo(
@@ -224,16 +214,16 @@ export function useLocale() {
     return {
       region: "IN" as Region,
       currency: "INR" as DisplayCurrency,
-      language: "hinglish" as Language,
+      language: "english" as Language,
       marketLabel: "India",
-      uiLang: "hinglish" as UiLang,
+      uiLang: "en" as UiLang,
       setRegion: () => {},
       setCurrency: () => {},
       setUiLang: () => {},
       setLanguage: () => {},
       regionLocked: true,
       setRegionLocked: () => {},
-      t: (key: string) => translate("hinglish", key),
+      t: (key: string) => translate("en", key),
       preferEnglish: false,
       ready: false,
     };

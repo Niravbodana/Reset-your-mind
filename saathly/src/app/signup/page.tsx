@@ -179,9 +179,9 @@ function SignupForm() {
   };
 
   const msgLanguages: { id: Language; label: string; sub: string }[] = [
-    { id: "hinglish", label: "Hinglish", sub: "India default" },
+    { id: "english", label: "English", sub: "Default" },
+    { id: "hinglish", label: "Hinglish", sub: "Roman Hindi mix" },
     { id: "hindi", label: "Hindi", sub: "Shuddh Hindi" },
-    { id: "english", label: "English", sub: "Optional" },
   ];
 
   if (done) {

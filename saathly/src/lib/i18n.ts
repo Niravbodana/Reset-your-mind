@@ -361,7 +361,7 @@ export function isRtl(lang: UiLang): boolean {
 
 /**
  * Message bank language from UI lang + region.
- * Defaults: India → Hinglish · Worldwide → English
+ * Defaults: India → English · Worldwide → English
  */
 export function messageLanguageFor(
   region: "IN" | "GLOBAL",
@@ -384,7 +384,7 @@ export function defaultsForRegion(region: "IN" | "GLOBAL"): {
   language: "english" | "hindi" | "hinglish";
 } {
   if (region === "IN") {
-    return { uiLang: "hinglish", language: "hinglish" };
+    return { uiLang: "en", language: "english" };
   }
   return { uiLang: "en", language: "english" };
 }
