@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Hero } from "@/components/Hero";
 import { SocialProof } from "@/components/SocialProof";
-import { HopeTransformation } from "@/components/HopeTransformation";
+import { MotivationTransformation } from "@/components/MotivationTransformation";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { NoSpamPromise } from "@/components/NoSpamPromise";
 import { getMessageBankStats } from "@/lib/message-bank";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: `${COUNT}+ unique daily motivation messages in Hinglish, Hindi, English — aapke naam ke saath. ₹99/month + EMI/bill reminders. Made in India.`,
   openGraph: {
     title: "Daily Motivation — RIZN",
-    description: "Daily messages with your name. Small steps, real hope. ₹99/month.",
+    description: "Daily messages with your name. Small steps, real motivation. ₹99/month.",
   },
 };
 
@@ -38,7 +38,7 @@ export default function DailyMotivationLandingPage() {
         </div>
       </section>
       <SocialProof />
-      <HopeTransformation />
+      <MotivationTransformation />
       <StickyMobileCTA />
     </div>
   );

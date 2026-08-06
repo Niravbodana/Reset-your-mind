@@ -172,7 +172,7 @@ mind = gen_area("mind", [
 ("Small joy", "chhoti khushi notice kijiye", "छोटी खुशी", "notice small joy"),
 ("Mental priority", "mental health priority — guilt nahi", "मानसिक स्वास्थ्य प्राथमिकता", "mental health is priority — no guilt"),
 ("Let go", "ek cheez chhod dena freedom hai", "एक चीज़ छोड़ना", "letting go one thing is freedom"),
-("Hope gentle", "hope gentle rakho — kal better ho sakta hai", "कोमल आशा", "keep hope gentle — tomorrow can be better"),
+("Motivation gentle", "motivation gentle rakho — kal better ho sakta hai", "कोमल प्रेरणा", "keep motivation gentle — tomorrow can be better"),
 ("You matter", "aap matter karte hain — feelings valid hain", "आप महत्वपूर्ण", "you matter — feelings are valid"),
 ])
 
@@ -256,7 +256,7 @@ daily = gen_area("daily", [
 ("Notice good", "aaj kuch achha notice kijiye", "अच्छा ध्यान", "notice something good today"),
 ("Self praise", "khud ko compliment — try kar rahe hain", "खुद प्रशंसा", "compliment yourself — you are trying"),
 ("Energy cut", "ek drain gently cut kar sakte hain", "एक थकान कम", "you can gently cut one energy drain"),
-("Vision hope", "dream life ki ek image — hope ke liye", "सपने की तस्वीर", "one dream image — for hope"),
+("Vision motivation", "dream life ki ek image — motivation ke liye", "सपने की तस्वीर", "one dream image — for motivation"),
 ("Say no", "ek baar na bolna time respect", "एक बार ना", "saying no once respects your time"),
 ("Podcast walk", "15 min podcast walk — gentle growth", "पॉडकास्ट टहलना", "fifteen-minute podcast walk — gentle growth"),
 ("Win journal", "aaj ki win likhna momentum hai", "जीत लिखना", "writing today's win is momentum"),
@@ -264,7 +264,7 @@ daily = gen_area("daily", [
 ("Thank stranger", "thank you bolna humanity hai", "धन्यवाद मानवता", "saying thank you is humanity"),
 ("Organize desk", "desk organize — focus better", "डेस्क व्यवस्थित", "organize desk — better focus"),
 ("Learn fact", "ek nayi fact — curiosity beautiful", "नई बात", "one new fact — curiosity is beautiful"),
-("Carry hope", "hope carry karna strength hai", "आशा साहस", "carrying hope is strength"),
+("Carry motivation", "motivation carry karna strength hai", "प्रेरणा साहस", "carrying motivation is strength"),
 ("Gentle discipline", "discipline gentle ho sakti hai", "कोमल अनुशासन", "discipline can be gentle"),
 ("Present breath", "ek breath present moment me", "एक साँस वर्तमान", "one breath in present moment"),
 ("Enough today", "aaj ke liye enough ho — yaad rakhiye", "आज पर्याप्त", "you are enough for today"),
@@ -272,7 +272,7 @@ daily = gen_area("daily", [
 ("RIZN saath", "RIZN aapke saath hai — kal bhi message", "RIZN साथ", "RIZN is with you — message tomorrow too"),
 ("Kind self daily", "aaj khud ke saath kind raho", "आज दयालु", "be kind to yourself today"),
 ("Progress write", "progress likhna — growth visible", "प्रगति लिखना", "writing progress makes growth visible"),
-("Tomorrow hope", "kal naya din — hope rakho", "कल नया दिन", "tomorrow is new day — keep hope"),
+("Tomorrow motivation", "kal naya din — motivation rakho", "कल नया दिन", "tomorrow is new day — keep motivation"),
 ])
 
 BODIES["health"] = health

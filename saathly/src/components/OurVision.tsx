@@ -31,19 +31,19 @@ export function OurVision() {
               {preferEnglish ? (
                 <>
                   Change every mindset toward{" "}
-                  <span className="text-gold-light">positivity</span> — full of energy, full of hope.
+                  <span className="text-gold-light">positivity</span> — full of energy, full of motivation.
                 </>
               ) : (
                 <>
                   Har insaan ka mindset{" "}
-                  <span className="text-gold-light">positive</span> ho — full of energy, full of hope.
+                  <span className="text-gold-light">positive</span> ho — full of energy, full of motivation.
                 </>
               )}
             </h2>
             <p className="text-ink-soft text-[15px] sm:text-base leading-relaxed mb-8">
               {preferEnglish
-                ? "RIZN is built to shift how people think — from stress and doubt to hope, energy, and action. Daily motivation, gentle habits, and real support — so you never feel alone on the journey."
-                : "RIZN logon ka sochne ka tareeka badalna chahta hai — stress se hope, energy aur action ki taraf. Daily motivation, chhoti habits aur asli support — taaki koi bhi akela feel na kare."}
+                ? "RIZN is built to shift how people think — from stress and doubt to motivation, energy, and action. Daily motivation, gentle habits, and real support — so you never feel alone on the journey."
+                : "RIZN logon ka sochne ka tareeka badalna chahta hai — stress se motivation, energy aur action ki taraf. Daily motivation, chhoti habits aur asli support — taaki koi bhi akela feel na kare."}
             </p>
 
             <div className="grid sm:grid-cols-3 gap-3">
@@ -71,7 +71,7 @@ export function OurVision() {
                     alt={
                       preferEnglish
                         ? "Person feeling positive energy at sunrise — RIZN vision"
-                        : "Positive energy aur hope — RIZN vision"
+                        : "Positive energy aur motivation — RIZN vision"
                     }
                     fill
                     className="object-cover object-center"

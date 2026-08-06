@@ -2,7 +2,7 @@ import { Hero } from "@/components/Hero";
 import { OurVision } from "@/components/OurVision";
 import { SocialProof } from "@/components/SocialProof";
 import { FeaturesShowcase } from "@/components/FeaturesShowcase";
-import { HopeTransformation } from "@/components/HopeTransformation";
+import { MotivationTransformation } from "@/components/MotivationTransformation";
 import { NotificationFlow } from "@/components/NotificationFlow";
 import { PricingSection } from "@/components/PricingSection";
 import { FaqSection } from "@/components/FaqSection";
@@ -18,7 +18,7 @@ export default function HomePage() {
       <SocialProof />
       <OurVision />
       <FeaturesShowcase />
-      <HopeTransformation />
+      <MotivationTransformation />
       <NotificationFlow />
       <PricingSection />
       <FaqSection />

@@ -94,11 +94,11 @@ export function NotificationFlow() {
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
             {isIN ? (
               <>
-                Ek rasta — roz chhote steps, <span className="text-gold-light">badi hope</span>
+                Ek rasta — roz chhote steps, <span className="text-gold-light">badi motivation</span>
               </>
             ) : (
               <>
-                One path — small daily steps, <span className="text-gold-light">real hope</span>
+                One path — small daily steps, <span className="text-gold-light">real motivation</span>
               </>
             )}
           </h2>

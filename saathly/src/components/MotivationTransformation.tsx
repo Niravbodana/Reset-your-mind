@@ -55,7 +55,7 @@ const STORIES_GLOBAL = [
 
 const ROTATE_MS = 8000;
 
-export function HopeTransformation() {
+export function MotivationTransformation() {
   const { region, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
   const stories = isIN ? STORIES_IN : STORIES_GLOBAL;

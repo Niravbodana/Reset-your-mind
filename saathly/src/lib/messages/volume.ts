@@ -313,7 +313,7 @@ export const MESSAGE_BANK_VOLUME: MessageTemplate[] = [
     area: "career",
     slot: "afternoon",
     microAction: "Exit plan 1 line",
-    hinglish: "{name}, toxic job? Exit plan ki 1 line — hope + action.",
+    hinglish: "{name}, toxic job? Exit plan ki 1 line — motivation + action.",
     hindi: "{name}, निकास योजना लिखिए।",
     english: "{name}, one line of exit plan if work is toxic.",
   },

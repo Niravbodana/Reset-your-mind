@@ -120,7 +120,7 @@ const MESSAGE_BANK_CORE: MessageTemplate[] = [
     area: "daily",
     slot: "midday",
     microAction: "Progress check — 1 line",
-    hinglish: "{name}, half day ho gaya. Ek line likho: aaj kya achha hua? Hope banaye rakho.",
+    hinglish: "{name}, half day ho gaya. Ek line likho: aaj kya achha hua? Motivation banaye rakho.",
     hindi: "{name}, आधा दिन हो गया। एक पंक्ति: आज क्या अच्छा हुआ?",
     english: "{name}, half the day is done. Write one line: what went well so far?",
   },
