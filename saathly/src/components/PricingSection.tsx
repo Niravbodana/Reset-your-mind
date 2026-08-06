@@ -41,7 +41,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
     <section id="pricing" className="py-16 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {showTitle && (
-          <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
+          <ScrollReveal variant="blur-up" className="text-center max-w-2xl mx-auto mb-12">
             <p className="section-label mb-3">Pricing</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
               Simple. <span className="text-gold-light">{priceLabel}.</span> Everything included.
@@ -53,7 +53,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
         )}
 
         <div className="grid lg:grid-cols-2 gap-8 items-start">
-          <ScrollReveal delay={0.05}>
+          <ScrollReveal variant="left" delay={0.05}>
             <div className="rounded-2xl p-6 sm:p-8 relative bg-bg-card border border-gold/35 shadow-xl shadow-gold/5">
               <span className="absolute -top-3 left-6 bg-gold text-black text-[11px] font-bold px-3 py-1 rounded-full">
                 RIZN Personal
@@ -81,7 +81,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.1}>
+          <ScrollReveal variant="right" delay={0.08}>
             <div className="premium-card rounded-2xl overflow-hidden border border-white/10">
               <div className="px-5 py-4 border-b border-white/10">
                 <h3 className="font-semibold text-white text-sm">Why ₹99/month?</h3>

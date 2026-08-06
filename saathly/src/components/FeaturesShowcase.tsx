@@ -173,11 +173,13 @@ const FEATURES: Feature[] = [
   },
 ];
 
+const CARD_VARIANTS = ["up", "left", "right", "scale"] as const;
+
 export function FeaturesShowcase() {
   return (
     <section id="features" className="py-16 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <ScrollReveal className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        <ScrollReveal variant="blur-up" className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <p className="section-label mb-3">Everything included</p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
             One app.{" "}
@@ -190,7 +192,11 @@ export function FeaturesShowcase() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f, i) => (
-            <ScrollReveal key={f.title} delay={Math.min(i * 0.02, 0.2)}>
+            <ScrollReveal
+              key={f.title}
+              variant={CARD_VARIANTS[i % CARD_VARIANTS.length]}
+              delay={Math.min(i * 0.03, 0.21)}
+            >
               <article className="group soft-card rounded-2xl p-5 border border-white/10 hover:border-gold/25 transition-all duration-300 h-full flex flex-col">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 text-gold mb-4 group-hover:scale-105 transition-transform">
                   <f.icon size={18} aria-hidden />

@@ -6,6 +6,7 @@ import { Sparkles } from "lucide-react";
 import { MESSAGE_BANK } from "@/lib/message-bank";
 import { formatEmiNotification, DEMO_EMI } from "@/lib/emi-reminder";
 import { useLocale } from "@/context/LocaleContext";
+import { ScrollReveal } from "./ScrollReveal";
 
 const STORIES_IN = [
   {
@@ -72,7 +73,7 @@ export function MotivationTransformation() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.03] to-transparent pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 md:px-6 relative">
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+        <ScrollReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <p className="section-label mb-3">Before & After</p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
             {isIN ? (
@@ -90,10 +91,11 @@ export function MotivationTransformation() {
           <p className="text-ink-soft text-[15px] sm:text-base md:text-lg leading-relaxed">
             Real stories. Small steps. A daily path with your name.
           </p>
-        </div>
+        </ScrollReveal>
 
         <div className="relative">
           <div className="grid gap-3 md:grid-cols-2 md:gap-4">
+            <ScrollReveal variant="left" delay={0.05}>
             <div className="relative aspect-[4/3] sm:aspect-[16/10] min-h-[220px] rounded-2xl overflow-hidden border border-white/10 bg-[#1a1520] shadow-xl">
               <Image
                 src={story.beforeImg}
@@ -115,7 +117,9 @@ export function MotivationTransformation() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
 
+            <ScrollReveal variant="right" delay={0.08}>
             <div className="relative aspect-[4/3] sm:aspect-[16/10] min-h-[220px] rounded-2xl overflow-hidden border border-gold/25 bg-[#151510] shadow-xl">
               <Image
                 src={story.afterImg}
@@ -137,9 +141,10 @@ export function MotivationTransformation() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
           </div>
 
-          <div className="mt-5 sm:mt-6">
+          <ScrollReveal variant="scale" delay={0.1} className="mt-5 sm:mt-6">
             <div className="premium-card rounded-2xl p-5 sm:p-6 border border-gold/20 bg-black/75 shadow-2xl shadow-gold/10 min-h-[168px] flex flex-col justify-center">
               <p className="text-xs font-semibold uppercase tracking-wider text-gold-light mb-3 text-center">
                 {isIN
@@ -153,8 +158,9 @@ export function MotivationTransformation() {
                 → {story.action}
               </p>
             </div>
-          </div>
+          </ScrollReveal>
 
+          <ScrollReveal variant="fade" delay={0.14}>
           <div className="flex justify-center gap-2 mt-8">
             {stories.map((s, i) => (
               <button
@@ -172,6 +178,7 @@ export function MotivationTransformation() {
               </button>
             ))}
           </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

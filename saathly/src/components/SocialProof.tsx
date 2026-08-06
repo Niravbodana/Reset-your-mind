@@ -46,21 +46,18 @@ export function SocialProof() {
   return (
     <section className="border-y border-white/5 bg-bg-elevated/40 py-10 sm:py-14" aria-label="Social proof">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <ScrollReveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-5 text-center"
-              >
-                <p className="font-display text-2xl sm:text-3xl font-bold text-white">{s.value}</p>
-                <p className="text-xs text-muted mt-1">{s.label}</p>
-              </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            {stats.map((s, i) => (
+              <ScrollReveal key={s.label} variant="scale" delay={i * 0.04}>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-5 text-center h-full">
+                  <p className="font-display text-2xl sm:text-3xl font-bold text-white">{s.value}</p>
+                  <p className="text-xs text-muted mt-1">{s.label}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
-        </ScrollReveal>
 
-        <ScrollReveal delay={0.06}>
+        <ScrollReveal variant="fade" delay={0.05}>
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="flex gap-0.5" aria-label="5 out of 5 stars">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -73,7 +70,11 @@ export function SocialProof() {
 
         <div className="grid md:grid-cols-3 gap-4">
           {REVIEWS.map((r, i) => (
-            <ScrollReveal key={r.name} delay={0.08 + i * 0.04}>
+            <ScrollReveal
+              key={r.name}
+              variant={i === 0 ? "left" : i === 1 ? "up" : "right"}
+              delay={0.06 + i * 0.05}
+            >
               <article className="premium-card rounded-2xl p-5 border border-white/10 h-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-gold/30">

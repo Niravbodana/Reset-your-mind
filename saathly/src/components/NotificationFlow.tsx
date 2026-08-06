@@ -3,6 +3,7 @@
 import { Bell, Globe, CreditCard } from "lucide-react";
 import { getMessageBankStats } from "@/lib/message-bank";
 import { useLocale } from "@/context/LocaleContext";
+import { ScrollReveal } from "./ScrollReveal";
 
 const MESSAGE_COUNT = getMessageBankStats().total;
 
@@ -89,7 +90,7 @@ export function NotificationFlow() {
   return (
     <section id="how" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <div className="max-w-2xl mb-8 sm:mb-14">
+        <ScrollReveal variant="blur-up" className="max-w-2xl mb-8 sm:mb-14">
           <p className="section-label mb-3">How it works</p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
             {isIN ? (
@@ -107,11 +108,12 @@ export function NotificationFlow() {
               ? "RIZN sirf notifications nahi bhejta — tumhari life me value add karta hai. Har message alag, har din naya. Tum feel karoge: ye alerts meri wajah se accha ho raha hai."
               : "RIZN doesn’t just send notifications — it adds value to your day. Every message is different. You’ll feel these alerts are helping because they’re for you."}
           </p>
-        </div>
+        </ScrollReveal>
 
         <div className="grid md:grid-cols-3 gap-4 mb-16">
-          {channels.map((c) => (
-            <article key={c.title} className="soft-card rounded-2xl p-6">
+          {channels.map((c, i) => (
+            <ScrollReveal key={c.title} variant={i === 0 ? "up" : i === 1 ? "scale" : "right"} delay={i * 0.05}>
+            <article className="soft-card rounded-2xl p-6 h-full">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-11 h-11 rounded-xl bg-accent-soft flex items-center justify-center">
                   <c.icon size={20} className="text-gold-light" />
@@ -123,10 +125,12 @@ export function NotificationFlow() {
               <h3 className="font-semibold text-lg text-white mb-2">{c.title}</h3>
               <p className="text-sm text-ink-soft leading-relaxed">{c.desc}</p>
             </article>
+            </ScrollReveal>
           ))}
         </div>
 
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
+          <ScrollReveal variant="left" delay={0.05}>
           <div>
             <p className="section-label mb-3">{isIN ? "Tumhara din" : "Your day"}</p>
             <h3 className="font-display text-2xl font-bold text-white mb-6">
@@ -146,7 +150,9 @@ export function NotificationFlow() {
               ))}
             </div>
           </div>
+          </ScrollReveal>
 
+          <ScrollReveal variant="right" delay={0.08}>
           <div className="soft-card rounded-2xl p-6 md:p-8">
             <p className="font-semibold text-white mb-4">
               {isIN
@@ -178,6 +184,7 @@ export function NotificationFlow() {
                 : "Actual times = your interval + enabled anchors"}
             </p>
           </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

@@ -25,7 +25,7 @@ export function OurVision() {
       <div className="absolute inset-0 bg-gradient-to-b from-gold/[0.05] via-transparent to-transparent pointer-events-none" />
       <div className="relative mx-auto max-w-6xl px-4 md:px-6">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <ScrollReveal className="order-2 lg:order-1">
+          <ScrollReveal variant="right" className="order-2 lg:order-1">
             <p className="section-label mb-3">{preferEnglish ? "Our vision" : "Hamara vision"}</p>
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-5 tracking-tight leading-tight">
               {preferEnglish ? (
@@ -61,7 +61,7 @@ export function OurVision() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.06} className="order-1 lg:order-2">
+          <ScrollReveal variant="left" delay={0.05} className="order-1 lg:order-2">
             <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
               <div className="absolute -inset-3 bg-gradient-to-br from-gold/25 via-transparent to-gold/10 rounded-3xl blur-2xl opacity-70" />
               <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-gold/30 shadow-2xl shadow-gold/10">

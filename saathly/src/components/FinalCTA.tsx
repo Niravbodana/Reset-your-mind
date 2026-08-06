@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { ScrollReveal } from "./ScrollReveal";
 
 export function FinalCTA() {
   const config = useSiteConfig();
@@ -12,6 +13,7 @@ export function FinalCTA() {
     <section className="py-16 sm:py-24 md:py-32 relative overflow-hidden" aria-label="Get started">
       <div className="absolute inset-0 bg-gradient-to-b from-gold/[0.06] via-transparent to-transparent pointer-events-none" />
       <div className="mx-auto max-w-4xl px-4 md:px-6 text-center relative">
+        <ScrollReveal variant="rotate-in">
         <div className="premium-card shimmer-border rounded-2xl sm:rounded-3xl p-6 sm:p-12 md:p-16">
           <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-gold-light mx-auto mb-4" aria-hidden />
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-5">
@@ -33,6 +35,7 @@ export function FinalCTA() {
             {trialDays}-day free trial · Cancel anytime · No spam
           </p>
         </div>
+        </ScrollReveal>
       </div>
     </section>
   );
