@@ -2,7 +2,6 @@
  * India launch flow audit — simulates many customer profiles locally
  * and hits public APIs. Run: node scripts/india-flow-audit.mjs
  */
-import { createRequire } from "module";
 
 const BASE = process.env.RIZN_BASE || "http://127.0.0.1:3000";
 const issues = [];

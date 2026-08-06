@@ -79,7 +79,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw) as Stored;
         let uiLang: UiLang = parsed.uiLang || "en";
-        let language = (parsed.language as Language) || "english";
+        const language = (parsed.language as Language) || "english";
 
         if (uiLang === "hi" && language === "hinglish") uiLang = "hinglish";
 
@@ -184,7 +184,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     [persist]
   );
 
-  const t = (key: string) => translate(profile.uiLang, key);
+  const t = useCallback((key: string) => translate(profile.uiLang, key), [profile.uiLang]);
 
   // India launch: English UI default; Hinglish/Hindi when user picks them
   const preferEnglish = profile.uiLang === "en" || profile.language === "english";
@@ -202,7 +202,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       preferEnglish,
       ready,
     }),
-    [profile, ready, regionLocked, setRegion, setCurrency, setUiLang, setLanguage, setRegionLocked]
+    [profile, ready, regionLocked, setRegion, setCurrency, setUiLang, setLanguage, setRegionLocked, preferEnglish, t]
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

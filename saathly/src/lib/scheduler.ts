@@ -7,8 +7,6 @@ import {
   type ScheduleAnchors,
   type TimeString,
   DEFAULT_INTERVAL,
-  DEFAULT_SLEEP,
-  DEFAULT_WAKE,
   defaultAnchors,
   formatTimeLabel,
   minutesToTimeString,
@@ -42,7 +40,7 @@ export function buildPulseSchedule(
   anchors: ScheduleAnchors,
   softMode: boolean
 ): TimeString[] {
-  let wake = parseTimeToMinutes(wakeTime);
+  const wake = parseTimeToMinutes(wakeTime);
   let sleep = parseTimeToMinutes(sleepTime);
   if (sleep <= wake) sleep += 24 * 60;
 

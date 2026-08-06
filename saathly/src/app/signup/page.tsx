@@ -31,7 +31,6 @@ function SignupForm() {
   const { region, t, preferEnglish, setLanguage: setLocaleMsgLang, setRegionLocked } =
     useLocale();
   const priceLabel = regionPersonalPriceLabel(config, region);
-  const isIN = region === "IN" && !preferEnglish;
   const crisis = crisisResources(region);
 
   const [step, setStep] = useState(1);
@@ -157,7 +156,7 @@ function SignupForm() {
     }, 600);
     const hard = window.setTimeout(() => {
       if (window.location.pathname.startsWith("/signup")) {
-        window.location.assign("/billing?trial=1&welcome=1");
+        router.replace("/billing?trial=1&welcome=1");
       }
     }, 2000);
     return () => {

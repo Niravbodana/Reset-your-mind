@@ -88,7 +88,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (s.user) {
       const migrated = migrateUserSchedule(s.user);
       const user = updateStreak(migrated);
-      let gen = ensureTodayPulses(user, s.pulses);
+      const gen = ensureTodayPulses(user, s.pulses);
       s = applyPulseGen(s, user, gen);
       s = syncMessageBankIfNeeded(s);
     }

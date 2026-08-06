@@ -30,8 +30,9 @@ export function detectRegion(): Region {
 }
 
 export function detectPreferredLanguage(region?: Region): Language {
-  const r = region ?? detectRegion();
-  if (typeof navigator === "undefined") return "english";
+  if (typeof navigator === "undefined") {
+    return region === "IN" ? "hinglish" : "english";
+  }
   const langs = (navigator.languages?.length ? navigator.languages : [navigator.language]).map((l) =>
     l.toLowerCase()
   );
@@ -49,11 +50,7 @@ export function buildLocaleProfile(): LocaleProfile {
   };
 }
 
-export function formatMoney(
-  amount: number,
-  currency: DisplayCurrency,
-  opts?: { compact?: boolean }
-): string {
+export function formatMoney(amount: number, currency: DisplayCurrency): string {
   if (currency === "USD") {
     return new Intl.NumberFormat("en-US", {
       style: "currency",

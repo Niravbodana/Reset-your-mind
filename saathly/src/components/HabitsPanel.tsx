@@ -19,13 +19,9 @@ export function HabitsPanel() {
   const { state, patchUser, trackEvent } = useApp();
   const { region, preferEnglish } = useLocale();
   const user = state.user;
-  if (!user) return null;
-
-  const isIN = region === "IN" && !preferEnglish;
-  const goals = getHabitGoals(user);
-  const day = getHabitDay(user);
   const [tracking, setTracking] = useState(false);
   const lastPeak = useRef(0);
+  const day = user ? getHabitDay(user) : { steps: 0, water: 0, sleepDone: false };
   const stepBuf = useRef(day.steps);
 
   useEffect(() => {
@@ -34,7 +30,7 @@ export function HabitsPanel() {
 
   // Live-ish step tracking via device motion (when user starts a walk)
   useEffect(() => {
-    if (!tracking) return;
+    if (!user || !tracking) return;
 
     const onMotion = (e: DeviceMotionEvent) => {
       const a = e.accelerationIncludingGravity;
@@ -77,7 +73,12 @@ export function HabitsPanel() {
       patchUser({ habitDays: next.habitDays });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tracking]);
+  }, [tracking, user]);
+
+  if (!user) return null;
+
+  const isIN = region === "IN" && !preferEnglish;
+  const goals = getHabitGoals(user);
 
   const setSteps = (steps: number) => {
     haptic("light");
