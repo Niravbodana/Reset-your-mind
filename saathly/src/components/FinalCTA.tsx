@@ -43,8 +43,7 @@ export function FinalCTA() {
             <ArrowRight size={20} className="shrink-0" />
           </Link>
           <p className="mt-6 text-xs text-muted">
-            {config.marketing.trialDays}-day free trial · Cancel anytime ·{" "}
-            {region === "IN" ? "India" : "Worldwide"}
+            {config.marketing.trialDays}-day free trial · Cancel anytime
           </p>
         </div>
       </div>

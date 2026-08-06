@@ -59,7 +59,7 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
                 </>
               ) : (
                 <>
-                  Sirf <span className="text-gold-light">{priceLabel}</span> — India
+                  Full plan — <span className="text-gold-light">{priceLabel}</span>
                 </>
               )}
             </h2>

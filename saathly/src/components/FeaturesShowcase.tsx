@@ -156,10 +156,10 @@ const FEATURES: Feature[] = [
   },
   {
     icon: Globe2,
-    titleIN: "India ke liye bana",
-    titleEN: "Built for India",
-    bodyIN: "Hinglish/Hindi/English · sirf ₹ pricing · India crisis helplines.",
-    bodyEN: "Hinglish/Hindi/English · ₹ pricing only · India crisis helplines.",
+    titleIN: "Apni bhasha me",
+    titleEN: "Your language",
+    bodyIN: "Hinglish / Hindi / English — jo tumhe comfortable lage.",
+    bodyEN: "Hinglish / Hindi / English — whatever feels natural to you.",
   },
 ];
 

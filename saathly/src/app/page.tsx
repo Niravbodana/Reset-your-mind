@@ -12,11 +12,13 @@ import { FaqSection } from "@/components/FaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { NoSpamPromise } from "@/components/NoSpamPromise";
+import { OurVision } from "@/components/OurVision";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <OurVision />
       <section className="py-8 px-4 border-b border-white/5">
         <div className="mx-auto max-w-xl">
           <NoSpamPromise />
