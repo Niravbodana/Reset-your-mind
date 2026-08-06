@@ -82,7 +82,7 @@ export default function DashboardPage() {
       <div className="relative min-h-[200px] sm:min-h-[220px] overflow-hidden border-b border-white/10">
         <Image
           src="/images/person-wellness.jpg"
-          alt=""
+          alt="Calm wellness background"
           fill
           className="object-cover object-top"
           priority
