@@ -14,8 +14,16 @@ Open http://localhost:3000
 
 If git pull fails due to local changes:
 ```bash
-git reset --hard origin/cursor/saathly-website-9e8a
+git reset --hard origin/main
 ```
+
+## Download source (ZIP)
+
+Direct download (~31 MB):
+
+https://codeload.github.com/Niravbodana/Reset-your-mind/zip/refs/heads/main
+
+On mobile: long-press the link → **Download Linked File** (Safari tap alone may give 0 KB).
 
 ## Product status
 
