@@ -287,6 +287,14 @@ export default function DashboardPage() {
           <Link href="/billing" className="text-muted hover:text-white min-h-[44px] flex items-center">
             Plan
           </Link>
+          <span className="text-muted self-center">·</span>
+          <Link href="/programs" className="text-muted hover:text-white min-h-[44px] flex items-center">
+            Programs
+          </Link>
+          <span className="text-muted self-center">·</span>
+          <Link href="/family" className="text-muted hover:text-white min-h-[44px] flex items-center">
+            Family
+          </Link>
         </div>
       </div>
     </div>

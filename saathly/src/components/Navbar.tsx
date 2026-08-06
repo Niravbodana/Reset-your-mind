@@ -14,7 +14,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { state } = useApp();
   const { t } = useLocale();
-  const links = [
+  const marketingLinks = [
     { href: "/#hero", label: t("nav.home") },
     { href: "/#features", label: t("nav.features") },
     { href: "/#transform", label: "Before & After" },
@@ -22,6 +22,15 @@ export function Navbar() {
     { href: "/#pricing", label: "Pricing" },
     { href: "/faq", label: t("nav.faq") },
   ];
+  const appLinks = [
+    { href: "/dashboard", label: t("nav.dashboard") },
+    { href: "/emi-reminders", label: "Bills" },
+    { href: "/billing", label: "Plan" },
+    { href: "/settings", label: t("nav.settings") },
+    { href: "/programs", label: "Programs" },
+    { href: "/family", label: "Family" },
+  ];
+  const links = state.user ? appLinks : marketingLinks;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -70,14 +79,9 @@ export function Navbar() {
             </Link>
           )}
           {state.user ? (
-            <>
-              <Link href="/settings" className="text-sm font-medium text-ink-soft hover:text-white">
-                {t("nav.settings")}
-              </Link>
-              <Link href="/dashboard" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
-                {t("nav.dashboard")}
-              </Link>
-            </>
+            <Link href="/dashboard" className="btn-primary px-5 py-2.5 rounded-xl text-sm">
+              {t("nav.dashboard")}
+            </Link>
           ) : (
             <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm font-bold">
               Start free trial
@@ -122,11 +126,11 @@ export function Navbar() {
           )}
           {state.user && (
             <Link
-              href="/settings"
+              href="/faq"
               className="text-white/90 py-3.5 min-h-[48px] flex items-center text-[15px] font-medium border-b border-white/5"
               onClick={() => setOpen(false)}
             >
-              Settings
+              FAQ
             </Link>
           )}
           <div className="pt-4 pb-3">

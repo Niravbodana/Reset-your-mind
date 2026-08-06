@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Trash2 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { uid } from "@/lib/storage";
 import type { LifeArea } from "@/lib/types";
@@ -9,7 +10,7 @@ import type { LifeArea } from "@/lib/types";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 export default function FamilyPage() {
-  const { state, addFamilyMember, trackEvent } = useApp();
+  const { state, addFamilyMember, removeFamilyMember, trackEvent } = useApp();
   const { ready } = useRequireAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -83,12 +84,25 @@ export default function FamilyPage() {
 
         <div className="space-y-3">
           {state.family.map((m) => (
-            <div key={m.id} className="soft-card rounded-xl p-4 flex justify-between">
-              <div>
+            <div key={m.id} className="soft-card rounded-xl p-4 flex justify-between items-center gap-3">
+              <div className="min-w-0">
                 <p className="font-semibold">{m.name}</p>
-                <p className="text-xs text-muted">{m.email}</p>
+                <p className="text-xs text-muted truncate">{m.email}</p>
               </div>
-              <span className="text-xs text-laser-2">seat (preview)</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-xs text-laser-2 hidden sm:inline">seat (preview)</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    removeFamilyMember(m.id);
+                    trackEvent("family_remove", m.email);
+                  }}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10"
+                  aria-label={`Remove ${m.name}`}
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
             </div>
           ))}
           {!state.family.length && <p className="text-sm text-muted">Abhi koi member nahi.</p>}

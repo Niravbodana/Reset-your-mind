@@ -51,6 +51,14 @@ export function BuddyCheckin() {
     window.open(url, "_blank");
   };
 
+  const clearBuddy = () => {
+    haptic("light");
+    patchUser({ buddy: undefined });
+    setName("");
+    setPhone("");
+    trackEvent("buddy_removed");
+  };
+
   return (
     <div className="soft-card rounded-2xl p-5 mb-6 border border-white/10">
       <div className="flex items-start gap-3 mb-4">
@@ -107,6 +115,15 @@ export function BuddyCheckin() {
             </button>
           )}
         </div>
+        {user.buddy?.name && (
+          <button
+            type="button"
+            onClick={clearBuddy}
+            className="w-full text-xs text-muted hover:text-red-400 py-2 min-h-[36px]"
+          >
+            {isIN ? "Buddy hatao" : "Remove buddy"}
+          </button>
+        )}
       </div>
     </div>
   );

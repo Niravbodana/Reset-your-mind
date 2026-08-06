@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Check, Settings } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { CancelSubscriptionCard } from "@/components/CancelSubscriptionCard";
 import { AREA_LABELS } from "@/lib/templates";
 import type { Language, LifeArea } from "@/lib/types";
 import {
@@ -105,6 +106,16 @@ function SettingsContent() {
             </p>
           </div>
         )}
+
+        <Link
+          href="/billing"
+          className="block soft-card rounded-2xl p-4 mb-5 border border-white/10 hover:border-gold/30 transition-colors"
+        >
+          <p className="text-sm font-semibold text-white">Plan & billing</p>
+          <p className="text-xs text-ink-soft mt-1">
+            Trial, autopay, pause or cancel subscription
+          </p>
+        </Link>
 
         <Link
           href="/emi-reminders"
@@ -259,6 +270,8 @@ function SettingsContent() {
             "Save settings"
           )}
         </button>
+
+        <CancelSubscriptionCard />
 
         <Link
           href="/dashboard"

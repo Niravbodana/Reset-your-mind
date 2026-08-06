@@ -46,6 +46,8 @@ type Ctx = {
   markPulse: (id: string, patch: Partial<Pulse>) => void;
   checkinMood: (mood: MoodCheckin) => void;
   addFamilyMember: (m: FamilyMember) => void;
+  removeFamilyMember: (id: string) => void;
+  cancelSubscription: () => void;
   activatePaid: () => void;
   startTrialAutopay: (meta: {
     demo?: boolean;
@@ -180,6 +182,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState((prev) => setFamily(prev, [...prev.family, m].slice(0, 4)));
   }, []);
 
+  const removeFamilyMember = useCallback((id: string) => {
+    setState((prev) => setFamily(prev, prev.family.filter((m) => m.id !== id)));
+  }, []);
+
+  const cancelSubscription = useCallback(() => {
+    setState((prev) => {
+      if (!prev.user) return prev;
+      return upsertUser(prev, {
+        ...prev.user,
+        subStatus: "cancelled",
+        autopayEnabled: false,
+        razorpaySubscriptionId: undefined,
+        nextBillingAt: undefined,
+        planPausedUntil: undefined,
+      });
+    });
+  }, []);
+
   const activatePaid = useCallback(() => {
     setState((prev) => {
       if (!prev.user) return prev;
@@ -229,6 +249,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       markPulse,
       checkinMood,
       addFamilyMember,
+      removeFamilyMember,
+      cancelSubscription,
       activatePaid,
       startTrialAutopay,
       trackEvent,
@@ -245,6 +267,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       markPulse,
       checkinMood,
       addFamilyMember,
+      removeFamilyMember,
+      cancelSubscription,
       activatePaid,
       startTrialAutopay,
       trackEvent,

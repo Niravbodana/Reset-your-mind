@@ -12,6 +12,7 @@ import { useLocale } from "@/context/LocaleContext";
 import { formatMoney } from "@/lib/locale";
 import { UpiPayPreview } from "@/components/UpiPayPreview";
 import { PausePlanCard } from "@/components/PausePlanCard";
+import { CancelSubscriptionCard } from "@/components/CancelSubscriptionCard";
 
 export default function BillingPage() {
   const { state, startTrialAutopay, trackEvent } = useApp();
@@ -234,6 +235,7 @@ export default function BillingPage() {
 
         <UpiPayPreview className="mb-6" />
         {user && <PausePlanCard />}
+        {user && <CancelSubscriptionCard />}
 
         <div className="soft-card rounded-2xl p-5 text-sm text-ink-soft">
           <p className="font-semibold text-white mb-2">
@@ -252,7 +254,7 @@ export default function BillingPage() {
                   <strong className="text-gold-light">{displayPriceLabel}</strong> automatic cut —
                   phir har mahine.
                 </li>
-                <li>Cancel anytime from support / Razorpay customer portal when live.</li>
+                <li>Cancel anytime from billing or Settings — next cycle se charge ruk jayega.</li>
               </>
             ) : (
               <>
@@ -266,7 +268,7 @@ export default function BillingPage() {
                   <strong className="text-gold-light">{displayPriceLabel}</strong> autopay begins —
                   then monthly.
                 </li>
-                <li>Cancel anytime from Settings or your payment provider portal.</li>
+                <li>Cancel anytime from billing or Settings — billing stops on the next cycle.</li>
               </>
             )}
           </ol>
