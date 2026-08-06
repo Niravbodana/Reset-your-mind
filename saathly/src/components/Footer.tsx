@@ -20,7 +20,7 @@ export function Footer() {
               Daily motivation + EMI/bill reminders — aapki life change hone ka reason. Abhi India ke
               liye.
             </p>
-            <p className="text-xs text-gold-light mt-2">🇮🇳 Made for India · ₹99/- se</p>
+            <p className="text-xs text-gold-light mt-2">🇮🇳 Made in India with ❤️ · ₹99/month se</p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Product</p>

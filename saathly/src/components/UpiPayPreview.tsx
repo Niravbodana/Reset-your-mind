@@ -49,8 +49,8 @@ export function UpiPayPreview({
           </p>
           <p className="text-sm text-white/70 mt-1">
             {isIN
-              ? `${trialDays} din free → phir ${priceLabel}/month (preview)`
-              : `${trialDays} days free → then ${priceLabel}/month (preview)`}
+              ? `${trialDays} din free → phir ${priceLabel} (preview)`
+              : `${trialDays} days free → then ${priceLabel} (preview)`}
           </p>
         </div>
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gold/15 text-gold">

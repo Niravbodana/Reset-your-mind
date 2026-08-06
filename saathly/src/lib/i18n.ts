@@ -106,7 +106,7 @@ const en: Dict = {
   "login.title": "Welcome back",
   "login.subtitle": "Demo login — email on this device. Live Google later from Admin.",
   "login.error": "No account found for this email on this device. Sign up first.",
-  "cta.freeTrial": "Free trial shuru karo — ₹99/-",
+  "cta.freeTrial": "Free trial shuru karo — ₹99/month",
 };
 
 /** Hinglish — Roman script (India default). NOT Devanagari. */
@@ -144,7 +144,7 @@ const hinglish: Dict = {
   "login.title": "Welcome back",
   "login.subtitle": "Demo login — is device ki email. Live Google baad me Admin se.",
   "login.error": "Is email se account nahi mila. Pehle signup karo.",
-  "cta.freeTrial": "Free trial shuru karo — ₹99/-",
+  "cta.freeTrial": "Free trial shuru karo — ₹99/month",
   "billing.continue": "Aage badho",
   "billing.title": "Free trial + Autopay",
 };

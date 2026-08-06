@@ -17,8 +17,8 @@ export function ReferralCard({ code }: { code: string }) {
     typeof window !== "undefined" ? window.location.origin : config.marketing.siteUrl;
   const link = `${origin}/signup?ref=${encodeURIComponent(code)}`;
   const shareText = isIN
-    ? `RIZN try karo — daily messages + EMI/bill reminder, ${priceLabel}/month.\nMere code se join karo → ${config.marketing.trialDays} din free:\n${link}`
-    : `Try RIZN — daily messages + bill reminders, ${priceLabel}/month.\nJoin with my code → ${config.marketing.trialDays} days free:\n${link}`;
+    ? `RIZN try karo — daily messages + EMI/bill reminder, ${priceLabel}.\nMere code se join karo → ${config.marketing.trialDays} din free:\n${link}`
+    : `Try RIZN — daily messages + bill reminders, ${priceLabel}.\nJoin with my code → ${config.marketing.trialDays} days free:\n${link}`;
 
   const copy = async () => {
     haptic("success");

@@ -97,7 +97,7 @@ export function RazorpayCheckout({
         key: data.keyId,
         subscription_id: data.subscriptionId,
         name: "RIZN",
-        description: data.description || `${data.trialDays}-day free trial → ₹${data.amount}/mo`,
+        description: data.description || `${data.trialDays}-day free trial → ₹${data.amount}/month`,
         prefill: {
           email,
           name,

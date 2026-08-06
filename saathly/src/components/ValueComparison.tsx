@@ -79,11 +79,11 @@ export function ValueComparison() {
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
             {isIN ? (
               <>
-                Sirf {priceLabel}/month — kya milega?
+                Sirf {priceLabel} — kya milega?
               </>
             ) : (
               <>
-                Just {priceLabel}/month — what you get
+                Just {priceLabel} — what you get
               </>
             )}
           </h2>
@@ -110,7 +110,7 @@ export function ValueComparison() {
             >
               <p className="font-semibold text-white text-sm">{r.item}</p>
               <p className="text-ink-soft text-sm mt-1">
-                {r.rizn ? `${priceLabel}/mo` : r.cost}
+                {r.rizn ? `${priceLabel}` : r.cost}
               </p>
               <p className="text-xs text-muted mt-2">{r.note}</p>
             </div>
@@ -136,7 +136,7 @@ export function ValueComparison() {
                 >
                   <td className="py-4 px-4 text-white font-medium">{r.item}</td>
                   <td className="py-4 px-4 text-ink-soft">
-                    {r.rizn ? `${priceLabel}/mo` : r.cost}
+                    {r.rizn ? `${priceLabel}` : r.cost}
                   </td>
                   <td className="py-4 px-4 text-ink-soft">{r.note}</td>
                 </tr>

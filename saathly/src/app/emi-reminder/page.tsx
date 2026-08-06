@@ -8,10 +8,10 @@ import { FinalCTA } from "@/components/FinalCTA";
 export const metadata: Metadata = {
   title: "Bill & EMI Reminders — 1 day early | RIZN",
   description:
-    "EMI/bill caring alert 1 din pehle — naam, amount, bank ke saath. ₹99/- plan me included. Made in India.",
+    "EMI/bill caring alert 1 din pehle — naam, amount, bank ke saath. ₹99/month plan me included. Made in India.",
   openGraph: {
     title: "Bill & EMI Reminders — RIZN",
-    description: "1-day early supportive EMI/bill alerts + daily motivation. India · ₹99/-.",
+    description: "1-day early supportive EMI/bill alerts + daily motivation. ₹99/month.",
   },
 };
 

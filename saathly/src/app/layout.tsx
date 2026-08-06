@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | RIZN",
   },
   description:
-    "RIZN — aapki life change hone ka reason. Daily personalized messages + EMI/bill reminders. 7-day free trial, phir ₹99/-. Made in India.",
+    "RIZN — aapki life change hone ka reason. Daily personalized messages + EMI/bill reminders. 7-day free trial, phir ₹99/month. Made in India.",
   applicationName: "RIZN",
   appleWebApp: {
     capable: true,

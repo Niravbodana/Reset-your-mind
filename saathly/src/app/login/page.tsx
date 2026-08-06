@@ -10,7 +10,6 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { AuthButton, AuthField } from "@/components/auth/AuthField";
 import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { LanguageSelect } from "@/components/LanguageSelect";
-import { RegionSwitch } from "@/components/RegionSwitch";
 import { useLocale } from "@/context/LocaleContext";
 
 export default function LoginPage() {
@@ -77,7 +76,6 @@ export default function LoginPage() {
       }
     >
       <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
-        <RegionSwitch />
         <LanguageSelect compact />
       </div>
 

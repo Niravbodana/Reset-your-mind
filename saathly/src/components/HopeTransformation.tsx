@@ -190,7 +190,7 @@ export function HopeTransformation() {
             <ArrowRight size={18} className="shrink-0" />
           </Link>
           <p className="text-xs text-muted mt-4">
-            {priceLabel}/month · {isIN ? "EMI/bill reminders" : "Bill reminders"} · Start free
+            {priceLabel} · {isIN ? "EMI/bill reminders" : "Bill reminders"} · Start free
           </p>
         </div>
       </div>

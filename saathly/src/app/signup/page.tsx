@@ -17,7 +17,6 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { AuthButton, AuthField, StepIndicator } from "@/components/auth/AuthField";
 import { NoSpamPromise } from "@/components/NoSpamPromise";
 import { useLocale } from "@/context/LocaleContext";
-import { RegionSwitch } from "@/components/RegionSwitch";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { crisisResources } from "@/lib/locale";
@@ -235,7 +234,6 @@ function SignupForm() {
       }
     >
       <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
-        <RegionSwitch />
         <LanguageSelect compact />
       </div>
       <StepIndicator step={step} total={2} />
@@ -292,7 +290,7 @@ function SignupForm() {
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-white">
-                  RIZN Personal — {priceLabel}/month
+                  RIZN Personal — {priceLabel}
                 </p>
                 <p className="text-xs text-white/55">
                   {config.marketing.trialDays}-day free trial · {priceLabel} · Cancel anytime
@@ -385,7 +383,7 @@ function SignupForm() {
             </div>
             <p className="mt-2 text-xs text-white/45">
               Includes daily messages + {region === "IN" ? "EMI/bill" : "bill"} reminders ·{" "}
-              {priceLabel}/month after trial
+              {priceLabel} after trial
             </p>
           </div>
 

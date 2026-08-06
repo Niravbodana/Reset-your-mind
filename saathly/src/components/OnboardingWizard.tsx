@@ -62,7 +62,7 @@ export function OnboardingWizard() {
         {
           icon: Sparkles,
           title: `${trialDays}-day free trial + Autopay`,
-          body: `Authorize mandate today (${zero}). ${trialDays} days free. Then ${priceLabel}/month automatic.`,
+          body: `Authorize mandate today (${zero}). ${trialDays} days free. Then ${priceLabel} automatic.`,
           href: "/billing?trial=1",
           cta: "Start free trial + Autopay",
         },

@@ -62,13 +62,13 @@ export function AuthShell({
                   <>
                     Har din thoda better.
                     <br />
-                    <span className="text-gold">{priceLabel}/month.</span>
+                    <span className="text-gold">{priceLabel}.</span>
                   </>
                 ) : (
                   <>
                     A little better every day.
                     <br />
-                    <span className="text-gold">{priceLabel}/month.</span>
+                    <span className="text-gold">{priceLabel}.</span>
                   </>
                 )}
               </h2>

@@ -11,9 +11,7 @@ import { MESSAGE_BANK, getMessageBankStats } from "@/lib/message-bank";
 import { formatCustomerName } from "@/lib/message-format";
 import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { IPhoneNotificationDemo } from "./IPhoneNotificationDemo";
-import { OfferBanner, OfferPrice } from "./OfferPrice";
 import { Wordmark } from "./Logo";
-import { RegionSwitch } from "./RegionSwitch";
 
 const MESSAGE_COUNT = getMessageBankStats().total;
 const heroPool = MESSAGE_BANK.filter((t) => t.slot === "morning" || t.slot === "any");
@@ -83,21 +81,12 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-5 md:px-6 page-top pb-12 sm:pb-16 md:pb-24 w-full">
-        <div className="mb-5 flex flex-wrap items-center gap-3">
-          <RegionSwitch />
-          <span className="text-[11px] text-white/45 uppercase tracking-wider">
-            India ke liye · ₹99/-
-          </span>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start lg:items-center">
           <div className="min-w-0">
             <div className="mb-4 lg:hidden">
               <Wordmark className="text-2xl sm:text-3xl" />
               <p className="text-xs text-gold-light mt-1.5 font-medium tracking-wide">{tagline}</p>
             </div>
-
-            <OfferBanner />
 
             {config.waitlistCount > 0 && (
               <p className="text-xs text-gold-light/80 mt-3 mb-1">
@@ -123,8 +112,8 @@ export function Hero() {
 
             <p className="text-[15px] sm:text-base md:text-xl text-ink-soft max-w-lg leading-[1.65] mb-6 sm:mb-8">
               {isIN
-                ? `Roz tumhare naam pe messages. Bills/EMI 1 din pehle. ${priceLabel}/month — hope, habit, control wapas. ${config.marketing.trialDays}-day free trial.`
-                : `Daily messages with your name. Bill reminders 1 day early. ${priceLabel}/month worldwide — hope, habits, control back. ${config.marketing.trialDays}-day free trial.`}
+                ? `Roz tumhare naam pe messages. Bills/EMI 1 din pehle. ${priceLabel} — hope, habit, control wapas. ${config.marketing.trialDays}-day free trial.`
+                : `Daily messages with your name. Bill reminders 1 day early. ${priceLabel} — hope, habits, control back. ${config.marketing.trialDays}-day free trial.`}
             </p>
 
             <div className="flex flex-col gap-3 mb-6 sm:mb-8">
@@ -154,9 +143,6 @@ export function Hero() {
               </Link>
             </div>
 
-            <div className="mt-4">
-              <OfferPrice plan="personal" size="sm" className="text-sm text-ink-soft" />
-            </div>
           </div>
 
           <div className="relative w-full min-w-0" id="feel">

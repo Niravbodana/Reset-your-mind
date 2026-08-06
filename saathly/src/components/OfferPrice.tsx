@@ -5,6 +5,7 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
 import { formatMoney } from "@/lib/locale";
 import {
+  formatInrMonthly,
   personalMonthlyPrice,
   parivaarMonthlyPrice,
   regionPersonalPriceLabel,
@@ -16,7 +17,11 @@ type Props = {
   className?: string;
 };
 
-/** Region-only price — India shows ₹xx/- only, Worldwide shows $ only */
+function monthlyLabel(amount: number, currency: "INR" | "USD"): string {
+  return currency === "INR" ? formatInrMonthly(amount) : `${formatMoney(amount, "USD")}/month`;
+}
+
+/** Region-only price — India shows ₹xx/month only, Worldwide shows $/month */
 export function OfferPrice({ plan = "personal", size = "lg", className = "" }: Props) {
   const config = useSiteConfig();
   const { currency, region } = useLocale();
@@ -36,19 +41,15 @@ export function OfferPrice({ plan = "personal", size = "lg", className = "" }: P
   const priceLabel =
     plan === "personal"
       ? regionPersonalPriceLabel(config, region, currency)
-      : currency === "INR"
-        ? `₹${price}/-`
-        : formatMoney(price, currency);
+      : monthlyLabel(price, currency);
 
   if (size === "sm") {
     return (
       <span className={className}>
         {showOffer && (
-          <span className="line-through text-muted mr-1.5">
-            {currency === "INR" ? `₹${was}/-` : formatMoney(was, currency)}
-          </span>
+          <span className="line-through text-muted mr-1.5">{monthlyLabel(was, currency)}</span>
         )}
-        <span className="text-gold-light font-semibold">{priceLabel}/mo</span>
+        <span className="text-gold-light font-semibold">{priceLabel}</span>
       </span>
     );
   }
@@ -57,25 +58,22 @@ export function OfferPrice({ plan = "personal", size = "lg", className = "" }: P
     <div className={className}>
       {showOffer && (
         <span className="inline-block mb-2 text-[11px] font-bold uppercase tracking-wider bg-gold text-black px-3 py-1 rounded-full">
-          {region === "IN" ? "Early access" : "Worldwide early access"}
+          Early access
         </span>
       )}
       <p className="flex flex-wrap items-baseline gap-2">
         {showOffer && (
           <span className="text-xl md:text-2xl text-muted line-through font-medium">
-            {currency === "INR" ? `₹${was}/-` : formatMoney(was, currency)}
+            {monthlyLabel(was, currency)}
           </span>
         )}
-        <span className="font-display text-4xl md:text-5xl font-bold text-white">
-          {priceLabel}
-        </span>
-        <span className="text-sm text-muted">/month</span>
+        <span className="font-display text-4xl md:text-5xl font-bold text-white">{priceLabel}</span>
       </p>
       {showOffer && (
         <p className="text-xs text-gold-light mt-1">
           {region === "IN"
-            ? `Aap save karte ho ₹${was - price}/- — early access`
-            : `You save ${formatMoney(was - price, currency)} — early access pricing`}
+            ? `Aap save karte ho ${formatInrMonthly(was - price)} — early access`
+            : `You save ${formatMoney(was - price, currency)}/month — early access pricing`}
         </p>
       )}
     </div>
@@ -99,13 +97,8 @@ export function OfferBanner() {
       href="/signup"
       className="inline-flex flex-wrap items-center gap-2 text-xs font-medium text-gold-light border border-gold/30 bg-gold/10 rounded-full px-4 py-2 hover:bg-gold/15 transition-colors"
     >
-      <span className="line-through text-muted">
-        {currency === "INR" ? `₹${was}/-` : formatMoney(was, currency)}
-      </span>
-      <span className="text-white font-semibold">{priceLabel}/mo</span>
-      <span className="text-xs uppercase tracking-wide text-gold">
-        {region === "IN" ? "India" : "Worldwide"}
-      </span>
+      <span className="line-through text-muted">{monthlyLabel(was, currency)}</span>
+      <span className="text-white font-semibold">{priceLabel}</span>
     </Link>
   );
 }

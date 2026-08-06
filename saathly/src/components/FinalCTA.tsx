@@ -33,13 +33,13 @@ export function FinalCTA() {
           <p className="text-ink-soft text-sm sm:text-base md:text-lg mb-8 sm:mb-10 max-w-lg mx-auto leading-relaxed">
             {isIN
               ? `${priceLabel} me roz tumhare naam pe value. EMI/bill alert, daily motivation, habit — sab ek jagah. Tum deserve karte ho ye change.`
-              : `${priceLabel}/month — daily messages with your name, bill reminders, habits in one place.`}
+              : `${priceLabel} — daily messages with your name, bill reminders, habits in one place.`}
           </p>
           <Link
             href="/signup"
             className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-12 py-4 sm:py-5 rounded-xl text-base sm:text-lg font-bold shadow-xl shadow-gold/25 w-full sm:w-auto max-w-sm mx-auto min-h-[52px]"
           >
-            {isIN ? `Abhi shuru karo — ${priceLabel}` : `Start free — ${priceLabel}/mo`}
+            {isIN ? `Abhi shuru karo — ${priceLabel}` : `Start free — ${priceLabel}`}
             <ArrowRight size={20} className="shrink-0" />
           </Link>
           <p className="mt-6 text-xs text-muted">

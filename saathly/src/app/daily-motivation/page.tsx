@@ -12,10 +12,10 @@ const COUNT = getMessageBankStats().total;
 
 export const metadata: Metadata = {
   title: "Daily Motivation Messages — with your name | RIZN",
-  description: `${COUNT}+ unique daily motivation messages in Hinglish, Hindi, English — aapke naam ke saath. ₹99/- + EMI/bill reminders. Made in India.`,
+  description: `${COUNT}+ unique daily motivation messages in Hinglish, Hindi, English — aapke naam ke saath. ₹99/month + EMI/bill reminders. Made in India.`,
   openGraph: {
     title: "Daily Motivation — RIZN",
-    description: "Daily messages with your name. Small steps, real hope. India · ₹99/-.",
+    description: "Daily messages with your name. Small steps, real hope. ₹99/month.",
   },
 };
 

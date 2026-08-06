@@ -9,7 +9,6 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
 import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { LanguageSelect } from "./LanguageSelect";
-import { RegionSwitch } from "./RegionSwitch";
 import { DemoModeBanner } from "./DemoModeBanner";
 
 export function Navbar() {
@@ -68,7 +67,6 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <RegionSwitch />
           <LanguageSelect compact />
           {!state.user && (
             <Link href="/login" className="text-sm font-medium text-ink-soft hover:text-white">
@@ -107,9 +105,6 @@ export function Navbar() {
 
       {open && (
         <div className="md:hidden border-t border-white/10 bg-black/98 px-0 py-2 flex flex-col safe-area-px max-h-[calc(100dvh-4rem)] overflow-y-auto">
-          <div className="py-3 border-b border-white/5">
-            <RegionSwitch />
-          </div>
           {links.map((link) => (
             <Link
               key={link.href}

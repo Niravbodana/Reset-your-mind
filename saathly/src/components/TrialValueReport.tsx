@@ -76,8 +76,8 @@ export function TrialValueReport() {
       </div>
       <p className="text-xs text-ink-soft leading-relaxed mb-4">
         {isIN
-          ? `${bills} bill reminder set · Soft Day + Pause ready · Trial ke baad sirf ${priceLabel}/month. Cancel anytime.`
-          : `${bills} bill reminder(s) set · Soft Day + Pause ready · After trial just ${priceLabel}/month. Cancel anytime.`}
+          ? `${bills} bill reminder set · Soft Day + Pause ready · Trial ke baad sirf ${priceLabel}. Cancel anytime.`
+          : `${bills} bill reminder(s) set · Soft Day + Pause ready · After trial just ${priceLabel}. Cancel anytime.`}
       </p>
       <div className="flex flex-col sm:flex-row gap-2">
         <Link

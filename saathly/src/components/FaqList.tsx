@@ -16,18 +16,18 @@ export function FaqList({ variant = "section" }: Props) {
   const priceLabel = regionPersonalPriceLabel(config, region);
   const launchLabel =
     currency === "INR"
-      ? `₹${config.marketing.launchPricePersonal}/-`
-      : `$${config.marketing.launchPricePersonalUsd}`;
+      ? `₹${config.marketing.launchPricePersonal}/month`
+      : `$${config.marketing.launchPricePersonalUsd}/month`;
   const trialDays = config.marketing.trialDays || 7;
   const crisis = crisisResources(region);
 
   const pricingAnswer = config.features.earlyBirdActive
     ? isIN
-      ? `RIZN Personal: ${trialDays}-day free trial, phir ${priceLabel}/month autopay (regular ${launchLabel}). UPI/card mandate — trial ke baad automatic. Cancel anytime.`
-      : `RIZN Personal: ${trialDays}-day free trial, then ${priceLabel}/month autopay (regular ${launchLabel}). Cancel anytime.`
+      ? `RIZN Personal: ${trialDays}-day free trial, phir ${priceLabel} autopay (regular ${launchLabel}). UPI/card mandate — trial ke baad automatic. Cancel anytime.`
+      : `RIZN Personal: ${trialDays}-day free trial, then ${priceLabel} autopay (regular ${launchLabel}). Cancel anytime.`
     : isIN
-      ? `RIZN Personal: ${trialDays}-day free trial, phir ${priceLabel}/month. Messages + EMI/bill reminders.`
-      : `RIZN Personal: ${trialDays}-day free trial, then ${priceLabel}/month. Messages + bill reminders included.`;
+      ? `RIZN Personal: ${trialDays}-day free trial, phir ${priceLabel}. Messages + EMI/bill reminders.`
+      : `RIZN Personal: ${trialDays}-day free trial, then ${priceLabel}. Messages + bill reminders included.`;
 
   const crisisLine = crisis
     .map((c) => `${c.label} (${c.value})`)

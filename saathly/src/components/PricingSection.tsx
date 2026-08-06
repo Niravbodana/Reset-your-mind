@@ -10,7 +10,6 @@ import { OfferPrice } from "./OfferPrice";
 import { ScrollReveal } from "./ScrollReveal";
 import { UpiPayPreview } from "./UpiPayPreview";
 import { NoSpamPromise } from "./NoSpamPromise";
-import { RegionSwitch } from "./RegionSwitch";
 
 const MESSAGE_COUNT = getMessageBankStats().total;
 
@@ -22,8 +21,8 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
   const trialDays = config.marketing.trialDays;
   const launchLabel =
     currency === "INR"
-      ? `₹${config.marketing.launchPricePersonal}/-`
-      : `$${config.marketing.launchPricePersonalUsd}`;
+      ? `₹${config.marketing.launchPricePersonal}/month`
+      : `$${config.marketing.launchPricePersonalUsd}/month`;
 
   const features = isIN
     ? [
@@ -52,9 +51,6 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         {showTitle && (
           <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
-            <div className="flex justify-center mb-4">
-              <RegionSwitch />
-            </div>
             <p className="section-label mb-3">Pricing</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
               {isIN ? (
@@ -69,8 +65,8 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
             </h2>
             <p className="text-ink-soft text-sm leading-relaxed">
               {isIN
-                ? `${trialDays}-day free trial, phir ${priceLabel}/month autopay. Daily messages + EMI reminders. Launch pe ${launchLabel}.`
-                : `${trialDays}-day free trial, then ${priceLabel}/month. Daily messages + bill reminders.`}
+                ? `${trialDays}-day free trial, phir ${priceLabel} autopay. Daily messages + EMI reminders. Launch pe ${launchLabel}.`
+                : `${trialDays}-day free trial, then ${priceLabel}. Daily messages + bill reminders.`}
             </p>
           </ScrollReveal>
         )}
@@ -110,13 +106,13 @@ export function PricingSection({ showTitle = true }: { showTitle?: boolean }) {
               className="mt-3 text-center text-sm text-gold-light hover:underline min-h-[44px] flex items-center justify-center"
             >
               {isIN
-                ? `Autopay detail — ${trialDays} din baad ${priceLabel}/mo`
-                : `See autopay — ${priceLabel}/mo after trial`}
+                ? `Autopay detail — ${trialDays} din baad ${priceLabel}`
+                : `See autopay — ${priceLabel} after trial`}
             </Link>
             <p className="text-xs text-center text-muted mt-3">
               {isIN
-                ? `Aaj ₹0/- · ${trialDays} din free · Phir ${priceLabel}/month automatic`
-                : `$0 today · ${trialDays} days free · Then ${priceLabel}/month`}
+                ? `Aaj ₹0 · ${trialDays} din free · Phir ${priceLabel} automatic`
+                : `$0 today · ${trialDays} days free · Then ${priceLabel}`}
             </p>
           </div>
           <div className="mt-6">

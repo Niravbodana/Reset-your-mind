@@ -11,7 +11,6 @@ import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { useLocale } from "@/context/LocaleContext";
 import { formatMoney } from "@/lib/locale";
 import { UpiPayPreview } from "@/components/UpiPayPreview";
-import { RegionSwitch } from "@/components/RegionSwitch";
 import { PausePlanCard } from "@/components/PausePlanCard";
 
 export default function BillingPage() {
@@ -40,7 +39,7 @@ export default function BillingPage() {
       ? parivaarMonthlyPrice(config, currency)
       : personalMonthlyPrice(config, currency);
   const displayPriceLabel =
-    currency === "INR" ? `₹${displayPrice}/-` : formatMoney(displayPrice, currency);
+    currency === "INR" ? `₹${displayPrice}/month` : `${formatMoney(displayPrice, currency)}/month`;
   const zeroLabel = formatMoney(0, currency);
 
   const paymentsLive = config.features.paymentsEnabled && Boolean(config.integrations.razorpayKeyId);
@@ -91,9 +90,6 @@ export default function BillingPage() {
   return (
     <div className="page-top pb-20 px-4">
       <div className="max-w-lg mx-auto">
-        <div className="mb-4">
-          <RegionSwitch />
-        </div>
         <h1 className="font-display text-2xl sm:text-3xl font-bold mb-2 text-white">
           Free trial + Autopay
         </h1>
@@ -101,15 +97,13 @@ export default function BillingPage() {
           {isIN ? (
             <>
               Pehle <strong className="text-white">{trialDays} din free</strong>. Phir har mahine{" "}
-              <strong className="text-gold-light">
-                {currency === "INR" ? `₹${displayPrice}/-` : displayPriceLabel}
-              </strong>{" "}
+              <strong className="text-gold-light">{displayPriceLabel}</strong>{" "}
               bank/UPI se automatic — jab tak cancel na karo.
             </>
           ) : (
             <>
               First <strong className="text-white">{trialDays} days free</strong>. Then{" "}
-              <strong className="text-gold-light">{displayPriceLabel}/month</strong> autopay. Cancel
+              <strong className="text-gold-light">{displayPriceLabel}</strong> autopay. Cancel
               anytime.
             </>
           )}
@@ -120,7 +114,7 @@ export default function BillingPage() {
           <p className="font-display text-2xl font-bold text-white">{plan.name}</p>
           <p className="text-3xl font-bold mt-2 text-white">
             {displayPriceLabel}
-            <span className="text-sm text-muted font-normal">/month after trial</span>
+            <span className="text-sm text-muted font-normal"> after trial</span>
           </p>
 
           <ul className="mt-5 space-y-2.5">

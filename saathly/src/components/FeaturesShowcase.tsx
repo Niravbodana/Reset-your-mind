@@ -177,18 +177,18 @@ export function FeaturesShowcase() {
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
             {isIN ? (
               <>
-                Jo milta hai <span className="text-gold-light">{priceLabel}/month</span> me
+                Jo milta hai <span className="text-gold-light">{priceLabel}</span> me
               </>
             ) : (
               <>
-                Everything in <span className="text-gold-light">{priceLabel}/month</span>
+                Everything in <span className="text-gold-light">{priceLabel}</span>
               </>
             )}
           </h2>
           <p className="text-ink-soft text-sm leading-relaxed">
             {isIN
-              ? `Steps, water, sleep, bills, Soft Day, wins — sab ek jagah. ${priceLabel}/month.`
-              : `Steps, water, sleep, bills, Soft Day, wins — in one place. ${priceLabel}/month.`}
+              ? `Steps, water, sleep, bills, Soft Day, wins — sab ek jagah. ${priceLabel}.`
+              : `Steps, water, sleep, bills, Soft Day, wins — in one place. ${priceLabel}.`}
           </p>
         </ScrollReveal>
 

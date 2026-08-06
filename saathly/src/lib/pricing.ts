@@ -35,6 +35,10 @@ export function formatPersonalPrice(config: Config, currency: DisplayCurrency): 
   return formatMoney(personalMonthlyPrice(config, currency), currency);
 }
 
+export function formatInrMonthly(amount: number): string {
+  return `₹${amount}/month`;
+}
+
 /** Single-currency price for the active region — never mix ₹ and $ */
 export function regionPersonalPriceLabel(
   config: Config,
@@ -43,8 +47,8 @@ export function regionPersonalPriceLabel(
 ): string {
   const c = currency || (region === "IN" ? "INR" : "USD");
   const amount = personalMonthlyPrice(config, c);
-  if (c === "INR") return `₹${amount}/-`;
-  return formatMoney(amount, "USD");
+  if (c === "INR") return formatInrMonthly(amount);
+  return `${formatMoney(amount, "USD")}/month`;
 }
 
 /**
@@ -59,13 +63,13 @@ export function pricingLabel(config: Config, region: Region = "GLOBAL"): string 
   if (region === "IN") {
     const personal = personalMonthlyPrice(config, "INR");
     if (config.features.earlyBirdActive) {
-      return `Early access: ₹${personal}/- per month`;
+      return `Early access: ${formatInrMonthly(personal)}`;
     }
-    return `Personal ₹${personal}/- per month`;
+    return `Personal ${formatInrMonthly(personal)}`;
   }
   const usd = personalMonthlyPrice(config, "USD");
   if (config.features.earlyBirdActive) {
-    return `Early access: ${formatMoney(usd, "USD")}/mo`;
+    return `Early access: ${formatMoney(usd, "USD")}/month`;
   }
-  return `Personal ${formatMoney(usd, "USD")}/mo`;
+  return `Personal ${formatMoney(usd, "USD")}/month`;
 }
