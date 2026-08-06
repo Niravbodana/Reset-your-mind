@@ -76,8 +76,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${body.variable} ${display.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-bg text-ink font-sans">
+    <html lang="en" className={`${body.variable} ${display.variable} antialiased`}>
+      <body className="min-h-dvh flex flex-col bg-bg text-ink font-sans">
         <Providers>
           <LaserBackground />
           <AppChrome>{children}</AppChrome>

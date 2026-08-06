@@ -39,10 +39,8 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.classList.toggle("nav-menu-open", open);
+    return () => document.body.classList.remove("nav-menu-open");
   }, [open]);
 
   return (
