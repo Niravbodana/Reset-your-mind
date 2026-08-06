@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
 import {
   Activity,
   Bell,
@@ -8,7 +8,6 @@ import {
   CloudSun,
   CreditCard,
   Droplets,
-  Flame,
   Footprints,
   Gift,
   Globe2,
@@ -21,210 +20,198 @@ import {
   Trophy,
   Wallet,
 } from "lucide-react";
-import { useLocale } from "@/context/LocaleContext";
-import { useSiteConfig } from "@/context/SiteConfigContext";
-import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { ScrollReveal } from "./ScrollReveal";
+import { getMessageBankStats } from "@/lib/message-bank";
+
+const MESSAGE_COUNT = getMessageBankStats().total;
 
 type Feature = {
-  icon: typeof Bell;
-  titleIN: string;
-  titleEN: string;
-  bodyIN: string;
-  bodyEN: string;
+  icon: LucideIcon;
+  title: string;
+  problem: string;
+  solution: string;
+  benefit: string;
+  example: string;
 };
 
 const FEATURES: Feature[] = [
   {
-    icon: Bell,
-    titleIN: "Daily messages — naam ke saath",
-    titleEN: "Daily messages with your name",
-    bodyIN: "1000+ unique messages. Kabhi generic quote nahi — har ek tumhare liye.",
-    bodyEN: "1000+ unique messages. Never generic quotes — each one is for you.",
+    icon: Sunrise,
+    title: "Morning Card",
+    problem: "Mornings feel chaotic.",
+    solution: "One card with your first message and next bill.",
+    benefit: "Start clear, not overwhelmed.",
+    example: "“Priya, good morning — today’s one step: water first.”",
   },
   {
     icon: CreditCard,
-    titleIN: "EMI / Bill reminders",
-    titleEN: "Bill reminders",
-    bodyIN: "1 din pehle caring alert — amount, date, bank. Tension kam.",
-    bodyEN: "Caring alert 1 day early — amount, date, provider. Less stress.",
-  },
-  {
-    icon: CalendarDays,
-    titleIN: "Bill calendar",
-    titleEN: "Bill calendar",
-    bodyIN: "Poora mahina ek nazar me — due dates gold me highlight.",
-    bodyEN: "See the whole month at a glance — due dates highlighted.",
-  },
-  {
-    icon: Footprints,
-    titleIN: "Steps goal + live walk",
-    titleEN: "Steps goal + live walk",
-    bodyIN: "3k–10k goal. Live walk count. Incomplete pe naam ke saath nudge.",
-    bodyEN: "3k–10k goal. Live walk count. Incomplete? Nudge with your name.",
+    title: "Bill Reminder",
+    problem: "Due dates sneak up and cause stress.",
+    solution: "Caring alert 1 day before — amount, date, bank.",
+    benefit: "Pay prepared, not panicked.",
+    example: "“Rahul, HDFC EMI ₹12,500 due tomorrow.”",
   },
   {
     icon: Droplets,
-    titleIN: "Water / hydrate goal",
-    titleEN: "Water / hydrate goal",
-    bodyIN: "Glasses tap karo. Goal miss pe caring reminder — spam nahi.",
-    bodyEN: "Tap glasses. Miss the goal? A caring reminder — never spam.",
+    title: "Water",
+    problem: "You forget to hydrate until you're drained.",
+    solution: "Tap glasses. Gentle nudge if you miss goal.",
+    benefit: "Energy stays steady through the day.",
+    example: "“3 glasses left — quick sip?”",
   },
   {
     icon: Moon,
-    titleIN: "Sleep wind-down",
-    titleEN: "Sleep wind-down",
-    bodyIN: "Raat ka soft close — screen down, clear mind for tomorrow.",
-    bodyEN: "Evening soft close — screen down, clear mind for tomorrow.",
+    title: "Sleep",
+    problem: "Screens keep your mind racing at night.",
+    solution: "Wind-down message at your sleep time.",
+    benefit: "Easier rest, better tomorrow.",
+    example: "“Phone down — 3 breaths, then sleep.”",
+  },
+  {
+    icon: Footprints,
+    title: "Steps",
+    problem: "Movement goals feel abstract.",
+    solution: "Daily step target with live count and nudges.",
+    benefit: "Small walks add up without guilt.",
+    example: "“800 steps to hit today’s goal.”",
   },
   {
     icon: Activity,
-    titleIN: "Health score",
-    titleEN: "Health score",
-    bodyIN: "Steps + water + sleep + mood + bills = shareable score.",
-    bodyEN: "Steps + water + sleep + mood + bills = a shareable score.",
-  },
-  {
-    icon: Sunrise,
-    titleIN: "Morning one-card",
-    titleEN: "Morning one-card",
-    bodyIN: "Ek card: pehla message + next bill. Subah ka clear plan.",
-    bodyEN: "One card: first message + next bill. Your morning, clear.",
-  },
-  {
-    icon: Wallet,
-    titleIN: "Mark as paid",
-    titleEN: "Mark as paid",
-    bodyIN: "Pay kiya → tap → peedha khatam. Progress dikhta hai.",
-    bodyEN: "Paid it → tap → done. You see real progress.",
-  },
-  {
-    icon: Sparkles,
-    titleIN: "Today briefing",
-    titleEN: "Today briefing",
-    bodyIN: "Messages baaki + bills due — roz ka control panel.",
-    bodyEN: "Messages left + bills due — your daily control panel.",
+    title: "Health Score",
+    problem: "Hard to see if you're actually improving.",
+    solution: "Score from steps, water, sleep, mood, bills.",
+    benefit: "One number that reflects your week.",
+    example: "“Health score 72 — up from last week.”",
   },
   {
     icon: CloudSun,
-    titleIN: "Soft Day",
-    titleEN: "Soft Day",
-    bodyIN: "Ek tap — kam messages, soft tone. Difficult din ke liye.",
-    bodyEN: "One tap — fewer messages, gentler tone for hard days.",
+    title: "Soft Day",
+    problem: "Some days you can't push hard.",
+    solution: "One tap — fewer messages, gentler tone.",
+    benefit: "Rest without quitting.",
+    example: "“Soft Day on — we’ll go easy today.”",
   },
   {
     icon: PauseCircle,
-    titleIN: "Pause 7 days",
-    titleEN: "Pause 7 days",
-    bodyIN: "Cancel mat karo — 7 din soft pause. Habit safe.",
-    bodyEN: "Don't cancel — soft pause for 7 days. Habit stays safe.",
-  },
-  {
-    icon: Shield,
-    titleIN: "Streak freeze",
-    titleEN: "Streak freeze",
-    bodyIN: "Har mahine 1 miss maaf — streak tootegi nahi.",
-    bodyEN: "1 forgiven miss every month — your streak stays alive.",
+    title: "Pause Mode",
+    problem: "Life gets busy; you don't want to cancel.",
+    solution: "Pause up to 7 days. Habit stays safe.",
+    benefit: "Come back without starting over.",
+    example: "“Paused until Monday — welcome back anytime.”",
   },
   {
     icon: Trophy,
-    titleIN: "Weekly wins",
-    titleEN: "Weekly wins",
-    bodyIN: "Streak, actions, mood, paid bills — share karo proudly.",
-    bodyEN: "Streak, actions, mood, paid bills — share them proudly.",
-  },
-  {
-    icon: Flame,
-    titleIN: "Trial value report",
-    titleEN: "Trial value report",
-    bodyIN: "Day 5 pe dekho kitna move hua — autopay confidently.",
-    bodyEN: "On day 5 see your progress — keep autopay with confidence.",
+    title: "Weekly Wins",
+    problem: "Progress feels invisible day to day.",
+    solution: "Weekly recap: streak, habits, bills paid.",
+    benefit: "See momentum. Share if you want.",
+    example: "“4 bills marked paid · 6-day streak.”",
   },
   {
     icon: HeartHandshake,
-    titleIN: "Buddy check-in",
-    titleEN: "Buddy check-in",
-    bodyIN: "Ek dost ko gentle nudge — saath me habit strong.",
-    bodyEN: "Gentle nudge to one friend — habits stick together.",
+    title: "Buddy Check-in",
+    problem: "Habits are harder alone.",
+    solution: "Send a gentle nudge to one friend.",
+    benefit: "Accountability without pressure.",
+    example: "“Check in on Amit — one tap.”",
   },
   {
     icon: Gift,
-    titleIN: "Referral invites",
-    titleEN: "Referral invites",
-    bodyIN: "Dost ko invite — unhe free trial, tumhe feel-good.",
-    bodyEN: "Invite a friend — they get a free trial, you feel good.",
+    title: "Referral",
+    problem: "Friends ask what you're using.",
+    solution: "Invite link — they get free trial.",
+    benefit: "Help someone else start.",
+    example: "“Share your link — 7 days free for them.”",
   },
   {
     icon: Globe2,
-    titleIN: "Apni bhasha me",
-    titleEN: "Your language",
-    bodyIN: "Hinglish / Hindi / English — jo tumhe comfortable lage.",
-    bodyEN: "Hinglish / Hindi / English — whatever feels natural to you.",
+    title: "Languages",
+    problem: "Motivation should sound like you.",
+    solution: "English, Hinglish, or Hindi — your choice.",
+    benefit: "Messages that feel natural.",
+    example: "Switch anytime in Settings.",
+  },
+  {
+    icon: Shield,
+    title: "Streak Freeze",
+    problem: "One bad day breaks your streak.",
+    solution: "One forgiven miss each month.",
+    benefit: "Stay consistent, stay human.",
+    example: "“Streak freeze used — you’re still on track.”",
+  },
+  {
+    icon: CalendarDays,
+    title: "Calendar",
+    problem: "Bills scattered across apps and memory.",
+    solution: "Month view with due dates highlighted.",
+    benefit: "See the whole picture at once.",
+    example: "Gold dots on every due date.",
+  },
+  {
+    icon: Wallet,
+    title: "Mark Paid",
+    problem: "Paid a bill but still feel behind?",
+    solution: "Tap paid — progress updates instantly.",
+    benefit: "Closure. Less mental load.",
+    example: "“Marked paid — nice work.”",
+  },
+  {
+    icon: Sparkles,
+    title: "Daily Briefing",
+    problem: "Too many tabs, too little clarity.",
+    solution: "Messages left + bills due in one view.",
+    benefit: "Your daily control panel.",
+    example: "“2 bills this week · 4 messages left today.”",
+  },
+  {
+    icon: Bell,
+    title: "Daily Motivation",
+    problem: "Generic quotes don't move you.",
+    solution: `${MESSAGE_COUNT}+ unique messages with your name.`,
+    benefit: "Feels personal. Never the same twice in a row.",
+    example: "“{name}, small step today beats perfect someday.”",
   },
 ];
 
 export function FeaturesShowcase() {
-  const { region, currency, preferEnglish } = useLocale();
-  const config = useSiteConfig();
-  const isIN = region === "IN" && !preferEnglish;
-  const priceLabel = regionPersonalPriceLabel(config, region);
-
   return (
-    <section id="features" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
+    <section id="features" className="py-16 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <ScrollReveal className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+        <ScrollReveal className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <p className="section-label mb-3">Everything included</p>
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
-            {isIN ? (
-              <>
-                Jo milta hai <span className="text-gold-light">{priceLabel}</span> me
-              </>
-            ) : (
-              <>
-                Everything in <span className="text-gold-light">{priceLabel}</span>
-              </>
-            )}
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+            One app.{" "}
+            <span className="text-gold-light">Every part of your day.</span>
           </h2>
-          <p className="text-ink-soft text-sm leading-relaxed">
-            {isIN
-              ? `Steps, water, sleep, bills, Soft Day, wins — sab ek jagah. ${priceLabel}.`
-              : `Steps, water, sleep, bills, Soft Day, wins — in one place. ${priceLabel}.`}
+          <p className="text-ink-soft text-sm sm:text-base leading-relaxed">
+            Not a feature list for show — each tool solves a real problem you already have.
           </p>
         </ScrollReveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {FEATURES.map((f) => (
-            <article
-              key={f.titleEN}
-              className="soft-card rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-gold/25 transition-colors"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 text-gold mb-3">
-                <f.icon size={18} />
-              </div>
-              <h3 className="font-semibold text-white text-sm mb-1.5">
-                {isIN ? f.titleIN : f.titleEN}
-              </h3>
-              <p className="text-xs text-ink-soft leading-relaxed">
-                {isIN ? f.bodyIN : f.bodyEN}
-              </p>
-            </article>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {FEATURES.map((f, i) => (
+            <ScrollReveal key={f.title} delay={Math.min(i * 0.02, 0.2)}>
+              <article className="group soft-card rounded-2xl p-5 border border-white/10 hover:border-gold/25 transition-all duration-300 h-full flex flex-col">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 text-gold mb-4 group-hover:scale-105 transition-transform">
+                  <f.icon size={18} aria-hidden />
+                </div>
+                <h3 className="font-semibold text-white text-[15px] mb-3">{f.title}</h3>
+                <dl className="space-y-2 text-xs flex-1">
+                  <div>
+                    <dt className="text-muted uppercase tracking-wide text-[10px] mb-0.5">Problem</dt>
+                    <dd className="text-ink-soft leading-relaxed">{f.problem}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted uppercase tracking-wide text-[10px] mb-0.5">Benefit</dt>
+                    <dd className="text-white/90 leading-relaxed">{f.benefit}</dd>
+                  </div>
+                </dl>
+                <p className="mt-4 text-[11px] text-gold-light/80 italic border-t border-white/5 pt-3">
+                  {f.example}
+                </p>
+              </article>
+            </ScrollReveal>
           ))}
-        </div>
-
-        <div className="mt-10 text-center">
-          <Link
-            href="/signup"
-            className="btn-primary inline-flex items-center justify-center px-8 py-4 rounded-xl text-sm font-bold min-h-[52px] w-full sm:w-auto max-w-sm"
-          >
-            {isIN
-              ? `${config.marketing.trialDays}-day free trial — sab unlock`
-              : `${config.marketing.trialDays}-day free trial — unlock all`}
-          </Link>
-          <p className="text-xs text-muted mt-3">
-            {isIN
-              ? "Aaj ₹0 · Cancel anytime · Soft Day + Pause included"
-              : "$0 today · Cancel anytime · Soft Day + Pause included"}
-          </p>
         </div>
       </div>
     </section>

@@ -1,14 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { MESSAGE_BANK } from "@/lib/message-bank";
 import { formatEmiNotification, DEMO_EMI } from "@/lib/emi-reminder";
 import { useLocale } from "@/context/LocaleContext";
-import { useSiteConfig } from "@/context/SiteConfigContext";
-import { regionPersonalPriceLabel } from "@/lib/pricing";
 
 const STORIES_IN = [
   {
@@ -59,13 +56,11 @@ const STORIES_GLOBAL = [
 const ROTATE_MS = 8000;
 
 export function HopeTransformation() {
-  const { region, currency, preferEnglish } = useLocale();
-  const config = useSiteConfig();
+  const { region, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
   const stories = isIN ? STORIES_IN : STORIES_GLOBAL;
   const [idx, setIdx] = useState(0);
   const story = stories[idx % stories.length];
-  const priceLabel = regionPersonalPriceLabel(config, region);
 
   useEffect(() => {
     const t = setInterval(() => setIdx((i) => (i + 1) % stories.length), ROTATE_MS);
@@ -78,24 +73,22 @@ export function HopeTransformation() {
 
       <div className="mx-auto max-w-7xl px-4 md:px-6 relative">
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
-          <p className="section-label mb-3">
-            {isIN ? "Demo — Pehle vs Ab" : "Demo — Before vs After"}
-          </p>
+          <p className="section-label mb-3">Before & After</p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
             {isIN ? (
               <>
-                Join karoge to life <span className="text-gold-light">better ho sakti hai.</span>
+                Life <span className="text-gold-light">before</span> vs{" "}
+                <span className="text-gold-light">after</span> RIZN.
               </>
             ) : (
               <>
-                Join us — life can get <span className="text-gold-light">better.</span>
+                Life <span className="text-gold-light">before</span> vs{" "}
+                <span className="text-gold-light">after</span> RIZN.
               </>
             )}
           </h2>
           <p className="text-ink-soft text-[15px] sm:text-base md:text-lg leading-relaxed">
-            {isIN
-              ? "Ye sirf app nahi — tumhare naam pe roz ek rasta. Chhote steps, badi hope."
-              : "Not just an app — a daily path with your name. Small steps, real hope. Worldwide."}
+            Real stories. Small steps. A daily path with your name.
           </p>
         </div>
 
@@ -179,19 +172,6 @@ export function HopeTransformation() {
               </button>
             ))}
           </div>
-        </div>
-
-        <div className="text-center mt-10 sm:mt-14">
-          <Link
-            href="/signup"
-            className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 rounded-xl text-base font-bold w-full sm:w-auto max-w-sm mx-auto min-h-[52px]"
-          >
-            {isIN ? "Meri life bhi better karni hai" : "I want my life better too"}
-            <ArrowRight size={18} className="shrink-0" />
-          </Link>
-          <p className="text-xs text-muted mt-4">
-            {priceLabel} · {isIN ? "EMI/bill reminders" : "Bill reminders"} · Start free
-          </p>
         </div>
       </div>
     </section>

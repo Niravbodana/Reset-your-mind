@@ -17,10 +17,10 @@ export function Footer() {
           <div className="md:col-span-1">
             <BrandLockup />
             <p className="text-sm text-ink-soft leading-relaxed mt-4">
-              Daily motivation + EMI/bill reminders — aapki life change hone ka reason. Abhi India ke
-              liye.
+              Daily personalized notifications for motivation, habits, and bills — aapki life change
+              hone ka reason.
             </p>
-            <p className="text-xs text-gold-light mt-2">🇮🇳 Made in India with ❤️ · ₹99/month se</p>
+            <p className="text-xs text-gold-light mt-3">Made in India with ❤️</p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-3">Product</p>
@@ -31,23 +31,18 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/daily-motivation" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  Daily Motivation
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
+                <Link href="/#pricing" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/samples" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  Samples
+                <Link href="/#how" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
+                  How it works
                 </Link>
               </li>
               <li>
-                <Link href="/signup" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  Free trial shuru karo
+                <Link href="/samples" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
+                  Message samples
                 </Link>
               </li>
             </ul>
@@ -57,17 +52,17 @@ export function Footer() {
             <ul className="space-y-1 text-sm text-ink-soft">
               <li>
                 <Link href="/privacy" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  Privacy
+                  Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  Terms
+                  Terms of Service
                 </Link>
               </li>
               <li>
                 <Link href="/refund" className="hover:text-white py-2 min-h-[44px] inline-flex items-center">
-                  Refunds
+                  Refund Policy
                 </Link>
               </li>
               <li>

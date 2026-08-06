@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Sparkles, Sun, Heart } from "lucide-react";
+import { Sparkles, Sun, Heart } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
 import { ScrollReveal } from "./ScrollReveal";
 
@@ -41,20 +40,13 @@ export function OurVision() {
                 </>
               )}
             </h2>
-            <p className="text-ink-soft text-[15px] sm:text-base leading-relaxed mb-6">
+            <p className="text-ink-soft text-[15px] sm:text-base leading-relaxed mb-8">
               {preferEnglish
-                ? "RIZN is built to shift how people think — from stress and doubt to hope, energy, and action. We help you improve your life with daily motivation, gentle habits, and real support — so you never feel alone on the journey."
+                ? "RIZN is built to shift how people think — from stress and doubt to hope, energy, and action. Daily motivation, gentle habits, and real support — so you never feel alone on the journey."
                 : "RIZN logon ka sochne ka tareeka badalna chahta hai — stress se hope, energy aur action ki taraf. Daily motivation, chhoti habits aur asli support — taaki koi bhi akela feel na kare."}
             </p>
-            <Link
-              href="/signup"
-              className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold min-h-[48px] shadow-lg shadow-gold/25"
-            >
-              {preferEnglish ? "Join RIZN — start free" : "RIZN join karo — free shuru karo"}
-              <ArrowRight size={16} className="shrink-0" />
-            </Link>
 
-            <div className="grid sm:grid-cols-3 gap-3 mt-8">
+            <div className="grid sm:grid-cols-3 gap-3">
               {pillars.map((p) => (
                 <div
                   key={p.text}

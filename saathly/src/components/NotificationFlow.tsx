@@ -87,7 +87,7 @@ export function NotificationFlow() {
       ];
 
   return (
-    <section id="notifications" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
+    <section id="how" className="py-14 sm:py-20 md:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="max-w-2xl mb-8 sm:mb-14">
           <p className="section-label mb-3">How it works</p>

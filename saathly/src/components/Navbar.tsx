@@ -5,9 +5,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { BrandLockup } from "./Logo";
 import { useApp } from "@/context/AppContext";
-import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLocale } from "@/context/LocaleContext";
-import { regionPersonalPriceLabel } from "@/lib/pricing";
 import { LanguageSelect } from "./LanguageSelect";
 import { DemoModeBanner } from "./DemoModeBanner";
 
@@ -15,18 +13,13 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { state } = useApp();
-  const config = useSiteConfig();
-  const { region, t, preferEnglish } = useLocale();
-  const priceLabel = regionPersonalPriceLabel(config, region);
+  const { t } = useLocale();
   const links = [
     { href: "/#hero", label: t("nav.home") },
     { href: "/#features", label: t("nav.features") },
-    {
-      href: "/#emi-reminder",
-      label: region === "IN" && !preferEnglish ? "EMI / Bills" : t("nav.bills"),
-    },
-    { href: "/samples", label: t("nav.messages") },
-    { href: "/pricing", label: `${priceLabel} ${t("nav.pricing")}` },
+    { href: "/#transform", label: "Before & After" },
+    { href: "/#how", label: "How it works" },
+    { href: "/#pricing", label: "Pricing" },
     { href: "/faq", label: t("nav.faq") },
   ];
 
@@ -52,7 +45,10 @@ export function Navbar() {
       }`}
     >
       <DemoModeBanner />
-      <nav className="mx-auto flex max-w-6xl items-center justify-between py-3 md:px-6 safe-area-px">
+      <nav
+        className="mx-auto flex max-w-6xl items-center justify-between py-3 md:px-6 safe-area-px"
+        aria-label="Main navigation"
+      >
         <Link href="/" className="flex items-center min-w-0" onClick={() => setOpen(false)}>
           <BrandLockup size="sm" />
         </Link>
@@ -84,7 +80,7 @@ export function Navbar() {
             </>
           ) : (
             <Link href="/signup" className="btn-primary px-5 py-2.5 rounded-xl text-sm font-bold">
-              {t("nav.join")} {priceLabel}
+              Start free trial
             </Link>
           )}
         </div>
@@ -139,7 +135,7 @@ export function Navbar() {
               className="btn-primary block text-center py-3.5 rounded-xl text-sm font-bold min-h-[48px]"
               onClick={() => setOpen(false)}
             >
-              {state.user ? t("nav.dashboard") : `${t("nav.join")} ${priceLabel}`}
+              {state.user ? t("nav.dashboard") : "Start free trial"}
             </Link>
           </div>
         </div>

@@ -28,12 +28,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://rizn.app"),
   title: {
-    default: "RIZN — aapki life change hone ka reason",
+    default: "RIZN — Daily life improvement with your name",
     template: "%s | RIZN",
   },
   description:
-    "RIZN — aapki life change hone ka reason. Daily personalized messages + EMI/bill reminders. 7-day free trial, phir ₹99/month. Made in India.",
+    "Personalized daily notifications for motivation, bill reminders, water, sleep, and steps. 7-day free trial, then ₹99/month. Cancel anytime.",
   applicationName: "RIZN",
   appleWebApp: {
     capable: true,
@@ -44,19 +45,33 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RIZN — aapki life change hone ka reason",
     description:
-      "RIZN — aapki life change hone ka reason. Daily motivation + bill reminders. 7-day free trial.",
+      "Daily personalized messages + bill reminders. 7-day free trial. Made for life in India.",
     type: "website",
     images: ["/images/animatic-after-hope.jpg"],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "RIZN — Daily life improvement",
+    description: "Personalized notifications for motivation, habits, and bills. Start free.",
+    images: ["/images/animatic-after-hope.jpg"],
+  },
   keywords: [
-    "daily motivation",
-    "bill reminder",
+    "daily motivation app India",
+    "bill reminder app",
     "EMI reminder",
-    "habit app",
-    "personalized messages",
+    "habit tracker",
+    "personalized notifications",
     "RIZN",
-    "wellness worldwide",
+    "water reminder",
+    "sleep reminder",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
