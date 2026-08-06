@@ -30,17 +30,18 @@ export function ScrollReveal({
   variant = "up",
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(immediate);
+  const [visible, setVisible] = useState(() => {
+    if (immediate) return true;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return true;
+    }
+    return false;
+  });
 
   useEffect(() => {
-    if (immediate) return;
+    if (immediate || visible) return;
     const el = ref.current;
     if (!el) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(true);
-      return;
-    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -53,7 +54,7 @@ export function ScrollReveal({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [immediate]);
+  }, [immediate, visible]);
 
   return (
     <div

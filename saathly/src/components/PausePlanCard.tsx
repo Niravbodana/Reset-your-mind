@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { PauseCircle, PlayCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useLocale } from "@/context/LocaleContext";
@@ -10,11 +11,20 @@ export function PausePlanCard() {
   const { state, patchUser, trackEvent } = useApp();
   const { region, preferEnglish } = useLocale();
   const user = state.user;
+  const pausedUntil = user?.planPausedUntil ? new Date(user.planPausedUntil) : null;
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (!user?.planPausedUntil) {
+      setPaused(false);
+      return;
+    }
+    setPaused(new Date(user.planPausedUntil).getTime() > Date.now());
+  }, [user?.planPausedUntil]);
+
   if (!user) return null;
 
   const isIN = !preferEnglish && (region === "IN" || user.language !== "english");
-  const pausedUntil = user.planPausedUntil ? new Date(user.planPausedUntil) : null;
-  const paused = pausedUntil ? pausedUntil.getTime() > Date.now() : false;
 
   const pause = () => {
     haptic("medium");

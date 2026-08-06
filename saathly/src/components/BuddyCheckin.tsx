@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeartHandshake, MessageCircle } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useLocale } from "@/context/LocaleContext";
@@ -11,12 +11,19 @@ export function BuddyCheckin() {
   const { state, patchUser, trackEvent } = useApp();
   const { region, preferEnglish } = useLocale();
   const user = state.user;
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    setName(user.buddy?.name ?? "");
+    setPhone(user.buddy?.phone ?? "");
+  }, [user]);
+
   if (!user) return null;
 
   const isIN = region === "IN" && !preferEnglish;
-  const [name, setName] = useState(user.buddy?.name ?? "");
-  const [phone, setPhone] = useState(user.buddy?.phone ?? "");
-  const [saved, setSaved] = useState(false);
 
   const save = () => {
     if (!name.trim()) return;

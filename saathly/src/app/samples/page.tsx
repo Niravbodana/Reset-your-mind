@@ -6,7 +6,7 @@ import { MESSAGE_BANK, getMessageBankStats } from "@/lib/message-bank";
 import { DEMO_NAME } from "@/lib/constants";
 import { AREA_LABELS } from "@/lib/templates";
 import { formatCustomerName } from "@/lib/message-format";
-import type { Language, LifeArea } from "@/lib/types";
+import type { LifeArea } from "@/lib/types";
 
 const langs = ["hinglish", "hindi", "english"] as const;
 const PAGE_SIZE = 48;

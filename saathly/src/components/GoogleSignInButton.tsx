@@ -61,7 +61,9 @@ export function GoogleSignInButton({
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
   const onSuccessRef = useRef(onSuccess);
-  onSuccessRef.current = onSuccess;
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+  }, [onSuccess]);
 
   useEffect(() => {
     if (!enabled) return;
