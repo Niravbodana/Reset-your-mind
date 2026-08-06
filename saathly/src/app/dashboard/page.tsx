@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,8 @@ import { useApp } from "@/context/AppContext";
 import { formatCustomerName, greetForHour } from "@/lib/message-format";
 import { FirstPulseModal } from "@/components/FirstPulseModal";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
+import { PushNotifyPrompt } from "@/components/PushNotifyPrompt";
+import { PulseNotificationScheduler } from "@/components/PulseNotificationScheduler";
 import { ReferralCard } from "@/components/ReferralCard";
 import { ShareMessageCard } from "@/components/ShareMessageCard";
 import { DashboardSkeleton } from "@/components/Skeleton";
@@ -69,6 +71,8 @@ export default function DashboardPage() {
   return (
     <div className="page-top pb-20 min-h-screen">
       <OnboardingWizard />
+      <PulseNotificationScheduler />
+      <PushNotifyPrompt />
       {pulses[0] && (
         <FirstPulseModal
           name={user.name}
@@ -82,7 +86,7 @@ export default function DashboardPage() {
       <div className="relative min-h-[200px] sm:min-h-[220px] overflow-hidden border-b border-white/10">
         <Image
           src="/images/person-wellness.jpg"
-          alt=""
+          alt="Calm wellness background"
           fill
           className="object-cover object-top"
           priority

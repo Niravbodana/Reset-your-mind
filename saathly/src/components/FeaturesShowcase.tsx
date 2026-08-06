@@ -15,6 +15,7 @@ import {
   Moon,
   PauseCircle,
   Shield,
+  Smartphone,
   Sparkles,
   Sunrise,
   Trophy,
@@ -162,6 +163,14 @@ const FEATURES: Feature[] = [
     solution: "Messages left + bills due in one view.",
     benefit: "Your daily control panel.",
     example: "“2 bills this week · 4 messages left today.”",
+  },
+  {
+    icon: Smartphone,
+    title: "Web Push",
+    problem: "You forget to check the app.",
+    solution: "Browser alerts on your schedule — wake, bills, habits.",
+    benefit: "Messages find you, not the other way around.",
+    example: "Lock-screen: “Priya, HDFC EMI due tomorrow.”",
   },
   {
     icon: Bell,

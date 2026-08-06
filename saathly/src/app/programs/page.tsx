@@ -40,13 +40,14 @@ export default function ProgramsPage() {
       <div className="max-w-3xl mx-auto">
         <h1 className="font-display text-3xl font-bold mb-2">Programs</h1>
         <p className="text-ink-soft text-sm mb-8">
-          Guided 7–21 day journeys ship with the mobile app. Save your interest — we will email you
-          at launch.
+          Daily web messages are live now. Guided 7–21 day program journeys launch with the mobile app — save your interest below.
         </p>
         <div className="grid md:grid-cols-2 gap-4">
           {programs.map((p) => (
             <div key={p.id} className="soft-card rounded-2xl p-6">
-              <p className="text-xs text-laser-2 font-bold mb-2">{p.days} DAYS · PLANNED</p>
+              <p className="text-xs text-laser-2 font-bold mb-2">
+                {p.days} DAYS · {joined[p.id] ? "INTEREST SAVED" : "WEB DAILY · APP SOON"}
+              </p>
               <h2 className="font-display text-xl font-bold mb-2">{p.title}</h2>
               <p className="text-sm text-ink-soft mb-4">{p.desc}</p>
               {joined[p.id] ? (

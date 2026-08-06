@@ -1,6 +1,3 @@
-import type { Language } from "./types";
-import { formatCustomerName } from "./message-format";
-
 export type EmiReminder = {
   id: string;
   label: string;

@@ -15,7 +15,7 @@ export function WhatsAppCTA({
   className?: string;
 }) {
   const config = useSiteConfig();
-  const { region, currency, preferEnglish } = useLocale();
+  const { region, preferEnglish } = useLocale();
   const isIN = region === "IN" && !preferEnglish;
   const priceLabel = regionPersonalPriceLabel(config, region);
   const joinText = isIN

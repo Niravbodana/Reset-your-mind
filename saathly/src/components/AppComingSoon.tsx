@@ -17,7 +17,7 @@ export function AppComingSoon() {
               Android & iOS — launching soon
             </h2>
             <p className="text-ink-soft leading-relaxed mb-6">
-              Abhi web pe shuru karo. App aate hi push notifications — lock screen pe tumhare naam ke saath message.
+              Start on web today — browser notifications are live. Daily messages with your name, bill reminders 1 day early. Native Android & iOS apps coming soon.
             </p>
             <Link href="/signup" className="btn-primary inline-flex px-6 py-3.5 rounded-xl text-sm font-semibold">
               Start free — pehle access pao

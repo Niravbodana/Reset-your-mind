@@ -1,6 +1,7 @@
 "use client";
 
 import { Trophy } from "lucide-react";
+import { useMemo } from "react";
 import { useApp } from "@/context/AppContext";
 import { useLocale } from "@/context/LocaleContext";
 import { haptic } from "@/lib/haptic";
@@ -9,10 +10,15 @@ export function WeeklyWinsCard() {
   const { state, trackEvent } = useApp();
   const { region, preferEnglish } = useLocale();
   const user = state.user;
+  const weekAgo = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 7);
+    return d.getTime();
+  }, []);
+
   if (!user) return null;
 
   const isIN = !preferEnglish && (region === "IN" || user.language !== "english");
-  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const moodsWeek = state.moods.filter((m) => new Date(m.at).getTime() >= weekAgo).length;
   const actionsWeek = state.pulses.filter((p) => p.actionDone).length;
   const billsPaid = (user.emiReminders ?? []).filter((e) => e.lastPaidMonth).length;
