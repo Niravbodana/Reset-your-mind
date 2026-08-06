@@ -48,3 +48,4 @@ next-env.d.ts
 /data/waitlist.json
 /data/push-subscriptions.json
 /data/program-interests.json
+public/downloads/*.zip
