@@ -544,6 +544,14 @@ h1, h2, h3 {
   position: relative;
   z-index: 2;
   animation: hero-phone-float 5s ease-in-out infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.hero-artwork-img {
+  image-rendering: auto;
+  -webkit-font-smoothing: antialiased;
 }
 
 .hero-artwork-glow {
@@ -578,22 +586,38 @@ h1, h2, h3 {
   50% { transform: translateY(-10px); }
 }
 
+.hero-phone-stage {
+  position: relative;
+  min-height: 360px;
+  padding: 0.5rem 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-phone-stage {
+    min-height: 480px;
+    padding: 1rem 0 2rem;
+  }
+}
+
 .hero-phone-float {
   position: relative;
   z-index: 2;
   animation: hero-phone-float 5s ease-in-out infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .hero-phone-frame {
   position: relative;
   border-radius: 2.75rem;
   padding: 10px;
-  background: linear-gradient(145deg, #e2e8f0 0%, #f8fafc 40%, #cbd5e1 100%);
+  background: linear-gradient(145deg, #1a1a22 0%, #2a2a34 40%, #121218 100%);
   box-shadow:
-    0 2px 4px rgba(15, 23, 42, 0.06),
-    0 24px 48px rgba(15, 23, 42, 0.12),
-    0 48px 80px rgba(16, 185, 129, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 24px 48px rgba(0, 0, 0, 0.45),
+    0 48px 80px rgba(201, 162, 39, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .hero-phone-notch {
@@ -603,23 +627,23 @@ h1, h2, h3 {
   transform: translateX(-50%);
   width: 72px;
   height: 22px;
-  background: #0f172a;
+  background: #050508;
   border-radius: 999px;
   z-index: 10;
 }
 
 .hero-phone-screen {
   border-radius: 2.25rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  background: linear-gradient(180deg, #101018 0%, #0a0a0f 100%);
   padding: 2.5rem 14px 14px;
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
 }
 
 .hero-phone-home-bar {
   width: 96px;
   height: 4px;
-  background: rgba(15, 23, 42, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   margin: 10px auto 4px;
 }
@@ -627,22 +651,21 @@ h1, h2, h3 {
 .hero-morning-card {
   border-radius: 14px;
   padding: 10px 12px;
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(255, 255, 255, 0.9) 100%);
-  border: 1px solid rgba(251, 191, 36, 0.2);
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.14) 0%, rgba(16, 16, 24, 0.95) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.25);
 }
 
 .hero-widget {
   border-radius: 12px;
   padding: 8px 10px;
-  background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .hero-widget-label {
   font-size: 9px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -650,21 +673,21 @@ h1, h2, h3 {
 .hero-widget-value {
   font-size: 15px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--ink);
   line-height: 1.2;
 }
 
 .hero-widget-sub {
   font-size: 9px;
-  color: #94a3b8;
+  color: var(--ink-soft);
   margin-top: 2px;
 }
 
 .hero-progress-block {
   padding: 10px 12px;
   border-radius: 12px;
-  background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .hero-emi-chip {
@@ -673,8 +696,8 @@ h1, h2, h3 {
   gap: 8px;
   padding: 8px 10px;
   border-radius: 12px;
-  background: #fffbeb;
-  border: 1px solid #fde68a;
+  background: rgba(201, 162, 39, 0.08);
+  border: 1px solid rgba(201, 162, 39, 0.22);
 }
 
 @keyframes hero-notif-in {
@@ -693,11 +716,11 @@ h1, h2, h3 {
   max-width: 140px;
   padding: 8px 10px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(16, 16, 24, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 4px 16px rgba(15, 23, 42, 0.08),
-    0 0 0 1px rgba(15, 23, 42, 0.04);
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(201, 162, 39, 0.08);
   backdrop-filter: blur(12px);
   animation:
     hero-notif-in 0.6s ease backwards,
