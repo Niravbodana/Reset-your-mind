@@ -1,0 +1,38 @@
+{
+  "name": "RIZN — aapki life change hone ka reason",
+  "short_name": "RIZN",
+  "description": "RIZN — aapki life change hone ka reason. ₹99/month — daily personalized messages + bill reminder 1 day before.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050508",
+  "theme_color": "#050508",
+  "lang": "hi-IN",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["lifestyle", "health", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "/dashboard",
+      "description": "Aaj ke messages"
+    },
+    {
+      "name": "EMI Reminders",
+      "url": "/emi-reminders"
+    }
+  ]
+}
