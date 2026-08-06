@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Bell, Calendar, CreditCard, Sparkles, X } from "lucide-react";
+import { ArrowRight, Bell, BellRing, Calendar, CreditCard, Sparkles, X } from "lucide-react";
 import { haptic } from "@/lib/haptic";
 import { useLocale } from "@/context/LocaleContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
@@ -51,6 +51,13 @@ export function OnboardingWizard() {
           cta: "Schedule set karo",
         },
         {
+          icon: BellRing,
+          title: "Web alerts enable karo",
+          body: "Browser me Allow dabao — daily messages + EMI reminder schedule pe aayenge.",
+          href: "/dashboard",
+          cta: "Notifications allow karo",
+        },
+        {
           icon: Bell,
           title: "Pehla message feel karo",
           body: "Dashboard pe aaj ke alerts — naam ke saath, value ke saath.",
@@ -79,6 +86,13 @@ export function OnboardingWizard() {
           body: "Wake, sleep, interval — messages that fit your life.",
           href: "/settings?welcome=1",
           cta: "Set schedule",
+        },
+        {
+          icon: BellRing,
+          title: "Enable web alerts",
+          body: "Tap Allow — daily messages and bill reminders arrive on your schedule.",
+          href: "/dashboard",
+          cta: "Allow notifications",
         },
         {
           icon: Bell,

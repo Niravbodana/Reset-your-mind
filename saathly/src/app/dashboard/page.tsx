@@ -9,6 +9,8 @@ import { useApp } from "@/context/AppContext";
 import { formatCustomerName, greetForHour } from "@/lib/message-format";
 import { FirstPulseModal } from "@/components/FirstPulseModal";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
+import { PushNotifyPrompt } from "@/components/PushNotifyPrompt";
+import { PulseNotificationScheduler } from "@/components/PulseNotificationScheduler";
 import { ReferralCard } from "@/components/ReferralCard";
 import { ShareMessageCard } from "@/components/ShareMessageCard";
 import { DashboardSkeleton } from "@/components/Skeleton";
@@ -69,6 +71,8 @@ export default function DashboardPage() {
   return (
     <div className="page-top pb-20 min-h-screen">
       <OnboardingWizard />
+      <PulseNotificationScheduler />
+      <PushNotifyPrompt />
       {pulses[0] && (
         <FirstPulseModal
           name={user.name}

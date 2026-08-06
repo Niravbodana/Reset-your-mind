@@ -7,6 +7,7 @@ import { Check, Settings } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { CancelSubscriptionCard } from "@/components/CancelSubscriptionCard";
+import { NotificationSettingsCard } from "@/components/PushNotifyPrompt";
 import { AREA_LABELS } from "@/lib/templates";
 import type { Language, LifeArea } from "@/lib/types";
 import {
@@ -270,6 +271,8 @@ function SettingsContent() {
             "Save settings"
           )}
         </button>
+
+        <NotificationSettingsCard />
 
         <CancelSubscriptionCard />
 

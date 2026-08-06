@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import type { StoredPushSubscription } from "./push-server";
 import type { SiteSettings, WaitlistEntry } from "./site-settings-types";
 import { DEFAULT_SETTINGS } from "./site-settings-types";
 
@@ -68,11 +69,11 @@ export async function appendWaitlist(entry: WaitlistEntry): Promise<{ list: Wait
   return { list: next, isNew: true };
 }
 
-export async function readPushSubscriptions(): Promise<unknown[]> {
+export async function readPushSubscriptions(): Promise<StoredPushSubscription[]> {
   try {
     await ensureDataDir();
     const raw = await fs.readFile(PUSH_FILE, "utf-8");
-    return JSON.parse(raw);
+    return JSON.parse(raw) as StoredPushSubscription[];
   } catch {
     return [];
   }
@@ -97,11 +98,19 @@ export async function readProgramInterests(): Promise<ProgramInterest[]> {
   }
 }
 
-export async function appendPushSubscription(sub: unknown): Promise<void> {
+export async function upsertPushSubscription(sub: StoredPushSubscription): Promise<void> {
   const list = await readPushSubscriptions();
-  const next = [...list, sub];
+  const idx = list.findIndex((s) => s.endpoint === sub.endpoint);
+  const next =
+    idx >= 0
+      ? list.map((s, i) => (i === idx ? { ...s, ...sub, at: new Date().toISOString() } : s))
+      : [...list, { ...sub, at: new Date().toISOString() }];
   await ensureDataDir();
   await fs.writeFile(PUSH_FILE, JSON.stringify(next, null, 2), "utf-8");
+}
+
+export async function appendPushSubscription(sub: StoredPushSubscription): Promise<void> {
+  await upsertPushSubscription(sub);
 }
 
 export function getEffectiveRazorpay(settings: SiteSettings) {
